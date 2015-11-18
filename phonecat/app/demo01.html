@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app="demoapp">
+<head>
+    <meta charset="utf-8"/>
+    <title>my frist angularjs demo</title>
+    <script src="lib/jquery/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/angular/angular.min.js" charset="UTF-8"></script>
+    <script src="js/demoControllers.js" charset="UTF-8"></script>
+</head>
+<body>
+Your name: <input type="text" ng-model="yourname" placeholder="World">
+<hr>
+Hello {{yourname || 'World'}}!
+<div class="left">
+    seach phone:<input type="text" >
+    seach by type:<select>
+    <option>a</option>
+
+</select>
+
+</div>
+<div class="right"  ng-controller="phonelistCrtl">
+    <ul class="demophone">
+        <li ng-repeat="demophone in demophones" on-finish-render-filters id={{$index}}>
+            <h2>{{demophone.name}}</h2>
+            <p><span>{{demophone.prise}}</span>{{demophone.titile}}</p>
+            <p>{{demophone.detiles}}</p>
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>

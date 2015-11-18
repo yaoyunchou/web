@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ok</title>
+    <style type="text/css">
+    @charset "utf-8";
+/* CSS Document */
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+
+em,var,i{
+	font-style: normal;
+}
+strong,h1,h2,h3,h4,h5,h6,var{
+	font-weight: normal;
+}
+a,u{
+	text-decoration: none;
+}
+input,textarea,select{
+	-webkit-appearance: none;
+	resize: none;
+	outline: 0;
+	-webkit-user-select: text;
+}
+select{
+	-webkit-appearance: none;
+}
+li{
+	list-style: none;
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body{font-family: Microsoft YaHei,SimSun,Arial;}
+img{
+	width: 100%;
+}
+
+*{
+	box-sizing: border-box;
+	-webkit-user-select:none;
+	-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+}
+input {-webkit-appearance:none; /*去除input默认样式*/}
+
+input[type="submit"],
+
+input[type="reset"],
+
+input[type="button"],
+input{-webkit-appearance:none; border-radius: 1px; font-family: Microsoft YaHei,SimSun,Arial; color: #C6C6CB;}
+.inputbler{ color:#595959}
+html{font-size:62.5%; -webkit-text-size-adjust: none;}
+body{font-size:1.4rem; background:#FFFFFF; color:#666;}
+.bttom{ height: 20px;}
+    	.ok{ padding: 1rem; font-size: 3.4rem; border: none; text-align: center;  width: 100%; background: no-repeat; }
+.okbox img{ width: 10rem; display: block; margin: 0 auto; }
+.okbox{ padding-top: 10rem;}
+    </style>
+   
+</head>
+<body>
+	  
+	  	
+	   <article class="okbox">
+		   	<img src="img/b001_r1_c1.jpg"/>
+	   	   <button class="ok" >充值成功！</button>
+	   </article>
+	   <div class="bttom">
+	   	
+	   </div>
+	 
+	  
+	   <script src="js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+	   
+      <script type="text/javascript">
+      	var max;
+	$(document).ready(function () {
+	  var xf_winwidth = $(window).width();
+	if(xf_winwidth>1024){
+		xf_winwidth=1024;
+		$("html").css("fontSize",xf_winwidth/230*7+"px");
+	}else{
+		$("html").css("fontSize",xf_winwidth/230*7+"px");
+	}
+	var xf_winheight = $(window).height();
+	
+		
+});
+$(window).on('resize',function(){
+	var xf_winwidth = $(window).width();
+	if(xf_winwidth>1024){
+		xf_winwidth=1024;
+		$("html").css("fontSize",xf_winwidth/230*7+"px");
+	}else{
+		$("html").css("fontSize",xf_winwidth/230*7+"px");
+	}
+	var xf_winheight = $(window).height();
+	$("html").css("fontSize",xf_winwidth/230*7+"px");
+	
+});
+      </script>
+</body>
+
+</html>

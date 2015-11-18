@@ -1,0 +1,65 @@
+.header{ width: 100%; height: 4.5rem; line-height: 4.5rem; padding: 0 1rem; box-sizing: border-box; background:#FFFFFF url(../img/a002.png) repeat-x bottom; position:relative;text-align: center; position: fixed; top: 0; z-index: 10;} 
+.header img{ height: 2rem; width: 1rem;}
+.header .icon{ display: inline-block; width: 5rem; height: 1rem; position: absolute;padding: 0.5rem 0 0 1rem;left: 0; top: 0px;} 
+.header span{  font-size: 1.8rem; line-height: 4rem;  }
+
+.borderbottom{border-bottom: 1px solid #cccccc !important;}
+.margintop4e{ margin-top: 4rem !important;}
+.margintop9e{ margin-top: 9rem !important;}
+input{ width: 100%;}
+.register{ font-size: 1.3rem; float: right; color: #1B8BD7; display: inline-block; margin-top: 1.6rem;}
+.loginbox{ padding:7.1rem 1rem 0; }
+.loginboxin{ border-radius: 10px; background: #ffffff; padding: 0 1.6rem;}
+ input[type='text'], input[type='tel'],input[type='password']{display: block;  font-size: 1.2rem;   height: 5.6rem;border:none; }
+.usename{  background:#FFFFFF url(../img/a003_r1_c1.png) no-repeat left center; padding-left: 4rem; box-sizing: border-box; background-size: 2rem 2rem;}
+.password{background: url(../img/a003_r3_c2.png) no-repeat left center; padding-left: 4rem; box-sizing: border-box; background-size: 2rem 2rem;}
+
+
+.wjmm{ float: right; font-size: 1.2rem; color: #8F8F8F; padding-top: 1.2rem;;}
+.loginsim{ box-sizing: border-box; clear: both; width: 100%; border: none; background: #89c1e7; display: block; padding: 0 1rem; border-radius: 5px; height: 4.1rem; line-height: 100%; text-align: center; font-size: 2rem; margin-top: 7rem; color: #FFFFFF;}
+.all{margin-left: 60%; width: 100%;}
+.allbox{ width: 100%; overflow: hidden;}
+
+
+.registerbox{ padding: 6.3rem 1rem 0;box-sizing:border-box;}
+.inputmodle01{ border-radius: 5px; background-position: 1rem center; box-shadow: 1px 1px 0px 0px #dcdcde;}
+.checkpass{ padding-left: 4.6rem; margin-top: 2.8rem;  height: 9.5rem; background: #FFFFFF url(../img/a003_r3_c2.png) no-repeat 1rem center;background-size: 2rem 2rem;  border-radius: 5px; box-shadow: 1px 1px 0px 0px #dcdcde;}
+
+.repassword{ width: 100%; height: 4.7rem !important;}
+
+.yzm { margin-top: 1.2rem;  height: 4.4rem;}
+.yzm .inputyzm{ width: 56% !important; display: block; float: left; height: 4.4rem; box-sizing: border-box; padding: 0 1rem; color: #C6C6CB; border-radius: 5px; text-align: center; box-shadow: 1px 1px 0px 0px #dcdcde;}
+.yzm a{ width: 39%; display: block;  height: 4.4rem;  float: right;  border-radius: 5px; line-height: 4.4rem; background: #27dba2; color: #FFFFFF; text-align: center; font-size: 1.8rem;}
+.xieyi{ text-align: center; margin-top: 1rem;}
+/*忘记密码*/
+.fogetbox{ padding: 4.5rem 1rem 0; }
+.fogetbox span{ width: 23%; float: left; display: inline-block; padding-left: 1rem; height: 4.7rem; line-height: 4.7rem;}
+.tbrow{ overflow: hidden; }
+.forgetpass{ margin-top: 2.8rem;  height: 9.5rem; background: #FFFFFF ;  border-radius: 5px; box-shadow: 1px 1px 0px 0px #dcdcde; position: relative;}
+.forgetpass input{  width: 75%; float: left; display: inline-block;  padding-left: 1rem; }
+.forgetpass .yzmfg{ width: 40%; float: left; }
+.fogetbox .yzmfgbut{ display: inline-block; width: 9rem; height: 2.7rem; border: 1px solid #1B8BD7; text-align: center; line-height: 2.7rem; border-radius: 5px; float: right; margin-right: 10px; color: #1B8BD7; margin-top: 0.9rem;}
+
+
+
+
+/*--------实名认证------*/
+.smrz{ background: #1c8cd8;}
+.smrz a{ color: #FFFFFF;}
+.smrzbzbox2{ padding: 3.3rem 1rem 0;}
+.smrzbzbox{ padding-top: 4.5rem;}
+.smrzbz{ width: 100%;  height: 4rem; display: table;  background: #FFFFFF;}
+.smrzbz span{ display: table-cell; font-size: 1.2rem; width: 33.333%; text-align: center; line-height: 4rem;}
+.smrzbz span.on{ color:#1B8BD7 ;}
+.smrzf{ border-radius: 5px; overflow: hidden; padding: 0 1rem; margin-bottom: 2rem; background: #FFFFFF;}
+.smrzbz span.active{ background:#1c8cd8 ; color: #FFFFFF;}
+
+
+
+@font-face {font-family: 'yao';
+    src: url('../font/iconfont.eot'); /* IE9*/
+    src: url('../font/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../font/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('../font/.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('../font/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}

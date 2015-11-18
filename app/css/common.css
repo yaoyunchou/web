@@ -1,0 +1,60 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+
+em,var,i{
+	font-style: normal;
+}
+strong,h1,h2,h3,h4,h5,h6,var{
+	font-weight: normal;
+}
+a,u{
+	text-decoration: none;
+}
+input,textarea,select{
+	-webkit-appearance: none;
+	resize: none;
+	outline: 0;
+	-webkit-user-select: text;
+}
+select{
+	-webkit-appearance: none;
+}
+li{
+	list-style: none;
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body{font-family: Microsoft YaHei,SimSun,Arial;}
+img{
+	width: 100%;
+}
+
+*{
+	box-sizing: border-box;
+	-webkit-user-select:none;
+	-webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+	-webkit-touch-callout: none;
+}
+input {-webkit-appearance:none; /*去除input默认样式*/}
+
+input[type="submit"],
+
+input[type="reset"],
+
+input[type="button"],
+input{-webkit-appearance:none; border-radius: 1px; font-family: Microsoft YaHei,SimSun,Arial; color: #C6C6CB;}
+.inputbler{ color:#595959}
+html{font-size:62.5%; -webkit-text-size-adjust: none;}
+body{font-size:1.4rem; background:#f4f4f4; color:#666;}
+.bttom{ height: 20px;}
