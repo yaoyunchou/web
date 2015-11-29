@@ -1,4 +1,4 @@
-demoApp.controller('btnCtrl', ['$scope', function ($scope){	
+demoApp.controller('btnCtrl', ['$scope', function ($scope){
 
 	localStorage.getItem('isdev') == 'true' ? $scope.status = true : $scope.status = false;
 	

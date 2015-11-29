@@ -42,7 +42,7 @@
         </div>
     </div>
 </div>
-<div class="container c-container" ng-app="demoApp">
+<div class="container c-container" ng-app="myApp">
     <div class="row">
         <div class="c-main">
             <div class="c-main-box" ui-view>
@@ -51,7 +51,7 @@
         <div class="c-menu-div">
             <div class="c-menu-title">组件清单</div>
             <div class="c-menu-box">
-                <div class="c-menu" ng-class="{selected: menuItem == 'path'}" ui-sref="path"><i class="glyphicon glyphicon-tag"></i> 路径导航</div>
+                <div class="c-menu" ng-class="{selected: menuItem == 'phoneList'}" ui-sref="phoneList"><i class="glyphicon glyphicon-tag"></i> 手机列表</div>
                 <div class="c-menu" ng-class="{selected: menuItem == 'btn'}" ui-sref="btn"><i class="glyphicon glyphicon-tag"></i> 按钮</div>
                 <div class="c-menu" ng-class="{selected: menuItem == 'dialog'}" ui-sref="dialog"><i class="glyphicon glyphicon-tag"></i> 弹窗</div>
                 <div class="c-menu" ng-class="{selected: menuItem == 'form'}" ui-sref="form"><i class="glyphicon glyphicon-tag"></i> 表单、表格</div>
@@ -113,7 +113,9 @@
 <script type="text/javascript" src="../js/common.js"></script>
 
 <!-- demo -->
-<script type="text/javascript" src="../demo/js/myapp.js"></script>
+<script type="text/javascript" src="myjs/myapp.js"></script>
+<script type="text/javascript" src="myjs/phonelistcontroller.js" charset="utf-8"></script>
+<script type="text/javascript" src="myjs/btn.js" charset="UTF-8"></script>
 
 
 <script>
