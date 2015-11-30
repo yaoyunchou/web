@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Angular Demo</title>
+        <script src="../lib/angular.js" type="text/javascript" charset="utf-8"></script>
+        <script src="app.js" type="text/javascript" charset="utf-8"></script>
+    
+    
 </head>
 <body>
-    <div data-ng-app="angularDemo">
-        <div>
-
+    <div data-ng-app= "bookStoreApp">
+        <div ng-controller = "bookStoreListController" >
+				<ul>
+					<li ng-repeat = 'book in books'>
+						{{book}}
+					</li>
+				</ul>
         </div>
 
     </div>
 </body>
+
+   
+    <script src="controllers/bookDetailController.js" type="text/javascript" charset="utf-8"></script>
+    <script src="controllers/bookListController.js" type="text/javascript" charset="utf-8"></script>
+     <script src="serivces/book-data-service.js" type="text/javascript" charset="utf-8"></script>
 </html>

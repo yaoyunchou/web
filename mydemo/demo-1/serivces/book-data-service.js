@@ -2,10 +2,10 @@
 (function (angular) {
 	"use strict";
 
-	angular.module('bookStoreDataService', ['$http', '$q', function ($http, $q) {
-		var service = {};
+	angular.module('bookStoreDatafactory', ['$http', '$q', function ($http, $q) {
+		var factory = {};
 		var list, selected;
-		service.getBooks = function (){
+		factory.getBooks = function (){
 			var defer = $q.defer();
 			if(!list){
 				$http({
@@ -13,7 +13,7 @@
 					url:'../content/json/books.json'
 				}).then(function(res){
 					list = res.data;
-					service.selectBook(list[0]);
+					factory.selectBook(list[0]);
 					defer.resolve(list);
 				})
 			}else{
@@ -22,7 +22,7 @@
 			return defer.promise;
 		};
 
-		service.addBook = function addBook(code, name, author, publisher){
+		factory.addBook = function addBook(code, name, author, publisher){
 			list.push({
 				code:code,
 				name:name,
@@ -31,11 +31,11 @@
 			});
 		};
 
-		service.selectBook = function selectBook(book){
+		factory.selectBook = function selectBook(book){
 			selected = book;
 		};
 
-		service.getSelected = function getSelected(){
+		factory.getSelected = function getSelected(){
 			return selected;
 		};
 	}]);
