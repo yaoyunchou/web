@@ -2,7 +2,7 @@
 (function (angular) {
 	"use strict";
 
-	angular.module('bookStoreDatafactory', ['$http', '$q', function ($http, $q) {
+	angular.module('bookStoreApp').factory('bookStoreDataService', ['$http', '$q', function ($http, $q) {
 		var factory = {};
 		var list, selected;
 		factory.getBooks = function (){
