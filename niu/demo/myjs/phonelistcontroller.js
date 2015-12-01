@@ -6,15 +6,24 @@
     "use strict";
 
     angular.module('myApp').controller("phoneListCtrl",["$scope",'$q','$http',function($scope,$q,$http){
-       $http({
-           method:"GET",
-           url:"myjs/phones.json",
+        $http({
+            method:"GET",
+            url:"myjs/phones.json",
 
-       }).success(function(data){
-           $scope.phones = data.data;
-           console.log("Êı¾İ½ÓÊÕ³É¹¦!");
-       }).error(function(data){
-           console.log("·şÎñÆ÷Ã»¸øÊı¾İ");
-       })
+        }).success(function(data){
+            $scope.phones = data;
+            console.log("æ•°æ®æ¥æ”¶æˆåŠŸ!");
+        }).error(function(data){
+            console.log("æœåŠ¡å™¨æ²¡ç»™æ•°æ®");
+        })
     }])
+    angular.module("myApp").directive("ngbkFoucs",function(){
+        return{
+            link:function(scope,element,attrs,controller){
+                element[0].focus();
+
+                console.log(element[0].innerHTML);
+            }
+        }
+    })
 })(angular)

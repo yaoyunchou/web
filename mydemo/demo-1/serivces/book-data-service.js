@@ -6,6 +6,7 @@
 		var factory = {};
 		var list, selected;
 		factory.getBooks = function (){
+			console.log("!!!!");
 			var defer = $q.defer();
 			if(!list){
 				$http({
@@ -38,5 +39,7 @@
 		factory.getSelected = function getSelected(){
 			return selected;
 		};
+		return factory;
 	}]);
+
 }(angular));
