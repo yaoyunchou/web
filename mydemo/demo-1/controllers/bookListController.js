@@ -8,5 +8,7 @@
 				$scope.books = books;
 			})
 		};
+		
+		$scope.loadData();
 	}])
 }(angular));

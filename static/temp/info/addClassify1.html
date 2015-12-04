@@ -1,0 +1,62 @@
+<style type="text/css">
+    .lighter-weight{font-weight: lighter;}     
+    .w100{width: 100px;}
+    .ml{margin-left: 16px;}
+    .mt20{margin-top: 20px;}
+    .mess-zx{line-height: 36px;color: #847D7D;}
+    .btn-hover{margin-left: 16px;color: #796A6A}
+    .btn-hover:hover,a:hover{border-color: #f08300;/* color: #f08300!important; */}     
+    .pt0{padding-top: 0!important;}   
+    .form-validation .form-control.ng-dirty.ng-invalid{border-color: #f44336;}
+    .err{color: #f44336;}
+    .form-validation .form-control.ng-dirty.ng-valid,
+    .form-validation .form-control.ng-dirty.ng-valid:focus {border-color: #4caf50;}   
+    .left-info-err{position: absolute;top: 22px;left: 70px;}
+    .left-info-input{margin:0 8px; width: 120px;display: inline;}
+    .left-info{position: absolute;top: 0px;right: 50px;}
+    .mask{position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 1050;overflow: hidden;-webkit-overflow-scrolling: touch;outline: 0;background: #000;opacity: 0.5;}
+    .dialog{position: absolute;z-index: 1100;top: 115px;left: 22%;background-color: #fff;padding: 0;}
+    .dialog-titlebar { padding: 0 10px 0 20px;height: 44px;background: #f5f5f5;}
+    .dialog-title {float: left;font: 14px/44px "Microsoft YaHei";color: #f08300;}
+    .close-btn{float: right;margin-top: 14px;}
+    .clean-btn{margin: -10px 0px 0px 10px;}
+    .border-slt{border: 1px solid #ddd;}
+    .pr{position: relative;}
+    .y-pad0{padding: 0!important; position: relative;}   
+    .item .fa{position: absolute;top: 0;right: 0;background-color: green;color: #fff;font-size: 18px;}
+    .hide{display: none;}
+    .fllb{ display:none;}
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="index.html">{{name}}管理</a></li>
+                <li class="active">分类录入</li>
+        </ol>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+        <tabset>
+            <tab heading="基本信息" status="infoBase" active>
+               
+        </tab>
+        <tab heading="SEO搜索引擎设置" status="infoSeo" ng-show="infoSeo">
+            
+        </tab>
+        <tab heading="其他属性" status="infoOther" ng-show="infoOther">
+           
+        </tab>
+        <tab heading="内页外观选择" status="tplCheck" ng-show="faceCheck">
+            
+        </tab>
+    </tabset>
+    <div class="form-group">
+        <div class="col-sm-10 text-center">
+            <button type="submit" class="btn btn-warning w100" ng-disabled="formInfo.$invalid" ng-click="saveBean()">保存</button>
+            <button class="btn btn-default w100 ml" ng-click="clearFormBtn()">重置</button>
+        </div>
+    </div>
+</form>
+</div>

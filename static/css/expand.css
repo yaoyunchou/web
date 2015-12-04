@@ -1,0 +1,12 @@
+/*****expand*****/
+.dtbox .xxtext{ width:80px !important; float:left; margin-right:10px; margin-bottom:10px;}
+.fr{ float:right;}
+.c-mkname{ white-space:  nowrap; text-overflow:ellipsis; overflow: hidden;}
+.ng-dirty.ng-invalid{border-color: #f44336;}
+.err{color: #f44336;}
+.ng-dirty.ng-valid,
+.ng-dirty.ng-valid:focus {border-color: #4caf50;}   
+.left-info-err{position: absolute;top: 22px;left: 70px;}
+  
+.widthb8{ width:80% !important;} 
+.add{ margin-top:0px !important;}

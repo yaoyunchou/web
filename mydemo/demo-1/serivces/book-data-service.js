@@ -10,7 +10,7 @@
 			if(!list){
 				$http({
 					method:'get',
-					url:'../content/json/books.json'
+					url:'http://127.0.0.1:8020/htdocs/web/mydemo/demo-1/content/json/books.json'
 				}).then(function(res){
 					list = res.data;
 					factory.selectBook(list[0]);
@@ -38,5 +38,6 @@
 		factory.getSelected = function getSelected(){
 			return selected;
 		};
+		return factory;
 	}]);
 }(angular));
