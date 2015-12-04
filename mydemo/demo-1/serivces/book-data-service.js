@@ -6,6 +6,7 @@
 		var factory = {};
 		var list, selected;
 		factory.getBooks = function (){
+			console.log("!!!!");
 			var defer = $q.defer();
 			if(!list){
 				$http({
@@ -40,4 +41,5 @@
 		};
 		return factory;
 	}]);
+
 }(angular));
