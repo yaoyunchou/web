@@ -6,7 +6,12 @@
 		$scope.loadData = function loadData(){
 			dataService.getBooks().then(function(books){
 				$scope.books = books;
-			})
+			});
 		};
-	}])
+	}]);
+}(angular));
+/*global angular*/
+(function(angular){
+    "use strict";
+
 }(angular));
