@@ -1,0 +1,335 @@
+{
+    "_id" : ObjectId("564c2f630cd44a08d0245170"),
+    "name" : "项目默认主导航",
+    "type" : "DATA",
+    "blkTplType" : "MAIN_NAV",
+    "rules" : [ 
+        {
+            "name" : "资讯",
+            "moduleId" : "1001",
+            "url" : "/info/list001.html",
+            "children" : [ 
+                {
+                    "name" : "公司新闻",
+                    "moduleId" : "1002",
+                    "url" : "/companyinfo/list002.html",
+                    "children" : []
+                }, 
+                {
+                    "name" : "行业动态",
+                    "moduleId" : "1003",
+                    "url" : "/dynainfo/list003.html",
+                    "children" : []
+                }
+            ]
+        }, 
+        {
+            "name" : "产品",
+            "moduleId" : "1004",
+            "url" : "/info/list004.html",
+            "children" : []
+        }
+    ]
+}
+
+/* 35 */
+{
+    "_id" : ObjectId("564c2fe10cd44a08d0245171"),
+    "name" : "项目自定义副导航",
+    "type" : "DATA",
+    "blkTplType" : "LEFT_NAV",
+    "rules" : [ 
+        {
+            "name" : "资讯",
+            "moduleId" : "1001",
+            "url" : "/info/list001.html",
+            "children" : [ 
+                {
+                    "name" : "公司新闻",
+                    "moduleId" : "1002",
+                    "url" : "/companyinfo/list002.html",
+                    "children" : []
+                }, 
+                {
+                    "name" : "行业动态",
+                    "moduleId" : "1003",
+                    "url" : "/dynainfo/list003.html",
+                    "children" : []
+                }
+            ]
+        }, 
+        {
+            "name" : "产品",
+            "moduleId" : "1004",
+            "url" : "/info/list004.html",
+            "children" : []
+        }
+    ]
+}
+
+
+
+
+
+{
+    "_id" : ObjectId("564afb7b0cd44a1728129e34"),
+    "name" : "当前分类最近推荐产品",
+    "type" : "SERVICE",
+    "blkTplType" : "PRODUCT",
+    "rules" : "tplDs/getProducts?moduleId=${moduleId}&ctgId=${ctgId}&type=2&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("564f165045ce320487aeb977"),
+    "name" : "推荐产品",
+    "type" : "product",
+    "blkTplType" : "PRODUCT",
+    "rules" : [ 
+        {
+            "desc" : "【自营小家电】9月7日至13日：免费领券再下单！打白条领券再享满199减20元，High购起来！",
+            "alt" : "艾美特遥控落地扇",
+            "src" : "/img/tpl/temp02.jpg"
+        }
+    ]
+}
+
+
+
+
+{
+    "_id" : ObjectId("564afb710cd44a1728129e33"),
+    "name" : "当前分类最新产品",
+    "type" : "SERVICE",
+    "blkTplType" : "PRODUCT",
+    "rules" : "tplDs/getProducts?moduleId=${moduleId}&ctgId=${ctgId}&type=1&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 29 */
+{
+    "_id" : ObjectId("564afb930cd44a1728129e35"),
+    "name" : "最新发布产品",
+    "type" : "SERVICE",
+    "blkTplType" : "PRODUCT",
+    "rules" : "tplDs/getProducts?moduleId=${moduleId}&ctgId=''&type=1&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 30 */
+{
+    "_id" : ObjectId("564afc3e0cd44a1728129e36"),
+    "name" : "最新推荐产品",
+    "type" : "SERVICE",
+    "blkTplType" : "PRODUCT",
+    "rules" : "tplDs/getProducts?moduleId=${moduleId}&ctgId=''&type=2&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 31 */
+{
+    "_id" : ObjectId("564afc4a0cd44a1728129e37"),
+    "name" : "当前分类最新文章",
+    "type" : "SERVICE",
+    "blkTplType" : "INFO",
+    "rules" : "tplDs/getInfos?moduleId=${moduleId}&ctgId=${ctgId}&type=1&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 32 */
+{
+    "_id" : ObjectId("564afc550cd44a1728129e38"),
+    "name" : "当前分类最近推荐文章",
+    "type" : "SERVICE",
+    "blkTplType" : "INFO",
+    "rules" : "tplDs/getInfos?moduleId=${moduleId}&ctgId=${ctgId}&type=2&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 33 */
+{
+    "_id" : ObjectId("564afc5e0cd44a1728129e39"),
+    "name" : "最新发布文章",
+    "type" : "SERVICE",
+    "blkTplType" : "INFO",
+    "rules" : "tplDs/getInfos?moduleId=${moduleId}&ctgId=''&type=1&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 34 */
+{
+    "_id" : ObjectId("564afc6b0cd44a1728129e3a"),
+    "name" : "最新推荐文章",
+    "type" : "SERVICE",
+    "blkTplType" : "INFO",
+    "rules" : "tplDs/getInfos?moduleId=${moduleId}&ctgId=''&type=2&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 35 */
+{
+    "_id" : ObjectId("564afe770cd44a1728129e3b"),
+    "name" : "项目自定义主导航",
+    "type" : "SERVICE",
+    "blkTplType" : "MAIN_NAV",
+    "rules" : "tplDs/getCustomMainNav?projId=${projId}&pageIndex=${pageIndex}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 36 */
+{
+    "_id" : ObjectId("564c31820cd44a08d0245172"),
+    "name" : "项目副导航",
+    "type" : "SERVICE",
+    "blkTplType" : "LEFT_NAV",
+    "rules" : "tplDs/getModuleLeftNav?projId=${projId}&moduleId=${moduleId}&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 37 */
+{
+    "_id" : ObjectId("564c31bb0cd44a08d0245173"),
+    "name" : "底部导航",
+    "type" : "DATA",
+    "blkTplType" : "BOTTOM_NAV",
+    "rules" : [ 
+        {
+            "name" : "资讯",
+            "moduleId" : "1001",
+            "url" : "/info/list001.html",
+            "children" : [ 
+                {
+                    "name" : "公司新闻",
+                    "moduleId" : "1002",
+                    "url" : "/companyinfo/list002.html",
+                    "children" : []
+                }, 
+                {
+                    "name" : "行业动态",
+                    "moduleId" : "1003",
+                    "url" : "/dynainfo/list003.html",
+                    "children" : []
+                }
+            ]
+        }, 
+        {
+            "name" : "产品",
+            "moduleId" : "1004",
+            "url" : "/info/list004.html",
+            "children" : []
+        }
+    ]
+}
+
+/* 38 */
+{
+    "_id" : ObjectId("564c32160cd44a08d0245174"),
+    "name" : "广告",
+    "type" : "DATA",
+    "blkTplType" : "AD",
+    "rules" : [ 
+        {
+            "name" : "最新花岗岩瓷片",
+            "imgSm" : {
+                "url" : "/img/img1.jpg",
+                "alt" : ""
+            },
+            "imgMd" : {
+                "url" : "/img/img1.jpg",
+                "alt" : ""
+            },
+            "imgLg" : {
+                "url" : "/img/img1.jpg",
+                "alt" : ""
+            },
+            "url" : "/info/list001.html"
+        }, 
+        {
+            "name" : "经典款瓷片",
+            "imgSm" : {
+                "url" : "/img/img2.jpg",
+                "alt" : ""
+            },
+            "imgMd" : {
+                "url" : "/img/img2.jpg",
+                "alt" : ""
+            },
+            "imgLg" : {
+                "url" : "/img/img2.jpg",
+                "alt" : ""
+            },
+            "url" : "/info/list002.html"
+        }
+    ]
+}
+
+/* 39 */
+{
+    "_id" : ObjectId("564c32af0cd44a08d0245175"),
+    "name" : "首页搜索关键词",
+    "type" : "DATA",
+    "blkTplType" : "SEARCH",
+    "rules" : [ 
+        {
+            "name" : "宝马汽车配件",
+            "url" : "/info/list001.html"
+        }, 
+        {
+            "name" : "奔驰汽车配件",
+            "url" : "/info/list002.html"
+        }, 
+        {
+            "name" : "汽车配件订购",
+            "url" : "/info/list003.html"
+        }
+    ]
+}
+
+
+
+
+
+{
+    "_id" : ObjectId("564c478f0cd44a08d0245176"),
+    "name" : "当前分类标签",
+    "type" : "SERVICE",
+    "blkTplType" : "TAG",
+    "rules" : "tplDs/getTags?id=${ctgId}&type=1&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 41 */
+{
+    "_id" : ObjectId("564c47bb0cd44a08d0245177"),
+    "name" : "当前产品标签",
+    "type" : "SERVICE",
+    "blkTplType" : "TAG",
+    "rules" : "tplDs/getTags?id=${productId}&type=3&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+/* 42 */
+{
+    "_id" : ObjectId("564c47ee0cd44a08d0245178"),
+    "name" : "当前文章标签",
+    "type" : "SERVICE",
+    "blkTplType" : "TAG",
+    "rules" : "tplDs/getTags?id=${articleId}&type=2&rowNum=${rowNum}&colNum=${colNum}"
+}
+
+
+
+{
+    "_id" : ObjectId("564dbbefa90746e12fc3e334"),
+    "name" : "文章详情内容",
+    "type" : "SERVICE",
+    "blkTplType" : "INFO_CONTENT",
+    "rules" : "tplDs/getInfoContent?moduleId=${moduleId}&ctgId=${ctgId}&articleId=${articleId}"
+}
+
+/* 45 */
+{
+    "_id" : ObjectId("564dbc40a90746e12fc3e335"),
+    "name" : "当前产品内容",
+    "type" : "SERVICE",
+    "blkTplType" : "PROD_CONTENT",
+    "rules" : "tplDs/getProdContent?moduleId=${moduleId}&ctgId=${ctgId}&productId=${productId}"
+}
+
+
+
+
+
+
+
+
+

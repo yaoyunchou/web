@@ -1,9 +1,12 @@
 var demoApp = angular.module('demoApp', ['common', 'ng.webuploader', 'ui.tree', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox']);
 
 demoApp.run(['$rootScope','$location', function($rootScope,$location) {
+	"use strict";
 	//监听路由变化,选中菜单
     $rootScope.$on('$stateChangeSuccess', function(evt, toState){
-    	$rootScope.menuItem = toState.name;
+	    "use strict";
+	    toState.name = undefined;
+	    $rootScope.menuItem = toState.name;
     });  
     
     localStorage.setItem('isdev',$location.search()['isdev']);    
@@ -65,6 +68,11 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
 		url: '/taglib',
 		templateUrl: 'views/taglib.html',
 		controller: 'taglibCtrl'
-	});
+	})
+	    .state('yanzheng', {
+		    url: '/yangzheng',
+		    templateUrl: 'views/yanzheng.html',
+		    controller: 'yanzhengCtrl'
+	    });;
 
 }]);

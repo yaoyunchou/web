@@ -1,0 +1,423 @@
+/* 0 */
+{
+  "_id" : ObjectId("565949139ea91511616e5c25"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bae76b6af00974b436bd"
+    }, {
+      "id" : "5603bc706b6af00974b436c6"
+    }, {
+      "id" : "5603bbfa6b6af00974b436c3"
+    }],
+  "lastUpdTime" : "2015-12-02 12:51:48",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/产品详情-1.jpg",
+  "strucData" : [{
+      "blkName" : "HEAD1",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "NAV1",
+      "blkTplId" : "565946139ea91511616e5c0f"
+    }, {
+      "blkName" : "search1",
+      "blkTplId" : "565946139ea91511616e5c11"
+    }, {
+      "blkName" : "BANNER",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }, {
+      "blkName" : "footer-nav",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "SHOP_NAV2",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "FOOTER_info",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "ProdContent",
+      "blkTplId" : "56596aa09a820af141726d0e"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/产品详情-缩略图副本.jpg",
+  "createdTime" : 0,
+  "name" : "产品频道详细页",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，提供最好的搜索引擎优化功能，让客户更方便查看产品详情，图文并茂展示产品卖点，企业公信力，提供在线询盘表单，便于收集访客数据，增加销售线索",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/产品详情.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/产品详情.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>产品详细页</title>\r    <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/product_detail.css\" />\r    <link rel=\"stylesheet\" href=\"css/comment.css\" />\r    <link rel=\"stylesheet\" href=\"css/consult.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r    <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"HEAD1\"></div>\r            \r        <!-- 3.主导航 -->\r        <div nsw:blk=\"NAV1\"></div>\r    </div>\r    <!-- 搜索 -->\r    <div nsw:blk=\"search1\"></div>\r    <!-- 横幅 -->\r    <div nsw:blk=\"BANNER\"></div>\r    <!-- 主体 -->\r    <div nsw:blk=\"ProdContent\"></div>\r    <!-- 横幅 -->\r   <div class=\"t1-inside-banner t1-pt-40\">\r        <div class=\"t1-w\">\r            <a href=\"#\"><img src=\"images/web/banner.jpg\" /></a>\r        </div>\r    </div>\r    <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"SHOP_NAV2\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"footer-nav\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"FOOTER_info\"></div>\r    </div>\r    <script src=\"js/jquery-1.11.3.min.js\">                               </script>\r   <!-- <script src=\"js/response.js\">                          </script>-->\r    <script src=\"js/jquery.jqzoom.js\">                               </script>\r    <script src=\"js/product_detail.js\">                               </script>\r    <script src=\"js/common.js\">                              </script>\r\r</body></html>"
+}
+
+/* 1 */
+{
+  "_id" : ObjectId("565946139ea91511616e5c22"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bb376b6af00974b436be"
+    }, {
+      "id" : "5603bbd76b6af00974b436c2"
+    }, {
+      "id" : "5603bc706b6af00974b436c6"
+    }],
+  "lastUpdTime" : "2015-12-02 14:47:55",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/网站前台模板-资讯模块-列表外框-简单.jpg",
+  "strucData" : [{
+      "blkName" : "网站头部",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "友情链接1",
+      "blkTplId" : "565946139ea91511616e5c1e"
+    }, {
+      "blkName" : "头部主导航",
+      "blkTplId" : "565946139ea91511616e5c10"
+    }, {
+      "blkName" : "资讯直通车",
+      "blkTplId" : "565946139ea91511616e5c1d"
+    }, {
+      "blkName" : "底部导航",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "一级导航",
+      "blkTplId" : "565946139ea91511616e5c16"
+    }, {
+      "blkName" : "相关搜索",
+      "blkTplId" : "565946139ea91511616e5c11"
+    }, {
+      "blkName" : "资讯列表1",
+      "blkTplId" : "565946139ea91511616e5c15"
+    }, {
+      "blkName" : "底部信息",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "广告",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/资讯列表页 293 X 265.jpg",
+  "createdTime" : 0,
+  "name" : "资讯频道列表页PC",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，提供最好的搜索引擎优化功能，让客户更方便查阅文章列表，更多图片化便于客户了解公司信息，提升询盘率",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-列表页 960.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-列表页 960.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>新闻列表页</title>\r    <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/module.css\" />\r    <link rel=\"stylesheet\" href=\"css/article_list.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r    <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"网站头部\"></div>\r        <!-- 3.主导航 -->\r        <div nsw:blk=\"头部主导航\"></div>\r        \r    </div>\r    <!-- 搜索 -->\r    <div nsw:blk=\"相关搜索\"></div>\r    <!-- 内页横幅 -->\r    <div nsw:blk=\"广告\"></div>\r    <!-- 主体 -->\r    <div class=\"main\">\r        <div class=\"w\">\r      <!-- 面包屑导航 -->\r         <div class=\"crumb\">\r             <span>当前位置：</span>\r             <a href=\"#\">首页</a><i></i>\r                <a href=\"#\">资讯中心</a><i></i>\r                <a href=\"#\">文章列表</a>\r\r         </div>\r   <!-- 主体内容 -->\r         <div class=\"main-content fr\">\r                <p class=\"introduction\">\r                    资讯栏目描述（可做介绍+搜索引擎优化，投放关键词）<br />\r                    如：无锡奔宝(咨询热线:400-0000-651)汽车配件贸易有限公司是一家专营宝马全车配件公司,主要从事<a href=\"#\">宝马保养件</a>,<a href=\"#\">宝马底盘件</a>,<a href=\"#\">宝马电器件</a>,<a href=\"#\">宝马车身件</a>等汽车全车配件批发供应\r                </p>\r                <div class=\"article-wrap informtion-list pb-70 mt-20\">\r                 <ul nsw:blk=\"资讯列表1\"></ul> \r                 <ul class=\"pagination\">\r                        <li><a href=\"#\">首页</a></li>\r                        <li><a href=\"#\">上一页</a></li>\r                        <li><a href=\"#\">1</a></li>\r                        <li><a href=\"#\">2</a></li>\r                        <li><a href=\"#\">3</a></li>\r                        <li><a href=\"#\">4</a></li>\r                        <li><a href=\"#\">5</a></li>\r                        <li><a href=\"#\">6</a></li>\r                        <li><a href=\"#\">7</a></li>\r                        <li><a href=\"#\">...</a></li>\r                        <li><a href=\"#\">下一页</a></li>\r                        <li><a href=\"#\">最后一页</a></li>\r                    </ul>\r                    \r                </div>\r         </div>\r         <!-- 主体侧边栏 -->\r                 <div class=\"main-sidebar sm-hidden fl\">\r                <div nsw:blk=\"一级导航\"></div>\r       <div class=\"ad-pic\" style=\"display: none;\">\r           <a href=\"#\"><img src=\"images/web/img35.jpg\" /></a>\r          </div>\r<!--               <div class=\"module module-22\"> -->\r<!--                     <div class=\"module-hd\"> -->\r<!--                         <h4><a href=\"#\">联系我们</a></h4> -->\r<!--                     </div> -->\r<!--                     <div class=\"module-bd\"> -->\r<!--                         <div class=\"pic-box\"><img src=\"images/web/img8.jpg\"></div> -->\r<!--                         <p>无锡奔宝汽车配件贸易有限公司</p> -->\r<!--                         <dl> -->\r<!--                             <dt>400电话：</dt> -->\r<!--                             <dd>400-0000-xxx</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>公司传真：</dt> -->\r<!--                             <dd>0755-822633xxx</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>邮箱：</dt> -->\r<!--                             <dd>masterlijf@hotmail.com</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>公司地址：</dt> -->\r<!--                             <dd>无锡市广益汽配城<br>B—2—123号</dd> -->\r<!--                         </dl> -->\r<!--                         <div class=\"qr-code\"> -->\r<!--                             <img src=\"images/web/QRCode.jpg\">扫一扫 -->\r<!--                         </div> -->\r<!--                     </div> -->\r<!--                 </div> -->\r         </div>\r  \r       </div>\r    </div>\r    <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"资讯直通车\"></div>\r             <!-- 3.友情链接 -->\r        <div nsw:blk=\"友情链接1\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"底部导航\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"底部信息\"></div>\r    </div>\r    <script src=\"js/jquery-1.11.3.min.js\">               </script>\r    <script src=\"js/share.js\">               </script>\r    <script src=\"js/common.js\">               </script>\r    <!--<script src=\"js/response.js\">           </script>-->\r     <script src=\"js/jquery.pin.min.js\">               </script>\r   \r\r    <script src=\"js/article_list.js\">               </script>\r    <script src=\"js/demo.js\">               </script>\r\r</body></html>"
+}
+
+/* 2 */
+{
+  "_id" : ObjectId("5659487a9ea91511616e5c23"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bb376b6af00974b436be"
+    }, {
+      "id" : "5603bc706b6af00974b436c6"
+    }, {
+      "id" : "5603bbfa6b6af00974b436c3"
+    }],
+  "lastUpdTime" : "2015-12-02 14:51:23",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/网站前台模板-资讯模块-详情-模式.jpg",
+  "strucData" : [{
+      "blkName" : "HEADER",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "FOOTER_MENU",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "NAV",
+      "blkTplId" : "565946139ea91511616e5c10"
+    }, {
+      "blkName" : "资讯列表片段2",
+      "blkTplId" : "565946139ea91511616e5c1b"
+    }, {
+      "blkName" : "SEARCH",
+      "blkTplId" : "565946139ea91511616e5c11"
+    }, {
+      "blkName" : "SHOP_NAV1",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "FOOTER",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "BANNER",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }, {
+      "blkName" : "文章内容模块",
+      "blkTplId" : "56596a469ea97ee7e3cad551"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-详细页 293 X 265.jpg",
+  "createdTime" : 0,
+  "name" : "资讯频道详细页PC",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，提供最好的搜索引擎优化功能，让客户更方便查看文章信息，图文并茂展示客户关注点，提供在线询盘表单，便于收集访客数据，增加销售线索",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-详细页 960.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-详细页 960.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>新闻详细页</title>\r    <meta name=\"keywords\" content=\"keywords\" />\r    <meta name=\"description\" content=\"description\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/module.css\" />\r    <link rel=\"stylesheet\" href=\"css/article.css\" />\r    <link rel=\"stylesheet\" href=\"css/comment.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r    <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"HEADER\"></div>\r        <!-- 3.主导航 -->\r        <div nsw:blk=\"NAV\"></div>\r    </div>\r    <!-- 搜索 -->\r    <div nsw:blk=\"SEARCH\"></div>\r    <!-- 内页横幅 -->\r    <div nsw:blk=\"BANNER\"></div>\r    <!-- 主体 -->\r    <div class=\"main\">\r        <div class=\"w\">\r      <!-- 面包屑导航 -->\r         <div class=\"crumb\">\r             <span>当前位置：</span>\r                <a href=\"#\">首页</a><i></i>\r                <a href=\"#\">资讯中心</a><i></i>\r             <a href=\"#\">栏目名称</a><i></i>\r             <a href=\"#\">文章标题名称</a>\r         </div>\r   <!-- 主体内容 -->\r         <div nsw:blk=\"文章内容模块\"></div>\r            <!-- 主体侧边栏 -->\r            <div class=\"main-sidebar sm-hidden fl\">\r                <div nsw:blk=\"资讯列表片段2\"></div>\r         </div>\r        </div>\r    </div>\r    <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"SHOP_NAV1\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"FOOTER_MENU\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"FOOTER\"></div>\r    </div>\r    <script src=\"js/jquery-1.11.3.min.js\">                  </script>\r   <!-- <script src=\"js/response.js\">          </script>-->\r    <script src=\"js/share.js\">                  </script>\r    <script src=\"js/common.js\">                  </script>\r    <script src=\"js/article.js\">                  </script>\r    <script src=\"js/module.js\">                  </script>\r    <script src=\"js/jquery.pin.min.js\">                  </script>\r\r</body></html>"
+}
+
+/* 3 */
+{
+  "_id" : ObjectId("565948a39ea91511616e5c24"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bc706b6af00974b436c6"
+    }, {
+      "id" : "5603bae76b6af00974b436bd"
+    }, {
+      "id" : "5603bbd76b6af00974b436c2"
+    }],
+  "lastUpdTime" : "2015-12-02 15:22:03",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/产品列表-1.jpg",
+  "strucData" : [{
+      "blkName" : "FOOTER_MENU",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "产品列表1",
+      "blkTplId" : "5659586c9ea91511616e5c2b"
+    }, {
+      "blkName" : "HEADER",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "NAV",
+      "blkTplId" : "565946139ea91511616e5c10"
+    }, {
+      "blkName" : "SHOP_NAV1",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "FOOTER",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "SEARCH",
+      "blkTplId" : "565e4ebe9ea993652dcec71a"
+    }, {
+      "blkName" : "BANNER",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/产品列表-缩略图副本.jpg",
+  "createdTime" : 0,
+  "name" : "产品频道列表页PC",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，提供最好的搜索引擎优化功能，让客户更方便查阅产品列表，更多图片化、极好的用户体验便于客户了解公司产品信息，提升询盘率",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/产品列表.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/产品列表.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>产品列表页</title>\r    <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/product_list.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r    <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"HEADER\"></div>\r        <!-- 3.主导航 -->\r        <div nsw:blk=\"NAV\"></div>\r    </div>\r        <!-- 搜索 -->\r    <div nsw:blk=\"SEARCH\"></div>\r    <!-- 内页横幅 -->\r    <div nsw:blk=\"BANNER\"></div>\r    \r   <!-- 主体 -->\r    <div class=\"main\">\r        <div class=\"w\">\r   <!-- 主体内容 -->\r         <div class=\"main-content fr\">\r                <!-- 面包屑导航 -->\r                <div class=\"crumb\">\r                    <span>当前位置：</span>\r                    <a href=\"#\">首页</a><i></i>\r                    <a href=\"#\">产品展示</a><i></i>\r                    <a href=\"#\">公主装</a>\r                </div>\r                <div class=\"product-wrap\">\r                    <!-- 分页 -->\r                    <div class=\"pager fr\">\r                        <span>1/10</span>\r                        <a class=\"prev\" href=\"#\">&lt;</a>\r                        <a class=\"next\" href=\"#\">&gt;</a>\r                    </div>\r                    <!-- 幻灯片效果没写，css代码也写在这里了，写的时候把这段代码都删掉重新写过（98，99，100，101行） \r                    -->\r                    <div class=\"slide\">\r                        <a href=\"#\"><img style=\"width: 100%; margin-bottom: 18px;\" src=\"images/web/banner2.jpg\" /></a>\r                    </div>\r                    <ul nsw:blk=\"产品列表1\"></ul>\r                <ul class=\"pagination mt-20\">\r                        <li class=\"disable\"><a href=\"#\">上一页</a></li>\r                        <li class=\"current\"><a href=\"#\">1</a></li>\r                        <li><a href=\"#\">2</a></li>\r                        <li><a href=\"#\">3</a></li>\r                        <li><a href=\"#\">4</a></li>\r                        <li><a href=\"#\">5</a></li>\r                        <li><a href=\"#\">6</a></li>\r                        <li><a href=\"#\">7</a></li>\r                        <li><a href=\"#\">...</a></li>\r                        <li><a href=\"#\">下一页</a></li>\r                        <li><a href=\"#\">最后一页</a></li>\r                    </ul>\r                    \r                </div>\r         </div>\r            <!-- 主体侧边栏 -->\r            <div class=\"main-sidebar sm-hidden fl\">\r                <div class=\"ad-pic\">\r                    <a href=\"#\"><img src=\"images/web/img35.jpg\" /></a>\r                </div>\r            </div>\r        </div>\r    </div>\r    <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"SHOP_NAV1\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"FOOTER_MENU\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"FOOTER\"></div>\r    </div>\r  <script src=\"js/jquery-1.11.3.min.js\">         </script>\r   <!-- <script src=\"js/response.js\">     </script>-->\r    <script src=\"js/product_list.js\">         </script>\r    <script src=\"js/common.js\">         </script>\r    <script src=\"js/demo.js\">         </script>\r\r</body></html>"
+}
+
+/* 4 */
+{
+  "_id" : ObjectId("565949819ea91511616e5c26"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bc706b6af00974b436c6"
+    }, {
+      "id" : "5603bbfa6b6af00974b436c3"
+    }, {
+      "id" : "56334c7faca8101014a1e388"
+    }],
+  "lastUpdTime" : "2015-12-02 14:54:00",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/前台-网站帮助-详细页面.jpg",
+  "strucData" : [{
+      "blkName" : "FOOTER_MENU",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "HEADER",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "一级导航",
+      "blkTplId" : "565946139ea91511616e5c18"
+    }, {
+      "blkName" : "NAV",
+      "blkTplId" : "565946139ea91511616e5c0f"
+    }, {
+      "blkName" : "SEARCH",
+      "blkTplId" : "565946139ea91511616e5c11"
+    }, {
+      "blkName" : "SHOP_NAV1",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "FOOTER",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "资讯列表片段1",
+      "blkTplId" : "565946139ea91511616e5c1a"
+    }, {
+      "blkName" : "BANNER",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }, {
+      "blkName" : "帮助详细页",
+      "blkTplId" : "565bb4479ea909b2fe277b00"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/帮助模块-缩略图副本.jpg",
+  "createdTime" : 0,
+  "name" : "帮助频道详细页PC",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，让客户更方便了解公司介绍，如企业介绍，企业联系方式，企业愿景，组织架构，资质认证，团队实力等，提升用户信赖感",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/帮助模块.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/帮助模块.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>帮助详情页</title>\r     <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/module.css\" />\r    <link rel=\"stylesheet\" href=\"css/article.css\" />\r    <link rel=\"stylesheet\" href=\"css/consult.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r     <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"HEADER\"></div>\r        <!-- 3.主导航 -->\r        <div nsw:blk=\"NAV\"></div>\r    </div>\r    <!-- 搜索 -->\r    \r\r        <!-- 搜索 -->\r    <div nsw:blk=\"SEARCH\"></div>\r    <!-- 内页横幅 -->\r    <div nsw:blk=\"BANNER\"></div>\r    <!-- 主体 -->\r    <div class=\"main\">\r        <div class=\"w\">\r      <!-- 面包屑导航 -->\r         <div class=\"crumb\">\r             <span>当前位置：</span>\r                <a href=\"#\">首页</a><i></i>\r                <a href=\"#\">奔跑汽配帮助中心</a><i></i>\r                <a class=\"current\" href=\"#\">常见问题解答</a>\r         </div>\r   <!-- 主体内容 -->\r            <div nsw:blk=\"帮助详细页\"></div>\r            <!-- 主体侧边栏 -->\r            <div class=\"main-sidebar sm-hidden fr\">\r                <div nsw:blk=\"一级导航\"></div>\r                    <div nsw:blk=\"资讯列表片段1\"></div>\r            <div class=\"module module-22\">\r                    <div class=\"module-hd\">\r                        <h4><a href=\"#\">联系我们</a></h4>\r                    </div>\r                    <div class=\"module-bd\">\r                        <div class=\"pic-box\"><img src=\"images/web/img8.jpg\" /></div>\r                        <p>无锡奔宝汽车配件贸易有限公司</p>\r                        <dl>\r                            <dt>400电话：</dt>\r                            <dd>400-0000-xxx</dd>\r                        </dl>\r                        <dl>\r                            <dt>公司传真：</dt>\r                            <dd>0755-822633xxx</dd>\r                        </dl>\r                        <dl>\r                            <dt>邮箱：</dt>\r                            <dd>masterlijf@hotmail.com</dd>\r                        </dl>\r                        <dl>\r                            <dt>公司地址：</dt>\r                            <dd>无锡市广益汽配城<br />B—2—123号</dd>\r                        </dl>\r                        <div class=\"qr-code\">\r                            <img src=\"images/web/QRCode.jpg\" />扫一扫\r                        </div>\r                    </div>\r                </div>\r            </div>\r        </div>\r    </div>\r    <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"SHOP_NAV1\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"FOOTER_MENU\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"FOOTER\"></div>\r    </div>\r    <script src=\"js/jquery-1.11.3.min.js\">          </script>\r   <!-- <script src=\"js/response.js\">     </script>-->\r    <script src=\"js/common.js\">          </script>\r    <script src=\"js/module.js\">          </script>\r    <script src=\"js/jquery.pin.min.js\">          </script>\r    <script src=\"js/article.js\">          </script>\r\r</body></html>"
+}
+
+/* 5 */
+{
+  "_id" : ObjectId("565949959ea91511616e5c27"),
+  "site" : "",
+  "tags" : [{
+      "id" : "5603bc706b6af00974b436c6"
+    }, {
+      "id" : "56334c7faca8101014a1e388"
+    }, {
+      "id" : "5603bbd76b6af00974b436c2"
+    }],
+  "lastUpdTime" : "2015-12-02 14:55:09",
+  "imgFr" : "http://192.168.4.156/shichao_nswcms_jichu/网站前台模板-资讯模块-列表外框-简单.jpg",
+  "strucData" : [{
+      "blkName" : "HEADER",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "NAV",
+      "blkTplId" : "565946139ea91511616e5c0f"
+    }, {
+      "blkName" : "SHOP_NAV1",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "资讯列表片段1",
+      "blkTplId" : "565946139ea91511616e5c1a"
+    }, {
+      "blkName" : "FOOTER_MENU",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "一级导航",
+      "blkTplId" : "565946139ea91511616e5c16"
+    }, {
+      "blkName" : "SEARCH",
+      "blkTplId" : "565e4ebe9ea993652dcec71a"
+    }, {
+      "blkName" : "FOOTER",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "BANNER",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }, {
+      "blkName" : "资讯列表ABC",
+      "blkTplId" : "565946139ea91511616e5c15"
+    }],
+  "desc" : "",
+  "imgSm" : "http://192.168.4.156/shichao_nswcms_jichu/资讯列表页 293 X 265.jpg",
+  "createdTime" : 0,
+  "name" : "帮助频道列表页PC",
+  "owner" : "",
+  "designIdea" : "主要针对传统企业，让客户更方便了解更多的公司介绍，更多图片化，提升客户对企业好感并建立信赖感",
+  "imgLg" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-列表页 960.jpg",
+  "imgMd" : "http://192.168.4.156/shichao_nswcms_jichu/资讯-列表页 960.jpg",
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>帮助中心</title>\r    <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/shichao_nswcms_jichu/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/module.css\" />\r    <link rel=\"stylesheet\" href=\"css/article_list.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r     <!-- 头部 -->\r    <div class=\"header\">\r        <!-- 1.顶部导航 -->\r        <div class=\"top-nav\">\r            <div class=\"w\">\r                <p class=\"fl\">欢迎光临无锡奔宝汽车配件贸易有限公司官方网站！</p>\r                <ul class=\"fr\">\r                    <li><a href=\"#\">收藏首页</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">在线留言</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">常见问题</a></li>\r                    <li class=\"split\">|</li>\r                    <li><a href=\"#\">网站地图</a></li>\r                </ul>\r            </div>\r        </div>\r        <!-- 2.logo -->\r        <div nsw:blk=\"HEADER\"></div>\r        <!-- 3.主导航 -->\r        <div nsw:blk=\"NAV\"></div>\r    </div>\r\r\r     <!-- 搜索 -->\r    <div nsw:blk=\"SEARCH\"></div>\r    <!-- 内页横幅 -->\r    <div nsw:blk=\"BANNER\"></div>\r  <!-- 主体 -->\r      <div class=\"main\">\r        <div class=\"w\">\r      <!-- 面包屑导航 -->\r         <div class=\"crumb\">\r             <span>当前位置：</span>\r             <a href=\"#\">首页</a><i></i>\r                <a href=\"#\">资讯中心</a><i></i>\r                <a href=\"#\">文章列表</a>\r\r         </div>\r   <!-- 主体内容 -->\r         <div class=\"main-content fr\">\r                <p class=\"introduction\">\r                    资讯栏目描述（可做介绍+搜索引擎优化，投放关键词）<br />\r                    如：无锡奔宝(咨询热线:400-0000-651)汽车配件贸易有限公司是一家专营宝马全车配件公司,主要从事<a href=\"#\">宝马保养件</a>,<a href=\"#\">宝马底盘件</a>,<a href=\"#\">宝马电器件</a>,<a href=\"#\">宝马车身件</a>等汽车全车配件批发供应\r                </p>\r                <div class=\"article-wrap informtion-list pb-70 mt-20\">\r                 <ul nsw:blk=\"资讯列表ABC\"></ul> \r\r                 <ul class=\"pagination\">\r                        <li><a href=\"#\">首页</a></li>\r                        <li><a href=\"#\">上一页</a></li>\r                        <li><a href=\"#\">1</a></li>\r                        <li><a href=\"#\">2</a></li>\r                        <li><a href=\"#\">3</a></li>\r                        <li><a href=\"#\">4</a></li>\r                        <li><a href=\"#\">5</a></li>\r                        <li><a href=\"#\">6</a></li>\r                        <li><a href=\"#\">7</a></li>\r                        <li><a href=\"#\">...</a></li>\r                        <li><a href=\"#\">下一页</a></li>\r                        <li><a href=\"#\">最后一页</a></li>\r                    </ul>\r                    \r                </div>\r         </div>\r         <!-- 主体侧边栏 -->\r                 <div class=\"main-sidebar sm-hidden fl\">\r                 <div nsw:blk=\"一级导航\"></div>\r       <div class=\"ad-pic\" style=\"display: none;\">\r           <a href=\"#\"><img src=\"images/web/img35.jpg\" /></a>\r          </div>\r             <div nsw:blk=\"资讯列表片段1\"></div>\r<!--               <div class=\"module module-22\"> -->\r<!--                     <div class=\"module-hd\"> -->\r<!--                         <h4><a href=\"#\">联系我们</a></h4> -->\r<!--                     </div> -->\r<!--                     <div class=\"module-bd\"> -->\r<!--                         <div class=\"pic-box\"><img src=\"images/web/img8.jpg\"></div> -->\r<!--                         <p>无锡奔宝汽车配件贸易有限公司</p> -->\r<!--                         <dl> -->\r<!--                             <dt>400电话：</dt> -->\r<!--                             <dd>400-0000-xxx</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>公司传真：</dt> -->\r<!--                             <dd>0755-822633xxx</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>邮箱：</dt> -->\r<!--                             <dd>masterlijf@hotmail.com</dd> -->\r<!--                         </dl> -->\r<!--                         <dl> -->\r<!--                             <dt>公司地址：</dt> -->\r<!--                             <dd>无锡市广益汽配城<br>B—2—123号</dd> -->\r<!--                         </dl> -->\r<!--                         <div class=\"qr-code\"> -->\r<!--                             <img src=\"images/web/QRCode.jpg\">扫一扫 -->\r<!--                         </div> -->\r<!--                     </div> -->\r<!--                 </div> -->\r         </div>\r  \r       </div>\r    </div>\r \r  <!-- 底部 -->\r        <!-- 底部 -->\r    <div class=\"footer\">\r        <!-- 1.底部链接列表 -->\r        <div nsw:blk=\"SHOP_NAV1\"></div>\r        <!-- 2.底部导航 -->\r        <div nsw:blk=\"FOOTER_MENU\"></div>\r        <!-- 3.底部信息 -->\r        <div nsw:blk=\"FOOTER\"></div>\r    </div>\r   <script src=\"js/jquery-1.11.3.min.js\">              </script>\r    <script src=\"js/share.js\">              </script>\r    <script src=\"js/common.js\">              </script>\r   <!-- <script src=\"js/response.js\">    </script>-->\r    <script src=\"js/module.js\">              </script>\r    <script src=\"js/jquery.pin.min.js\">              </script>\r    <script src=\"js/article_list.js\">              </script>\r    <script src=\"js/demo.js\">              </script>\r\r</body></html>"
+}
+
+/* 6 */
+{
+  "_id" : ObjectId("565974acf6f25d149583fba8"),
+  "site" : "",
+  "tags" : [{
+      "id" : "560142dbfcb2c00be01dd811"
+    }, {
+      "id" : "5603bbad6b6af00974b436c1"
+    }, {
+      "id" : "5603bc706b6af00974b436c6"
+    }],
+  "lastUpdTime" : 0,
+  "imgFr" : null,
+  "strucData" : [{
+      "blkName" : "版块1",
+      "blkTplId" : "565946139ea91511616e5c0e"
+    }, {
+      "blkName" : "版块4",
+      "blkTplId" : "565946139ea91511616e5c18"
+    }, {
+      "blkName" : "版块5",
+      "blkTplId" : "565946139ea91511616e5c19"
+    }, {
+      "blkName" : "版块14",
+      "blkTplId" : "5659560183141c992ae47e7a"
+    }, {
+      "blkName" : "版块25",
+      "blkTplId" : "565946139ea91511616e5c0f"
+    }, {
+      "blkName" : "版块16",
+      "blkTplId" : "5659586c9ea91511616e5c2b"
+    }, {
+      "blkName" : "版块27",
+      "blkTplId" : "56596a469ea97ee7e3cad551"
+    }, {
+      "blkName" : "版块15",
+      "blkTplId" : "5659586c9ea91511616e5c2a"
+    }, {
+      "blkName" : "版块20",
+      "blkTplId" : "565946139ea91511616e5c14"
+    }, {
+      "blkName" : "版块28",
+      "blkTplId" : "56596aa09a820af141726d0e"
+    }, {
+      "blkName" : "版块3",
+      "blkTplId" : "565946139ea91511616e5c17"
+    }, {
+      "blkName" : "版块2",
+      "blkTplId" : "565946139ea91511616e5c16"
+    }, {
+      "blkName" : "版块18",
+      "blkTplId" : "565962e483141c992ae47e9d"
+    }, {
+      "blkName" : "版块23",
+      "blkTplId" : "565946139ea91511616e5c11"
+    }, {
+      "blkName" : "版块24",
+      "blkTplId" : "565946139ea91511616e5c10"
+    }, {
+      "blkName" : "版块17",
+      "blkTplId" : "56595d7083141c992ae47e9c"
+    }, {
+      "blkName" : "版块21",
+      "blkTplId" : "565946139ea91511616e5c13"
+    }, {
+      "blkName" : "版块22",
+      "blkTplId" : "565946139ea91511616e5c12"
+    }, {
+      "blkName" : "版块11",
+      "blkTplId" : "565946139ea91511616e5c1f"
+    }, {
+      "blkName" : "版块19",
+      "blkTplId" : "565964a983141c992ae47e9e"
+    }, {
+      "blkName" : "版块9",
+      "blkTplId" : "565946139ea91511616e5c1d"
+    }, {
+      "blkName" : "版块10",
+      "blkTplId" : "565946139ea91511616e5c1e"
+    }, {
+      "blkName" : "版块7",
+      "blkTplId" : "565946139ea91511616e5c1b"
+    }, {
+      "blkName" : "版块8",
+      "blkTplId" : "565946139ea91511616e5c1c"
+    }, {
+      "blkName" : "版块6",
+      "blkTplId" : "565946139ea91511616e5c1a"
+    }, {
+      "blkName" : "版块12",
+      "blkTplId" : "565946139ea91511616e5c20"
+    }, {
+      "blkName" : "版块13",
+      "blkTplId" : "565946139ea91511616e5c21"
+    }, {
+      "blkName" : "版块26",
+      "blkTplId" : "565977b7f6f25d149583fba9"
+    }],
+  "desc" : "",
+  "imgSm" : null,
+  "createdTime" : 0,
+  "name" : "所有版块(勿删！)",
+  "owner" : "",
+  "designIdea" : null,
+  "imgLg" : null,
+  "imgMd" : null,
+  "htmlContent" : "<!DOCTYPE html><html lang=\"en\"><head>\r    <meta charset=\"UTF-8\" />\r    <title>所有版块页</title>\r    <meta name=\"keywords\" content=\"\" />\r    <meta name=\"description\" content=\"\" />\r    <base href=\"http://192.168.4.156/pccms_demo/PROJCESHI/\" />\r    <link rel=\"stylesheet\" href=\"css/common.css\" />\r    <link rel=\"stylesheet\" href=\"css/product_detail.css\" />\r    <link rel=\"stylesheet\" href=\"css/comment.css\" />\r    <link rel=\"stylesheet\" href=\"css/consult.css\" />\r    <link rel=\"stylesheet\" href=\"css/skins.css\" />\r\r</head><body>\r\r  <div nsw:blk=\"版块1\"></div>\r <div nsw:blk=\"版块2\"></div>\r <div nsw:blk=\"版块3\"></div>\r <div nsw:blk=\"版块4\"></div>\r <div nsw:blk=\"版块5\"></div>\r <div nsw:blk=\"版块6\"></div>\r <div nsw:blk=\"版块7\"></div>\r <div nsw:blk=\"版块8\"></div>\r <div nsw:blk=\"版块9\"></div>\r <div nsw:blk=\"版块10\"></div>\r <div nsw:blk=\"版块11\"></div>\r <div nsw:blk=\"版块12\"></div>\r <div nsw:blk=\"版块13\"></div>\r <ul nsw:blk=\"版块14\"></ul>\r <ul nsw:blk=\"版块15\"></ul>\r <ul nsw:blk=\"版块16\"></ul>\r <div nsw:blk=\"版块17\"></div>\r <div nsw:blk=\"版块18\"></div>\r <div nsw:blk=\"版块19\"></div>\r <ul nsw:blk=\"版块20\"></ul>\r <ul nsw:blk=\"版块21\"></ul>\r <div nsw:blk=\"版块22\"></div>\r <div nsw:blk=\"版块23\"></div>\r <div nsw:blk=\"版块24\"></div>\r <div nsw:blk=\"版块25\"></div>\r <div nsw:blk=\"版块26\"></div>\r <div nsw:blk=\"版块27\"></div>\r <div nsw:blk=\"版块28\"></div>\r    <script src=\"js/jquery-1.11.3.min.js\">                             </script>\r   <!-- <script src=\"js/response.js\">                           </script>-->\r    <script src=\"js/jquery.jqzoom.js\">                             </script>\r    <script src=\"js/product_detail.js\">                             </script>\r    <script src=\"js/common.js\">                             </script>\r\r</body></html>"
+}

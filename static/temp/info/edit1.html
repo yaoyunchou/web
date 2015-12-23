@@ -1,0 +1,118 @@
+<style type="text/css">   
+    .lighter-weight{font-weight: lighter;}     
+    .w100{width: 100px;}
+    .ml{margin-left: 16px;}
+    .mt20{padding-top: 20px;}
+    .mess-zx{line-height: 36px;color: #847D7D;}
+    .btn-hover{margin-left: 16px;color: #796A6A}
+    .btn-hover:hover{border-color: #f08300;/* color: #f08300!important; */}     
+    .pt0{padding-top: 0!important;}   
+    .form-validation .form-control.ng-dirty.ng-invalid{border-color: #f44336;}
+    .err{color: #f44336;}
+    .form-validation .form-control.ng-dirty.ng-valid,
+    .form-validation .form-control.ng-dirty.ng-valid:focus {border-color: #4caf50;}   
+    .left-info-err{position: absolute;top: 22px;left: 70px;}
+    .left-info-input{margin:0 8px; width: 120px;display: inline;}
+    .left-info{position: absolute;top: 18px;right: 70px;}
+    .left-info-st{display:none;top:70px;right:80px;}
+    .mask{position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 1050;overflow: hidden;-webkit-overflow-scrolling: touch;outline: 0;background: #000;opacity: 0.5;}
+    .dialog{position: absolute;z-index: 1100;top: 115px;left: 22%;background-color: #fff;padding: 0;}
+    .dialog-titlebar { padding: 0 10px 0 20px;height: 44px;background: #f5f5f5;}
+    .dialog-title {float: left;font: 14px/44px "Microsoft YaHei";color: #f08300;}
+    .close-btn{float: right;margin-top: 14px;}
+    .clean-btn{margin: -10px 0px 0px 10px;}
+    .border-slt{border: 1px solid #ddd;}
+    .pr{position: relative;}
+    .tab-pane{border: 1px solid #ddd;border-top: none;}
+</style> 
+
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="../index.html">首页</a></li>
+		    	<li><a href="index.html">{{name}}管理</a></li>
+                <li class="active">文章录入</li>
+            </ol>
+        </div>       
+    </div>
+
+<div class="modal-body" ng-init="init()">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+        <tabset>
+            <tab heading="基本信息" status="infoBase" active> 
+
+            </tab>
+            
+            <tab heading="SEO搜索引擎设置" status="infoSeo" ng-show="infoSeo"> 
+
+            </tab>    
+
+            <tab heading="其他属性" status="infoOther" ng-show="infoOther"> 
+
+
+        </tabset>
+       <div class="form-group mt20">
+                <div class="col-sm-10 text-center">
+               
+                    <button type="submit" class="btn btn-warning w100" ng-disabled="!((formInfo.title.$valid&&isLinkFlag&&formInfo.linkUrl.$valid)||(formInfo.$valid&&bean.content!=''))" ng-click="saveAirticle()">保存</button>
+                    <button class="btn btn-default w100 ml" ng-click="clearFormBtn()">重置</button>
+                </div>
+        </div> 
+    </form>
+</div> 
+
+
+     <!--添加分类-->
+    <div class="col-sm-6 dialog" ng-show="categoryDialog">
+        <div class="dialog-titlebar">
+            <span class="dialog-title">快速添加分类</span>    
+            <a class="close-btn" ng-click="closeCategoryDialog()"><i class="glyphicon glyphicon-remove"></i></a>      
+        </div>
+        <div style="overflow-x:hidden;overflow-y:auto;height: 300px;">
+            <div class="form-group">
+                <form class="form-horizontal form-validation form-airticle" name="formAddCategory" novalidate>
+                   <div class="form-group" beyond max-count='64' style="margin-top:20px;">
+                        <label  class="col-sm-3 control-label lighter-weight pt0">
+                            <span class="err">*</span>
+                            分类名称
+                            </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" ng-model="cTitle" name="cTitle"  ng-maxlength="64" required>
+                            <div ng-show="formAddCategory.cTitle.$dirty && formAddCategory.cTitle.$invalid">
+                                <span class="err" ng-show="formAddCategory.cTitle.$error.required">请填写分类名称</span>
+                                <span class="err" ng-show="!formAddCategory.cTitle.$error.required && formAddCategory.cTitle.$error">分类名称长度为0~64字符</span>
+                            </div>                             
+                        </div>
+                         <span class="mess-zx">0</span>/64字符
+                    </div>                    
+                    <div class="form-group">
+                        <label  class="col-sm-3 control-label lighter-weight pt0">
+                            <span class="err">*</span>
+                            上级分类
+                            </label>
+                        <div class="col-sm-6">                           
+                            <nested-combo-box  control-disabled="false"  collection="ksCollectionBean" ng-model="classify.ksActiveItemBean">
+                            </nested-combo-box>                            
+                        </div>
+                         <span class="mess-zx">分类可分多级</span>                        
+                    </div> 
+
+                     <div class="form-group">                        
+                        <label  class="col-sm-3 control-label">                          
+                            <span class="glyphicon glyphicon-exclamation-sign" style="color:#eea236;font-size:20px;"></span>                        
+                        </label> 
+                          <span class="mess-zx">设置更多分类信息，请到分类列表进行详细设置，如SEO、内页排版</span>                        
+                    </div> 
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                          <button type="submit" class="btn btn-warning" ng-click="saveAddCategory()" ng-disabled="formAddCategory.$invalid">保存</button>
+                          <button class="btn btn-default" ng-click="closeCategoryDialog()">取消</button>
+                        </div>
+                    </div>                   
+                </form>
+            </div>
+        </div>       
+    </div>
+    <!--mask-->
+    <div class="mask" ng-show="mask"></div>  

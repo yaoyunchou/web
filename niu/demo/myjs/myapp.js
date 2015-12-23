@@ -51,5 +51,10 @@
                     templateUrl: 'myviews/btn.html',
                     controller: 'btnCtrl'
                 })
+                .state("filter",{
+                    url:'/filter',
+                    templateUrl:"myviews/filter.html",
+                    controller:"filterCtrl"
+                })
         }])
 }(angular));
