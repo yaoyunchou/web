@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../../lib/angular.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../exprApp.js"></script>
+	</head>
+	<!--
+	再输入框中输入表达式  例如 6*5  类似计算器-->
+	<body ng-app = "exprApp" >
+		<div  ng-controller = "exprDemoCtrl">
+				<input ng-model="expr"
+					   type="text"
+					   placeholder="Enter an expression" />
+				<h2>{{ parsedValue }}</h2>
+			</div>
+	</body>
+	<script src="../controllers/demo-show-expr-controller.js" type="text/javascript" charset="utf-8"></script>
+</html>

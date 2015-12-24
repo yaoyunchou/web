@@ -1,0 +1,21 @@
+<div>
+    <div class="selected">Selected Book: <span data-ng-bind="selected.name"/>
+        <input type="button">Edit</input>
+    </div>
+    <table class="grid">
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Publisher</th>
+            <th>Author</th>
+            <th>Detail</th>
+        </tr>
+        <tr data-ng-repeat="book in books" data-ng-click="selectBook(book)" data-ng-class="getRowStyle(book)">
+            <td ng-bind="book.code"></td>
+            <td ng-bind="book.name"></td>
+            <td ng-bind="book.publisher"></td>
+            <td ng-bind="book.author"></td>
+            <td data-ng-click="editBook()">Detail</td>
+        </tr>
+    </table>
+</div>

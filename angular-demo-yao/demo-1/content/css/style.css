@@ -1,0 +1,27 @@
+.grid{
+    border: solid 1px cornflowerblue;
+    border-collapse: collapse;
+}
+
+.grid th{
+    background-color: azure;
+}
+
+.grid th, .grid td{
+    border: solid 1px cornflowerblue;
+    cursor:hand;
+}
+
+.grid tr:hover{
+    background-color: aquamarine;
+}
+
+.selected{
+    font-size: large;
+    font-weight: bold;
+    color:cornflowerblue;
+}
+
+.selectedbook{
+    background-color: coral;
+}
