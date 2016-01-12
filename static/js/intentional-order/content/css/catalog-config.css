@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.catalog-config .configList {
+	border: 1px solid #CCCCCC;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.catalog-config .configList h2 {
+	font-size: 14px;
+	margin-top: 0;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 30px;
+}
+
+.catalog-config .configList .form-group {
+	min-height: 32px;
+}
+
+/*鎰忓悜璁㈠崟鐣欒█绠＄悊*/
+.more-search {
+	border: 1px solid #CCCCCC;
+	margin-top: 10px;
+}
+
+/*# sourceMappingURL=catalog-config.css.map */

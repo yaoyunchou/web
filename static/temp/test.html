@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>layPage演示</title>
+    <script type="text/javascript" src="../plugin/jquery/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="./laypage.js"></script>
+    <link rel="stylesheet" href="laypage.css" />
+</head>
+<body>
+    <div class="view" style="margin: 10px auto;"></div>
+    <div class="page"></div>
+    
+<script type="text/javascript" th:inline ="javascript">
+laypage({
+    cont: $('.page'), //容器。值支持id名、原生dom对象，jquery对象,
+    pages: 100, //总页数
+    skip: false, //是否开启跳页
+    skin: 'molv',
+    groups: 10, //连续显示分页数
+    curr : 11,
+    first: '首页', //若不显示，设置false即可
+    last: '尾页', //若不显示，设置false即可
+    prev: '<', //若不显示，设置false即可
+    next: '>', //若不显示，设置false即可
+    hash: true, //开启hash
+    jump: function(obj){ //触发分页后的回调
+    	console.info(obj)
+    	var space= '000';
+    	var num = obj.curr +"";
+    	if(space.length-num.length >= 0){
+    		var sapce = space.slice(0,space.length-num.length)+num;
+    		document.write(sapce);
+//     	window.location.href = [[${pageUrl}]] +   + ".html";
+        $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+    	}
+    }
+});
+</script>
+</body>
+</html>

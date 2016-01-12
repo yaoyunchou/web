@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-12">
+        <div platform-bread-nav="breadNavs"/>
+    </div>
+</div>
+<div>
+    <div class="robot">
+        以下是您的网站Robot.txt文件内容,请按照实际要求进行优化,如果不清楚修改,请留空.
+    </div>
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+        <div>
+            <div style="width:100%;">
+                <textarea class="robot-text-area" ng-model="robot"
+                          name="robot" ng-maxlength="1000" />
+                <div ng-show="formInfo.robot.$dirty && formInfo.robot.$invalid">
+                    <span class="nsw-from-valid-err" ng-show="!formInfo.robot.$error">长度为0~1000字符</span>
+                </div>
+            </div>
+            <span>0</span>/1000字符
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button type="submit" class="btn btn-warning btn-color" ng-click="saveRobot(robot);"><label
+                        class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+            </div>
+        </div>
+    </form>
+</div>

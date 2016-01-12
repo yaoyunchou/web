@@ -1,0 +1,39 @@
+<style>
+.custom-select .list{top:-115px;}
+</style>
+<div class="modal-header">
+	<h4 class="modal-title">产品分类快速录入</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+
+<div class="modal-body">
+    <form class="form-horizontal form-validation" name="formSpeedAdd" style="margin-top: 12px;" novalidate>
+		<div class="form-group" beyond max-count='64' style="margin-bottom:32px;">
+            <label class="col-sm-3 col-xs-push-1 control-label lighter-weight pt0">
+                <span class="err">*</span> 分类名称
+            </label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="beanEnter.name" name="name" ng-maxlength="64" required>
+                <div ng-show="formSpeedAdd.name.$dirty && formSpeedAdd.name.$invalid">
+                    <span class="err" ng-show="formSpeedAdd.name.$error.required">分类名称</span>
+                    <span class="err" ng-show="!formSpeedAdd.name.$error.required && formSpeedAdd.name.$error">分类名称长度为0~64字符</span>
+                </div>
+            </div>
+            <span class="mess-zx">0</span>/64字符
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 col-xs-push-1 control-label lighter-weight pt0">
+                <span class="err">*</span>&nbsp;所属分类
+            </label>            
+            <div class="form-control"  style="border:none;width:340px;margin-left:200px;padding:0px;">                
+                 <nested-combo-box  control-disabled="false" collection="collectionEnter" ng-model="enter.activeItem">
+                 </nested-combo-box> 
+            </div> 
+        </div>
+    </form>
+</div>
+
+<div class="modal-foot text-align-left" style="margin-top:17px;margin-left:50px;">
+    <button type="submit" class="btn btn-warning btn-color" ng-disabled="formSpeedAdd.$invalid" ng-click="editComfirm()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+    <button class="btn btn-default btn-color btn-cancel" ng-click="closeForm()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div>

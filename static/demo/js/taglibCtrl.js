@@ -183,7 +183,7 @@ demoApp.controller('taglibWinCtrl', ['$scope', '$modalInstance', '$http', '$moda
 					$scope.tab1.active = true;
 				} else {
 					console.log('添加失败。' + data.data);
-					utils.alertBox('操作提示', data.data);
+					utils.alertBox('提示', data.data);
 				}
 			}).error(function(data, status, headers, config) {
 				console.log('系统异常或网络不给力！');

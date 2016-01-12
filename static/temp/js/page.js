@@ -1,30 +1,5 @@
-
-var pageApp = angular.module('pageApp', ['ui.tree', 'common', 'ui.bootstrap', 'ui.bootstrap.pagination']);
-pageApp.run(['$rootScope','$location','$http', function($rootScope,$location,$http) {   
-	$rootScope.rootHttp = function(){
-		$http({
-			method: 'GET',
-			url: '/pccms/module/extend/list/tree',
-			
-		}).success(function(data, status, headers, config) {
-	    	if(data.isSuccess){
-	    		$rootScope.menus = data.data;
-	    		console.log(data.data);
-	    	}
-	    }).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
-	    });
-	}
-	$rootScope.rootHttp();
-	$rootScope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-        //下面是在menus完成后执行的js
-      menulist();   
-      init();
-	});
-}]);
-
-
-pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($scope, $http, $state,utils) {
+var pageApp = angular.module('pageApp', ['ui.tree',  'platform', 'common', 'ui.bootstrap', 'ui.bootstrap.pagination']);
+pageApp.controller('pageCtrl', ['$scope','$http','$state','utils','platformModalSvc','mobilePreviewSvc', function ($scope, $http, $state,utils,platformModalSvc,mobilePreviewSvc) {
 	
 	$scope.addSingle = function(scope){
 		var nodeScope = scope.$nodeScope;
@@ -32,7 +7,6 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 		var type = node.type;
 		var style = node.style;
 		var id = scope.$nodeScope.$parentNodeScope.$modelValue._id;
-		console.log(scope.$nodeScope.$parentNodeScope.$modelValue._id+"   "+style);
 		var params = {type: 'single', id: id, name: node.name, style: style}
 		if('PAGETYPE' == type){
 			params.pName = nodeScope.$parentNodeScope.$modelValue.name;
@@ -42,27 +16,34 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 	$scope.addPack = function(node){
 		$state.go('filter', {type: 'pack'});
 	}
-	
+
 	/**
 	 * 增加模块
 	 */
-	$scope.addChannel = function(scope){ 
+	$scope.addChannel = function(scope){
 		var channelName = $scope.channelName;
-		var data= {'name':channelName};
-		if(channelName == null){
-			utils.alertBox(nsw.Constant.TIP,"请填写频道名称！");
-		}
-		if(channelName){
+		
+		if($.trim(channelName)){
+			var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
+			if(patrn.test($.trim(channelName))){ 
+				platformModalSvc.showWarmingMessage('您输入的数据含有非法字符',nsw.Constant.TIP);
+			    return;  
+			}
+			var dirName = codefans_net_CC2PY(channelName);
+			var data= {'name':channelName, 'dirName':dirName};
 			$http.post('/pccms/module/extend',data).success(function(data, status, headers, config) {
 		        if(data.isSuccess){
 		        	loadTree();	
+		        	$scope.channelName = '';
 		        }else{
-			    	utils.alertBox(nsw.Constant.TIP,data.data);
+			    	platformModalSvc.showWarmingMessage(data.data,nsw.Constant.TIP);
 			    }
 		    })
 		    .error(function(data, status, headers, config) {
-		   	    utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+		   	   // platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		    });
+		}else{
+			platformModalSvc.showWarmingMessage('请填写频道名称！',nsw.Constant.TIP);
 		}
 	}
 	
@@ -70,22 +51,19 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 	function loadTree(){
 	    $http.post('/pccms/proj/projPageTplPack/findPageTplPackTree').success(function(data, status, headers, config) {
 			if(data.isSuccess){
-	        	if(data.data!=null){
+	        	if(data.data && data.data.length){
 	        		$scope.data = data.data;
 	        		$scope.flag = data.flag;
-	        		console.log(data);
 	    			$state.go('page');
-	    	    }else if(data.data[0].children == undefined){
-					$state.go('filter',{'type': 'pack'});
-				}else{
+	    	    }else{
 	            	$state.go('filter',{'type': 'pack'});
-	            };
+	            }
 	        }else{
-		    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		    }
 	    })
 	    .error(function(data, status, headers, config) {
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	    });
 	}
 	loadTree();
@@ -101,20 +79,21 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 	$scope.nodeSave = function(id,name){
 		var data = {"name": name};
 		if(data.name == null || data.name == '' ){
-			utils.alertBox(nsw.Constant.TIP, nsw.Constant.INPUTNAME);
+			platformModalSvc.showWarmingMessage(nsw.Constant.INPUTNAME,nsw.Constant.TIP);
 			return;
 		}else{
-			utils.alertBox(nsw.Constant.TIP, nsw.Constant.UPDATESUC, function(){
+			platformModalSvc.showWarmingMessage(nsw.Constant.UPDATESUC,nsw.Constant.TIP,false).then(function(){
 				$http.put('/pccms/proj/projPageTplPack/pageTpl/'+id,data).success(function(data, status, headers, config) {
 					if(data.isSuccess){
+						$scope.change = false;	
 						$state.go('page');
-						$scope.change = false;				
 					}else{
-				    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+				    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 				    }
+					
 			   })
 			   .error(function(data, status, headers, config) {
-				   utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+				   platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 			   });
 			});
 		}
@@ -122,8 +101,8 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 	
 	//页面删除
 	$scope.deleteNode = function(nodeId,type,element){
-		utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMDEL,function(){
-		    if(type == 'PAGETPL'){
+		platformModalSvc.showConfirmMessage(nsw.Constant.CONFIRMDEL,nsw.Constant.TIP,true).then(function(){
+			if(type == 'PAGETPL'){
 				$http({
 					method: 'DELETE',
 					url: '/pccms/proj/projPageTplPack/pageTpl/'+nodeId,		
@@ -133,11 +112,11 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 			    		loadTree();
 			    		//element.remove();
 			    	}else{
-				    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+				    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 				    }
 			    })
 			    .error(function(data, status, headers, config) {
-			    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+			    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 			    });
 			}
 			
@@ -151,15 +130,13 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 			    		loadTree();
 			    		//element.remove();
 			    	}else{
-				    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+				    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 				    }
 			    })
 			    .error(function(data, status, headers, config) {
-			    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+			    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 			    });
 			}
-		},function(){
-			return;
 		});
 	}
 	//项目页面版块编辑
@@ -174,9 +151,10 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils', function ($sc
 }]);
 
 //页面模板筛选
-pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','utils', function ($scope, $state, $stateParams, $http, utils) {
-	
-	
+pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','utils','platformModalSvc','mobilePreviewSvc',function ($scope, $state, $stateParams, $http, utils,platformModalSvc,mobilePreviewSvc) {
+
+	//$scope.breadNavs.push({href: '.', name: '模板筛选'});
+
 	//筛选类型
 	$scope.filterType = $stateParams.type || 'single';
 	//节点id
@@ -187,6 +165,10 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 	$scope.selectList = [];
 	//记录筛选列表数据
 	$scope.filterData = {};
+	//返回
+	$scope.returnPage =function(){
+		$state.go('page');
+	};
 	$scope.mask = false;
 	//加载标签列表
 	$http.get('/pccms/tpl/loadTplTag').success(function(data, status, headers, config) {
@@ -196,11 +178,11 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 	    	//加载初始筛选列表
 	    	filterTplList($http, $scope.selectList.join(","));
 	    }else{
-		    utils.alertBox(nsw.Constant.TIP, nsw.Constant.TAGFAILURE);
+		    platformModalSvc.showWarmingMessage(nsw.Constant.TAGFAILURE,nsw.Constant.TIP);
 	    }
 	 })
 	 .error(function(data, status, headers, config) {
-	     utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	     platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	 });
 	
 	//标签选择事件
@@ -221,9 +203,21 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 	}
 	//弹出新增模板
 	$scope.addTpl = function() {
-		$scope.mask = true;
+		//$scope.mask = true;
+		platformModalSvc.showModal({
+			backdrop: 'static',
+			templateUrl: globals.basAppRoot + 'temp/page/add-tpl.html',
+			controller: 'addTplCtrl',
+			size: 'lg',
+			userTemplate:true,
+			options:{
+				tag: $scope.selectList.join(",")
+			}
+		}).then(function(data){
+			filterTplList($http, $scope.selectList.join(","));
+		});
 	};
-	//公用模板保存
+	/*//公用模板保存
 	$scope.saveTpl = function(){
 		var obj = {};
 			obj.tag = $scope.selectList.join(",");
@@ -245,67 +239,102 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 	    		closeDialog();
 	    		filterTplList($http, $scope.selectList.join(","));
 	    	}else{
-		    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		    }
 	    }).error(function(data, status, headers, config) {
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	    });
 	}
 	//取消
 	$scope.cancelTpl = function(){
 		closeDialog();
-	}
+	}*/
 	//关闭弹框
 	function closeDialog(){
 		$scope.mask = false;
 	}
 	//在模板市场中预览单页,单页id为singleId,页面节点ID为$stateParams.id
 	$scope.preSinglePag = function(singleId){
-		$state.go('preview', {'id': singleId, 'node':$stateParams.id});
+		$state.go('preview', {'id': singleId, 'node':$stateParams.id, 'style':$stateParams.style});
 	}
 	//在模板市场中预览套装,套装id
 	$scope.previewPackPag = function(packId){
 		$state.go('previewPack', {'id': packId});
 	}
 	
+	//在模板市场中手机预览
+	$scope.mobilePreview = function(tplId){
+		if(tplId){
+			var urlLink = globals.basAppRoot + 'pageTpl/design/' +tplId+ '/view?isPubTpl=false#/';
+			mobilePreviewSvc.mobilePreview(urlLink);
+		}else{
+			platformModalSvc.showWarmingMessage('没有预览的链接地址！', '提示');
+			return;
+		}
+	};
 	
 	//在模板市场中确认使用单页, singleTplId为单页面模板ID,singleNodeId为节点ID
 	$scope.selSingle = function(singleTplId){
-		//alert(singleTplId +"  "+$stateParams.id +"   "+$scope.style);
-		utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMUSE,function(){
-			var data = {"tplId":singleTplId , "nodeId":$stateParams.id, "style":$scope.style } 
+		/*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMUSE,function(){
+			var data = {"tplId":singleTplId , "nodeId":$stateParams.id, "style":$scope.style }
 			$http.post('/pccms/proj/projPageTplPack/pageTpl', data).success(function(data, status, headers, config) {
 		    	if(data.isSuccess){
 		    		$state.go('page');
 		    	}else{
-		    		utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+		    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		    	}
 		    })
 		    .error(function(data, status, headers, config) {
-		    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		    });
 		},function(){
 			return;
-		},'sm');
+		},'sm');*/
+		platformModalSvc.showWarmingMessage(nsw.Constant.CONFIRMUSE,nsw.Constant.TIP,true).then(function(){
+			var data = {"tplId":singleTplId , "nodeId":$stateParams.id, "style":$scope.style }
+			$http.post('/pccms/proj/projPageTplPack/pageTpl', data).success(function(data, status, headers, config) {
+		    	if(data.isSuccess){
+		    		$state.go('page');
+		    	}else{
+		    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+		    	}
+		    })
+		    .error(function(data, status, headers, config) {
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+		    });
+		})
 	}
 	
 	//在模板市场中确认选择套装
 	$scope.selPack = function(id){
-		utils.confirmBox(nsw.Constant.TIP, nsw.Constant.REPLACEOLD,function(){
+		/*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.REPLACEOLD,function(){
 			var data = {"packId": id};  
 		    $http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {
 		    	if(data.isSuccess){
 		            $state.go('page');
 		    	}else{
-			    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+			    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 			    }
 		 	})
 		 	.error(function(data, status, headers, config) {
-		 		utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+		 		platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		 	});
 		},function(){
 			return;
-		},'md');
+		},'md');*/
+		platformModalSvc.showWarmingMessage(nsw.Constant.REPLACEOLD,nsw.Constant.TIP,true).then(function(){
+			var data = {"packId": id};  
+		    $http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {
+		    	if(data.isSuccess){
+		            $state.go('page');
+		    	}else{
+			    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+			    }
+		 	})
+		 	.error(function(data, status, headers, config) {
+		 		platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+		 	});
+		})
 	}
 	
 	//筛选模板
@@ -317,7 +346,6 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 			params: {'pageSize': 20, 'tagIds': tagArr}
 		})
 		.success(function(data, status, headers, config) {
-			console.log(JSON.stringify(data.data))
 	    	if(data.isSuccess){
 	    		$scope.filterData = data.data;
 	    		for(var i in $scope.filterData){
@@ -329,11 +357,11 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 	    			}
 	    		}
 	    	}else{
-		    	utils.alertBox(nsw.Constant.TIP, nsw.Constant.TAGFAILURE);
+	    		platformModalSvc.showWarmingMessage(nsw.Constant.TAGFAILURE,nsw.Constant.TIP);
 	    	}
 	    })
 	    .error(function(data, status, headers, config) {
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	    });
 	}
 	
@@ -396,11 +424,46 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 			}
 		}
 	}
+}]).controller('addTplCtrl', ['$scope','platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
+                              function ($scope,platformModalSvc, $modalInstance, $http, utils, $animate, $state, $stateParams) {
+	//公用模板保存
+	$scope.saveTpl = function(){
+		var obj = {};
+			obj.tag = $scope.modalOptions.tag;	
+			obj.name = $scope.name;
+			obj.content = $scope.content;
+			obj.designIdea = $scope.designIdea;
+			obj.isPubTpl = true;
+			if($scope.res) obj.imgSm = $scope.res[0].url || '';
+			if($scope.res1) obj.imgMd = $scope.res1[0].url || '';
+			if($scope.res2)obj.imgLg = $scope.res2[0].url || '';
+			if($scope.res3)obj.imgFr = $scope.res3[0].url || '';
+			
+		$http({
+			method: 'POST',
+			url: '/pccms/tpl/page/add',
+			data: obj
+		}).success(function(data, status, headers, config) {
+	    	if(data.isSuccess){
+	    		$scope.closeModal(true);
+	    		platformModalSvc.showSuccessTip('保存成功');
+	    	}else{
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+		    }
+	    }).error(function(data, status, headers, config) {
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+	    });
+	}
+	//取消
+	$scope.cancelTpl = function(){
+		$scope.closeModal(false);
+	}
+	
 }]);
 
 
 //单页面预览
-pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','utils',function ($scope,$http,$state,$stateParams,utils) {
+pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','utils','platformModalSvc',function ($scope,$http,$state,$stateParams,utils,platformModalSvc) {
 	
 	$scope.tplId = $stateParams.id;
 	//筛选类型
@@ -412,6 +475,7 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 	$scope.cancelTpl = function(){
 		closeDialog();
 	}
+	
 	//关闭弹框
 	function closeDialog(){
 		$scope.mask = false;
@@ -421,11 +485,11 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 		if(data.isSuccess){
 			$scope.dat = data.data;
 		}else{
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+			platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 	    }
    })
    .error(function(data, status, headers, config) {
-   	   utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+   	   platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
    });
 	
    //右侧菜单效果图
@@ -447,8 +511,8 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
    $scope.clickConfirUse = function(singleTplId){
 	   $scope.frmchat = $scope.desket = $scope.design = $scope.source = $scope.tpldes = false;
 	   $scope.used = true;
-	   utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMUSE,function(){
-		   var data = {"tplId":singleTplId , "nodeId":$stateParams.node};
+	   /*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMUSE,function(){
+		   var data = {"tplId":singleTplId , "nodeId":$stateParams.node, "style":$stateParams.style};
 		   $http({
 				method: 'POST',
 				url: '/pccms/proj/projPageTplPack/pageTpl',
@@ -458,15 +522,33 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 		    	if(data.isSuccess){
 		    		$state.go('page');
 		    	}else{
-		    		utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+		    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		    	}
 		    })
 		    .error(function(data, status, headers, config) {
-		    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		    });
 	    },function(){
 		    return; 
-	    },'sm');
+	    },'sm');*/
+	   platformModalSvc.showWarmingMessage(nsw.Constant.CONFIRMUSE,nsw.Constant.TIP,true).then(function(){
+		   var data = {"tplId":singleTplId , "nodeId":$stateParams.node, "style":$stateParams.style};
+		   $http({
+				method: 'POST',
+				url: '/pccms/proj/projPageTplPack/pageTpl',
+				data: data
+			})
+		   .success(function(data, status, headers, config) {
+		    	if(data.isSuccess){
+		    		$state.go('page');
+		    	}else{
+		    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+		    	}
+		    })
+		    .error(function(data, status, headers, config) {
+		    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+		    }); 
+	   });
    }
    //版块设计
    $scope.blkDesign = function(tplId){
@@ -491,25 +573,25 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 	    		$scope.content = data.htmlContent; 
 	    		$scope.res = [];
 	    		$scope.res[0] = {};
-	    		$scope.res[0].path = data.imgSm;
+	    		$scope.res[0].url = data.imgSm;
 	    		
 	    		$scope.res1 = [];
 	    		$scope.res1[0] = {};
-	    		$scope.res1[0].path = data.imgMd;
+	    		$scope.res1[0].url = data.imgMd;
 	    		
 	    		$scope.res2 = [];
 	    		$scope.res2[0] = {};
-	    		$scope.res2[0].path = data.imgLg;	
+	    		$scope.res2[0].url = data.imgLg;	
 	    		
 	    		$scope.res3 = [];
 	    		$scope.res3[0] = {};
-	    		$scope.res3[0].path = data.imgFr;	 
+	    		$scope.res3[0].url = data.imgFr;	 
    		
 	    	}else{
-		    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+	    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		    }
 	    }).error(function(data, status, headers, config) {
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	    });
    }
    
@@ -519,10 +601,10 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 		obj.content = $scope.content;
 		obj.designIdea = $scope.designIdea;
 		obj.isPubTpl = true;
-		if($scope.res) obj.imgSm = $scope.res[0].path || '';
-		if($scope.res1) obj.imgMd = $scope.res1[0].path || '';
-		if($scope.res2)obj.imgLg = $scope.res2[0].path || ''; 
-		if($scope.res2)obj.imgFr = $scope.res3[0].path || ''; 
+		if($scope.res) obj.imgSm = $scope.res[0].url || '';
+		if($scope.res1) obj.imgMd = $scope.res1[0].url || '';
+		if($scope.res2)obj.imgLg = $scope.res2[0].url || ''; 
+		if($scope.res2)obj.imgFr = $scope.res3[0].url || ''; 
 		saveCode(obj);
 	}
    
@@ -536,10 +618,10 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 	    		closeDialog();
 	    		$state.go('preview',{'id': _tplId});
 	    	}else{
-	    		utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+	    		platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	    });
    }
    
@@ -565,7 +647,7 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 }]);
 
 //套装页面预览
-pageApp.controller('previewPackCtrl', ['$scope','$http','$state','$stateParams','utils', function ($scope,$http,$state,$stateParams,utils) {
+pageApp.controller('previewPackCtrl', ['$scope','$http','$state','$stateParams','utils','platformModalSvc',function ($scope,$http,$state,$stateParams,utils,platformModalSvc) {
 	
 	$scope.packId = $stateParams.id;
 	$http.get('/pccms/tpl/pubPageTplPack/'+$scope.packId)
@@ -574,30 +656,43 @@ pageApp.controller('previewPackCtrl', ['$scope','$http','$state','$stateParams',
 	 	if(data.isSuccess){
 	 		$scope.data = data.data;
 	 	}else{
-	    	utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+	    	platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 	    }
 	 })
 	 .error(function(data, status, headers, config) {
-	 	 utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+	 	 platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 	 });
    
    //在套装树结构页面中，点击确认使用
    $scope.packUsed = function(packId){
-	   utils.confirmBox(nsw.Constant.TIP, nsw.Constant.REPLACEOLD,function(){
+	   /*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.REPLACEOLD,function(){
 		   var data = {"packId": packId};
 		   $http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {
 		       if(data.isSuccess){
 		    	   $state.go('page');
 		       }else{
-		    	   utils.alertBox(nsw.Constant.TIP,nsw.Constant.OPERATION);
+		    	   platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 		       }
 		 	})
 		 	.error(function(data, status, headers, config) {
-		 		utils.alertBox(nsw.Constant.TIP,nsw.Constant.NETWORK);
+		 		platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		 	});	 
 	    },function(){
 		    return;
-	    },'md');
+	    },'md');*/
+	   platformModalSvc.showWarmingMessage(nsw.Constant.REPLACEOLD,nsw.Constant.TIP,true).then(function(){
+		   var data = {"packId": packId};
+		   $http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {
+		       if(data.isSuccess){
+		    	   $state.go('page');
+		       }else{
+		    	   platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+		       }
+		 	})
+		 	.error(function(data, status, headers, config) {
+		 		platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+		 	});
+	   });
    }
    //套装树形结构页面返回操作
    $scope.packUsedBack = function(){
@@ -632,7 +727,7 @@ pageApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
 		controller: 'filterCtrl'
 	})
 	.state('preview', {
-		url: '/preview/{id}/{node}/{type}',
+		url: '/preview/{id}/{node}/{type}/{style}',
 		templateUrl: 'preview.html',
 		controller: 'previewCtrl'
 	})
@@ -642,22 +737,3 @@ pageApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
 		controller: 'previewPackCtrl'
 	});	
 }]);
-
-/************
- * 加载menu的点击动画效果  
- * a.添加angularjs 在menu 遍历完时的监控
- * b.当menu遍历完成时候  加载动画js menulist()
- * **********/
-
-pageApp.directive('onFinishRenderFilters', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function() {
-                    scope.$emit('ngRepeatFinished');
-                });
-            }
-        }
-    };
-});

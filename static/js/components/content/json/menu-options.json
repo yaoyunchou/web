@@ -1,0 +1,197 @@
+{
+  "title": "我的工具",
+  "groups": [
+	{
+	  "icon":"nswicon menu-icon-web",
+	  "name": "我要建站",
+	  "menus": [
+		{
+		  "name": "首页入驻",
+		  "href": "/temp/upload/index.html#/"
+		},
+		{
+		  "name": "频道策划",
+		  "href": "/temp/page/index.html#/"
+		},
+		{
+		  "name": "模板市场",
+		  "href": "/temp/tplMarket/index.html#/"
+		}
+	  ]
+	},
+	{
+	  "name": "产品管理",
+	  "icon":"nswicon menu-icon-box",
+	  "key": "product",
+	  "menus": [
+		{
+		  "key": "list",
+		  "name": "产品列表",
+		  "href": "/temp/product/index.html#/list",
+		  "default": true
+		},
+		{
+		  "key": "detail",
+		  "name": "产品录入",
+		  "href": "/temp/product/index.html#/add-product",
+		  "routes": {
+			"edit": "产品编辑",
+			"add": "产品录入"
+		  }
+		},
+		{
+		  "key": "class",
+		  "name": "分类列表",
+		  "href": "/temp/product/index.html#/class-list"
+		},
+		{
+		  "key": "class-detail",
+		  "name": "分类录入",
+		  "href": "/temp/product/index.html#/add-productClass",
+		  "routes": {
+			"edit": "分类编辑",
+			"add": "分类录入"
+		  }
+		}
+	  ]
+	},
+	{
+	  "dymenus": "true",
+	  "icon":"nswicon menu-icon-info",
+	  "key": "info",
+	  "menus": [
+		{
+		  "key": "list",
+		  "name": "文章列表",
+		  "href": "/temp/info/index.html#/list?moduleId=%moduleId%&name=%name%&page=infoList",
+		  "default": true
+		},
+		{
+		  "key": "detail",
+		  "name": "文章录入",
+		  "href": "/temp/info/index.html#/add?moduleId=%moduleId%&name=%name%&page=info",
+		  "routes": {
+			"edit": "文章编辑",
+			"add": "文章录入"
+		  }
+		},
+		{
+		  "key": "class",
+		  "name": "分类列表",
+		  "href": "/temp/info/index.html#/classify?moduleId=%moduleId%&name=%name%&page=ctgList"
+		},
+		{
+		  "key": "class-detail",
+		  "name": "分类录入",
+		  "href": "/temp/info/index.html#/addClassify?moduleId=%moduleId%&name=%name%&page=ctg",
+		  "routes": {
+			"edit": "分类编辑",
+			"add": "分类录入"
+		  }
+		}
+	  ]
+	},
+	{
+	  "icon":"nswicon menu-icon-search",
+	  "name": "搜索引擎优化",
+	  "key": "search",
+	  "menus": [
+	  {
+		  "name": "网站默认SEO",
+		  "href": "/js/seo/index.html#/default-seo"
+		},
+		
+		{
+		  "name": "频道首页SEO",
+		  "href": "/js/seo/index.html#/alone-seo"
+		},
+	  
+		{
+		  "name": "网站地图设置",
+		  "href": "/js/seo/index.html#/sitemap"
+		},
+		{
+		  "name": "内页SEO设置",
+		  "href": "js/seo/index.html#/inner-seo"
+		},
+		{
+		  "name": "搜索引擎提交",
+		  "href": "#"
+		},
+		{
+		  "name": "Robot设置",
+		  "href": "js/seo/index.html#/robot-seo"
+		}
+	  ]
+	},
+	{
+	  "icon":"nswicon menu-icon-order",
+	  "name": "意向订单管理",
+	  "menus": [
+		{
+		  "name": "最新意向订单",
+		  "href": "js/intentional-order/index.html#/intentional-order"
+		},
+		{
+		  "name": "分类配置",
+		  "href": "js/intentional-order/index.html#/catalog-config"
+		}
+	  ]
+	},
+	{
+	  "icon":"nswicon menu-icon-tool",
+	  "name": "工具管理",
+	  "menus": [
+		{
+		  "key": "online-service",
+		  "name": "在线客服",
+		  "href": "js/tools/index.html#/online-service"
+		},
+		{
+		  "name": "友情链接",
+		  "href": "#"
+		},
+		{
+		  "name": "广告投放",
+		  "href": "#"
+		}
+	  ]
+	},
+	{
+	  "icon":"nswicon menu-icon-setting",
+	  "name": "全局配置",
+	  "icon":"nswicon menu-icon-setting",
+	  "menus": [
+		{
+		  "name": "网站默认SEO",
+		  "href": "#"
+		},
+		{
+		  "name": "留言表单设置",
+		  "href": "#"
+		},
+		{
+		  "name": "联系方式设置",
+		  "href": "#"
+		},
+		{
+		  "name": "频道扩展",
+		  "href": "/temp/expand/index.html#/channel"
+		}
+	  ]
+	},
+	{
+	  "icon":"nswicon menu-icon-recycle",
+	  "name": "回收站",
+	  "href": "/temp/recycle/index.html#/",
+	  "menus": []
+	},
+	{
+	  "icon":"nswicon menu-icon-world",
+	  "name": "发布网站",
+	  "icon":"nswicon menu-icon-world",
+	  "href": "/temp/publish/index.html#/",
+	  "menus": []
+	}
+  ]
+}

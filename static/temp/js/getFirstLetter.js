@@ -49,7 +49,6 @@ var PinYin = {"a":"\u554a\u963f\u9515","ai":"\u57c3\u6328\u54ce\u5509\u54c0\u769
 	    for (var i = 0; i < s.length; i++) {
 	        rs = rs + s.substr(i, 1).replace(pattern, '');
 	    }
-	    console.info(rs);
 	    return rs;
 	}
 	//中文验证

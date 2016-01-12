@@ -1,10 +1,10 @@
 //文章分类列表
-infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils','$stateParams','$location',
-						   function($scope,   $http, $modal ,  $state,   utils,  $stateParams,$location  ){
+infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils','$stateParams','$location','$modal','platformModalSvc','mobilePreviewSvc',
+						   function($scope,   $http, $modal ,  $state,   utils,  $stateParams,$location ,$modal, platformModalSvc, mobilePreviewSvc){
 	
 	$scope.name = $stateParams.name;
-	$scope.moduleId = $stateParams.moduleId;
-	
+	$scope.moduleId = $stateParams.moduleId
+
 	//高级
 	$scope.advancedSearch = false;
 	$scope.queryParams = {'title':''};
@@ -14,67 +14,18 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 		$scope.advancedSearch ? $scope.advancedSearch = false : $scope.advancedSearch = true;
 		
 	};
-	
-	//关闭弹框
-	$scope.closeForm = function(){		
-		$scope.editForm = $scope.addForm = $scope.mask = false;
-	};
-	
+
 	//资讯分类快速录入
 	$scope.quickAdd = function() {
-		$scope.addForm = true;
-		$scope.mask = true;
-
-		//加载下拉树。	
-		$scope.enter={};			
-		$scope.enter.activeItem = {};
-		$http.get('/pccms/proj/infoCtg/tree/all?moduleId='+$stateParams.moduleId)
-			.success(function(data, status, headers, config) {
-				if (data.isSuccess) {
-					$scope.collectionEnter = data.data;
-					$scope.enter.activeItem = {
-						_id: data.data[0]._id,
-					    name: data.data[0].name	
-					};
-				} else {
-					console.log('操作失败。' + data.data);
-				}
-			})
-			.error(function(data, status, headers, config) {
-				console.log('系统异常或网络不给力！');
-			});
-
-		
-	};
-
-	//快速录入.
-	$scope.editComfirm = function(){
-		if ($scope.enter.activeItem.path ) {
-			$scope.beanEnter.path = $scope.enter.activeItem.path + $scope.enter.activeItem._id + ',';
-		} else {
-			$scope.beanEnter.path = ',' + $scope.enter.activeItem._id + ',';
-		}	
-		
-		if($stateParams.moduleId){
-			$scope.beanEnter.moduleId = $stateParams.moduleId;
-		}
-		
-		$http.post('/pccms/proj/infoCtg', $scope.beanEnter)
-	    .success(function(data, status, headers, config) {
-			if (data.isSuccess) {
-				$state.go('classify',{
-					'moduleId': $stateParams.moduleId,
-					'name': $stateParams.name,
-					'page': $stateParams.page
-				},{reload:true});
-			} else {
-				utils.alertBox('操作失败！', data.data);
-			}
-		}).error(function(data, status, headers, config) {
-			console.log('系统异常或网络不给力！');
+		platformModalSvc.showModal({
+			backdrop: 'static',
+			templateUrl: globals.basAppRoot + 'temp/info/info-rapid-entry.html',
+			controller: 'infoRapidEntryCtrl',
+			size: 'lg',
+			userTemplate:true
 		});
-
 	};
+
 
 	$scope.itemTreeChanged = function(){
 
@@ -111,83 +62,6 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
    };
 
 
-	/*$scope.editInfo = function(_data) {
-		$http.get('/pccms/proj/infoCtg/' + _data._id).success(function(data, status, headers, config) {
-			if (data.isSuccess) {
-				$scope.editForm = true;
-				$scope.mask = true;
-
-				//默认是没有外部链接。
-				$scope.editIsLink = false;				
-
-				$scope.editBean = data.data;
-
-				//加载下拉树。	
-				$scope.editree = {};
-				$scope.editree.activeItem = {
-					_id: data.data.parentCtg.id,
-					name: data.data.parentCtg.name
-				};				
-				$http.get('/pccms/proj/infoCtg/tree/all?moduleId='+$stateParams.moduleId)
-					.success(function(data, status, headers, config) {
-						if (data.isSuccess) {
-							$scope.collectionEdit = data.data;
-						} else {
-							console.log('操作失败。' + data.data);
-						}
-					})
-					.error(function(data, status, headers, config) {
-						console.log('系统异常或网络不给力！');
-					});
-
-				if (data.data.isLink) {
-					//有外部链接。
-					$scope.editIsLink = true;
-				} else {
-					//没有外部链接。
-					$scope.editIsLink = false;
-				}
-			} else {
-				console.log('操作失败。' + data.data);
-			}
-		}).error(function(data, status, headers, config) {
-			console.log('系统异常或网络不给力！');
-		});
-
-		var flagSpeedTree = false;
-		$scope.itemTreeChanged = function(){
-			flagSpeedTree = true;
-		};
-
-		//分类快速修改。
-		$scope.speedEdit = function() {			
-
-			if (flagSpeedTree) {
-				$scope.editree.activeItem.path ?
-					$scope.editBean.path = $scope.editree.activeItem.path + $scope.editree.activeItem._id + ',':
-					$scope.editBean.path = ',' + $scope.editree.activeItem._id + ',';
-			}
-
-			$http({
-				method: 'PUT',
-				url: '/pccms/proj/infoCtg/' + _data._id,
-				data: $scope.editBean
-			}).success(function(data, status, headers, config) {
-				if(data.isSuccess){
-					$state.go('classify',{
-						'moduleId': $stateParams.moduleId,
-						'name': $stateParams.name,
-						'page': $stateParams.page
-					},{reload:true});
-				}else{
-					utils.alertBox('修改失败', data.data);
-				}				
-			}).error(function(data, status, headers, config) {
-				console.log('系统异常或网络不给力！');
-			});
-		};
-	};*/
-
 	//修改。
 	$scope.goEdit = function(item) {
 		if ($stateParams.moduleId) {
@@ -198,7 +72,6 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 				'name': $stateParams.name,
 				'page': 'ctg'
 			});
-			console.log($stateParams.page);
 		} else {
 			$state.go('info-classifyEdit', {
 				'id': item._id,
@@ -222,10 +95,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 					$scope.editBean.seo.staticPageName = data.data;
 				}
 			} else {
-				console.log('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	};
 	
@@ -244,29 +117,51 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			window.open(linkUrl);
 		}else{
 			if(pageTpl != ""){
-				try {
-					var result = false; 
-					angular.forEach(pageTpl, function(pt){
-						if (pt.type === "LIST") {
-							window.open('/pccms/proj/infoCtg/'+id+'/view');
-							result = true;
-							return false;
-						}
-					});
-					 if(!result){
-						 utils.alertBox('预览失败', "该分类不存在列表页模板!");
-					 }
-					
-				} catch (e) {
-					// TODO: handle exception
-					utils.alertBox('预览失败', "该分类不存在列表页模板!");
-				}
-				
+//				try {
+//					var result = false; 
+//					angular.forEach(pageTpl, function(pt){
+//						if (pt.type === "LIST") {
+//							window.open('/pccms/proj/infoCtg/'+id+'/view');
+//							result = true;
+//							return false;
+//						}
+//					});
+//					 if(!result){
+//						 utils.alertBox('预览失败', "该分类不存在列表页模板!");
+//					 }
+//					
+//				} catch (e) {
+//					// TODO: handle exception
+//					utils.alertBox('预览失败', "该分类不存在列表页模板!");
+//				}
+				//根据ctg0.id查询是否存在DETAIL
+				$http.get('/pccms/proj/infoCtg/pageTplType/'+id+'?pageTplType=LIST')
+				.success(function(data, status, headers, config) {
+					if (data.isSuccess) {
+						window.open('/pccms/proj/infoCtg/'+id+'/view');
+					} else {
+						platformModalSvc.showWarmingMessage(data.data, '提示');
+					}
+				})
+				.error(function(data, status, headers, config) {
+					platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
+				});
 			}else{
-				utils.alertBox('预览失败', "该分类不存在列表页模板!");
+				platformModalSvc.showWarmingMessage('该分类不存在列表页模板!', '提示');
 			}
 		}
 	};
+	
+	//手机预览
+	$scope.mobilePreview = function(linkUrl){
+		if(linkUrl){
+			mobilePreviewSvc.mobilePreview(linkUrl);
+		}else{
+			platformModalSvc.showWarmingMessage('没有预览的链接地址！', '提示');
+			return;
+		}
+	};
+	
 	//删除前验证文章分类下的数量
 	$scope.delInfoCtg = function(id){
 		$http({
@@ -279,13 +174,14 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 				if(mes == ''){
 					 mes = '该分类下无资讯';
 				 }
-					utils.confirmBox('提示', mes, function(){
-						deleteCtgs(id);
-					});
-				 
+				
+				platformModalSvc.showConfirmMessage(mes,'提示').then(function(){					
+					deleteCtgs(id);
+					platformModalSvc.showSuccessTip('删除成功！'); 					
+				});
 			}
 		}).error(function(data, status, headers, config) {
-			console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 		    
 	}
@@ -297,14 +193,11 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			params: {'ids': id}
 		}).success(function(data, status, headers, config){
 			if(data.isSuccess){
-				console.log("删除分类成功!");
 				$scope.reloadInfoArticle();
 			}else{
-				console.log(data.data);
 			}
-			console.info(data);
 		}).error(function(data, status, headers, config) {
-			console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	}
 	
@@ -318,7 +211,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			}
 		};
 		if(!idArr.join(',')){
-			utils.alertBox('提示', '请选择需要删除的资讯分类！');
+			platformModalSvc.showWarmingMessage('请选择需要删除的资讯分类！', '提示');
 			return;
 		}else{
 			$scope.delInfoCtg(idArr.join(','));
@@ -344,7 +237,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			data: {'isRecommend': $scope.item.isRecommend}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	}
 	
@@ -358,7 +251,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			data: {'isDisplayTop': $scope.item.isDisplayTop}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 
 	};
@@ -373,7 +266,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			data: {'isDisplay': $scope.item.isDisplay}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -392,7 +285,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			};			
 			getInfoArticleList(setParam());
 		}).error(function(data, status, headers, config){
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -405,24 +298,24 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			data: {'id': elem._id,'path': elem.path, 'indexType': down, 'moduleId':$stateParams.moduleId}
 		}).success(function(data, status, headers, config){
 			if(data.isSuccess == false){
-				console.log(data.data);
+
 			};
 			if(data.isSuccess == true){
-				console.log(data.data);
+
 			};
 			
 			getInfoArticleList(setParam());
 			
 		//	getInfoArticleList();
 		}).error(function(data, status, headers, config){
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
 	//关键字查询
 	$scope.searchInfoArticle = function(){
 		if ($scope.queryParams.title.length > 64) {
-			utils.alertBox('操作提示', '关键字查询字符应为0~64个字符');
+			platformModalSvc.showWarmingMessage('关键字查询字符应为0~64个字符', '提示');
 			$scope.queryParams={'title':''};
 			return;
 	    }
@@ -572,22 +465,21 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 			url: '/pccms/proj/infoCtg/list/all',
 			params: params
 		}).success(function(data, status, headers, config) {
-
 	    	if(data.isSuccess){
 	    		if(data.data){
-
 	    			$scope.dataList = data.data;
-
 	    			for(var k in $scope.dataList){
 	    				$scope.dataList[k].isChecked = false;
+	    				if($scope.dataList[k].hasChildren){
+							$scope.dataList[k].hasChildren = true;	
+						}
 	    			}
-
 	    		}
 	    	}else{
-	    		console.log('获取数据失败：' + data.data);
+			    platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -625,7 +517,6 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 	
 	//设置参数。(普通查询)
 	function setParam() {
-		console.info($scope.moduleId);
 		var obj = new Object();
 		
 		if ($scope.queryParams.title) {
@@ -637,13 +528,11 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 		if($scope.moduleId){
 			obj.moduleId = $scope.moduleId;
 		}
-		
 		return obj;
 	};
 	
-}])
-	.controller('editCLassCtrl',['$scope', '$modalInstance', '$http', 'utils','$animate','$state','$stateParams','editId','isLinkFlag',
-		function($scope,   $modalInstance,   $http,   utils,  $animate,  $state,  $stateParams,  editId,isLinkFlag) {
+}]).controller('editCLassCtrl',['$scope', '$modalInstance', '$http', 'utils','$animate','$state','$stateParams','editId','isLinkFlag','platformModalSvc',
+		function($scope,   $modalInstance,   $http,   utils,  $animate,  $state,  $stateParams,  editId,isLinkFlag,platformModalSvc) {
 			$scope.classify={};
 			$scope.classify.activeItemBean = {};
 			$scope.isLinkFlag =isLinkFlag;
@@ -663,18 +552,18 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 								if (data.isSuccess) {
 									$scope.collectionBean = data.data;
 								} else {
-									console.log('操作失败。' + data.data);
+									platformModalSvc.showWarmingMessage(data.data,'提示');
 								}
 							})
 							.error(function(data, status, headers, config) {
-								console.log('系统异常或网络不给力！');
+								platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 							});
 
 					} else {
-						console.log('操作失败。' + data.data);
+						platformModalSvc.showWarmingMessage(data.data,'提示');
 					}
 				}).error(function(data, status, headers, config) {
-					console.log('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 				});
 
 
@@ -685,11 +574,11 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 					if (data.isSuccess) {
 						$scope.collectionEdit = data.data;
 					} else {
-						console.log('操作失败。' + data.data);
+						platformModalSvc.showWarmingMessage(data.data,'提示');
 					}
 				})
 				.error(function(data, status, headers, config) {
-					console.log('系统异常或网络不给力！');
+					platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 				});
 
 			var flagSpeedTree = false;
@@ -718,12 +607,13 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 							}, {
 								reload: true
 							});
+							platformModalSvc.showSuccessTip('修改成功！');
 
 						} else {
-							utils.alertBox('修改失败', data.data);
+							platformModalSvc.showWarmingMessage(data.data, '修改失败');
 						}
 					}).error(function(data, status, headers, config) {
-						console.log('系统异常或网络不给力！');
+						platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 					});
 			};
 
@@ -737,7 +627,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 //				if (!$scope.bean.name) {
 //
 //
-//					//utils.alertBox('操作提示', "输入不能为空！");
+//					//utils.alertBox('提示', "输入不能为空！");
 //				} else {
 //
 //					$scope.titlelostflag=false;
@@ -782,11 +672,66 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 					if (data.isSuccess) {
 						$scope.bean.seo.staticPageName = data.data;
 					} else {
-						console.log('操作失败。' + data.data);
+						platformModalSvc.showWarmingMessage(data.data,'提示');
 					}
 				}).error(function(data, status, headers, config) {
-					console.log('系统异常或网络不给力！');
+					platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 				});
 			};
 
-		}])			;
+      }]).controller('infoRapidEntryCtrl', ['$scope','platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
+         function ($scope,platformModalSvc, $modalInstance, $http, utils, $animate, $state, $stateParams){
+    	  $scope.enter={};			
+  		  $scope.enter.activeItem = {};
+  		  $http.get('/pccms/proj/infoCtg/tree/all?moduleId='+$stateParams.moduleId)
+  			.success(function(data, status, headers, config) {
+  				if (data.isSuccess) {
+  					$scope.collectionEnter = data.data;
+  					$scope.enter.activeItem = {
+  						_id: data.data[0]._id,
+  					    name: data.data[0].name	
+  					};
+  				} else {
+  					platformModalSvc.showWarmingMessage(data.data, '提示')
+  				}
+  			})
+  			.error(function(data, status, headers, config) {
+  				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示')
+  			});
+  		  
+  		//快速录入.
+  		$scope.editComfirm = function(){
+  			if ($scope.enter.activeItem.path ) {
+  				$scope.beanEnter.path = $scope.enter.activeItem.path + $scope.enter.activeItem._id + ',';
+  			} else {
+  				$scope.beanEnter.path = ',' + $scope.enter.activeItem._id + ',';
+  			}	
+  			
+  			if($stateParams.moduleId){
+  				$scope.beanEnter.moduleId = $stateParams.moduleId;
+  			}
+  			
+  			$http.post('/pccms/proj/infoCtg', $scope.beanEnter)
+  		    .success(function(data, status, headers, config) {
+  				if (data.isSuccess) {
+  					$state.go('classify',{
+  						'moduleId': $stateParams.moduleId,
+  						'name': $stateParams.name,
+  						'page': $stateParams.page
+  					},{reload:true});
+  					$scope.closeModal(false);
+  					platformModalSvc.showSuccessTip('录入成功！');
+  				} else {
+  					platformModalSvc.showWarmingMessage(data.data, '提示');
+  				}
+  			}).error(function(data, status, headers, config) {
+			    platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
+  			});
+
+  		};
+  		
+  		$scope.closeForm = function(){		
+  			$scope.closeModal(false);
+  		};
+  		
+      }]);

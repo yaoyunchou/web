@@ -1,0 +1,205 @@
+/*表单*/
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.nsw-form:first-child {
+    padding-top: 30px;
+}
+
+.nsw-form:last-child {
+    padding-bottom: 100px;
+}
+
+.nsw-form-row {
+    margin-bottom: 32px;
+    height: 29px;
+    clear: both;
+}
+
+.nsw-form-label {
+    padding-left: 40px;
+    font-weight: normal;
+}
+
+.nsw-form-required {
+    margin-left: -8px;
+    color: #f44336;
+}
+
+.nsw-form-validate-tip {
+    display: inline-block;
+    margin-top: 6px;
+}
+
+.nsw-form-textarea {
+    resize: none;
+    max-height: 150px;
+}
+
+.nsw-form-error-message {
+    padding-top: 2px;
+    padding-bottom: 10px;
+    display: inline-block;
+    color: #f44336;
+}
+
+.nsw-form-footer {
+    text-align: left;
+    margin-left: 168px;
+    padding: 0px;
+    position: relative;
+    top: -63px;
+}
+
+.nsw-form-textarea:focus {
+    height: 68px;
+}
+
+.nsw-form-textarea-validate-tip {
+    display: inline-block;
+    margin-top: 26px;
+}
+
+.nsw-form-modal-foot {
+    margin-left: 148px;
+    margin-bottom: 20px;
+}
+
+/*搜索*/
+.nsw-form-search {
+    margin-bottom: 20px;
+    clear: both;
+}
+
+/*按钮*/
+.nsw-search-btn {
+    height: 29px;
+}
+
+.nsw-sm-btn {
+    height: 24px;
+}
+
+/*表格*/
+.nsw-table {
+    border: 1px dashed #ddd !important;
+}
+
+.nsw-table tr {
+    height: 60px;
+}
+
+.nsw-table tr td:nth-child(1) {
+    border-right: 1px dashed #ddd;
+}
+
+.nsw-table tr:last-child td {
+    border-bottom: 0px dashed #ddd;
+}
+
+.nsw-table tr:hover {
+    background: #ebebeb;
+}
+
+/*其它*/
+.robot {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 5px;
+    border: 1px solid #D5DBDF;
+    border-bottom: 0;
+    background: #F7F9FC;
+}
+
+.robot-text-area {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #D5DBDF;
+    padding: 10px;
+    max-height: 300px;
+    resize: none;
+}
+
+/*sitemap  网站地图*/
+.fr{
+    float: right;
+}
+.map-url-name{
+
+}
+.map-url-name a.link{
+    text-decoration: underline;
+    color:blue;
+}
+.mapview span {
+    padding: 0 5px;
+}
+
+.tool-nav {
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.tool-nav .list-group-item {
+    border: none;
+    background-color: #FFFFFF;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.tool-nav .list-group-item.active {
+    background-color: #f08300;
+}
+
+.tool-nav .list-group-item:hover .editbtn {
+    display: inline-block;
+}
+
+.tool-nav .list-group-item:hover .deletbtn {
+    display: block;
+}
+
+.tool-nav .list-group-item .ctgname {
+    background: none;
+    display: inline-block;
+    width: 108px;
+    overflow: hidden;
+    border: none;
+}
+
+.tool-nav .list-group-item .white {
+    background: #FFFFFF;
+    color: #000000;
+}
+
+.tool-nav .list-group-item .tool-nav-btn {
+    border: none;
+    height: 20px;
+    line-height: 20px;
+    background: none;
+}
+
+.tool-nav .list-group-item .editbtn, .tool-nav .list-group-item .deletbtn {
+    display: none;
+}
+
+.tool-nav .form-group {
+    padding-left: 0;
+    padding-right: 5px;
+}
+
+.tool-nav .h2 {
+    font-size: 14px;
+    margin: 0;
+    padding: 10px 15px;
+    background: #f5f5f5;
+}
+
+.tool-nav .submitbox {
+    padding: 0 10px;
+}

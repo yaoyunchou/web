@@ -14,6 +14,7 @@
 </style>
 <div class="modal-header">
 	<h4 class="modal-title">提取标签库</h4>
+	<a class="diaremove" ng-click="$close()"></a>
 </div>
 <p class="c-top-tag">已选标签：{{tagName}}</p>
 <div class="modal-body">
@@ -38,7 +39,7 @@
 
 		<tab heading="添加" select="tabSelected('add');">	
 			<form class="form-horizontal form-validation" name="form" style="padding: 32px 0px;" novalidate>
-				<div class="form-group" beyond max-count='32'>					
+				<div class="form-group marbottom32" beyond max-count='32'>					
 					<label class="col-sm-2 control-label c-lwt"><span class="err">*</span>标签名称</label>
 					<div class="col-sm-6">		
 
@@ -51,7 +52,7 @@
 					</div>
 					 <span class="mess-zx">0</span>/32字符
 				</div>
-				<div class="form-group" style="padding: 12px 0;">					
+				<div class="form-group marbottom32" style="padding: 12px 0;">					
 					<label class="col-sm-2 control-label c-lwt">标签所属栏目</label>
 					<div class="col-sm-6">
 						<select class="form-control" ng-model="ctgs.ctgId">

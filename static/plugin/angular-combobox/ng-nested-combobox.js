@@ -1,5 +1,3 @@
-'use strict';
-
 angular.module('ui.nested.combobox', [])
     .directive('nestedComboBox', function () {
         return {
@@ -7,6 +5,7 @@ angular.module('ui.nested.combobox', [])
             require: 'ngModel',
             scope: {
                 collection: '=',
+                defultName:'=',
                 controlClass: '@',
                 controlDisabled: '@',
                 changeEvent: '&'
@@ -39,6 +38,10 @@ angular.module('ui.nested.combobox', [])
 
                 ngModel.$render = function() {
                     scope.currentMember = ngModel.$viewValue;
+                    if(!ngModel.$viewValue){
+                    	scope.currentMember = {}
+                    	scope.currentMember = scope.defultName;
+                    }
                 };
             }
         };
@@ -49,7 +52,7 @@ angular.module('ui.nested.combobox', [])
 <div class="custom-select" ng-disabled="controlDisabled==\'true\'" ng-class="controlClass" ng-click="toggleOpen()">\
     <p>{{currentMember.name}}</p>\
     <span><i class="fa fa-sort-down"></i></span>\
-    <div class="list" ng-show="isOpen">\
+    <div class="list" ng-show="isOpen" style="max-height:100px;">\
         <ul>\
             <li ng-class="{\'active\':currentMember._id === member._id}" ng-include="\'sub-level.html\'" ng-repeat="member in collection"> </li>\
         </ul>\

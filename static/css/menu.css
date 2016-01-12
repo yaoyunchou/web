@@ -1,0 +1,48 @@
+.nswicon{
+	background:url(../img/menus.png) no-repeat;
+	width: 27px;
+	height: 27px;
+	position: absolute;
+	left: 45px;
+	top: 7px;
+	color: #fefefe;
+	padding: 6px;
+	font-size: 14px;
+	border-radius: 100%;
+}
+
+.menu-icon-web{
+	background-position:-214px -92px;
+}
+
+.menu-icon-box{
+	background-position:-214px -129px;
+}
+
+.menu-icon-info{
+	background-position:-214px -171px;
+}
+
+.menu-icon-search{
+	background-position:-214px -368px;
+}
+
+.menu-icon-order{
+	background-position:-214px -409px;
+}
+
+.menu-icon-tool{
+	background-position:-216px -447px;
+}
+
+.menu-icon-setting{
+	background-position:-216px -487px;
+}
+
+.menu-icon-recycle{
+	background-position:-216px -528px;
+}
+
+.menu-icon-world{
+	background-position:-216px -568px;
+}

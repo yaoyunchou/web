@@ -5,12 +5,13 @@
 		 height: expression(this.height > 120 ? 120 : auto);
 	}
 </style>
-    <div class="c-mask"></div>
-		<div class="c-popup" >
+    <div class="c-mask "></div>
+		<div class="c-popup nsw" >
 	        <div class="modal-header">
-	            <h3 class="modal-title">编辑源码</h3>
+	            <h3 class="modal-title" style="font-weight:normal;font-size:15px;">编辑源码</h3>
+	            <a class="diaremove" ng-click="$close()"></a>
 	        </div>
-	        <div class="modal-body" style="height:350px;overflow-y:scroll">
+	        <div class="modal-body" style="height:350px;overflow-x:hidden;overflow-y:scroll;">
 	            <form class="form-horizontal form-airticle form-validation" name="formInfo"  novalidate>
 	                <div class="form-group" beyond max-count='64'>
 	                    <label  class="col-sm-2 control-label lighter-weight">
@@ -48,35 +49,35 @@
 	                </div>
 	                <div class="row">
            	            <hr style="width:81%;margin-left:10%;">
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res"> 
+                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res" data-img-count="1">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4>
-                            <img class="c-allthumbImage"  ng-src="{{res[0].path }}" ng-show="res[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].path == undefined"></i>  
-                            <h6 ng-show="res[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage"  ng-src="{{res[0].url }}" ng-show="res[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>  
+                            <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1">
+                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1" data-img-count="1">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res1[0].path}}" ng-show="res1[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].path == undefined"></i>  
-                            <h6 ng-show="res1[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>  
+                            <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2">
+                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2" data-img-count="1">
 		                    <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4> 
-		                    <img class="c-allthumbImage" ng-src="{{res2[0].path}}" ng-show="res2[0].path != undefined">  
-		                    <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].path == undefined"></i>  
-		                    <h6 ng-show="res2[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+		                    <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">  
+		                    <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>  
+		                    <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
-		                <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3"> 
+		                <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3" data-img-count="1">
 		                    <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4> 
-		                    <img class="c-allthumbImage" ng-src="{{res3[0].path}}" ng-show="res3[0].path != undefined">  
-		                    <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].path == undefined"></i>  
-		                    <h6 ng-show="res3[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+		                    <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">  
+		                    <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>  
+		                    <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
 		                </div>
                     </div>
                 </form>  
 	        </div>
 	        <div class="modal-footer">
-	            <button class="btn btn-primary" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid">保存</button>
-	            <button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
+	            <button class="btn btn-primary btn-color" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	            <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 	        </div> 
 		</div>

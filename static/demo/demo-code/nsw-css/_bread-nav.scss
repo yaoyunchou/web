@@ -1,0 +1,23 @@
+.nsw_bread_tit {
+  position: relative;
+  margin: 20px 0 20px 0;
+  border-bottom: 1px solid $border-color;
+  height: 47px;
+}
+
+.nsw_add{
+  @extend .bread-nav-icon;
+  margin: 10px 0 10px 0;
+  padding-left: 25px;
+  float: left;
+  font:$font-stack;
+  .active{
+    color: $ui-color;
+  }
+}
+
+.bread_link {
+  float: right;
+  margin-top: 14px;
+  font: $font-stack;
+}

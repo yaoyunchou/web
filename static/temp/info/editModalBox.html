@@ -1,6 +1,7 @@
 <form class="form-horizontal form-validation" name="formSpeed" novalidate>
 	<div class="modal-header">
-		<h4 class="modal-title">资料快速修改</h4>
+		<h4 class="modal-title">文章快速修改</h4>
+		<a class="diaremove" ng-click="$close()"></a>
 	</div>
 	<div class="modal-body">
 		<div class="form-group" beyond max-count='64'>
@@ -98,7 +99,7 @@
 		<!-- <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
 	<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
 	-->
-		<button type="submit" class="btn btn-warning " ng-disabled="formSpeed.$invalid" ng-click="ok()">保存</button>
-		<button class="btn btn-default" ng-click="cancel()">取消</button>
+		<button type="submit" class="btn btn-warning btn-color" ng-disabled="formSpeed.$invalid" ng-click="ok()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+		<button class="btn btn-default btn-color" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 	</div>
 </form>

@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-md-12">
+        <div platform-bread-nav="breadNavs"/>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+        <tabset>
+            <tab heading="默认搜索引擎设置" status="infoBase" active>
+                <div left-information class="nsw-form">
+                    <div class="nsw-form-row" beyond max-count='64'>
+                        <label class="col-sm-2 nsw-form-label">
+                            <span class="nsw-form-required">*</span>
+                            网站默认标题(Title)&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" ng-model="seoDefault.title" autocomplete="off"
+                                   name="title" ng-maxlength="64" required>
+
+                            <div ng-show="formInfo.title.$dirty && formInfo.title.$invalid">
+                                <span class="nsw-form-error-message" ng-show="formInfo.title.$error.required">请填写网站默认标题</span>
+                                <span class="nsw-form-error-message" ng-show="!formInfo.title.$error.required && formInfo.title.$error">网站默认标题长度为0~64字符</span>
+                            </div>
+                        </div>
+                        <span class="nsw-form-validate-tip">0</span>/64字符
+                    </div>
+                </div>
+                <div left-information class="nsw-form">
+                    <div class="nsw-form-row" beyond max-count='100'>
+                        <label class="col-sm-2 nsw-form-label">
+                            <span class="nsw-form-required">*</span>
+                            网页关键词(Keyword)
+                        </label>
+
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" ng-model="seoDefault.keyword" autocomplete="off"
+                                   name="keyword" ng-maxlength="100" required>
+
+                            <div ng-show="formInfo.keyword.$dirty && formInfo.keyword.$invalid">
+                                <span class="nsw-form-error-message" ng-show="formInfo.keyword.$error.required">请填写网页关键词</span>
+                                <span class="nsw-form-error-message" ng-show="!formInfo.keyword.$error.required && formInfo.keyword.$error">网页关键词长度为0~100字符</span>
+                            </div>
+                        </div>
+                        <span class="nsw-form-validate-tip">0</span>/100字符
+                    </div>
+                </div>
+                <div left-information class="nsw-form">
+                    <div class="nsw-form-row nsw-form-desc" beyond max-count='32'>
+                        <label class="col-sm-2 nsw-form-label">
+                            <span class="nsw-form-required">*</span>
+                            网页描述(Description)
+                        </label>
+
+                        <div class="col-sm-7">
+                            <textarea class="form-control nsw-form-textarea" ng-model="seoDefault.desc"
+                                   name="description" ng-maxlength="150" required />
+
+                            <div ng-show="formInfo.description.$dirty && formInfo.description.$invalid">
+                                <span class="nsw-form-error-message" ng-show="formInfo.description.$error.required">请填写网页描述</span>
+                                <span class="nsw-form-error-message" ng-show="!formInfo.description.$error.required && formInfo.description.$error">网页描述长度为0~150字符</span>
+                            </div>
+                        </div>
+                        <span class="nsw-form-textarea-validate-tip">0</span>/150字符
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+        <div class="modal-footer nsw-form-footer">
+            <div>
+                <button type="submit" class="btn btn-warning btn-color"
+                        ng-disabled="!((formInfo.title.$valid && formInfo.keyword.$valid && formInfo.description.$valid)||(formInfo.$valid&&formInfo.$dirty))"
+                        ng-disabled="formInfo.$pristine||formInfo.$invalid" ng-click="saveSeo()"><label
+                        class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+            </div>
+        </div>
+    </form>
+</div>

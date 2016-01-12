@@ -6,7 +6,7 @@
 .custom-select {
   position: relative;
   padding: 0 10px;
-  height: 32px;
+  height: 29px;
   font-size: 13px;
   display: block;
   line-height: 14px;
@@ -20,7 +20,7 @@
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 .custom-select p {
-  line-height: 32px;
+  line-height: 29px;
   margin: 0;
 }
 .custom-select > span {
@@ -69,11 +69,13 @@
   padding-left: 10px;
 }
 .custom-select .list ul li.active > a {
-  background-color: #f1f1f1;
+  background-color: #f6f6f6;
   color: #333333;
 }
 .custom-select .list ul li ul li a {
   font-weight: normal;
+  height:28px;
+  line-height:28px;
 }
 .custom-select .list ul li ul li a span {
   padding-left: 30px;

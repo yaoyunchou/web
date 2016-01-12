@@ -9,8 +9,8 @@ http://inhu.net
   (function() {
     var NGUeditor;
     NGUeditor = angular.module("ng.ueditor", []);
-    NGUeditor.directive("ueditor", [
-      function() {
+    NGUeditor.directive("ueditor", ['$rootScope',
+      function($rootScope) {
         return {
           restrict: "AEC",
           require: "ngModel",
@@ -50,11 +50,11 @@ http://inhu.net
                   _self.editorReady = true;
                   _self.editor.addListener("contentChange", function() {
                     ctrl.$setViewValue(_self.editor.getContent());
-                    if (!_updateByRender) {
-                      if (!$S.$$phase) {
-                        $S.$apply();
-                      }
+                    //EDITED BY LIANG CAN LUN FOR MAKE IT HAS A RIGHT VALIDATE RESULT
+                    if (!$rootScope.$$phase) {
+                        $S.$digest();
                     }
+                    ///////////////END EDIT////////////////////////////////////////
                     _updateByRender = false;
                   });
                   if (_self.modelContent && _self.modelContent.length > 0) {

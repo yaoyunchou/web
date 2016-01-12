@@ -1,17 +1,29 @@
-<form class="form-horizontal form-validation" name="formInfo" novalidate>
-	<div class="modal-header">
-		<h4 class="modal-title"> 分类快速修改</h4>
-	</div>
+<style>
+.classspeed .flmc,.classspeed .fl2,.classspeed .glbq,.classspeed .wyfwdz,.classspeed .wybt,.classspeed .wygjz,.classspeed .wyms{margin-bottom:32px;}
+.classspeed .err{margin-left:-10px;margin-right:5px;}
+.classspeed .mess-zx{margin-top:5px;display:inline-block;}
+.classspeed .col-sm-5 .err{margin-left:0px;margin-top:5px;display:inline-block;}
+.glbq button{margin-left:10px;}
+.classspeed .col-sm-5{width:53.666667%;}
+.classspeed .wangzhi{margin-bottom:32px;}
+.modal-footer{text-align:left;margin-left:122px;margin-top:-20px;margin-bottom:20px;}
+</style>
+<div class="modal-header">
+	<h4 class="modal-title">分类快速修改</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
 
-	<div class="modal-body">
+<div class="modal-body classspeed">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+    </form>
+</div>
+<div class="modal-footer classspeed">
+	<!-- <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
+-->
+	    <!-- ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))"-->
 
-	</div>
-	<div class="modal-footer">
-		<!-- <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
-	<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
-	-->
-		    <!-- ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))"-->
-		<button type="submit" class="btn btn-warning "ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid&&formInfo.linkUrl.$valid)))" ng-click="ok()">保存</button>
-		<button class="btn btn-default" ng-click="cancel()">取消</button>
-	</div>
-</form>
+	<button type="submit" class="btn btn-warning btn-color" ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.name.$valid&&formInfo.linkUrl.$valid)))" ng-click="ok()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div>
+

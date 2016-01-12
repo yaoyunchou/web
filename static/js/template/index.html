@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+	<title>PC建站响应式模板编辑</title>
+
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap-exp.min.css"/>
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui.css"/>
+	<link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui-timepicker-addon.css"/>
+	<link rel="stylesheet" href="../../plugin/angular-combobox/ng-nested-combobox.css"/>
+	<!-- 文件上传组件 -->
+	<link rel="stylesheet" href="../../css/init.css"/>
+	<link rel="stylesheet" href="../../css/common.css"/>
+	<link rel="stylesheet" href="../../css/menu.css"/>
+	<link rel="stylesheet" href="../../css/pageEdit.css"/>
+	<link rel="stylesheet" href="../../js/template/content/css/style.css"/>
+</head>
+
+<body ng-app="pageEditApp">
+<div data-ng-controller="desktopMainCtrl">
+	<div class="container c-container">
+		<div class="row">
+			<div ui-view></div>
+		</div>
+	</div>
+</div>
+
+<!--[if lte IE 9]>
+<script src="../../temp/js/respond.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="../../plugin/jquery/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="../../plugin/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="../../plugin/jquery/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="../../plugin/angular/angular.js"></script>
+<script type="text/javascript" src="../../plugin/angular/angular-locale_zh-cn.js"></script>
+<script type="text/javascript" src="../../plugin/angular/angular-sanitize.js"></script>
+<script type="text/javascript" src="../../plugin/angular/angular-ui-router.js"></script>
+<script type="text/javascript" src="../../plugin/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../plugin/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+<script type="text/javascript" src="../../plugin/bootstrap/pagination.js"></script>
+<script type="text/javascript" src="../../plugin/lodash/lodash.js"></script>
+
+<script type="text/javascript" src="../../plugin/angular-ui-tree/angular-ui-tree.js"></script>
+
+<script type="text/javascript" src="../../plugin/ngStorage/ngStorage.js"></script>
+<script type="text/javascript" src="../../plugin/jquery/qrcode.js"></script>
+<script type="text/javascript" src="../../plugin/jquery/jquery.qrcode.js"></script>
+
+<!-- 富文本编辑器 -->
+<script type="text/javascript" src="../../plugin/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="../../plugin/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="../../plugin/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="../../plugin/ueditor/angular-ueditor.js"></script>
+
+<!-- 源码编辑器 -->
+<script type="text/javascript" src="../../plugin/ace/ace.js"></script>
+<script src="../../plugin/ace/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../plugin/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../plugin/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- 树型下拉列表 -->
+<script type="text/javascript" src="../../plugin/angular-combobox/ng-nested-combobox.js"></script>
+
+<script type="text/javascript" src="../../js/common-jquery.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+
+<script type="text/javascript" src="../../plugin/ueditor/third-party/webuploader/webuploader.js"></script>
+<script type="text/javascript" src="../../js/angular-webuploader.js"></script>
+<script type="text/javascript" src="../../js/constant.js"></script>
+
+<!--platform -->
+<script src="../../js/components/globals.js"></script>
+<script src="../../js/components/platform-app.js"></script>
+<script src="../../js/components/services/platform-messenger-svc.js"></script>
+<script src="../../js/components/services/platform-navigation-svc.js"></script>
+
+<!-- widgets -->
+<script type="text/javascript" src="../../js/components/directives/widgets/ace-editor-directive.js"></script>
+<script type="text/javascript" src="../../js/components/directives/widgets/nsw-enter-dir.js"></script>
+<script type="text/javascript" src="../../js/components/directives/widgets/platform-qr-code-dir.js"></script>
+<script type="text/javascript" src="../../js/components/directives/widgets/platform-dynamic-form-dir.js"></script>
+<!-- navigation -->
+<script src="../../js/components/directives/menu/platform-menu-dir.js"></script>
+<script src="../../js/components/directives/menu/platform-meun-group-dir.js"></script>
+
+<!--面包削导航-->
+<script src="../../js/components/directives/widgets/platform-bread-nav-dir.js"></script>
+
+<!--validators-->
+<script type="text/javascript" src="../../js/components/directives/validators/max-word-validator-dir.js"></script>
+
+<!-- 弹窗服务 -->
+<script type="text/javascript" src="../../js/components/services/platform-modal-svc.js"></script>
+<script type="text/javascript" src="../../js/components/controllers/platform-modal-tip-ctrl.js"></script>
+<script type="text/javascript" src="../../js/components/controllers/platform-modal-message-ctrl.js"></script>
+
+<!-- widgets -->
+<script type="text/javascript" src="../../js/components/directives/widgets/nsw-enter-dir.js"></script>
+<script type="text/javascript" src="../../js/components/directives/widgets/platform-modal-dir.js"></script>
+
+<!--desktop-->
+<script src="../../js/desktop/services/desktop-main-svc.js"></script>
+<script src="../../js/desktop/controllers/desktop-main-ctrl.js"></script>
+
+<script src="template-app.js"></script>
+<script src="controllers/template-edit-container-ctrl.js"></script>
+<script src="services/template-edit-data-svc.js"></script>
+<script src="controllers/template-config-dialog-ctrl.js"></script>
+<script src="controllers/template-config-page-dialog-ctrl.js"></script>
+</body>
+</html>

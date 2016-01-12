@@ -19,11 +19,12 @@
 </style>
 <div class="row">
         <div class="col-md-12">
-            <ol class="breadcrumb">
+	        <div platform-bread-nav="breadNavs"/>
+            <!--<ol class="breadcrumb">
                 <li><a href="../index.html">首页</a></li>
 		    	<li><a href="index.html">全局配置</a></li>
                 <li class="active">频道扩展</li>
-            </ol>
+            </ol>-->
         </div>       
 </div>
 <div class="modal-body">
@@ -38,7 +39,7 @@
                 </li>
 
                 <li class="c-channel-li c-relative {{true == module.isDisabled ? ' lockstyle' : ' unlockstyle'}}" ng-repeat="module in modules">	               
-	                    <span class="c-add c-mkwidth c-inline-font c-mt-one" alt="{{module.name}}">{{module.name}}</span>
+	                    <span class="c-add c-mkwidth c-inline-font c-mkname c-mt-one" style="cursor:pointer" data-ng-click="editChannel(module)" alt="{{module.name}}">{{module.name}}</span>
 	                    <p>
 	                    	<a class="c-underline" href="#/category?moduleId={{module._id}}&page=ctg" >分类配置</a>
 	                    	<a class="c-underline" href="#/category?moduleId={{module._id}}&page=info">文章配置</a>
@@ -46,31 +47,7 @@
 	                    <a href="javascript:void(0)" ng-click="copyModule(module)" class="c-left" ng-show ="module.name!='产品频道'">复制</a>	  
 	                    <a href="javascript:void(0)" class="c-right" ng-click="deletebox(module)" ng-show =" !module.isDefault">删除</a>     
 	              	<i class="fa  c-lock  {{true == module.isDisabled ? 'fa-unlock-alt c-lock-color lockstyle' : 'fa-unlock c-unlock-color unlockstyle'}}" ng-show =" !module.isDefault" ng-click="lockinfo(module)"></i> 
-                </li> 			
-
-<!--                 <li class="c-channel-li c-relative">	                -->
-<!-- 	                    <span class="c-add c-inline-font c-mt-one c-mkwidth">咨询模块</span> -->
-<!-- 	                    <p><a class="c-underline" href="#/category">分类配置</a> -->
-<!-- 	                    	<a class="c-underline" href="#/airticle">文章配置</a></p> -->
-<!-- 	                    <a href="javascript:void(0)" class="c-left">复制</a> 	                -->
-<!--                 </li> -->
-
-<!--                 <li class="c-channel-li c-relative">	                 -->
-<!-- 	                    <span class="c-add c-inline-font c-mkwidth">解决方案模块</span> -->
-<!-- 	                    <p>	<a class="c-underline">分类配置</a> -->
-<!-- 	                    	<a class="c-underline">文章配置</a></p> -->
-<!-- 	                    <a href="javascript:void(0)" class="c-left">复制</a> -->
-<!-- 	                    <a href="javascript:void(0)" class="c-right">删除</a>	              -->
-<!-- 	               <i class="fa fa-unlock-alt c-lock c-lock-color"></i> 	               -->
-<!--                 </li> -->
-<!-- 				<li class="c-channel-li c-relative">	                -->
-<!-- 	                    <span class="c-add c-inline-font c-mkwidth">招商加盟模块</span> -->
-<!-- 	                    <p><a class="c-underline">分类配置</a> -->
-<!-- 	                    	<a class="c-underline">文章配置</a></p> -->
-<!-- 	                    <a href="javascript:void(0)" class="c-left">复制</a> -->
-<!-- 	                    <a href="javascript:void(0)" class="c-right">删除</a>	                               -->
-<!-- 	               <i class="fa fa-unlock c-lock c-unlock-color"></i> -->
-<!--                 </li> -->
+                </li> 
             </ul>
         </div>
 	</div>

@@ -10,7 +10,7 @@ angular.module('ng.webuploader', []).directive('webuploader', function () {
 			var opts = $scope.config ? $scope.config : {};
 			var option = {
 				auto: false,//是否自动上传
-				server: FILESERVER + "/file/local/upload",//文件上传接口
+				server: globals.basAppRoot + "/file/local/upload",//文件上传接口
 				swf: "/pccms/plugin/ueditor/third-party/webuploader/Uploader.swf",
 				label: "上传图片",//文字标签
 				formData: {},

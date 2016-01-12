@@ -1,9 +1,8 @@
 var infoApp = angular.module('infoApp', ['ui.tree','common','ng.ueditor','ui.bootstrap','ui.bootstrap.pagination','ui.nested.combobox']);
 
 //文章列表。
-infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$stateParams','$location',function($scope, $http, $state, utils, $stateParams,$location) {
-	
-	
+infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$stateParams','$location','platformModalSvc',function($scope, $http, $state, utils, $stateParams,$location,platformModalSvc) {
+
 	//$scope.name = $stateParams.name;
 	//$scope.moduleId = $stateParams.moduleId;
 
@@ -11,11 +10,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
     $scope.currentPage = 1; //当前页，默认第一页
     $scope.pageSize = 10; //每页显示多少条  	
     $scope.maxSize = 5; //设置分页条的长度。
-
-
     $scope.advanced = {};
-
-
 	$scope.editForm = false;
 	$scope.advancedSearch = false;
 	$scope.classifiForm = false;
@@ -32,11 +27,11 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 				if (data.isSuccess) {
 					$scope.collectionAdvanced = data.data;					
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			})
 			.error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 	};	
 	
@@ -139,11 +134,11 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 				if (data.isSuccess) {
 					$scope.collectionTransfer = data.data;
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			})
 			.error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 
 		$scope.newDataList = [];
@@ -176,8 +171,8 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 		if (arr && arr.length > 0) obj.ids = arr.join(',');
 		if (isEmptyObject($scope.activeItemTransfer)){
 			obj.ctgId = $scope.activeItemTransfer._id;			
-		} else{			
-			utils.alertBox('操作提示', '请选择要转移的分类名称！');
+		} else{		
+			platformModalSvc.showWarmingMessage('请选择要转移的分类名称！','提示');
 			return;
 		}		
 		
@@ -190,7 +185,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 				$state.go('list',null,{reload:true});
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 
 	};
@@ -198,7 +193,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 	//关键字查询
 	$scope.searchInfoArticle = function(){	
 		if ($scope.queryParams.title.length > 64) {
-			utils.alertBox('操作提示', '关键字查询字符应为0~64个字符');
+			platformModalSvc.showWarmingMessage('关键字查询字符应为0~64个字符','提示');
 			$scope.queryParams={'title':''};
 			return;
 		}
@@ -230,7 +225,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 			data: {'isRecommend': $scope.item.isRecommend}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -244,7 +239,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 			data: {'isDisplayTop': $scope.item.isDisplayTop}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 
 	};
@@ -259,17 +254,17 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 			data: {'isDisplay': $scope.item.isDisplay}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
 	//删除文章
 	$scope.delInfoArticle = function(ids){
 		if(!ids){
-			utils.alertBox('操作提示', '请选择要放入回收站的条目！');
+			platformModalSvc.showWarmingMessage('请选择要放入回收站的条目！','提示');
 			return;
 		}
-		utils.confirmBox('操作提示', '确认放入回收站吗？',function(){
+		/*utils.confirmBox('提示', '确认放入回收站吗？',function(){
 			$http({
 				method: 'POST',
 				url: '/pccms/recycleBin/addItem',
@@ -292,6 +287,31 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 		    	}
 		    }).error(function(data, status, headers, config) {
 		    	alert('系统异常或网络不给力！');
+		    });
+		});*/
+		platformModalSvc.showConfirmMessage('确认放入回收站吗？','提示',true).then(function(){
+			$http({
+				method: 'POST',
+				url: '/pccms/recycleBin/addItem',
+				data: {'ids': ids,'objName': 'InfoArticle'}
+			}).success(function(data, status, headers, config) {
+		    	if(data.isSuccess){
+		    		var idArr = ids.split(',');
+		    		for(var i in idArr){
+		    			for(var key in $scope.dataList){
+			    			var item = $scope.dataList[key];
+			    			if(idArr[i] == item._id){
+			    				$scope.dataList.splice(key,1);
+			    				break;
+			    			}
+			    		}
+		    		}
+		    		$scope.reloadInfoArticle();		    				    		
+		    	}else{
+		    		platformModalSvc.showWarmingMessage(data.data, '提示');
+		    	}
+		    }).error(function(data, status, headers, config) {
+		    	platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		    });
 		});
 	};
@@ -318,18 +338,18 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 						if (data.isSuccess) {
 							$scope.collectionEdit = data.data;					
 						} else {
-							alert('操作失败。' + data.data);
+							platformModalSvc.showWarmingMessage(data.data,'提示');
 						}
 					})
 					.error(function(data, status, headers, config) {
-						alert('系统异常或网络不给力！');
+						//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 					});
 
 				} else {
-				alert('操作失败。' + data.data);
+				   platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	};
 
@@ -351,10 +371,10 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 					$scope.mask = false;
 					$scope.reloadInfoArticle();
 				} else {
-					alert('修改失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 
 	};
@@ -417,14 +437,14 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 	    			$scope.dataList = [];
 	    			$scope.totalItems = 0;
             		$scope.currentPage = 1;
-	    			alert('暂无数据！');
+            		platformModalSvc.showWarmingMessage('暂无数据！','提示');
 	    			return;
 	    		}
 	    	}else{
-	    		alert('获取数据失败：' + data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	platformModalSvc.showWarmingMessage('系统异常或网络不给力！');
 	    });
 	};
 
@@ -433,7 +453,7 @@ infoApp.controller('listCtrl', ['$scope', '$http', '$state',  'utils', '$statePa
 
 
 //文章录入。
-infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','commonTool', function($scope, $http, $state,$stateParams,commonTool) {	 
+infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','commonTool','platformModalSvc', function($scope, $http, $state,$stateParams,commonTool,platformModalSvc) {	 
 	//init.
 	$scope.init = function() {
 		$scope.bean={};	
@@ -470,7 +490,8 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 		};
 		$scope.configDesc = {
 			maximumWords: 300,
-			initialFrameHeight: 200,
+			initialFrameWidth: '100%',
+			initialFrameHeight: 100,
 			toolbars: [
 			   			[
 						 'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -502,11 +523,11 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 				if (data.isSuccess) {
 					$scope.collectionBean = data.data;
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			})
 			.error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 	};
 		
@@ -525,10 +546,10 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 				$scope.bean.seo.staticPageName = data.data;
 
 			} else {
-				alert('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
     };
     
@@ -546,10 +567,10 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 						$scope.bean.seo.staticPageName = data.data;
 					}
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 
 		}
@@ -580,10 +601,10 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 						name: data.data.ctgs[0].name
 					};
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 
 	} else {
@@ -627,11 +648,11 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 					if (data.isSuccess) {						
 						$state.go('list');
 					} else {
-						alert('文章修改失败。' + data.data);
+						platformModalSvc.showWarmingMessage(data.data,'提示');
 					}
 				})
 				.error(function(data, status, headers, config) {
-					alert('系统异常或网络不给力！');
+					//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 				});
 		} else { //新增。
 
@@ -639,20 +660,20 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 				if (data.isSuccess) {					
 					$state.go('list');
 				} else {
-					alert('文章录入失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 		}
 	};
 	
 	$scope.checkInfoArticleStaticPageName = function(){
-		alert("验证文章静态页");
+		platformModalSvc.showWarmingMessage('验证文章静态页！','提示');
 	};
 	
 	$scope.checkCtgStaticPageName = function(){
-		alert("验证分类静态页");
+		platformModalSvc.showWarmingMessage('验证分类静态页!','提示');
 	};
 
 	//添加分类
@@ -699,13 +720,12 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 		}
 		$http.post('/pccms/proj/infoCtg', data).success(function(data, status, headers, config) {
 				if (data.isSuccess) {					
-					alert('成功。');
 					$scope.closeCategoryDialog();
 				} else {
-					alert('失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 	};	
 
@@ -736,7 +756,7 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 }]);
 
 //文章分类列表
-infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateParams', function($scope, $http, $state, utils, $stateParams){
+infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateParams','platformModalSvc', function($scope, $http, $state, utils, $stateParams, platformModalSvc){
 	$scope.name = $stateParams.name;
 	$scope.moduleId = $stateParams.moduleId;
 	
@@ -768,11 +788,11 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 				if (data.isSuccess) {
 					$scope.collectionEnter = data.data;
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			})
 			.error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 	};
 
@@ -790,10 +810,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			if (data.isSuccess) {
 				$state.go('classify',null,{reload:true});
 			} else {
-				alert('修改失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 
 	};
@@ -832,11 +852,11 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 						if (data.isSuccess) {
 							$scope.collectionEdit = data.data;
 						} else {
-							alert('操作失败。' + data.data);
+							platformModalSvc.showWarmingMessage(data.data,'提示');
 						}
 					})
 					.error(function(data, status, headers, config) {
-						alert('系统异常或网络不给力！');
+						platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 					});
 
 				if (data.data.isLink) {
@@ -847,10 +867,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 					$scope.editIsLink = false;
 				}
 			} else {
-				alert('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 
 		var flagSpeedTree = false;
@@ -875,10 +895,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 				if(data.isSuccess){
 					$state.go('classify',null,{reload:true});
 				}else{
-					alert(data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}				
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 		};
 	};
@@ -895,10 +915,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 					$scope.editBean.seo.staticPageName = data.data;
 				}
 			} else {
-				alert('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	};
 	
@@ -910,12 +930,15 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			params: {'ids': id}
 		}).success(function(data, status, headers, config){
 			if(data.isSuccess){
-				utils.confirmBox('提示', data.data, function(){
+				/*utils.confirmBox('提示', data.data, function(){
+					deleteCtgs(id);
+				});*/
+				platformModalSvc.showWarmingMessage(data.data,'提示',true).then(function(){
 					deleteCtgs(id);
 				});
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	};
 	
@@ -929,11 +952,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			if(data.isSuccess){
 				$scope.reloadInfoArticle();
 			}else{
-				alert(data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
-			console.info(data);
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 	};
 	
@@ -947,7 +969,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			}
 		};
 		if(!idArr.join(',')){
-			utils.alertBox('提示', '请选择需要删除的资讯分类！');
+			platformModalSvc.showWarmingMessage('请选择需要删除的资讯分类！','提示');
 			return;
 		}else{
 			$scope.delInfoCtg(idArr.join(','));
@@ -973,7 +995,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			data: {'isRecommend': $scope.item.isRecommend}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -987,7 +1009,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			data: {'isDisplayTop': $scope.item.isDisplayTop}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 
 	};
@@ -1002,7 +1024,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			data: {'isDisplay': $scope.item.isDisplay}
 		}).success(function(data, status, headers, config) {
 		}).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -1014,14 +1036,13 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			data: {'id': elem._id,'path': elem.path, indexType: up }
 		}).success(function(data, status, headers, config){
 			if(data.isSuccess == false){
-				console.log(data.data)
+	
 			};
 			if(data.isSuccess == true){
-				console.log(data.data)
 			};			
 			getInfoArticleList(setParam());
 		}).error(function(data, status, headers, config){
-	    	alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -1033,24 +1054,22 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 			data: {'id': elem._id,'path': elem.path, indexType: down}
 		}).success(function(data, status, headers, config){
 			if(data.isSuccess == false){
-				console.log(data.data)
 			};
 			if(data.isSuccess == true){
-				console.log(data.data)
 			};
 			
 			getInfoArticleList(setParam());
 			
 		//	getInfoArticleList();
 		}).error(function(data, status, headers, config){
-	    	alert('系统异常或网络不给力！');
+			platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
 	//关键字查询
 	$scope.searchInfoArticle = function(){
 		if ($scope.queryParams.title.length > 64) {
-			utils.alertBox('操作提示', '关键字查询字符应为0~64个字符');
+			platformModalSvc.showWarmingMessage('关键字查询字符应为0~64个字符','提示');
 			$scope.queryParams={'title':''};
 			return;
 	    }
@@ -1185,10 +1204,10 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 	    			$scope.dataList = data.data;
 	    		}
 	    	}else{
-	    		alert('获取数据失败：' + data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	};
 	
@@ -1237,7 +1256,7 @@ infoApp.controller('classifyCtrl',['$scope', '$http', '$state', 'utils','$stateP
 
 
 //文章分类录入
-infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$stateParams', function($scope, $http, $state, utils, $stateParams){
+infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$stateParams', 'platformModalSvc',function($scope, $http, $state, utils, $stateParams,platformModalSvc){
 	$scope.bean ={};
 	if($stateParams.moduleId){
 		$scope.bean.moduleId = $stateParams.moduleId;
@@ -1276,10 +1295,10 @@ infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$sta
 				if (data.isSuccess) {
 					$scope.bean.seo.staticPageName = data.data;					
 				} else {
-					alert('操作失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				//platformModalSvc.showWarmingMessage(data.data,'提示');
 			});
 		}
 	};
@@ -1294,10 +1313,10 @@ infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$sta
 			if (data.isSuccess) {
 			    $scope.bean.seo.staticPageName = data.data;
 			} else {
-				alert('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
 			}
 		}).error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
     };
 	
@@ -1309,11 +1328,12 @@ infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$sta
 			if (data.isSuccess) {
 				$scope.collectionBean = data.data;
 			} else {
-				alert('操作失败。' + data.data);
+				platformModalSvc.showWarmingMessage(data.data,'提示');
+				
 			}
 		})
 		.error(function(data, status, headers, config) {
-			alert('系统异常或网络不给力！');
+			//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 		});
 
 	//没有缩略图。
@@ -1345,10 +1365,10 @@ infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$sta
 	    			$scope.temp = data.data;
 	    		}
 	    	}else{
-	    		alert('获取数据失败：' + data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	
 	$scope.bean.pageTpl = [];
@@ -1393,10 +1413,10 @@ infoApp.controller('addClassifyCtrl',['$scope', '$http', '$state', 'utils','$sta
 				if (data.isSuccess) {
 					$state.go('classify');
 				} else {
-					alert('分类录入失败。' + data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				alert('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 			});
 	};
 }]);
