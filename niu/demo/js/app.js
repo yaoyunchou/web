@@ -1,4 +1,4 @@
-var demoApp = angular.module('demoApp', ['common', 'ng.webuploader', 'ui.tree', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox']);
+var demoApp = angular.module('demoApp', ['common', 'ng.webuploader', 'ui.tree', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox','platform']);
 
 demoApp.run(['$rootScope','$location', function($rootScope,$location) {
 	"use strict";
