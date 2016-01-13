@@ -1,6 +1,7 @@
 //文章分类录入
-infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams',
-    function ($scope, $http, $state, utils, $stateParams) {
+infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams','platformModalSvc','commonTool',
+    function ($scope, $http, $state, utils, $stateParams,platformModalSvc,commonTool) {
+        "use strict";
         $scope.name = $stateParams.name;
         $scope.moduleId = $stateParams.moduleId;
         $scope.bean = {};
@@ -17,9 +18,11 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
         $scope.isThumbnail = false; //是否有缩略图。
 
+
         $scope.configDesc = {
             maximumWords: 300,
-            initialFrameHeight: 150,
+            initialFrameWidth: '100%',
+			initialFrameHeight: 100,
             toolbars: [
                 [
                     'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -52,18 +55,23 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             $scope.infoOther = false;
             $scope.faceCheck = false;
         };
+        $scope.noLink = function () {
+            $scope.isLinkFlag = false;
+
+            $scope.infoSeo = true;
+            $scope.infoOther = true;
+            $scope.faceCheck = true;
+        };
 
 
         //修改就去加载表单数据。
         if ($stateParams.id) {
-
             if ($stateParams.isLink === 'true') {
                 $scope.hasLink();
             }
 
             $http.get('/pccms/proj/infoCtg/' + $stateParams.id)
                 .success(function (data, status, headers, config) {
-
                     if (data.isSuccess) {
                         $scope.bean = data.data;
 
@@ -74,7 +82,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                             $scope.isThumbnail = true;
                             $scope.img.thumbnail = [];
                             $scope.img.thumbnail[0] = {};
-                            $scope.img.thumbnail[0].path = data.data.imgSm.url;
+                            $scope.img.thumbnail[0].url = data.data.imgSm.url;
                         }
 
                         $scope.classify.activeItemBean = {
@@ -85,7 +93,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                         if (data.data.imgMd.url) {
                             $scope.img.lmicon = [];
                             $scope.img.lmicon[0] = {};
-                            $scope.img.lmicon[0].path = data.data.imgMd.url;
+                            $scope.img.lmicon[0].url = data.data.imgMd.url;
                         }
                         try {
                             if (data.data.pageTpl[0].id) {
@@ -99,11 +107,8 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                         catch (e) {
 
                         }
-
-
                     } else {
-                        console.log('操作失败。' + data.data);
-                        utils.alertBox('操作失败', data.data);
+                    	platformModalSvc.showWarmingMessage(data.data,'提示');
                     }
                 }).error(function (data, status, headers, config) {
                     console.log('系统异常或网络不给力！');
@@ -120,7 +125,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                     if (data.isSuccess) {
                         $scope.collectionBean = data.data;
                     } else {
-                        console.log('操作失败。' + data.data);
+                    	platformModalSvc.showWarmingMessage(data.data,'提示');
                     }
                 })
                 .error(function (data, status, headers, config) {
@@ -132,7 +137,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
 
         $scope.setNetAddress = function () {
-            //console.log(JSON.stringify($scope.bean));
+          
             if ($scope.bean.name && !$stateParams.id) {
                 $http({
                     method: 'GET',
@@ -145,7 +150,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                     if (data.isSuccess) {
                         $scope.bean.seo.staticPageName = data.data;
                     } else {
-                        console.log('操作失败。' + data.data);
+                    	platformModalSvc.showWarmingMessage(data.data,'提示');
                     }
                 }).error(function (data, status, headers, config) {
                     console.log('系统异常或网络不给力！');
@@ -157,7 +162,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
         //验证网页访问地址是否重复
         $scope.verRepeat = function () {
-            id = $stateParams.id ? $stateParams.id : "";
+           var  id = $stateParams.id ? $stateParams.id : "";
             $http({
                 method: 'GET',
                 url: '/pccms/proj/infoCtg/page',
@@ -166,7 +171,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                 if (data.isSuccess) {
                     $scope.bean.seo.staticPageName = data.data;
                 } else {
-                    console.log('操作失败。' + data.data);
+                	platformModalSvc.showWarmingMessage(data.data,'提示');
                 }
             }).error(function (data, status, headers, config) {
                 console.log('系统异常或网络不给力！');
@@ -177,21 +182,28 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         //加载下拉树。
         $scope.classify = {};
         $scope.classify.activeItemBean = {};
+        $scope.bean.pageTpl = [];
+        
         $http.get('/pccms/proj/infoCtg/tree/all?moduleId=' + $stateParams.moduleId)
-            .success(function (data, status, headers, config) {
+            .success(function (data) {
                 if (data.isSuccess) {
                     $scope.collectionBean = data.data;
                     if ($stateParams.id) {
 
                     } else {
-                        $scope.classify.activeItemBean = {
-                            _id: data.data[0]._id,
-                            name: data.data[0].name
-                        };
+                        try{
+                            $scope.classify.activeItemBean = {
+                                _id: data.data[0]._id,
+                                name: data.data[0].name
+                            };
+                        }catch(e){
+
+                        }
+
                     }
 
                 } else {
-                    console.log('操作失败。' + data.data);
+                	platformModalSvc.showWarmingMessage(data.data,'提示');
                 }
             })
             .error(function (data, status, headers, config) {
@@ -204,13 +216,39 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             url: '/pccms/proj/infoCtg/projPageTplList/type',
             params: {'pageTplType': 'LIST', 'moduleId': $stateParams.moduleId}
         }).success(function (data, status, headers, config) {
-            if (data.isSuccess) {
-                if (data.data) {
-                    $scope.tempList = data.data;
-                }
-            } else {
-                console.log('获取数据失败：' + data.data);
-            }
+        	if(data.isSuccess){	 
+	    		if(data.data){
+	    			$scope.tempList = data.data;
+	    			if($scope.tempList && $scope.tempList.length){
+	    				var hasCheckedItem = false;
+	    				angular.forEach($scope.tempList, function(tempItem){
+	    					if($scope.listTempOk[tempItem._id]){
+	    						hasCheckedItem = true;
+	    						$scope.bean.pageTpl[0] = {
+    								'id': tempItem._id,
+    								'type': 'LIST'
+	    						}
+	    						return false;
+	    					}
+	    				});
+	    				if(!hasCheckedItem){
+	    					//清空脏数据
+	    					//默认第一个打钩
+	    					$scope.listTempOk[$scope.tempList[0]._id]= true;
+	    					$scope.bean.pageTpl[0] = {
+	    							'id': $scope.tempList[0]._id,
+	    							'type': 'LIST'
+	    						}
+	    				}
+	    				
+	    			}
+	    			else{
+	    				$scope.bean.pageTpl[0] = null;
+	    			}
+	    		}
+	    	}else{
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
+	    	}
         }).error(function (data, status, headers, config) {
             console.log('系统异常或网络不给力！');
         });
@@ -221,17 +259,47 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             url: '/pccms/proj/infoCtg/projPageTplList/type',
             params: {'pageTplType': 'DETAIL', 'moduleId': $stateParams.moduleId}
         }).success(function (data, status, headers, config) {
-            if (data.isSuccess) {
-                if (data.data) {
-                    $scope.tempDetail = data.data;
-                }
-            } else {
-                console.log('获取数据失败：' + data.data);
-            }
+        	if(data.isSuccess){	 
+	    		if(data.data){
+	    			$scope.tempDetail = data.data;
+	    			if($scope.tempDetail && $scope.tempDetail.length){
+	    				var hasCheckedItem = false;
+	    				angular.forEach($scope.tempDetail, function(tempItem){
+	    					if($scope.detailTempOk[tempItem._id]){
+	    						
+	    						hasCheckedItem = true;
+	    						//赋予对应的值
+	    						
+	    						$scope.bean.pageTpl[1] = {
+	    							'id': tempItem._id,
+	    							'type': 'DETAIL'
+	    						}
+	    						return false;
+	    					}
+	    				});
+	    				if(!hasCheckedItem){
+	    					//清空脏数据
+	    					//默认第一个打钩
+	    					$scope.detailTempOk[$scope.tempDetail[0]._id]= true;
+	    					//赋予对应的值
+	    					$scope.bean.pageTpl[1] = {
+    							'id': $scope.tempDetail[0]._id,
+    							'type': 'DETAIL'
+	    					}
+	    				}
+	    			}
+	    			else{
+	    				$scope.bean.pageTpl[1] =null;
+	    			}
+	    		}
+	    	}else{
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
+	    	}
+
         }).error(function (data, status, headers, config) {
             console.log('系统异常或网络不给力！');
         });
-        $scope.bean.pageTpl = [];
+        
         //列表模板选中。
         $scope.listTempOk = {};
         for (var k in $scope.listTempOk) {
@@ -263,6 +331,8 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                 'type': 'DETAIL'
             }
         };
+        
+        //
         var flagSpeedTree = false;
         $scope.itemChanged = function(){
             flagSpeedTree = true;
@@ -272,7 +342,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         //提交保存。
         $scope.saveBean = function () {
 
-            //获取moduleId。
+            //获取moduleId
             if ($stateParams.moduleId) {
                 $scope.bean.moduleId = $stateParams.moduleId;
             }
@@ -290,7 +360,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             }
 
 
-            $scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
+           $scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
 
             $scope.bean.imgMd.url = $('#lmicon').attr('src') || '';
 
@@ -303,16 +373,16 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             }
 
             _saveBean.success(function (data, status, headers, config) {
-
+                var tip = $stateParams.id ? '修改成功！':'新增成功！';
                 if (data.isSuccess) {
+                    platformModalSvc.showSuccessTip(tip);
                     $state.go('classify', {
                         'moduleId': $stateParams.moduleId,
                         'name': $stateParams.name,
                         'page': $stateParams.page
                     });
                 } else {
-                    console.log('分类录入失败。' + data.data);
-                    utils.alertBox('操作提示', data.data);
+                	platformModalSvc.showWarmingMessage(data.data,'提示');
                 }
             }).error(function (data, status, headers, config) {
                 console.log('系统异常或网络不给力！');

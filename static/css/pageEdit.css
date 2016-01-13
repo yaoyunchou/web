@@ -90,7 +90,382 @@ ul,li{padding:0;margin:0;}
     opacity: 1;
     background-color: #FFF;
     z-index: 1002;
+    height: 460px;
 }
 
 .search dt,.search dd{ line-height: 57px;}
 .search .fr .btn{ padding: 0;}
+
+
+
+/*---去bootstrap后的样式修复  ---20151218 -11:40 yao----*/
+.nsw .container{ width:1170px; margin:0 auto;}
+.nsw .pull-left {    float: left;}
+.nsw *{box-sizing: border-box;}
+.nsw .btn,.tpl-blk .btn {
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.5;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    border-radius: 3px;
+}
+.nsw .btn-primary {
+    background-color: #f08300;
+    border-color: #d77500;
+    color: #fff;
+    margin-left: 10px;
+}
+.nsw .pull-right {
+    float: right;
+}
+.nsw .btn-default,.tpl-blk .btn-default{background-color: #fff; border-color: #ccc; color: #333;}
+.nsw .btn-cancel:hover{ border-color: #f08300;}
+.nsw .btn-success,.tpl-blk .btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    color: #fff;
+}
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.nsw .glyphicon-pencil:before {
+  content: "\e041";
+}
+.nsw .modal-header {
+    background-color: #f5f5f5;
+    color: #f08300;
+    font-size: 14px;
+     border-bottom: 1px solid #e5e5e5;
+    min-height: 14px;
+    padding: 13px;
+}
+.nsw .modal-body {
+    padding: 15px;
+    position: relative;
+   
+}
+
+
+.nsw .nav-tabs > li.active {
+    border-top: 2px solid #f08300;
+}
+.nsw .nav-tabs > li {
+    border-left: 0 none;
+    border-top: 1px solid #ddd;
+     border-right: 1px solid #ddd;
+     float: left;
+    margin-bottom: -1px;
+     display: block;
+    position: relative;
+    
+}
+.nsw .nav-tabs {
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.nsw .nav {
+    list-style: outside none none;
+    margin-bottom: 0;
+    padding-left: 0;
+    clear:both;
+     display: table;
+     line-height:1.5;
+     width:100%;
+}
+.nsw .nav > li > a {
+    display: block;
+    padding: 8px 15px;
+    position: relative;
+}
+.nsw .tab-content > .tab-pane {
+    display: none;
+}
+.nsw .tab-content > .active {
+    display: block;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border-bottom-color: transparent;
+}
+.nsw .col-sm-2 {
+    width: 16.6667%;
+      min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    float:left;
+}
+.nsw .col-xs-2 {
+    width: 16.6667%;
+}
+.nsw .col-xs-12{
+	width:100%
+}
+.nsw .col-xs-6 {
+    width: 50%;
+}
+.nsw .col-md-12{
+    width:100%;
+}
+.nsw pre {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    color: #333;
+    display: block;
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 0 0 9px;
+    padding: 8.5px;
+    word-break: break-all;
+    word-wrap: break-word;
+    
+}
+.nsw .col-xs-3 {
+    width: 25%;
+    float:left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
+.nsw .col-sm-2 {
+    width: 16.6667%;
+      min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+    float:left;
+}
+.nsw .col-sm-5{
+       width: 41.6667%;
+}
+.nsw .col-sm-8 {
+    width: 66.6667%;
+}
+.nsw .col-sm-3 {
+    width: 25%;
+}
+.nsw .col-xs-2 {
+    width: 16.6667%;
+}
+.nsw .col-xs-12{
+    width:100%
+}
+.nsw .col-xs-6 {
+    width: 50%;
+}
+.nsw .row{
+	width:100%;
+	overflow:hidden;
+}
+.nsw .form-control {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dcdcdc;
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 12px;
+    line-height: 1.5;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 70%;
+    float: left;
+}
+.nsw .modal-footer {
+    border-top: 0 none;
+    text-align: center;
+    clear:both;
+}
+.nsw .modal-footer {
+    border-top: 1px solid #e5e5e5;
+    padding: 15px;
+    
+}
+.checkright,.checkcancel{
+	padding: 3px 6px 7px 30px;
+}
+.nsw .text-center{
+	  text-align: center;
+}
+.nsw .form-group {
+    margin-bottom: 10px;
+    line-height:1.5;
+    overflow:hidden;
+}
+
+.nsw a {
+    color: #515567;
+    text-decoration: none;
+}
+ .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+   
+   
+    float:left;
+} 
+ .clearfix::before, .clearfix::after, .dl-horizontal dd::before, .dl-horizontal dd::after, .container::before, .container::after, .container-fluid::before, .container-fluid::after, .row::before, .row::after, .form-horizontal .form-group::before, .form-horizontal .form-group::after, .btn-toolbar::before, .btn-toolbar::after, .btn-group-vertical > .btn-group::before, .btn-group-vertical > .btn-group::after, .nav::before, .nav::after, .navbar::before, .navbar::after, .navbar-header::before, .navbar-header::after, .navbar-collapse::before, .navbar-collapse::after, .pager::before, .pager::after, .panel-body::before, .panel-body::after, .modal-footer::before, .modal-footer::after {
+    content: " ";
+    display: table;
+}
+
+
+/* 重写引入部分有用的bootstrap样式*/
+.nsw .modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.nsw .fade.in {
+    opacity: 1;
+}
+.nsw .modal {
+    bottom: 0;
+    display: none;
+    left: 0;
+    outline: 0 none;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1050;
+}
+.nsw .fade {
+    opacity: 0;
+    transition: opacity 0.15s linear 0s;
+}
+.nsw .modal.fade .modal-dialog {
+    transform: translate(0px, -10%);
+    transition: transform 0.3s ease-out 0s;
+}
+.nsw-modal-lg {
+    width: 740px;
+    position:relative;
+}
+.nsw .modal-dialog {
+    border: 0 none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    margin: 85px auto 0; 
+}
+.nsw .c-imglib .tab-pane {
+    overflow: hidden;
+}
+
+.nsw .modal-content {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.nsw .modal-content {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+.nsw .modal-content {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    outline: 0 none;
+    position: relative;
+
+    margin: 0 auto;
+}
+.nsw .modal-header {
+    background-color: #f5f5f5;
+    color: #f08300;
+    font-size: 14px;
+}
+.nsw .modal-header {
+    border-bottom: 1px solid #e5e5e5;
+    min-height: 14px;
+    padding: 13px;
+}
+.nav-tabs > li.active {
+    border-top: 2px solid #f08300;
+}
+.nsw .nav-tabs > li {
+    border-left: 0 none;
+    border-top: 1px solid #ddd;
+}
+.nsw .nav-tabs > li {
+    float: left;
+    margin-bottom: -1px;
+}
+
+.nsw .nav::after{
+   content: " ";
+    display: table;
+     clear: both;
+}
+
+
+.nav > li > a {
+    display: block;
+    padding: 8px 15px;
+    position: relative;
+}
+.tab-content > .active {
+    display: block;
+}
+.modal{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    overflow-y: auto;
+}
+.nsw-modal-dialog{
+    position: relative;
+    top:0;
+    left: 0;
+    width: 740px;
+    z-index: 1100;
+    margin: 0 auto;
+}
+.nsw .c-imglib .c-lib-list{
+    height: 230px;
+}
+.nsw .c-imglib .c-img-list li{
+    margin-right: 7px;
+}
+.nsw-modal-sm{
+    width: 497px;
+    top:100px;
+}
+.nsw .webuploader-pick {
+    background: #00b7ee none repeat scroll 0 0;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px 15px;
+    position: relative;
+    text-align: center;
+}
+.nsw .webuploader-element-invisible {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    width: 100%;
+}

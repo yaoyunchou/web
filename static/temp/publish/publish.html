@@ -16,14 +16,11 @@
     .c-channel-tfoot{background-color: #f6f6f6;}
     .c-channel-tfoot td{border-top: 1px solid #dcdcdc;}
     .c-channel-tip a{color:#EA7F00;float:right;}
+    .btn{padding:6px 18px;}
 </style>
 <div class="row">
 	<div class="col-md-12">
-	   	<ol class="breadcrumb">
-		    <li><a href="index.html">首页</a></li>
-		    <li><a href="###">发布管理</a></li>
-		    <li class="active">网站发布</li>
-		</ol>
+		<div platform-bread-nav="breadNavs"/>
 	</div>
 </div>
 <div>
@@ -34,7 +31,7 @@
 			    <div class="col-md-3 col-xs-push-2 c-channel">
 			        <span class="c-channel-bg"></span>
 			        <span class="c-channel-text" style="text-align:center;">发现{{channel}}个频道，及{{page}}个内页有变动</span>
-			        <button class="btn btn-default c-channel-btn" type="button"  ng-disabled="publishBtn" ng-click="channelPublished()">发布分类及内页</button>
+			        <button class="btn btn-default c-channel-btn" type="button" ng-disabled="publishBtn" ng-click="channelPublished()">发布分类及内页</button>
 			    </div>
        	        <div class="col-md-3 col-xs-push-3 c-channel">
        	            <span class="c-channel-bgs"></span>
@@ -69,17 +66,23 @@
 				    	</tr>			    	
 				    </tbody> 
 			   </table>
-		        <div class="progress" ng-show="progress">
-				<div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="style">
-					<span>{{w}}%</span>
-				</div>			
+		        <div class="progress" ng-show="progress"><span style="position:absolute;left:0%;width:100%;text-align:center;top:0px; ">&nbsp;&nbsp;&nbsp;&nbsp;{{w}}</span>
+					<div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="style">
+						
+					</div>			
 		        </div>
-		        <div style="text-align:center;">
-		           <button type="button" class="btn btn-warning" ng-show="pulishBtn" ng-click="published();"><i class="fa fa-play-circle"></i> 发布</button>
+		        <div class="text-center">
+		           <button type="button" class="btn btn-warning btn-color"  style="padding-top:0px;padding-bottom:0px;" ng-show="pulishBtn" ng-click="published();"><label class="publish"></label><span class="publishtext">发布</span></button>
 		          <!--  <button type="button" class="btn btn-warning" ng-show="pauseBtn"  ng-click="publishPaused();"><i class="fa fa-pause"></i> 暂停</button> -->
-		           <button type="button" class="btn btn-default" ng-show="timesBtn"  ng-click="publishCancled();"><i class="fa fa-times-circle"></i> 取消</button>
+		           <button type="button" class="btn btn-default btn-color btn-cancel" ng-show="timesBtn"  ng-click="publishCancled(false);"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 		        </div>
-		        <div ng-show="publishTip" class="c-channel-tip">本次成功更新{{sucPage}}个页面，失败{{failDetails}}个页面，还有{{unPublishedPage}}个页面，总计{{totPage}}个页面。<!-- <a href="##">查看更新日志</a> --></div>
+		        <div  class="c-channel-tip" ng-show="publishTip">本次成功更新{{sucPage}}个页面，失败{{failDetails}}个页面，还有{{unPublishedPage}}个页面，总计{{totPage}}个页面。<!-- <a href="##">查看更新日志</a> --></div>
+			   <!--
+			     <div  class="c-channel-tip">
+			     <ul ng-repeat="name in fileName">
+			      <li>{{name}}</li>
+			     </ul>
+			     <a href="##">查看更新日志</a> </div>-->
 			    </div>
 		    </div>        
 	    </div>
@@ -109,15 +112,14 @@
 				    	</tr>			    	
 				    </tbody> 
 			   </table>
-		        <div class="progress" ng-show="homeProgress">
-					<div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="sty">
-						<span>{{wd}}%</span>
-					</div>			
-		        </div>
-		        <div style="text-align:center;">
-		            <button type="button" class="btn btn-warning" ng-show="homePulishBtn" ng-click="homePublished();"><i class="fa fa-play-circle"></i> 发布</button>
+		          <div class="progress" ng-show="homeProgress"><span style="position:absolute;left:0%;width:100%;text-align:center;top:0px; ">&nbsp;&nbsp;&nbsp;&nbsp;{{wd}}</span>
+				<div class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ng-style="sty">
+				</div>	
+				</div>
+		        <div class="text-center">
+		            <button type="button" class="btn btn-warning btn-color"  style="padding-top:0px;padding-bottom:0px;" ng-show="homePulishBtn" ng-click="homePublished();"><label class="publish"></label><span class="publishtext">发布</span></button>
 		          <!--  <button type="button" class="btn btn-warning" ng-show="homePauseBtn"  ng-click="homePublishPaused();"><i class="fa fa-pause"></i> 暂停</button> -->
-		            <button type="button" class="btn btn-default" ng-show="homeTimesBtn"  ng-click="homePublishCancled();"><i class="fa fa-times-circle"></i> 取消</button>
+		            <button type="button" class="btn btn-default btn-color btn-cancel" ng-show="homeTimesBtn"  ng-click="homePublishCancled(true);"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 		        </div>
 		        <div ng-show="homePublishTip" class="c-channel-tip">本次成功更新{{homeSucPage}}个页面，失败{{homeFailDetails}}个页面，还有{{homeUnPublishedPage}}个页面，总计{{homeTotPage}}个页面。<!-- <a href="##">查看更新日志</a> --></div>
 		    </div>        
@@ -125,29 +127,31 @@
 	</div>
 </div>
 
-<div ng-show="mask">
+<!-- <div ng-show="mask">
 	<div class="mask"></div>
 	<div class="col-sm-6 dialog" >
         <div class="modal-header">
             <h3 class="modal-title">发布成功</h3>
+            <a class="diaremove" ng-click="$close()"></a>
         </div>
         <div class="modal-body" style="height:200px;margin-left:20px;overflow-y:scroll">
             <div>发布成功的页面网址如下：</div><br/>
             <div ng-repeat="item in datalist">
-                <p>{{$index+1}}&nbsp;&nbsp;<a href="http://{{item}}" style="text-decoration:underline;">http://{{item}}</a></p>
+                <p>{{$index+1}}&nbsp;&nbsp;<a href="{{item}}" style="text-decoration:underline;">{{item}}</a></p>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-default" type="button" ng-click="cancelTpl()">取消</button>
+            <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
         </div> 
 	</div>
-</div>
+</div> -->
 
 <div ng-show="false">
 	<div class="mask"></div>
 	<div class="col-sm-6 dialog" >
         <div class="modal-header">
             <h3 class="modal-title">查看日志</h3>
+            <a class="diaremove" ng-click="$close()"></a>
         </div>
         <div class="modal-body" style="height:200px;margin-left:20px;overflow-y:scroll">
             <div>发布失败的页面网址如下：</div><br/>
@@ -162,7 +166,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-default" type="button" ng-click="cancelTpl()">取消</button>
+            <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
         </div> 
 	</div>
 </div>

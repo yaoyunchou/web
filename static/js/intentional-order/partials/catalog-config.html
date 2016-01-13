@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="content/css/catalog-config.css">
+<div class="row">
+    <div class="col-md-12">
+        <div platform-bread-nav="breadNavs"/>
+    </div>
+</div>
+
+<div class="row  catalog-config">
+    <div class="col-xs-9">
+        <div class="configList">
+            <h2 class="list-group-item">在线留言设置</h2>
+            <div class="form-group ">
+                <label  class="col-sm-2">留言开启验证码</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="true" ng-model="bean.isDisplay">显示</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="false" ng-model="bean.isDisplay">隐藏</label>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label  class="col-sm-2">留言间隔时间</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="true" ng-model="bean.isDisplay">显示</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="false" ng-model="bean.isDisplay">隐藏</label>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label  class="col-sm-2">审核后显示</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="true" ng-model="bean.isDisplay">显示</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="radioChecked1" value="false" ng-model="bean.isDisplay">隐藏</label>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label  class="col-sm-2">留言表单设计</label>
+                <div class="col-sm-8">
+                    <a href="#">个性化设置表单</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8 text-left col-sm-offset-2">
+                    <button type="submit" class="btn btn-warning btn-color" ng-disabled="!((formproduct.$valid&&formproduct.$dirty))"  ng-click="saveAirticle()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+                    <a href="#">如何投放留言表单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div data-platform-catalog-list data-options="catalogListOptions"></div>
+    </div>
+</div>

@@ -1,6 +1,5 @@
 <style type="text/css">
-    .lighter-weight{font-weight: lighter;}     
-    .w100{width: 100px;}
+    .lighter-weight{font-weight: lighter;}
     .ml{margin-left: 16px;}
     .pt20{padding-top: 20px;}
     .mess-zx{line-height: 36px;color: #847D7D;}
@@ -19,24 +18,19 @@
     .dialog-titlebar { padding: 0 10px 0 20px;height: 44px;background: #f5f5f5;}
     .dialog-title {float: left;font: 14px/44px "Microsoft YaHei";color: #f08300;}
     .close-btn{float: right;margin-top: 14px;}
-    .clean-btn{margin: -10px 0px 0px 10px;}
+    .clean-btn{margin: -9px 0px 0px 62px;}
     .border-slt{border: 1px solid #ddd;}
     .pr{position: relative;}
     .y-pad0{padding: 0!important; position: relative;}   
     .item .fa{position: absolute;top: 0;right: 0;background-color: green;color: #fff;font-size: 18px;}
     .hide{display: none;}
     .tab-pane{border: 1px solid #ddd;border-top: none;}
+    .tab-content>.tab-pane {margin-top:-20px;}
 </style>
 <div class="row">
     <div class="col-md-12">
         <ol class="breadcrumb">
-            <li>
-                <a href="../index.html">首页</a>
-            </li>
-            <li>
-                <a href="index.html">资讯管理</a>
-            </li>
-            <li class="active">分类录入</li>
+            <div platform-bread-nav="breadNavs"/>
         </ol>
     </div>
 </div>
@@ -51,7 +45,7 @@
                             分类名称
                         </label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" ng-model="bean.name"  ng-blur="setNetAddress()" name="name"   ng-maxlength="64" required>
+                            <input type="text" class="form-control" ng-model="bean.name" autocomplete="off" ng-blur="setNetAddress()" name="name"   ng-maxlength="64" required>
                             <div ng-show="formInfo.title.$dirty && formInfo.title.$invalid">
                                 <span class="err" ng-show="formInfo.title.$error.required" >请填写分类名称</span>
                                 <span class="err" ng-show="!formInfo.title.$error.required && formInfo.title.$error">分类名称长度为0~64字符</span>
@@ -62,7 +56,7 @@
                         
                     </div>
                 </div>               
-                <span class="dropdown" style="left: 830px;bottom: 36px;">
+                <span class="dropdown" style="left: 860px;bottom:90px;">
                         <a class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-question" style="padding: 0 4px;"></i>
                             帮助
                             <span class="caret"></span>
@@ -88,12 +82,12 @@
                 <div class="form-group" ng-show="isLinkFlag">
                     <label  class="col-sm-2 control-label lighter-weight">网址</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" ng-model="bean.linkUrl"></div>
+                        <input type="text" class="form-control" autocomplete="off" ng-model="bean.linkUrl"></div>
                 </div>
                 <div class="form-group" beyond max-count='100' ng-show="!isLinkFlag">
                     <label  class="col-sm-2 control-label lighter-weight">关联标签</label>
                     <div class="col-sm-5">
-                        <pre class="form-control" style="height:28px;">{{bean.cmsTags|showCtgsName}}</pre>                      
+                        <pre class="form-control">{{bean.cmsTags|showCtgsName}}</pre>                      
                     </div>
                     <span class="mess-zx">0</span>
                     /100字符                   
@@ -136,13 +130,13 @@
                     <div class="col-sm-8" style="margin-top:20px;">
                         <label  class="col-sm-2 control-label lighter-weight">alt标签</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" ng-model="bean.imgSm.alt">                                
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.imgSm.alt">                                
                         </div>                               
                     </div>
                     <div class="col-sm-8" style="margin-top:20px;">
                         <label  class="col-sm-2 control-label lighter-weight">最大尺寸</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" disabled value="800*800">                                
+                            <input type="text" class="form-control" autocomplete="off" disabled value="800*800">                                
                         </div>                               
                     </div>
                 </div>
@@ -199,7 +193,7 @@
                     网页访问地址
                 </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName" ng-maxlength="30" required>
+                    <input type="text" class="form-control" ng-model="bean.seo.staticPageName" autocomplete="off" ng-blur="verRepeat()" name="staticPageName" ng-maxlength="30" required>
                     <div ng-show="formInfo.staticPageName.$dirty && formInfo.staticPageName.$invalid">
                         <span class="err" ng-show="formInfo.staticPageName.$error.required">请填写静态页名称</span>
                         <span class="err" ng-show="!formInfo.staticPageName.$error.required && formInfo.staticPageName.$error">静态页名称长度为0~30字符</span>
@@ -214,7 +208,7 @@
                     网页标题
                     <br>(Title)</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.title" name="aSeoTitle" ng-maxlength="64">
+                    <input type="text" class="form-control" ng-model="bean.seo.title" autocomplete="off" name="aSeoTitle" ng-maxlength="64">
                     <div ng-show="formInfo.aSeoTitle.$dirty && formInfo.aSeoTitle.$invalid">
                         <span class="err" ng-show="formInfo.aSeoTitle.$error">网页标题长度为0~64字符</span>
                     </div>
@@ -227,7 +221,7 @@
                     网页关键词
                     <br>(Keywords)</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.keyword" name="aSeoKeyword" ng-maxlength="100">
+                    <input type="text" class="form-control" ng-model="bean.seo.keyword" autocomplete="off" name="aSeoKeyword" ng-maxlength="100">
                     <div ng-show="formInfo.aSeoKeyword.$dirty && formInfo.aSeoKeyword.$invalid">
                         <span class="err" ng-show="formInfo.aSeoKeyword.$error">网页关键词长度为0~100字符</span>
                     </div>
@@ -262,13 +256,13 @@
                     <div class="col-sm-8" style="margin-top:20px;">
                         <label  class="col-sm-2 control-label lighter-weight">alt标签</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" ng-model="bean.imgMd.alt">                                
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.imgMd.alt">                                
                         </div>                               
                     </div>
                     <div class="col-sm-8" style="margin-top:20px;">
                         <label  class="col-sm-2 control-label lighter-weight">最大尺寸</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" disabled value="800*800">                                
+                            <input type="text" class="form-control" autocomplete="off" disabled value="800*800">                                
                         </div>                               
                     </div>
             </div>
@@ -306,9 +300,10 @@
                         <li ng-repeat="row in tempList" ng-click="selectListImageOne(row)">
                             <a href="javascript:void(0)">
                                 <div class="item y-pad0">
-                                    <img class="img" ng-src="{{row.imgSm}}"  alt="模板缩略图">
+                                    <img class="img" ng-src="{{row.imgSm}}"  title="{{row.name}}">
                                     <i class="fa fa-check" ng-show="listTempOk[row._id]"></i>
                                 </div>
+                                {{row.name}}
                             </a>
                         </li>
                     </ul>
@@ -321,9 +316,10 @@
                         <li ng-repeat="row in tempDetail" ng-click="selectDetailImageOne(row)">
                             <a href="javascript:void(0)">
                                 <div class="item y-pad0">
-                                    <img class="img" ng-src="{{row.imgSm}}"  alt="模板缩略图">
+                                    <img class="img" ng-src="{{row.imgSm}}"  title="{{row.name}}">
                                     <i class="fa fa-check" ng-show="detailTempOk[row._id]"></i>
                                 </div>
+                                {{row.name}}
                             </a>
                         </li>
                     </ul>
@@ -334,8 +330,8 @@
     </tabset>
     <div class="form-group pt20">
         <div class="col-sm-10 text-center">
-            <button type="submit" class="btn btn-warning w100" ng-disabled="formInfo.$pristine" ng-click="saveBean()">保存</button>
-            <button class="btn btn-default w100 ml" ng-click="clearFormBtn()">重置</button>
+            <button type="submit" class="btn btn-warning btn-color" ng-disabled="formInfo.$pristine" ng-click="saveBean()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+            <button class="btn btn-default btn-color btn-cancel" ng-click="clearFormBtn()"><label class="checkcancel"></label><span class="btntext black">重&nbsp;填</span></button>
         </div>
     </div>
 </form>

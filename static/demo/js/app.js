@@ -1,4 +1,4 @@
-var demoApp = angular.module('demoApp', ['common', 'ng.webuploader', 'ui.tree', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox','pageEditApp']);
+var demoApp = angular.module('demoApp', ['platform', 'common', 'ng.webuploader', 'ui.tree', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox','pageEditApp']);
 
 demoApp.run(['$rootScope','$location', function($rootScope,$location) {
 	//监听路由变化,选中菜单
@@ -6,7 +6,7 @@ demoApp.run(['$rootScope','$location', function($rootScope,$location) {
     	$rootScope.menuItem = toState.name;
     });  
     
-    localStorage.setItem('isdev',$location.search()['isdev']);    
+    localStorage.setItem('isdev',$location.search()['isdev']);
 }]);
 
 demoApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -19,6 +19,7 @@ demoApp.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider
 	})
 	.state('path', {
 		url: '/path',
+		controller: 'demoPathCtrl',
 		templateUrl: 'views/path.html'
 	})
 	.state('btn', {

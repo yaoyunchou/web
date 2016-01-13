@@ -12,3 +12,9 @@
 	<pre class="col-sm-6">已选择标签:{{result|json}}</pre>	
 	<pre class="col-sm-6">已选择标签(name):{{result|showCtgsName}}</pre>	
 </div>
+
+<div class="col-md-12">
+	<form name="formInfo">
+		<div tag-libs data-ng-model="text" bean-data="bean.cmsTags" data-ng-maxlength="100"></div>
+    </form>
+</div>

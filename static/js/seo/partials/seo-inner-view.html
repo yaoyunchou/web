@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-md-12">
+        <div platform-bread-nav="breadNavs"/>
+    </div>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+        <tabset>
+            <tab heading="列表搜索引擎优化设置" status="infoBase" active>
+                <div style="width:80%;margin:0 30px;padding:30px 0 14px 0;">
+
+                        <table class="table nsw-table">
+                            <tbody>
+                                <tr data-ng-repeat="item in innerList">
+                                    <td><span data-ng-bind="item.name"></span>列表SEO设置</td>
+                                    <td>请到&nbsp;&nbsp;<span data-ng-bind="item.name"></span>分类&nbsp;&nbsp;>&nbsp;&nbsp;<span data-ng-bind="item.name"></span>分类编辑&nbsp;&nbsp;>&nbsp;&nbsp;SEO搜索引擎设置&nbsp;&nbsp;选项卡进行设置</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+            </tab>
+            <tab heading="详情页搜索引擎优化设置" status="infoBase" active>
+                <div style="width:80%;margin:0 30px;padding:30px 0 14px 0;">
+
+                    <table class="table nsw-table">
+                        <tbody>
+                            <tr data-ng-repeat="item in innerList">
+                                <td><span data-ng-bind="item.name"></span>详情SEO设置</td>
+                                <td>请到&nbsp;&nbsp;<span data-ng-bind="item.name"></span>列表&nbsp;&nbsp;>&nbsp;&nbsp;<span data-ng-bind="item.name"></span>编辑&nbsp;&nbsp;>&nbsp;&nbsp;SEO搜索引擎设置&nbsp;&nbsp;选项卡进行设置</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </tab>
+        </tabset>
+    </form>
+</div>

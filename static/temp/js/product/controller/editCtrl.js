@@ -1,11 +1,12 @@
 //文章录入。
-productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 'commonTool', 'utils','$modal','$rootScope',
-	function($scope, $http, $state, $stateParams, commonTool, utils,$modal,$rootScope) {
+productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 'commonTool', 'utils','$modal','$rootScope','platformModalSvc',
+	function($scope, $http, $state, $stateParams, commonTool, utils,$modal,$rootScope,platformModalSvc) {
 
 		$scope.name = $stateParams.name;
 		$scope.moduleId = $stateParams.moduleId;
 
 		$scope.beanStatus = $stateParams.name + '录入';
+		$scope.findId=false;
 
 
 		/* // 设置轮播图图片间隔
@@ -37,12 +38,12 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			$scope.infoSeo = true;
 			$scope.infoOther = true;
 			$rootScope.img = {};
-			$rootScope.img.product = [];
-			
+			$rootScope.img.productlist =[];
+
 			$scope.configContent = {
 				maximumWords: 20000,
-				initialFrameWidth: 700,
-				initialFrameHeight: 150,
+				initialFrameWidth: '90%',
+				initialFrameHeight: 100,
 
 				toolbars: [
 					[
@@ -56,7 +57,8 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			};
 			$scope.configDesc = {
 				maximumWords: 300,
-				initialFrameHeight: 150,
+				initialFrameWidth: '100%',
+				initialFrameHeight: 100,
 				toolbars: [
 					[
 						'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -68,9 +70,9 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				]
 			};
 			$scope.configSeoDesc = {
-
 				maximumWords: 150,
-				initialFrameHeight: 150,
+				initialFrameWidth: '90%',
+				initialFrameHeight: 100,
 				toolbars: [
 					[
 						'fullscreen', 'source', '|', 'undo', 'redo', '|',
@@ -82,14 +84,12 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				]
 			};
 			$scope.configxq = {
-				initialFrameWidth: 700,
+				initialFrameWidth: '100%',
 				maximumWords: 20000,
-				initialFrameHeight: 300,
+				initialFrameHeight: 450,
 				
 			};
 
-			
-			
             //$scope.init();
 			//加载下拉树。
 			$scope.classify.activeItemBean = {};
@@ -99,11 +99,11 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 					if (data.isSuccess) {
 						$scope.collectionBean = data.data;
 						//设置初始值
-						if($stateParams.id){}else{
+						if(!$stateParams.id&&data.data.length){
 							    $scope.classify.activeItemBean = {
 									_id: data.data[0]._id,
 									name: data.data[0].name
-								}	
+								}
 						}
 						
 					} else {
@@ -116,6 +116,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 
 			//修改就去加载表单数据。
 			if ($stateParams.id) {
+				$scope.findId=true;
 				$scope.isHx = true;
 				//console.log($stateParams.isLink);
 				//if($stateParams.isLink) $scope.hasLink();
@@ -133,9 +134,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 									$scope.addedClass[i-1] = data.data.ctgs[i]
 								};
 							}catch(e){}
-							
-							
-							
 							$rootScope.img.product =[]
 							//$rootScope.img.product = data.data.imgs;
 							$rootScope.xqindex=0;
@@ -147,17 +145,15 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 								$scope.bean.tabContents[0].checked=true;
 								$scope.bean.contentxq = $scope.bean.tabContents[0].value; 
 								for (var i = 0; i < data.data.imgs.length ; i++) {				
-							          $rootScope.img.product[i] = {"path":data.data.imgs[i].url,"alt":data.data.imgs[i].alt};
+							          $rootScope.img.product[i] = {"url":data.data.imgs[i].url,"alt":data.data.imgs[i].alt};
 					                };
 							}catch(e){
 								
 							}
-							
-							
+												
 							$scope.addCategory();                                                                                                                                                            
 						} else {
 							console.log('操作失败。' + data.data);
-							utils.alertBox('操作失败', data.data);
 						}
 					}).error(function(data, status, headers, config) {
 						console.log('系统异常或网络不给力！');
@@ -170,7 +166,8 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				$scope.bean.imgSm = {};
 				$scope.classify.activeItemBean = {};
 				$scope.bean.tabContents = [];
-				$rootScope.img.product = [];
+
+				$rootScope.img.productlist =[];
 				$rootScope.img = {}
 				$scope.bean.tabContents[0]= {"name":"详情","value":'',"checked":true};
 				$scope.bean.contentxq = $scope.bean.tabContents[0].value;
@@ -178,6 +175,18 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 		};
 
 		//验证网页访问地址是否重复
+		$scope.$watch('img.productlist',function(newvalue,oldvalue){
+			$scope.img.product = $scope.img.product?$scope.img.product :[];
+			$scope.addImgList(newvalue);
+		});
+
+		$scope.addImgList = function(val){
+			var imglen = $rootScope.img.product ? $rootScope.img.product.length:0;
+			angular.forEach(val,function(img, index){
+				$rootScope.img.product[imglen+index]=img;
+			});
+		}
+
 		$scope.verRepeat = function() {
 
 			var id = '';
@@ -197,7 +206,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				if (data.isSuccess) {
 					$scope.bean.seo.staticPageName = data.data;
 				} else {
-					utils.alertBox('操作提示', data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 
 			}).error(function(data, status, headers, config) {
@@ -211,10 +220,8 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				$scope.titlelostflag = true;
 			//	$scope.bean.seo = {};
 				$scope.bean.seo.staticPageName = '';
-
-				//utils.alertBox('操作提示', "输入不能为空！");
+				platformModalSvc.showWarmingMessage('输入不能为空！','提示');
 			} else {
-
 				$scope.titlelostflag = false;
 				$http({
 					method: 'GET',
@@ -253,12 +260,10 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				($scope.keyWordErr = true, $scope.keyWordInvalid = true) :
 				($scope.keyWordErr = false, $scope.keyWordInvalid = false);
 		}, true);
-	
-		
 
 		//提交操作。(产品录入)
 		$scope.saveAirticle = function() {
-
+			"use strict";
 			if ($stateParams.moduleId) {
 				$scope.bean.moduleId = $stateParams.moduleId;
 			}
@@ -270,7 +275,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				for (var i = 0; i < $scope.bean.tabContents.length ; i++) {
 					
 					$scope.bean.tabContents[i]={"name":$scope.bean.tabContents[i].name,"value":$scope.bean.tabContents[i].value};
-				};
+				}
 			}catch(e){}
 			
 			$scope.bean.contentxq =null;
@@ -280,15 +285,13 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			}
 			for (var i = 0; i < $scope.addedClass.length ; i++) {
 				$scope.bean.ctgs[i+1] =  $scope.addedClass[i];
-			};
+			}
 			
 			$scope.bean.imgs=[];
 			try{
-                for (var i = 0; i < $rootScope.img.product.length ; i++) {				
-					$scope.bean.imgs[i] = {"url":$rootScope.img.product[i].path,"alt":$rootScope.img.product[i].alt};
-				
-				
-		    	};
+                for (var i = 0; i < $rootScope.img.product.length ; i++) {
+					$scope.bean.imgs[i] = {"url":$rootScope.img.product[i].url,"alt":$rootScope.img.product[i].alt};
+		    	}
 			}catch(e){
 				
 			}
@@ -301,34 +304,34 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			
 			if ($scope.isLinkFlag) {
 				$scope.bean.seo = {};
-
 			}
+
 			
 			var _saveAirticle;
 			if ($stateParams.id) { //修改。	
 				_saveAirticle = $http.put('/pccms/product/' + $stateParams.id, $scope.bean);
-
 			} else { //新增。
 				_saveAirticle = $http.post('/pccms/product', $scope.bean);
 			}
 			_saveAirticle.success(function(data, status, headers, config) {
-
+				var tip = $stateParams.id ? '修改成功！':'新增成功！';
 				if (data.isSuccess) {
+					platformModalSvc.showSuccessTip(tip);
 					if ($stateParams.moduleId && $stateParams.name && $stateParams.page) {
 						$state.go('list', {
 							'moduleId': $stateParams.moduleId,
 							'name': $stateParams.name,
 							'page': $stateParams.page
 						});
+						platformModalSvc.showSuccessTip('录入成功！');
 					} else {
 						$state.go('list');
 					}
 				} else {
-					console.log('产品录入失败。' + data.data);
-					utils.alertBox('操作提示', data.data);
+					platformModalSvc.showWarmingMessage(data.data,'提示');
 				}
 			}).error(function(data, status, headers, config) {
-				console.log('系统异常或网络不给力！');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！');
 			});
 
 		}
@@ -337,8 +340,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 		$scope.addCategory = function() {
 			if($(".guanlian").hasClass('hidden')){
 				 $(".guanlian").removeClass("hidden").addClass("show");
-				    
-
+				 $(".addattra").addClass("addattraon").removeClass("addattra");
 					//加载下拉树。
 					$scope.classify.ksActiveItemBean = {};
 
@@ -354,17 +356,13 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 							console.log('系统异常或网络不给力！');
 						});
 			}else{
+				$(".addattraon").addClass("addattra").removeClass("addattraon");
 				$(".guanlian").removeClass("show").addClass("hidden");
 			}
-           
-
-
-
 		}
 
 		//快速添加分类。
 		$scope.saveAddCategory = function() {
-
 			var obj = {};
 			obj.name = $scope.cTitle;
 			obj.path = $scope.classify.ksActiveItemBean.path ?
@@ -394,7 +392,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 
 					} else {
 						console.log('失败。' + data.data);
-						utils.alertBox('操作失败', data.data);
+						platformModalSvc.showWarmingMessage(data.data,'提示');
 					}
 				}).error(function(data, status, headers, config) {
 					console.log('系统异常或网络不给力！');
@@ -419,6 +417,13 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			$scope.isLinkFlag = true;
 			$scope.infoSeo = false;
 			$scope.infoOther = false;
+
+		};
+		$scope.noLink = function() {
+			$scope.bean.isLink = false;
+			$scope.isLinkFlag = false;
+			$scope.infoSeo = true;
+			$scope.infoOther = true;
 
 		};
 
@@ -468,12 +473,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				}else{
 					$scope.addedClass.push(i);
 				}
-			}
-
-
-		    	
-			
-			
+			}	
 		}
 		$scope.deltClass = function(index){
 			
@@ -509,20 +509,18 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 	    };
 	     //打开增加详情
 	    $scope.addXq = function () {
-			$modal.open({
-				templateUrl: 'addXq.html',
-				controller: 'addXqCtrl',
-				backdrop: 'static',
-				size: 'md'
-			});	
+		    if($scope.bean.tabContents.length>=5){
+			    platformModalSvc.showWarmingMessage('最多添加5条标签！','提示');
+		    }else{
+			    $modal.open({
+				    templateUrl: 'addXq.html',
+				    controller: 'addXqCtrl',
+				    backdrop: 'static',
+				    size: 'md'
+			    });
+		    }
+
 	    };
-	    
-	    
-	    
-	    
-	    
-	   
-	
 	}
 ])
 
@@ -541,6 +539,4 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			$scope.ok ();
 	};
 	
-}])
-
-;
+}]);

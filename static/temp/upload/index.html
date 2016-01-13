@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="../../plugin/ueditor/third-party/webuploader/webuploader.css" />
     
     <link rel="stylesheet" href="../../css/init.css" />
-    <link rel="stylesheet" href="../../css/common.css" /> 
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/menu.css"/>
     <style>
         .c-channel-tfoot{background-color: #f6f6f6;}
         .c-channel-tfoot td{border-top: 1px solid #dcdcdc;}
@@ -29,7 +30,8 @@
         .exps:hover{ background:none !important;}
     </style>   
 </head>
-<body>
+<body ng-app="uploadApp">
+<div ng-controller="desktopMainCtrl">
     <div class="container-fluid c-header">
         <div class="container">
             <div class="row">
@@ -40,14 +42,14 @@
                         <a>帮助中心</a>
                     </div>
                     <div>
-                        <a class="c-user-name"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;NSW&nbsp;&nbsp;欢迎你！</a>｜
-                        <a>退出</a>
+                        <a class="c-user-name"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;<span data-ng-bind="user.name"></span>&nbsp;&nbsp;欢迎你！</a>｜
+                        <a href="#" data-ng-click="exit()">退出</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container c-container" ng-app="uploadApp">
+    <div class="container c-container" >
         <div class="row">
             <div class="c-main">
                 <div class="c-main-box">
@@ -55,54 +57,10 @@
                 </div>
             </div>
 
-            <div class="c-menu-div">
-                <div class="c-menu-title">PC建站</div>
-                <div class="c-menu-box">
-                    <div class="c-menu"><i class="glyphicon glyphicon-tag"></i> 我要建站</div>
-                    <div class="c-menu-list">
-                        <a class="c-menu-item" href="../upload/index.html">首页入驻</a>
-                        <a class="c-menu-item" href="../page/index.html">频道列表</a>
-                    </div>
-                     <div class="c-menu"><i class="glyphicon glyphicon-tag"></i> 产品管理</div>
-                    <div class="c-menu-list">
-                        <a class="c-menu-item" href="../product/index.html#/list">产品列表</a>
-                        <a class="c-menu-item" href="../product/index.html#/add-product">产品录入</a>
-                        <a class="c-menu-item" href="../product/index.html#/class-list">产品分类列表</a>
-                        <a class="c-menu-item" href="../product/index.html#/add-productClass">产品分类录入</a>
-                    </div>
-                    
-                	<div class="c-menu"><i class="glyphicon glyphicon-tag"></i>发布管理</div>
-                    <div class="c-menu-list">
-                        <a class="c-menu-item" href="../publish/index.html">网站发布</a>                                                           
-                	</div>
-                	<div class="c-menu"><i class="glyphicon glyphicon-tag"></i> <a class="c-menu-item exps" href="../recycle/index.html#/recycle">回收站</a>    </div>
-                    <!--  <div class="c-menu-list">
-                        <a class="c-menu-item" href="../recycle/index.html#/recycle">回收站</a>                                                           
-                	</div> -->
-                	<div class="c-menu"><i class="glyphicon glyphicon-tag"></i> 模板</div>
-                    <div class="c-menu-list">
-                        <a class="c-menu-item" href="../tplMarket/index.html#/tplMarket">模板市场</a>
-                    </div>
-                    
-                      <div class="c-menu"><i class="glyphicon glyphicon-tag"></i> 全局配置</div>
-                    <div class="c-menu-list">
-                        <a class="c-menu-item" href="../expand/index.html#/channel">频道扩展</a>
-                    </div>  
-                    
-                     <!--动态菜单-->
-                    <div ng-repeat="item in menus" on-finish-render-filters>
-                        <div class="c-menu c-mkname"  ><i class="glyphicon glyphicon-tag"></i>{{item.name}}</div>
-                            <div class="c-menu-list">
-                            <a class="c-menu-item" href="/pccms/temp/info/index.html#/list?moduleId={{item.moduleId}}&name={{item.name}}&page=infoList">文章列表</a>
-                            <a class="c-menu-item" href="/pccms/temp/info/index.html#/add?moduleId={{item.moduleId}}&name={{item.name}}&page=info">录入文章</a>
-                            <a class="c-menu-item" href="/pccms/temp/info/index.html#/classify?moduleId={{item.moduleId}}&name={{item.name}}&page=ctgList">分类列表</a>
-                            <a class="c-menu-item" href="/pccms/temp/info/index.html#/addClassify?moduleId={{item.moduleId}}&name={{item.name}}&page=ctg">分类录入</a>    
-                        </div>
-                    <!--动态菜单end--> 
-                    
-                </div>       
+            <div class="c-menu-container">
+                <div data-platform-menu data-ng-model="menuOptions"></div>
             </div>
-        </div> 
+        </div>
     </div>
     <div class="container-fluid c-footer">
         <div class="container">
@@ -111,12 +69,14 @@
             </div>
         </div>
     </div>
-
+</div>
     <!--[if lte IE 9]>
         <script src="../../js/respond.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.min.js"></script>
     <![endif]-->
 
+
+    <script type="text/javascript" src="../../plugin/lodash/lodash.js"></script>
     <script type="text/javascript" src="../../plugin/jquery/jquery-1.11.3.js"></script>
     <script type="text/javascript" src="../../plugin/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="../../plugin/jquery/jquery-ui-timepicker-addon.js"></script>
@@ -124,6 +84,7 @@
     <script type="text/javascript" src="../../plugin/angular/angular-locale_zh-cn.js"></script>
     <script type="text/javascript" src="../../plugin/angular/angular-sanitize.js"></script>
     <script type="text/javascript" src="../../plugin/angular/angular-ui-router.js"></script>
+    <script type="text/javascript" src="../../plugin/ngStorage/ngStorage.js"></script>
    <!--  <script type="text/javascript" src="../../plugin/angular/angular-file-upload.js"></script> -->
     <script type="text/javascript" src="../../plugin/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../plugin/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
@@ -139,72 +100,43 @@
 
     <!-- 树型下拉列表 -->   
     <script type="text/javascript" src="../../plugin/angular-combobox/ng-nested-combobox.js"></script>
-    
+
+    <!--platform -->
+    <script src="../../js/components/globals.js"></script>
+    <script src="../../js/components/platform-app.js"></script>
+    <script src="../../js/components/services/platform-messenger-svc.js"></script>
+    <script src="../../js/components/services/platform-navigation-svc.js"></script>
+
+    <!-- widgets -->
+    <script type="text/javascript" src="../../js/components/directives/widgets/nsw-enter-dir.js"></script>
+
+    <!-- navigation -->
+
+    <script src="../../js/components/directives/menu/platform-menu-dir.js"></script>
+    <script src="../../js/components/directives/menu/platform-meun-group-dir.js"></script>
+
+    <!--面包削导航-->
+    <script src="../../js/components/directives/widgets/platform-bread-nav-dir.js"></script>
+
+    <!--validators-->
+    <script type="text/javascript" src="../../js/components/directives/validators/max-word-validator-dir.js"></script>
+
+    <!-- 弹窗服务 -->
+    <script type="text/javascript" src="../../js/components/services/platform-modal-svc.js"></script>
+    <script type="text/javascript" src="../../js/components/directives/widgets/platform-modal-dir.js"></script>
+    <script type="text/javascript" src="../../js/components/controllers/platform-modal-tip-ctrl.js"></script>
+    <script type="text/javascript" src="../../js/components/controllers/platform-modal-message-ctrl.js"></script>
+
+    <!--desktop-->
+    <script src="../../js/desktop/services/desktop-main-svc.js"></script>
+    <script src="../../js/desktop/controllers/desktop-main-ctrl.js"></script>
+
+
     <script type="text/javascript" src="../../js/common-jquery.js"></script>
     <script type="text/javascript" src="../../js/common.js"></script>
     <script type="text/javascript" src="../../plugin/ueditor/third-party/webuploader/webuploader.js"></script>
     <script type="text/javascript" src="../../js/angular-webuploader.js"></script> 
     <script type="text/javascript" src="../../js/constant.js"></script> 
     <script src="../js/upload.js"></script>
-    
-    <script>
-    menulist()
-    function menulist(){
-           $('.c-container').css('min-height', $(window).height()-166);
-           $('.c-menu-box .c-menu').bind('click', function(){
-        	   console.log($(this).children('a').html());
-               console.log('click menu.');
-               var menu = this;
-                if($(this).children('a').html()){
-            	   
-               } else{
-            	   if($(menu).hasClass('expend')){
-                       $(menu).next().slideUp(500, function(){
-                           $(menu).removeClass('expend');
-                       });
-                   }else{
-                       var expend = $('.c-menu.expend');
-                       $(menu).next().slideDown(500, function(){
-                           $(menu).addClass('expend');
-                       });
-                       expend.next().slideUp(500, function(){
-                           expend.removeClass('expend');
-                       });
-                   }
-            	   
-               }
-              
-           });
-           $('.c-menu-box .c-menu-item').bind('click', function(){
-               $('.c-menu-item.selected').removeClass("selected");
-               $(this).addClass('selected');
-           });
-       };
-       
-       $(document).on('click','.c-menu-div .c-menu-list a',function(){         
-           console.log($(this).html()+"   "+$(this).attr("href"));
-       });
-        
-        
-        var locationUrl = window.location.href
-        $(function(){
-        	$(".c-menu-box a").each(function(index, element) {
-        		var url = $(this).attr('href').replace('../','').replace("#/","");
-        		
-        	//	console.log("======================="+index+"============"+$(this).attr('href').replace('../','') +"  "+location);	
-        		if(locationUrl.indexOf(url) > -1){
-        			console.log("======================="+index+"============"+$(this).attr('href').replace('../','') +"  "+location);	
-        			 if($(this).html()=="回收站"){
-                         
-                         $(this).parent().addClass('selected');
-                     }else{
-                    	 $(this).parent().prev().addClass('expend');
-                         $(this).addClass('selected');
-                     }  
-        			
-        		}
-            });
-        })
-    </script>
 </body>
 </html>

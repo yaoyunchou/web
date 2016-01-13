@@ -1,17 +1,48 @@
-<form class="form-horizontal form-validation" name="formInfo" novalidate>
-	<div class="modal-header">
-		<h4 class="modal-title">资料快速修改</h4>
-	</div>
+<style>
+.infoedit .mleft-10{margin-left:-10px;margin-right:3px;}
+.infoedit .martop-5{margin-top:-5px;display:inline-block;}
+.infoedit .form-group .col-sm-5{width: 66.66666667%}
+.infoedit .btname{margin-top: -6px;}
+.infoedit .err{margin-top:5px;display:inline-block;}
+.infoedit .definerr{margin-top:10px;margin-left:-25px;display:inline-block;}
+.infoedit .form-group .mess-zx{margin-top:5px;}
+.infoedit .bt{margin-bottom:32px;}
+.infoedit .dbt{margin-bottom:32px;}
+.infoedit .dbt .left-info{margin-bottom:0px;}
+.infoedit .bt .form-group .mess-zx{margin-top:5px;display:inline-block;}
+.infoedit .shortname{margin-left: -37px;}
+.infoedit .left-info .left-info-input{margin-left: 61px; width:367px;}
+.infoedit .ssfl{margin-top:-7px;}
+.infoedit .ssfl .err{margin-left:-10px;margin-right:3px;}
+.infoedit .ssflpr{margin-bottom:32px;}
+.infoedit .glbq1 .col-sm-2{margin-top:-4px;}
+.infoedit .wyfwdz .col-sm-2{margin-top:-10px;}
+.infoedit .wyfwdz .col-sm-2 .err{margin-left: -10px;margin-right: 5px;margin-top:5px;display:inline-block;}
+.infoedit .wyfwdz .mess-zx{margin-top:6px;display:inline-block;}
+.infoedit .glbq{margin-bottom:32px;}
+.infoedit .glbq pre{height:29px;width:80%;margin-top:2px;}
+.infoedit .glbq .mess-zx{margin-top: 7px;margin-left: -98px; display:inline-block;}
+.infoedit .glbq .no-radus-btn{margin-left:24px;padding-bottom:-10px;display:inline-block;}
+.infoedit .wangzhi{margin-bottom:32px;}
+.infoedit .wyfwdz,.infoedit .wybt,.infoedit .wygjz,.infoedit .wyms {margin-bottom:32px;}
+.modal-footer{text-align:left;padding-left: 137px;padding-bottom: 40px; margin-top:-10px;}
+.wangzhi .control-label .err{margin-left:-10px;margin-right:2px;}
+</style>
+<div class="modal-header">
+	<h4 class="modal-title">文章快速修改</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
 
-	<div class="modal-body">
+<div class="modal-body infoedit">
+    <form class="form-horizontal form-validation" name="formInfo" novalidate>
+    </form>
+</div>
 
-	</div>
-	<div class="modal-footer">
-		<!-- <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
-	<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
-	-->
-		    <!-- ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))"-->
-		<button type="submit" class="btn btn-warning "ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))" ng-click="ok()">保存</button>
-		<button class="btn btn-default" ng-click="cancel()">取消</button>
-	</div>
-</form>
+<div class="modal-footer">
+	<!-- <button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
+<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
+-->
+	    <!-- ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))"-->
+	<button type="submit" class="btn btn-warning btn-color" ng-disabled="(!(formInfo.$valid&&formInfo.$dirty)&&(!(bean.isLink&&formInfo.$dirty&&formInfo.title.$valid)))" ng-click="ok()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div>

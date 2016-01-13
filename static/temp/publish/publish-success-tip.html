@@ -1,0 +1,15 @@
+<div class="modal-header">
+	<h4 class="modal-title">发布成功</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+
+<div class="modal-body" style="margin-left:20px;">
+	<div>发布成功的页面网址如下：</div><br/>
+	<div ng-repeat="item in datalist">
+	    <p>{{$index+1}}&nbsp;&nbsp;<a href="{{item}}" style="text-decoration:underline;" target="_blank">{{item}}</a></p>
+	</div>
+</div>
+
+<div class="modal-footer">
+    <button data-ng-diable="datalist" class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div>

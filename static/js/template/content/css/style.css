@@ -1,0 +1,110 @@
+.phone-box {
+	overflow-x: hidden;
+	border: none;
+	border-radius: 10px 10px;
+	display: block;
+	height: 653px;
+	margin: 0px auto 0px;
+	padding: 25px 5px 25px 5px;
+	width: 385px;
+	background-color: rgb(208, 208, 208);
+	overflow: hidden;
+}
+.phone-box iframe{
+	height: 603px;
+	width: 375px;
+}
+
+.phone-box-rotated {
+	overflow-x: hidden;
+	border: none;
+	border-radius: 10px 10px;
+	display: block;
+	height: 385px;
+	margin: 0px auto 0px;
+	padding: 5px 25px 5px  25px;
+	width: 653px;
+	background-color: rgb(208, 208, 208);
+	overflow: hidden;
+}
+.phone-box-rotated iframe{
+	height: 375px;
+	width: 603px;
+}
+
+.pad-box {
+	overflow-x: hidden;
+	border: none;
+	border-radius: 10px 10px;
+	display: block;
+	margin: 0px auto 0px;
+	padding: 25px 5px 25px 5px;
+	width: 778px;
+	height: 1074px;
+	background-color: rgb(208, 208, 208);
+	overflow: hidden;
+}
+
+.pad-box-rotated iframe{
+	width: 768px;
+	height: 1024px;
+}
+
+.pad-box-rotated {
+	overflow-x: hidden;
+	border: none;
+	border-radius: 10px 10px;
+	display: block;
+	margin: 0px auto 0px;
+	padding: 5px 25px 5px  25px;
+	width: 1074px;
+	height: 778px;
+	background-color: rgb(208, 208, 208);
+	overflow: hidden;
+}
+
+.pad-box-rotated iframe{
+	width: 1024px;
+	height: 768px;
+}
+
+.pc-box {
+	overflow-x: hidden;
+	border: none;
+	display: block;
+	height: 580px;
+	margin: 25px auto 0px;
+	width: 1208px;
+	background-color: rgb(208, 208, 208);
+	overflow: hidden;
+}
+
+iframe{
+	background-color: #FFF;
+	width: 100%;
+	height: 100%;
+}
+
+.toolbar{
+	position: absolute;
+}
+
+.c-allthumbImage {
+	max-width: 100px;
+	max-height: 120px;
+}
+
+.qr-code{
+	position: absolute;
+	top: 200px;
+	left: 170px;
+	border: solid 2px #f08402;
+	text-align: center;
+}
+
+/* for Firefox & IE7 */
+* html .c-allthumbImage {
+	/* for IE6 */
+	width: expression(this.width > 100 && this.width > this.height ? 100 : auto);
+	height: expression(this.height > 120 ? 120 : auto);
+}

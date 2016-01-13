@@ -1,6 +1,6 @@
 var pageEditApp = angular.module('pageEditApp', ['common']);
 
-pageEditApp.controller('pageCtrl', ['$scope', '$state', 'utils', function($scope, $state, utils) {
+pageEditApp.controller('pageCtrl', ['$scope', '$state', 'utils','platformModalSvc',function($scope, $state, utils, platformModalSvc) {
 	$scope.projPageData = projPageData;
 	
 	//弹出区块定制编辑窗口
@@ -23,7 +23,7 @@ pageEditApp.controller('pageCtrl', ['$scope', '$state', 'utils', function($scope
 	//对比效果
 	$scope.compare = function(){
 		if($scope.projPageData.bakConf.bak.length < 2){
-			utils.alertBox("提示","对比至少需要两个效果备份！");
+			platformModalSvc.showWarmingMessage('对比至少需要两个效果备份！','提示');
 			return;
 		}
 		if('same' == $scope.projPageData.bakConf.type){
@@ -36,11 +36,11 @@ pageEditApp.controller('pageCtrl', ['$scope', '$state', 'utils', function($scope
 	}
 	//保存页面设计
 	$scope.savePageDesign = function(){
-		utils.alertBox("提示","保存页面设计");
+		platformModalSvc.showWarmingMessage('保存页面设计','提示');
 	}
 	//退出页面设计
 	$scope.outPageDesign = function(){
-		utils.alertBox("提示","退出页面设计");
+		platformModalSvc.showWarmingMessage('退出页面设计','提示');
 	}
 }]);
 
@@ -56,11 +56,11 @@ pageEditApp.controller('blkCtrl', ['$scope', '$state', '$http', function($scope,
 	    	if(data.isSuccess){
 	    		$scope.tplDate = data.data[$scope.projBlkId];
 	    	}else{
-	    		utils.alertBox("提示","获取失败："+html+"！");
+	    		platformModalSvc.showWarmingMessage('获取数据失败：' + data.data,'提示');
 	    	}
 	    })
 	    .error(function(data, status, headers, config) {
-	    	utils.alertBox("提示","系统异常或网络不给力！");
+	    	platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 	    });
 	
 	$scope.save = function() {

@@ -1,0 +1,75 @@
+<div class="modal-header">
+	<h4 class="modal-title">新增模板</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+
+<div class="modal-body">
+        <form class="form-horizontal form-airticle form-validation" name="formInfo" novalidate  style="height:350px;overflow-y:scroll;overflow-x:hidden;">
+            <div class="form-group" beyond max-count='64'>
+                <label  class="col-sm-2 control-label lighter-weight">
+                    <span class="err">*</span>&nbsp;模板名称
+                </label>
+                <div class="col-sm-5">
+                    <input type="text" value="" class="form-control" ng-model="name" name="tplTitle" ng-maxlength="64" required style="margin-top:4px;">
+                    <div ng-show="formInfo.tplTitle.$dirty && formInfo.tplTitle.$invalid">
+                        <span class="err" ng-show="formInfo.tplTitle.$error.required">请填写模板名称</span>
+                        <span class="err" ng-show="!formInfo.tplTitle.$error.required && formInfo.tplTitle.$error">模板名称长度为0~64字符</span>
+                    </div>
+                </div>
+            </div>
+                <div class="form-group" beyond max-count='20000'>
+                    <label  class="col-sm-2 control-label lighter-weight">
+                        <span class="err">*</span>&nbsp;编辑器
+                    </label>
+                    <div class="col-sm-8">
+                        <div data-ace-editor
+				             data-ng-model="content"
+				             data-editor-width="100%"
+				             data-editor-height="200px"
+				             data-mode="html"
+				             data-theme="terminal" required></div>
+                    </div>
+                </div>
+
+                <div class="form-group" beyond max-count='10000'>
+                    <label  class="col-sm-2 control-label lighter-weight">
+                        <span class="err">*</span>&nbsp;策划思路
+                    </label>
+                    <div class="col-sm-8">
+                        <textarea type="text"  ng-model="designIdea" config="config" style="width:100%;height:200px;" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res"  data-img-count="1">
+                        <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4>  
+                        <img class="c-allthumbImage" ng-src="{{res[0].url}}" ng-show="res[0].url != undefined">
+                        <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>
+                        <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                    </div>
+                    <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1"  data-img-count="1">
+                        <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4> 
+                        <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">
+                        <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>
+                        <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                    </div>
+                    <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2"  data-img-count="1">
+                        <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4>  
+                        <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">
+                        <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>
+                        <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                    </div>
+                    <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3"  data-img-count="1">
+                        <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4>   
+                        <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">
+                        <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>
+                        <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                    </div>
+                </div>
+        </form>
+    </div>
+
+
+<div class="modal-footer">
+    <button class="btn btn-primary btn-color" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+    <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div> 

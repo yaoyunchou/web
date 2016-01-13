@@ -1,0 +1,97 @@
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clean-margin-padding {
+	margin: 0;
+	padding: 0;
+}
+
+tr {
+	.editbtn {
+		display: none;
+	}
+	&:hover {
+		.editbtn {
+			display: inline-block;
+		}
+	}
+}
+
+.tool-nav {
+	border: 1px solid #ddd;
+	overflow: hidden;
+
+	.list-group-item {
+		border: none;
+		background-color: #FFFFFF;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		cursor: pointer;
+		&.active {
+			background-color: #f08300;
+		}
+		&:hover {
+			.editbtn {
+				display: inline-block;
+			}
+			.deletbtn {
+				display: block;
+			}
+		}
+		.ctgname {
+			background: none;
+			display: inline-block;
+			width: 110px;
+			border: none;
+		}
+		.white {
+			background: #FFFFFF;
+			color: #000000;
+		}
+		.tool-nav-btn {
+			border: none;
+			height: 20px;
+			line-height: 20px;
+			background: none;
+		}
+		.editbtn, .deletbtn {
+			display: none;
+		}
+
+	}
+	.form-group {
+		padding-left: 0;
+		padding-right: 5px;
+	}
+	.h2 {
+		font-size: 14px;
+		margin: 0;
+		padding: 10px 15px;
+		background: #f5f5f5;
+	}
+	.submitbox {
+		padding: 0 10px;
+
+	}
+}
+
+.titleTd {
+	width: 80px;
+}
+
+.onlineservice {
+	.addbtn{
+		border-color:#f08300;
+		background-color:#FFFFFF;
+		color: #f08300;
+		.addattr{
+			background-position: -365px -283px;
+		}
+	}
+
+}

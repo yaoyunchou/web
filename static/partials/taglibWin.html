@@ -1,82 +1,188 @@
 <style type="text/css">
-.c-top-tag{border-bottom: 1px solid #ddd;padding: 8px 16px;}
-.c-tag-list{border: 1px solid #ddd;padding: 4px 0px; margin: 12px 8px;}	
-.c-tag-list:hover{color: #f08300;border: 1px solid #f08300;cursor:pointer;}	
-.c-selected{color: #f08300;border: 1px solid #f08300;}
-.c-del{color:#f08300;color: #f08300;position: absolute;top: 6px;right: 2px;}
-.c-jieq{white-space: nowrap;text-overflow: ellipsis;overflow: hidden;width: 14%;}
-.mess-zx{line-height: 28px;color: #847D7D;}
-.form-validation .form-control.ng-dirty.ng-invalid{border-color: #f44336;}
-.err{color: #f44336;}
-.form-validation .form-control.ng-dirty.ng-valid,
-.form-validation .form-control.ng-dirty.ng-valid:focus {border-color: #4caf50;} 
-.c-lwt{font-weight: lighter;}   
-.tab-pane{border: 1px solid #ddd;border-top: none;}
+    .c-top-tag {
+        border-bottom: 1px solid #ddd;
+        padding: 8px 16px;
+    }
+
+     .c-tag-list,.sub .c-tag-list {
+        border: 1px solid #ddd;
+        padding: 4px 8px;
+        margin: 12px 8px;
+    }
+
+    .c-tag-list:hover {
+        color: #f08300;
+        border: 1px solid #f08300;
+        cursor: pointer;
+    }
+
+    .c-selected {
+        color: #f08300;
+        border: 1px solid #f08300;
+    }
+
+    .c-del {
+        color: #f08300;
+        color: #f08300;
+        position: absolute;
+        top: 6px;
+        right: 2px;
+    }
+
+
+
+    .mess-zx {
+        line-height: 28px;
+        color: #847D7D;
+    }
+
+    .form-validation .form-control.ng-dirty.ng-invalid {
+        border-color: #f44336;
+    }
+
+    .err {
+        color: #f44336;
+    }
+
+    .form-validation .form-control.ng-dirty.ng-valid,
+    .form-validation .form-control.ng-dirty.ng-valid:focus {
+        border-color: #4caf50;
+    }
+
+    .c-lwt {
+        font-weight: lighter;
+    }
+
+    .tab-pane {
+        border: 1px solid #ddd;
+        border-top: none;
+    }
+
+    .sub {
+        width: 634px;
+        max-height: 124px;
+        background: #f5f5f5;
+        padding: 0;
+        margin: 0;
+        margin-top:9px;
+        margin-left: 10px;
+        overflow-y: auto;
+        border: 1px solid #dcdcdc;
+        border-radius: 2px;
+    }
+
+    .tagbox {
+        position: relative;
+    }
+
+    .tagbox .taglist {
+        position:relative;
+        width: 114px;
+        height: 26px;
+    }
+    .popups-bg{
+        height: 740px;
+        width: 627px;
+    }
+    .tabbgbox{
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .taglibimg{
+        position: absolute;
+        left: 50px;
+        top:31px;
+        width:20px;
+        height:16px;
+        background: url("/pccms/img/taglibimg.jpg") no-repeat;
+    }
+    .padleft38{padding-left:38px;}
+    .padleft42{padding-left:42px;}
+    .marbottom30{margin-bottom:32px;}
 </style>
-<div class="modal-header">
-	<h4 class="modal-title">提取标签库</h4>
+
+<div class="modal-header ">
+    <h4 class="modal-title">提取标签库</h4>
+    <a class="diaremove" ng-click="$close()"></a>
 </div>
-<p class="c-top-tag">已选标签：{{tagName}}</p>
-<div class="modal-body">
-	<tabset>		
-		<tab heading="列表"  select="tabSelected('list');" active="tab1.active">
-			<ul class="list-inline col-sm-8">
-				<li class="col-sm-2 text-center c-tag-list" ng-class="{true: 'c-selected', false: ''}[item.isChecked]"  ng-repeat="item in items" ng-click="tagLabels(item)">{{item.name}}</li>
-			</ul>
-			<div class="col-sm-8">
-				<div class="modal-header" style="background-color:#fff;">
-					<h5 class="modal-title">标签选择</h5>
-				</div>
-				<div class="modal-body">
-					<ol class="list-inline col-sm-12">
-						<li class="col-sm-2 text-center c-tag-list c-jieq" ng-repeat="tag in tags" ng-class="{true: 'c-selected', false: ''}[tag.isChecked]" ng-click="checkedLabel(tag)">
-							{{tag.name}} <i class="fa fa-times-circle c-del" ng-if="tag.isChecked"></i>
-						</li>
-					</ol>
-				</div>
-			</div>
-			<div style="clear:both;"></div>
-		</tab>
-
-		<tab heading="添加" select="tabSelected('add');">	
-			<form class="form-horizontal form-validation" name="form" style="padding: 32px 0px;" novalidate>
-				<div class="form-group" beyond max-count='32'>					
-					<label class="col-sm-2 control-label c-lwt"><span class="err">*</span>标签名称</label>
-					<div class="col-sm-6">		
-
-						<input type="text" class="form-control" ng-model="tagsData.name" name="name" ng-maxlength="32" required>
-						
-						<div ng-show="form.name.$dirty && form.name.$invalid">
-							<span class="err" ng-show="form.name.$error.required">请填写标签名称</span>
-							<span class="err" ng-show="!form.name.$error.required && form.name.$error">标签名称不合法</span>
-						</div>
-					</div>
-					 <span class="mess-zx">0</span>/32字符
-				</div>
-				<div class="form-group" style="padding: 12px 0;">					
-					<label class="col-sm-2 control-label c-lwt">标签所属栏目</label>
-					<div class="col-sm-6">
-						<select class="form-control" ng-model="tagsData.ctgId">
-							  <option value="{{o._id}}" ng-repeat="o in opts">{{o.name}}</option>			              
-				        </select>					
-					</div>					
-				</div>
-				<div class="form-group">					
-					<label class="col-sm-2 control-label c-lwt">标签超链接</label>
-					<div class="col-sm-6">
-						<input type="text" class="form-control" ng-model="tagsData.url" name="url" ng-pattern="/^(http(s)?:\/\/)?(www\.)?[\w-]+\.\w{2,4}(\/)?$/">
-						<div ng-show="form.url.$dirty && form.url.$invalid">							
-							<span class="err" ng-show="form.url.$error">标签名称不合法</span>
-						</div>
-					</div>					
-				</div>			
-			</form>
-			<div style="clear:both;"></div>
-		</tab>
-	</tabset>
-
+<div class="c-top-tag">已选标签：
+    <div ng-repeat="item in items" style=" display: inline-block"  >
+        <li class=" text-center c-tag-list c-jieq " style="position:relative; list-style: none;  display: inline-block;margin: 0 3px 0 0;"  ng-repeat="tag in item.tags" ng-if = "tag.isChecked"
+            ng-click="checkedLabel($event ,tag)">
+            {{tag.name}} <i class="fa fa-times-circle c-del" ng-if="tag.isChecked"></i>
+        </li>
+    </div>
 </div>
-<div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="ok()">确定</button>
-	<button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
+<div class="modal-body tagbox">
+    <tabset>
+        <tab heading="列表" select="tabSelected('list');" active="tab1.active">
+           <div class="tabbgbox">
+               <ul  class="list-inline col-sm-12  tabul"  ng-repeat="itembig in itmesbig">
+
+                   <li class="text-center c-tag-list taglist " ng-repeat="item in itembig" ng-class="{true: 'c-selected', false: ''}[item.isChecked]"
+                       ng-click="tagLabels(item)" >{{item.name}}
+                       <i class="taglibimg" ng-show="item.isChecked&&item.tags"></i>
+                   </li>
+                   <div class="sub" ng-show="item.isChecked&&item.tags" ng-repeat="item in itembig" >
+                       <ol class="list-inline col-sm-12" ng-if = "item.isChecked" >
+                           <li class=" text-center c-tag-list c-jieq " style="position:relative;"  ng-repeat="tag in item.tags"
+                               ng-class="{true: 'c-selected', false: ''}[tag.isChecked]"
+                               ng-click="checkedLabel($event ,tag)">
+                               {{tag.name}} <i class="fa fa-times-circle c-del" ng-if="tag.isChecked"></i>
+                           </li>
+                       </ol>
+                   </div>
+               </ul>
+           </div>
+            <div style="clear:both;"></div>
+        </tab>
+
+        <tab heading="添加" select="tabSelected('add');">
+            <form class="form-horizontal form-validation" name="form" style="padding: 32px 0px;" novalidate>
+                <div class="form-group marbottom30" beyond max-count='32'>
+                    <label class="col-sm-2 control-label c-lwt padleft38"><span class="err" style="margin-left:-10px;margin-right:10px;">*</span>标签名称</label>
+
+                    <div class="col-sm-6">
+
+                        <input type="text" class="form-control" ng-model="tagsData.name" name="name" ng-maxlength="32"
+                               required>
+
+                        <div ng-show="form.name.$dirty && form.name.$invalid">
+                            <span class="err" ng-show="form.name.$error.required">请填写标签名称</span>
+                            <span class="err" ng-show="!form.name.$error.required && form.name.$error">标签名称不合法</span>
+                        </div>
+                    </div>
+                    <span class="mess-zx">0</span>/32字符
+                </div>
+                <div class="form-group marbottom30" style="height:29px;">
+                    <label class="col-sm-2 control-label c-lwt padleft42">标签所属栏目</label>
+
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-model="tagsData.ctgId">
+                            <option value="{{o._id}}" ng-repeat="o in opts">{{o.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group marbottom30">
+                    <label class="col-sm-2 control-label c-lwt padleft42" >标签超链接</label>
+
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="tagsData.url" name="url"
+                               ng-pattern="/^(http(s)?:\/\/)?(www\.)?[\w-]+\.\w{2,4}(\/)?$/">
+
+                        <div ng-show="form.url.$dirty && form.url.$invalid">
+                            <span class="err" ng-show="form.url.$error">标签名称不合法</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div style="clear:both;"></div>
+        </tab>
+    </tabset>
+</div>
+<div class="modal-footer" style="padding-bottom: 30px">
+    <button class="btn btn-primary btn-color" type="button" ng-click="ok()"><label class="checkright"></label><span
+            class="btntext">确&nbsp;定</span></button>
+    <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancel()"><label class="checkcancel"></label><span
+            class="btntext black">取&nbsp;消</span></button>
 </div>

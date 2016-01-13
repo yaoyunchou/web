@@ -1,52 +1,47 @@
 <style>
 	.c-allthumbImage {max-width: 100px;max-height: 120px;} /* for Firefox & IE7 */
 	* html .c-allthumbImage { /* for IE6 */
-		 width: expression(this.width > 100 && this.width > this.height ? 100 : auto);
-		 height: expression(this.height > 120 ? 120 : auto);
+		width: expression(this.width > 100 && this.width > this.height ? 100 : auto);
+		height: expression(this.height > 120 ? 120 : auto);
 	} 
     .c-lgImage{ 
-              max-width: 100%!important;
-              height: auto!important;
-              width:expression(this.width > 1000 ? "1000px" : this.width)!important;
-        } 
+        max-width: 100%!important;
+        height: auto!important;
+        width:expression(this.width > 1000 ? "1000px" : this.width)!important;
+    } 
     * html .c-lgImage{ 
-			width:expression(this.width>1000&&this.width>this.height?650:auto); 
-			height:expresion(this.height>650?650:auto);
-       }
+		width:expression(this.width>1000&&this.width>this.height?650:auto); 
+		height:expresion(this.height>650?650:auto);
+    }
+    .c-title{padding:0;text-align:left;}
+    .c-content{font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";padding-left:18px;}
 </style>
 <div class="row">
 	<div class="col-md-12">
-	   	<ol class="breadcrumb">
-		    <li><a href="../index.html">首页</a></li>
-		    <li><a href="###">模板</a></li>
-		    <li><a href="###">模板市场</a></li>
-		    <li class="active">单页预览</li>
-		</ol>
+		<div platform-bread-nav="breadNavs"/>
 	</div>
 </div>
-<div class="row">  <!-- ng-controller="previewCtrl" -->
+<div class="row">
   	<div class="col-md-12" style="margin-bottom:2%;text-align:center;position:relative;">
-  	    <ul class="selectImg" style="position:fixed;margin-left:65%;">
+  	    <ul class="selectImg" style="position:fixed;margin-left:65%;z-index:1;">
 	        <li ng-click="clickDesSketch()"  ng-class="{true: 'actived', false: 'inactived'}[desket]">效果图</li>
 	        <li ng-click="clickFrmChart()" ng-class="{true: 'actived', false: 'inactived'}[frmchat]">框架图</li>
 	        <!-- <li ng-click="editSource(tplId)" ng-class="{true: 'actived', false: 'inactived'}[source]">编辑源码</li> -->
-	        <li ng-click="tplDesign(tplId)" ng-class="{true: 'actived', false: 'inactived'}[tpldes]">模板设计</li>
+	        <li ng-click="tplDesign(tplId)" ng-class="{true: 'actived', false: 'inactived'}[tpldes]">版块设计</li>
 	        <li ng-click="clickRet()">返回</li>
 	    </ul>
 	    <div ng-show="isShow"><img class="c-lgImage" src="{{dat.imgLg}}" style="border:1px solid green;"/></div>
-	    <div ng-hide="isShow">
-	        <img src="{{dat.imgFr}}" class="c-lgImage" style="border:1px solid green;float:left;margin-right:1%;"/>
-	        <p>
-	                                 策划思路:<br>
-	           {{dat.designIdea}}
-	        </p>
-	        <p>设计特点：<br>
-	           {{dat.style}}
-	        </p>
-	        <p>适合行业：<br>
-	           {{dat.industry}}
-	        </p>
-	        <p style="display:none;">使用次数：500&nbsp;&nbsp;案例网页<button class="btn btn-info" ng-click="webOpened()">查看</button></p>
+	    <div ng-hide="isShow" class="row">
+	       <div class="col-md-10"><img src="{{dat.imgFr}}" class="c-lgImage" style="border:1px solid green;"/></div>
+	       <div class="col-md-2">
+	           <h4 class="c-title"> 策划思路：</h4>
+	           <p  class="c-content">{{dat.designIdea}}</p>
+	           <h4 class="c-title">设计特点：</h4>
+	           <p  class="c-content">{{dat.style}}</p>
+	           <h4 class="c-title">适合行业：</h4>
+	           <p  class="c-content">{{dat.industry}}</p>
+	           <p  style="display:none;">使用次数：500&nbsp;&nbsp;案例网页<button class="btn btn-info" ng-click="webOpened()">查看</button></p>
+	       </div>
 	    </div>
   	</div>
   	<div ng-show="mask">
@@ -54,6 +49,7 @@
 		<div class="col-sm-6 dialog" >
 	        <div class="modal-header">
 	            <h3 class="modal-title">编辑源码</h3>
+	            <a class="diaremove" ng-click="$close()"></a>
 	        </div>
 	        <div class="modal-body" style="height:350px;overflow-y:scroll">
 	            <form class="form-horizontal form-airticle form-validation" name="formInfo"  novalidate>
@@ -81,34 +77,34 @@
                         <hr style="width:81%;margin-left:10%;">
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res"> 
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res[0].path }}" ng-show="res[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].path == undefined"></i>  
-                            <h6 ng-show="res[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage" ng-src="{{res[0].url }}" ng-show="res[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>  
+                            <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1"> 
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res1[0].path}}" ng-show="res1[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].path == undefined"></i>  
-                            <h6 ng-show="res1[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>  
+                            <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res2[0].path}}" ng-show="res2[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].path == undefined"></i>  
-                            <h6 ng-show="res2[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>  
+                            <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res3[0].path}}" ng-show="res3[0].path != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].path == undefined"></i>  
-                            <h6 ng-show="res3[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
+                            <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">  
+                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>  
+                            <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                    </div>
               </form>  
 	        </div>
 	        <div class="modal-footer">
-	            <button class="btn btn-primary" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid">保存</button>
-	            <button class="btn btn-default" type="button" ng-click="cancelTpl()">取消</button>
+	            <button class="btn btn-primary btn-color" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	            <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 	        </div> 
 		</div>
     </div>

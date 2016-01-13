@@ -1,25 +1,21 @@
-<form class="form-horizontal">
-    <div class="modal-header">
-        <h4 class="modal-title">网站操作信息提示 <button aria-label="Close" ng-click="cancel()" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button></h4>
-        
-    </div>
-    <div class="modal-body">
+<div class="modal-header">
+    <h4 class="modal-title">提示</h4>
+    <a class="diaremove" ng-click="$close()"></a>
+</div>
+    
+<div class="modal-body">
+    <form class="form-horizontal">
         <div class="row">
-              <div class=" col-md-3">
-                
-                  <img src="/pccms/img/tishixinxi.png"  style = "margin: 20px 0 0 50px;" />
-                
+             <div style="width:60px;height:80px;background:url(../../img/main_sprit1.png) -40px -800px ;float:left;margin-left:31px;margin-top:-20px;">
               </div>
                <div class=" col-md-9">
                  <p>{{(deletemoduledata.ctgNum||deletemoduledata.articleNum) ? ' 系统检查到您已经在此模块录入了'+deletemoduledata.ctgNum+'个栏目，'+deletemoduledata.articleNum+'篇文章删除当前模块，则此模块将被移至回收站，你可以从回收站找回当前模块。' : ' 系统检查到此模块为新添加模块，没有录入任何栏目和文章，删除当前模块后台不受影响，则此模块被移至回收站，你可以从回收站找回当前模块'}}</p> 
-                
-              </div>
-              
-                  
+              </div>                     
         </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="delModule()">确定</button>
-        <button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
-    </div>
-</form>
+    </form>
+</div>
+    
+<div class="modal-footer" style="margin-top:-13px;margin-left:-7px;">
+    <button class="btn btn-primary btn-color" type="button" ng-click="delModule()"><label class="checkforwar"></label><span class="btntext">确&nbsp;定</span></button>
+    <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+</div>

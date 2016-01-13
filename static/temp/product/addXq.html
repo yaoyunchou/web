@@ -1,27 +1,23 @@
 <form class="form-horizontal" name = "addxq" novalidate>
 	<div class="modal-header">
-		<h4 class="modal-title">添加标签<button aria-label="Close" ng-click="cancel()" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button></h4>
-		
+		<h4 class="modal-title">添加标签</h4>
+		<a class="diaremove" ng-click="$close()"></a>
 	</div>
 	<div class="modal-body">
-		<div class="form-group" tongbu  max-count='20'  >
+		<div class="form-group"  beyond max-count='20'  >
 			<label class="col-sm-2 control-label">标签名录入</label>
 			<div class="col-sm-8">
-				<input type="text" name = "zdname" class="form-control " ng-model="name" ng-maxlength="20" required  > 
+				<input type="text" name = "zdname" class="form-control " ng-model="name" ng-maxlength="20" required  >
 				 <div ng-show="addxq.zdname.$dirty && addxq.zdname.$invalid||titlelostflag">
                        <span class="err" ng-show="addxq.zdname.$error.required||titlelostflag" >请填写字段长度</span>
                        <span class="err" ng-show="!addxq.zdname.$error.required && addxq.zdname.$error">字段长度为0~20字符</span>
                  </div>
 			</div> 
 			<span style="line-height:30px;"><span class="mess-zx">0</span>/20字符</span>
-			
 		</div>
-		
-		
-		
-		
 	<div class="modal-footer">
-		<button class="btn btn-primary" type="button" ng-click="adddatafun()" ng-disabled="addxq.zdname.$invalid">确定</button>
-		<button class="btn btn-default" type="button" ng-click="">取消</button>
+		<button class="btn btn-primary btn-color" type="button" ng-click="adddatafun()" ng-disabled="addxq.zdname.$invalid"><label class="checkright"></label><span class="btntext">确&nbsp;定</span></button>
+		<button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+
 	</div>
 </form>

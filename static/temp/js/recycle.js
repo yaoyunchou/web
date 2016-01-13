@@ -1,39 +1,13 @@
-var recycleApp = angular.module('recycleApp', ['ui.tree','common','ng.ueditor','ui.bootstrap','ui.bootstrap.pagination','ui.nested.combobox']);
-
-recycleApp.run(['$rootScope','$location','$http', function($rootScope,$location,$http) {   
-	$rootScope.rootHttp = function(){
-		$http({
-			method: 'GET',
-			url: '/pccms/module/extend/list/tree',
-			
-		}).success(function(data, status, headers, config) {
-		
-	    	if(data.isSuccess){
-	    		$rootScope.menus = data.data;
-	    		console.log( data.data);
-	    	}
-	    }).error(function(data, status, headers, config) {
-	    	console.log('系统异常或网络不给力！');
-	    });
-	}
-	$rootScope.rootHttp();
-	$rootScope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-        //下面是在menus完成后执行的js
-      menulist();      
-	});
-}]);
+var recycleApp = angular.module('recycleApp', ['ui.tree','platform','common','ng.ueditor','ui.bootstrap','ui.bootstrap.pagination','ui.nested.combobox']);
 
 //回收站
-recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', function($scope, $http, $state, utils) {
+recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils','platformModalSvc', function($scope, $http, $state, utils,platformModalSvc) {
 	
 	$scope.totalItems = 0; //总条数
     $scope.currentPage = 1; //当前页，默认第一页
     $scope.pageSize = 10; //每页显示多少条 
     $scope.maxSize = 5; //设置分页条的长度
 
-	//请求参数
-	//$scope.queryParams = {'title':'', 'pageNum': 1, 'pagetSize': 100};
-	
 	//回收站，勾选
 	$scope.checkAll = function(){
 		$scope.isCheckAll = !$scope.isCheckAll;
@@ -124,7 +98,7 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 	//回收站，关键字查询
 	$scope.searchRecycle = function(){		
 		if ($scope.queryParams.title.length > 64) {
-			utils.alertBox('操作提示', '关键字查询字符应为0~64个字符');
+			platformModalSvc.showWarmingMessage('关键字查询字符应为0~64个字符','提示');
 			$scope.queryParams={'title':''};
 			return;
 		}
@@ -149,10 +123,11 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 	//回收站，还原
 	$scope.replayRecycle = function(ids){
 		if(!ids){
-			utils.alertBox('操作提示', '请选择要还原的条目！');
+			platformModalSvc.showWarmingMessage('请选择要还原的条目！','提示');
 			return;
 		}
-		utils.confirmBox('操作提示', '确认还原吗？',function(){
+		
+		platformModalSvc.showConfirmMessage('确认还原吗？','提示').then(function(){
 			$http({
 				method: 'POST',
 				url: '/pccms/recycleBin/restore',
@@ -171,10 +146,10 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 		    		}
 		    		$scope.reloadRecycle();
 		    	}else{
-		    		alert('获取数据失败：' + data.data);
+		    		//alert('获取数据失败：' + data.data);
 		    	}
 		    }).error(function(data, status, headers, config) {
-		    	alert('系统异常或网络不给力！');
+		    	//alert('系统异常或网络不给力！');
 		    });
 		});
 	};
@@ -182,10 +157,10 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 	//回收站，彻底删除文章(物理删除)
 	$scope.delRecycle = function(ids){
 		if(!ids){
-			utils.alertBox('操作提示', '请选择要彻底删除的条目！');
+			platformModalSvc.showWarmingMessage('请选择要彻底删除的条目！','提示');
 			return;
 		}
-		utils.confirmBox('操作提示', '确认彻底删除吗？',function(){
+		platformModalSvc.showConfirmMessage('确认彻底删除吗？','提示').then(function(){
 			$http({
 				method: 'POST',
 				url: '/pccms/recycleBin/deleteItem',
@@ -204,10 +179,10 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 		    		}
 		    		$scope.reloadRecycle();	
 		    	}else{
-		    		alert('获取数据失败：' + data.data);
+		    		//alert('获取数据失败：' + data.data);
 		    	}
 		    }).error(function(data, status, headers, config) {
-		    	alert('系统异常或网络不给力！');
+		    	//alert('系统异常或网络不给力！');
 		    });
 		});
 	};
@@ -215,23 +190,20 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 	//清空回收站
 	$scope.clearRecycle = function() {
 		if($scope.totalItems>0){
-			utils.confirmBox('操作提示', '确认清空回收站吗？',function(){
+			platformModalSvc.showConfirmMessage('确认清空回收站吗？','提示').then(function(){
 				$http({
 					method: 'POST',
 					url: '/pccms/recycleBin/cleanItem',
 				}).success(function(data, status, headers, config) {
 					$scope.reloadRecycle();
 				}).error(function(data, status, headers, config) {
-			    	alert('系统异常或网络不给力！');
-			    });	
+			    	//alert('系统异常或网络不给力！');
+			    });
 			});
 		}else{
-			utils.alertBox('操作提示', '回收站无内容！');
+			platformModalSvc.showWarmingMessage('回收站无内容！','提示');
 		}
-		
-		
-		
-		
+
 	};
 	
 	//回收站，初始化列表数据
@@ -258,7 +230,6 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 			url: '/pccms/recycleBin/list',
 			params: params
 		}).success(function(data, status, headers, config) {
-			console.log(JSON.stringify(data.data))
 	    	if(data.isSuccess){
 	    		if(data.data){
 	    			$scope.dataList = data.data.list;
@@ -267,14 +238,15 @@ recycleApp.controller('recycleCtrl', ['$scope', '$http', '$state', 'utils', func
 	    			$scope.dataList = [];
 	    			$scope.totalItems = 0;
             		$scope.currentPage = 0;
-	    			alert('暂无数据！');
+	    			//alert('暂无数据！');
 	    			return;
 	    		}
 	    	}else{
-	    		alert('获取数据失败：' + data.data);
+	    		//alert('获取数据失败：' + data.data);
 	    	}
-	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    })
+	    .error(function(data, status, headers, config) {
+    	    //alert('系统异常或网络不给力！');
 	    });
 	};
 
@@ -291,22 +263,3 @@ recycleApp.config(['$stateProvider', '$urlRouterProvider',
 		});
 	}
 ]);
-
-/************
- * 加载menu的点击动画效果  
- * a.添加angularjs 在menu 遍历完时的监控
- * b.当menu遍历完成时候  加载动画js menulist()
- * **********/
-
-recycleApp.directive('onFinishRenderFilters', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function() {
-                    scope.$emit('ngRepeatFinished');
-                });
-            }
-        }
-    };
-});

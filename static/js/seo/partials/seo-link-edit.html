@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4 class="modal-title">链接快速编辑</h4>
+    <a class="diaremove" ng-click="$close()"></a>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal form-validation" name="formLink" novalidate>
+        <div class="form-group marbottom32" beyond max-count='32'>
+            <label class="col-sm-2 control-label lighter-weight padleft35">
+                <span class="err mleft-10">*</span> 链接名称
+            </label>
+            <div class="col-sm-8 padleft26">
+                <input type="text" class="form-control" ng-model="editBean.name" name="name" ng-maxlength="32" required>
+                <div ng-show="formLink.name.$dirty && formLink.name.$invalid">
+                    <span class="err" ng-show="formLink.name.$error.required"></span>
+                    <span class="err"
+                          ng-show="!formLink.name.$error.required && formLink.name.$error">分类名称长度为0~32字符</span>
+                </div>
+            </div>
+            <span class="mess-zx mtop6">0</span>/32字符
+        </div>
+        <div class="form-group marbottom32" beyond max-count='32'>
+            <label class="col-sm-2 control-label lighter-weight padleft35">
+                <span class="err mtop6 mleft-10">*</span>
+                超链接地址
+            </label>
+            <div class="col-sm-8 padleft26">
+                    <input type="url" class="form-control" ng-model="editBean.url" name="url" ng-maxlength="32" required>
+                    <div ng-show="formLink.url.$dirty && formLink.url.$invalid">
+                        <span class="err" ng-show="formLink.name.$error.required"></span>
+                    <span class="err"
+                          ng-show="!formLink.name.$error.required && formLink.name.$error">请填写正确的url,以http://开头!</span>
+                    </div>
+            </div>
+            <span class="mess-zx martop-5">0</span>/100字符
+        </div>
+    </form>
+</div>
+<div class="modal-footer text-align-left" style="margin-top:-15px;">
+    <button type="submit" class="btn btn-warning btn-color"
+            ng-disabled="formLink.$invalid" ng-click="ok()"><label
+            class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+    <button class="btn btn-default btn-color btn-cancel" ng-click="$close()"><label class="checkcancel"></label><span
+            class="btntext black">取&nbsp;消</span></button>
+</div>
+

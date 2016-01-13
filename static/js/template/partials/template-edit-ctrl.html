@@ -1,0 +1,30 @@
+<div class="c-menu-container">
+	<div class="tool-bar">
+		<div class="container">
+			<div class="pull-left toolbar">
+				<button class="btn btn-primary btn-lg"  data-ng-show="!isDesign" data-ng-click="turnEdit()"> 编辑模板</button>
+				<button class="btn btn-primary  btn-lg" data-ng-show="isDesign"
+				        data-ng-click="editSource(projPageData.id)">
+					编辑源码
+				</button>
+				<button class="btn btn-primary btn-lg" data-ng-show="isDesign" data-ng-click="savePageDesign()"> 保存</button>
+				<button class="btn btn-primary btn-lg" data-ng-click="showPad()">Pad</button>
+				<button class="btn btn-primary btn-lg" data-ng-click="showPhone()">Phone</button>
+				<button class="btn btn-primary btn-lg" data-ng-click="rotate()">旋转</button>
+				<!--<button class="btn btn-primary btn-lg" data-ng-click="goBack()"> Go Back</button>-->
+			</div>
+
+			<div class="qr-code">
+				<div platform-qr-code="viewTemplate"/>
+				扫一扫
+			</div>
+		</div>
+	</div>
+	<div class="phone-container">
+		<div class="phone-brand-container">
+		</div>
+		<div ng-class="getBoxStyle()">
+			<iframe name="formTemplate" ng-src="{{templateUrl}}"></iframe>
+		</div>
+	</div>
+</div>

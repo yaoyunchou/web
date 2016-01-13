@@ -24,7 +24,7 @@
 			</div>
 			<div class="pull-left">
 				<button class="btn btn-default btn-lg backup-btn"
-					ng-click="backup()">备份效果 >></button>
+					ng-click="backup()">保存快照 >></button>
 			</div>
 			<div class="pull-left effect"
 				ng-repeat="item in projPageData.bakConf.bak">
@@ -36,10 +36,10 @@
 					ng-if="projPageData.bakConf.bak.length == 2">开始对比</button>
 			</div>
 			<div class="pull-right">
-				<button class="btn btn-primary btn-lg" ng-click="savePageDesign()">
-					保存</button>
-				<button class="btn btn-default btn-lg" ng-click="outPageDesign()">
-					退出</button>
+				<button class="btn btn-primary btn-color" ng-click="savePageDesign()">
+					<label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+				<button class="btn btn-default btn-color" ng-click="outPageDesign()">
+					<label class="checkcancel"></label><span class="btntext black">退&nbsp;出</span></button>
 			</div>
 		</div>
 	</div>

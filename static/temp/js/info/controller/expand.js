@@ -1,8 +1,5 @@
-
-
-
 //频道扩展。
-infoApp.controller('channelCtrl', ['$scope', '$http', '$state', 'utils','$modal', function($scope,$http, $state, utils,$modal) {
+infoApp.controller('channelCtrl', ['$scope', '$http', '$state', 'utils','$modal','platformModalSvc', function($scope,$http, $state, utils,$modal,platformModalSvc) {
 	
 	getExtendList();
 	//加载列表数据
@@ -22,95 +19,84 @@ infoApp.controller('channelCtrl', ['$scope', '$http', '$state', 'utils','$modal'
 //	    			$scope.dataList = [];
 //	    			$scope.totalItems = 0;
 //            		$scope.currentPage = 0;
-	    			alert('暂无数据！');
+	    			platformModalSvc.showWarmingMessage('暂无数据','提示');
 	    			return;
 	    		}
 	    	}else{
-	    		alert('获取数据失败：' + data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//alert('系统异常或网络不给力！');
 	    });
 	};
 	
 	
 	$scope.copyModule = function(params){
 		if(params.isDisabled){
-			alert("你访问的被锁了");
+			platformModalSvc.showWarmingMessage('你访问的被锁了！','提示');
 		}else{
 			$http.post('/pccms/module/extend', params)
 			.success(function(data, status, headers, config) {
 		    	if(data.isSuccess){
 		    		getExtendList();
 		    	}else{
-			    	alert('获取失败！'+data.data);
+		    		platformModalSvc.showWarmingMessage(data.data,'提示');
 		    	}
 		    }).error(function(data, status, headers, config) {
-		    	alert('系统异常或网络不给力！');
+		    	//alert('系统异常或网络不给力！');
 		    });
 			
-		}
-		
-		
-		
-		
+		}				
 	} 
 	
 	
 	$scope.lockinfo = function(params) {
 		module=params;
-		
 		$modal.open({
 			templateUrl: 'lockinfo.html?module=',
 			controller: 'lockinfoCtrl',
 			backdrop: 'static',
 			size: 'md'
 		});	
-		
-		
-		
     };
    
-	
-	
-	
-	$scope.delModule = function(params){
-		
+
+	$scope.delModule = function(params){		
+
 			$http({
 				method: 'DELETE',
 				url: '/pccms/module/extend/'+params._id,
 				params: {}
 			}).success(function(data, status, headers, config) {
 		    	if(data.isSuccess){
-		    		$scope.rootHttp();
+				    $scope.$emit('onMenuUpdated');
 		    		getExtendList();
 		    	}else{
-			    	alert('获取失败！'+data.data);
+		    		platformModalSvc.showWarmingMessage(data.data,'提示');
 		    	}
 		    }).error(function(data, status, headers, config) {
-		    	alert('系统异常或网络不给力！');
+		    	//alert('系统异常或网络不给力！');
 		    });
 		
 		
 	} 
 
 	$scope.addChannel = function() {	
-			$modal.open({
-				templateUrl: 'addChannelmodalBox.html',
-				controller: 'addChannelmodalBoxCtrl',
-				backdrop: 'static',
-				size: 'md'
-			});	
+		$modal.open({
+			templateUrl: 'addChannelmodalBox.html',
+			controller: 'addChannelmodalBoxCtrl',
+			backdrop: 'static',
+			size: 'md'
+		});
 	};
 	
   
 }])
-.controller('lockinfoCtrl', ['$scope', '$modalInstance', '$http','$state', function($scope,$modalInstance,$http,$state) {
+.controller('lockinfoCtrl', ['$scope', '$modalInstance', '$http','$state','platformModalSvc', function($scope,$modalInstance,$http,$state,platformModalSvc) {
 	$scope.cancel = function() {
 		$modalInstance.dismiss();
 	};
-$scope.updModule = function(){
-	
+    $scope.updModule = function(){
 		if(module.isDisabled == true){
 			module.isDisabled = false;
 		}else{
@@ -120,13 +106,13 @@ $scope.updModule = function(){
 		$http.put('/pccms/module/extend/'+module._id, module)
 		.success(function(data, status, headers, config) {
 	    	if(data.isSuccess){
-	    		$scope.rootHttp();
+			    $scope.$emit('onMenuUpdated');
 	    		$state.go('channel',null,{reload:true});
 	    	}else{
-		    	alert('获取失败！'+data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//alert('系统异常或网络不给力！');
 	    });
 		$modalInstance.close();
 	} 
@@ -135,13 +121,9 @@ $scope.updModule = function(){
 }])
 
 //添加频道
-.controller('addChannelmodalBoxCtrl', ['$scope' ,'$modalInstance', '$http','$state', function($scope,$modalInstance,$http,$state) {
+.controller('addChannelmodalBoxCtrl', ['$scope' ,'$modalInstance', '$http','$state','platformModalSvc', function($scope,$modalInstance,$http,$state,platformModalSvc) {
 
 	$scope.ok = function() {
-		
-		
-		
-		
 		$modalInstance.close();
 	};
 
@@ -149,21 +131,19 @@ $scope.updModule = function(){
 		$modalInstance.dismiss();
 	};
 	  /********添加频道**************/	
-	$scope.addModule = function(){
-		
-		
+	$scope.addModule = function(){		
 		$http.post('/pccms/module/extend/',$scope.formData)
 		.success(function(data, status, headers, config) {
 	    	if(data.isSuccess){
 	    		//getExtendList();
 	    		$modalInstance.close();
-	    		$scope.rootHttp();
+			    $scope.$emit('onMenuUpdated');
 	    		$state.go('channel',null,{reload:true});
 	    	}else{
-		    	alert('获取失败！'+data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//alert('系统异常或网络不给力！');
 	    });
 		
 	} 
@@ -171,7 +151,7 @@ $scope.updModule = function(){
 
 
 //分类配置。
-infoApp.controller('categoryCtrl', ['$scope','$state','$http','$stateParams', function($scope,$state,$http,$stateParams) {
+infoApp.controller('categoryCtrl', ['$scope','$state','$http','$stateParams','platformModalSvc',function($scope,$state,$http,$stateParams,platformModalSvc) {
 	
 	$scope.pagename = $stateParams.page=="ctg"? "分类配置":"文章配置";
 
@@ -180,9 +160,7 @@ infoApp.controller('categoryCtrl', ['$scope','$state','$http','$stateParams', fu
 	$scope.infoSEOs = [];
 	$scope.todata = function(obj,value){
 		 obj.isShow=value;
-		
 	
-		
 	}
 	/********分类配置start**************/
 	$scope.getHttp = function(){
@@ -198,10 +176,10 @@ infoApp.controller('categoryCtrl', ['$scope','$state','$http','$stateParams', fu
 	    		$scope.infoOthers = data.data.infoOther;
 	    		
 	    	}else{
-		    	alert('获取失败！'+data.data);
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//alert('系统异常或网络不给力！');
 	    });
 	}
 	$scope.getHttp();
@@ -215,12 +193,12 @@ infoApp.controller('categoryCtrl', ['$scope','$state','$http','$stateParams', fu
 			data: $scope.basedata
 		}).success(function(data, status, headers, config) {
 	    	if(data.isSuccess){
-	    		alert('成功！');
+	    		//alert('成功！');
 	    	}else{
-		    	alert('获取失败！');
+	    		platformModalSvc.showWarmingMessage(data.data,'提示');
 	    	}
 	    }).error(function(data, status, headers, config) {
-	    	alert('系统异常或网络不给力！');
+	    	//alert('系统异常或网络不给力！');
 	    });
 	}
 	  /********提交修改end**************/

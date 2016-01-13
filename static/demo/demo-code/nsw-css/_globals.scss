@@ -1,0 +1,27 @@
+//全局变量
+$font-stack: 14px/21px "Microsoft Yahei";
+$ui-color:#F08300;
+$border-color:#e6e6e6;
+$invalid-color:#fff;
+
+//@mixin 函数
+@mixin background($x, $y, $height) {
+  background: url(../../../img/main_sprit1.png) no-repeat $x $y;
+  height: $height;
+}
+
+//Try to generate the grid system with scss
+@media screen {
+  @for $i from 1 through 10 {
+    .col-md-#{$i} {
+      width: $i/10*100%;
+    }
+  }
+}
+@media projection {
+  @for $i from 1 through 12 {
+    .col-md-#{$i} {
+      width: $i/12*100%;
+    }
+  }
+}

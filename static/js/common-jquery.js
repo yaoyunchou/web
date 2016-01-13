@@ -1,6 +1,7 @@
 angular.module('commonJQuery',[])
 
 .directive('datetimePicker', function() {
+		"use strict";
 	return {
 		restrict: 'A',
 		require:'ngModel',
@@ -11,6 +12,7 @@ angular.module('commonJQuery',[])
 			var optionsObj = {};
 			
 			optionsObj.onSelect = function(dateTimeTxt, picker)	{
+				//dateTimeTxt = dateTimeTxt ? dateTimeTxt : new Date();
 				scope.$apply(function()	{
 					ngModel.$setViewValue(dateTimeTxt);
 				});
@@ -24,8 +26,8 @@ angular.module('commonJQuery',[])
 			$(element).datetimepicker(optionsObj);
 			
 			ngModel.$render	= function() {
-				$(element).datepicker('setDate', ngModel.$viewValue || '');
-			}
+				$(element).datepicker('setDate', ngModel.$viewValue || new Date());
+			};
 		}
 	};
 })
@@ -107,7 +109,7 @@ angular.module('commonJQuery',[])
 		timezoneText: '时区',
 		currentText: '现在时间',
 		closeText: '关闭',
-		timeFormat: 'HH:mm',
+		timeFormat: 'HH:mm:ss',
 		amNames: ['AM', 'A'],
 		pmNames: ['PM', 'P'],
 		isRTL: false
