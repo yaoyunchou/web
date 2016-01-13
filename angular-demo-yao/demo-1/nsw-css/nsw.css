@@ -1,70 +1,70 @@
 @media screen {
-  .nsw .col-md-1 {
+  .yao .col-md-1 {
     width: 10%; }
-  .nsw .col-md-2 {
+  .yao .col-md-2 {
     width: 20%; }
-  .nsw .col-md-3 {
+  .yao .col-md-3 {
     width: 30%; }
-  .nsw .col-md-4 {
+  .yao .col-md-4 {
     width: 40%; }
-  .nsw .col-md-5 {
+  .yao .col-md-5 {
     width: 50%; }
-  .nsw .col-md-6 {
+  .yao .col-md-6 {
     width: 60%; }
-  .nsw .col-md-7 {
+  .yao .col-md-7 {
     width: 70%; }
-  .nsw .col-md-8 {
+  .yao .col-md-8 {
     width: 80%; }
-  .nsw .col-md-9 {
+  .yao .col-md-9 {
     width: 90%; }
-  .nsw .col-md-10 {
+  .yao .col-md-10 {
     width: 100%; } }
 @media projection {
-  .nsw .col-md-1 {
+  .yao .col-md-1 {
     width: 8.33333%; }
-  .nsw .col-md-2 {
+  .yao .col-md-2 {
     width: 16.66667%; }
-  .nsw .col-md-3 {
+  .yao .col-md-3 {
     width: 25%; }
-  .nsw .col-md-4 {
+  .yao .col-md-4 {
     width: 33.33333%; }
-  .nsw .col-md-5 {
+  .yao .col-md-5 {
     width: 41.66667%; }
-  .nsw .col-md-6 {
+  .yao .col-md-6 {
     width: 50%; }
-  .nsw .col-md-7 {
+  .yao .col-md-7 {
     width: 58.33333%; }
-  .nsw .col-md-8 {
+  .yao .col-md-8 {
     width: 66.66667%; }
-  .nsw .col-md-9 {
+  .yao .col-md-9 {
     width: 75%; }
-  .nsw .col-md-10 {
+  .yao .col-md-10 {
     width: 83.33333%; }
-  .nsw .col-md-11 {
+  .yao .col-md-11 {
     width: 91.66667%; }
-  .nsw .col-md-12 {
+  .yao .col-md-12 {
     width: 100%; } }
-.nsw .commit-icon {
-  background: url(../../img/main_sprit1.png) no-repeat -150px -24px;
+.yao .commit-icon {
   height: 22px; }
-.nsw .bread-nav-icon, .nsw .nsw_add {
-  background: url(../../img/main_sprit1.png) no-repeat 0 -89px;
+.yao .bread-nav-icon, .yao .nsw_add {
   height: 22px; }
-.nsw .nsw_bread_tit {
+.yao .nsw_bread_tit {
   position: relative;
   margin: 20px 0 20px 0;
   border-bottom: 1px solid #e6e6e6;
   height: 47px; }
-.nsw .nsw_add {
+.yao .nsw_add {
   margin: 10px 0 10px 0;
   padding-left: 25px;
   float: left;
   font: 14px/21px "Microsoft Yahei"; }
-  .nsw .nsw_add .active {
+  .yao .nsw_add .active {
     color: #F08300; }
-.nsw .bread_link {
+.yao .bread_link {
   float: right;
   margin-top: 14px;
   font: 14px/21px "Microsoft Yahei"; }
+.yao .buttom {
+  background: #f00; }
 
 /*# sourceMappingURL=nsw.css.map */

@@ -5,7 +5,6 @@ $border-color:#e6e6e6;
 
 //@mixin 函数
 @mixin background($x, $y, $height) {
-  background: url(../../img/main_sprit1.png) no-repeat $x $y;
   height: $height;
 }
 

@@ -1,0 +1,23 @@
+$font-stack:12px/15px "Microsoft Yahei";
+$primary-color:#69459a;
+$link-color:#f00;
+@mixin width($width){
+  width: $width;
+}
+@mixin
+nav{
+  @include width(1024px);
+  height: 32px;
+  line-height: 32px;
+  background: pink;
+  li{
+    float: left;
+    text-align: center;
+    a{
+      color:$link-color;
+      &:hover{
+        color:darken($link-color,10%);
+      }
+    }
+  }
+}

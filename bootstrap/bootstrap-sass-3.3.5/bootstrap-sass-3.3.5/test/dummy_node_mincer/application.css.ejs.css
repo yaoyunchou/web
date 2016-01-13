@@ -1,8 +1,8 @@
 /*
-Error: File to import not found or unreadable: bootstrap-mincer.
+Error: File to import not found or unreadable: ../../assets/stylesheetsbootstrap-mincer.
         on line 1 of application.css.ejs.scss
 
-1: @import "bootstrap-mincer";
+1: @import "../../assets/stylesheetsbootstrap-mincer";
 2: @import "../../assets/stylesheets/bootstrap";
 3: 
 4: #image-retina {
@@ -53,4 +53,4 @@ C:/RailsInstaller/Ruby2.1.0/bin/scss:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: bootstrap-mincer.\A         on line 1 of application.css.ejs.scss\A \A 1: @import \"bootstrap-mincer\";\A 2: @import \"../../assets/stylesheets/bootstrap\";\A 3: \A 4: #image-retina {\A 5:   @include img-retina(\"apple-touch-icon-144-precomposed.png\", \"apple-touch-icon-144-precomposed.png\", 72px, 72px);\A 6: }"; }
+  content: "Error: File to import not found or unreadable: ../../assets/stylesheetsbootstrap-mincer.\A         on line 1 of application.css.ejs.scss\A \A 1: @import \"../../assets/stylesheetsbootstrap-mincer\";\A 2: @import \"../../assets/stylesheets/bootstrap\";\A 3: \A 4: #image-retina {\A 5:   @include img-retina(\"apple-touch-icon-144-precomposed.png\", \"apple-touch-icon-144-precomposed.png\", 72px, 72px);\A 6: }"; }
