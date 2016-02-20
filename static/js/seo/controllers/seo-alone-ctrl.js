@@ -14,6 +14,11 @@
 			$scope.alonePreview = function alonePreview(id){
 				seoAloneSvc.alonePreview(id);
 			};
-
+			$scope.searchInfoArticle = function searchInfoArticle(){
+				var name = $scope.name;
+				seoAloneSvc.searchInfoArticle(name).then(function(data){
+					$scope.aloneList = data;
+				});
+			};
 	}]);
 }(angular));

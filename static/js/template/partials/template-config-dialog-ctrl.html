@@ -3,23 +3,14 @@
 		max-width: 77px;
 		max-height: 120px;
 		margin: 20px 0 10px 0;
-	}
-
-	.form-group {
-		line-height: 26px;
-	}
-
-	.form-group {
-		margin-top: 22px;
-
+		height:96px;
 	}
 
 	.form-group label {
-		width: 100px;
+		width: 85px;
 		display: inline-block;
 		line-height: 34px;
 		height: 34px;
-		float: left;
 	}
 
 	/* for Firefox & IE7 */
@@ -27,10 +18,6 @@
 		/* for IE6 */
 		width: expression(this.width > 77 && this.width > this.height ? 77 : auto);
 		height: expression(this.height > 120 ? 120 : auto);
-	}
-
-	.sourceselect {
-		height: 29px;
 	}
 
 	.linetitle {
@@ -42,22 +29,8 @@
 		font-weight: normal;
 	}
 
-	.form-sm-group {
-		line-height: 34px;
-	}
-
 	.form-sm-group input[type='checkbox'], .form-sm-group input[type="radio"] {
-		float: left;
 		margin: 10px 10px 0 0;
-	}
-
-	.from-sm-group-row {
-		overflow: hidden;
-		width: 100%;
-	}
-
-	.custom {
-		padding-left: 25px;
 	}
 
 	.form-group .custom label {
@@ -74,31 +47,30 @@
 		float: left;
 	}
 
-	.ml15 {
-		margin-left: 15px;
-	}
 
-	.responsive {
-		overflow: hidden;
-		padding-left: 25px;
+	.blk-box{
+		height: 162px;
+		max-height: 162px;
+		position:relative;
 	}
-
-	.responsive dt, .responsive dd {
-		float: left;
+	
+	.blk-box i{
+		position: absolute;
+		left: 70%;
+		top: 63%;
+		cursor: pointer;
+		background-color: green;
+		color: #ffffff;
+		width: 13px;
+		height: 13px;
+		padding:0;
+		margin:0;
 	}
-
-	.responsive dt {
-		padding-right: 10px;
-		width: 56px;
-	}
-
-	.control-label {
-		text-align: left;
-	}
+	
 </style>
 <div class="nsw">
 	<div class="modal-header">
-		<h3 class="modal-title">板块编辑</h3>
+		<h3 class="modal-title">版块编辑</h3>
 		<a class="diaremove" ng-click="cancel()"></a>
 	</div>
 	<div class="modal-body">
@@ -106,62 +78,50 @@
 			<tab heading="模板" active>
 				<div style="height:320px;overflow-y:scroll">
 					<div class="row c-tpl-list">
-						<p class="col-sm-2" ng-repeat="(key,item) in setting.pubBlkTpls">
+						<p class="col-sm-2 blk-box" ng-repeat="(key,item) in setting.pubBlkTpls">
 
 							<img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)"
 							     ng-repeat="attr in item.confData" ng-if="attr.name=='blkIcon'"
-							     ng-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}">
+							     nsw-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}"  ng-mouseover="tplShow(item);" ng-mouseout="tplHide();">
+							<i class="fa fa-times" ng-click="removeTpl(item,true);" ng-show="item._id === tplId" ng-mouseover="tplShow(item);"></i>
+
+							<img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)"
+							     ng-if="!item.confData"
+							     nsw-src="{{sysBasePath+'/img/nsw.png'}}" ng-mouseover="tplShow(item);" ng-mouseout="tplHide();">
 							<span data-ng-bind="item.name"></span>
-							<img class="c-tpl-selected-img {{key === setting.projBlkTpl._id ? 'selected' : ''}}"
-							     ng-src="{{sysBasePath}}/img/tpl/selected.png">
+							<img class="c-tpl-selected-img {{item._id === setting.projBlkTpl._id ? 'selected' : ''}}"
+							     nsw-src="{{sysBasePath}}/img/tpl/selected.png" ng-mouseover="tplShow(item);">
 
 						</p>
 					</div>
 					<div class="row c-tpl-list" data-ng-show='setting.projBlkTplList'>
 						<h5 align="left" class="linetitle ng-scope"><span>我的模板</span></h5>
 
-						<p class="col-sm-2" style="height: 165px;overflow: hidden" ng-repeat="(key,item) in setting.projBlkTplList">
-							<img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)"
+						<p class="col-sm-2 blk-box" style="height: 165px;overflow: hidden" ng-repeat="(key,item) in setting.projBlkTplList">
+						     <img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)"
 							     ng-repeat="attr in item.confData" ng-if="attr.name=='blkIcon'"
-							     ng-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}">
+							      nsw-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}" ng-mouseover="tplShow(item);" ng-mouseout="tplHide();">
+							<i class="fa fa-times" ng-click="removeTpl(item,false);" ng-show="item._id === tplId" ng-mouseover="tplShow(item);"></i>     
+
+							<img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)"
+							     ng-if="!item.confData"
+							     nsw-src="{{sysBasePath+'/img/nsw.png'}}" ng-mouseover="tplShow(item);" ng-mouseout="tplHide();">
+							     
 							<span data-ng-bind="item.name"></span>
-							<img data-ng-class="{selected:key===setting.projBlkTpl._id}" class="c-tpl-selected-img"
-							     ng-src="{{sysBasePath}}/img/tpl/selected.png">
+							<img data-ng-class="{selected:item._id===setting.projBlkTpl._id}" class="c-tpl-selected-img"
+							     nsw-src="{{sysBasePath}}/img/tpl/selected.png" ng-mouseover="tplShow(item);">
 						</p>
 					</div>
 				</div>
 			</tab>
-			<tab heading="数据源">
-				<div style="height:320px;overflow-y:scroll">
-					<div class="row form-group c-tpl-ds">
-						<label class="control-label">选择分类</label>
-						<select class="col-xs-3 sourceselect" ng-change="selectModule(setting.projBlkTpl.moduleId)"
-						        ng-model="setting.projBlkTpl.moduleId"
-						        ng-options="item._id as item.name for item in setting.extendModules"></select>
-					</div>
-					<!--<div class="row form-group c-tpl-ds">
-						<label class="control-label">选择频道</label>
-						<nested-combo-box class="col-xs-3" control-disabled="false"
-						                  collection="setting.moduleCtgs" change-event="itemChanged()"
-						                  ng-model="setting.projBlkTpl.ctgId"></nested-combo-box>
-					</div>-->
-					<div class="row form-group c-tpl-ds" ng-repeat="dsData in setting.projBlkTpl.tplDs">
-						<label class="control-label" data-ng-bind="dsData.label"></label>
-
-
-						<select class="col-xs-3 sourceselect" ng-model="dsData.value"
-						        ng-options="item._id as item.name for item in setting.tplDs"></select>
-
-						<div class="col-xs-1"></div>
-						<button ng-show="isShowCtgBtn" class="btn btn-primary" ng-click="changeCtgSelectedFlag()"><span
-								class="glyphicon glyphicon-ok"></span>选择分类
-						</button>
-					</div>
+			<tab heading="数据源"  data-ng-if="setting.tplDs.comp">
+				<div style="height:320px;overflow-y:scroll;padding-top: 20px" ng-form="blkDsForm"  data-ng-if="setting.tplDs.comp">
+					<div platform-form data-options="formOptions" data-on-property-changed="onPropertyChanged"></div>
 				</div>
 			</tab>
 			<tab heading="选项">
 				<div style="height:320px;overflow-y:scroll">
-					<div class="form-horizontal c-tpl-options">
+					<div class="c-tpl-options">
 						<div data-platform-dynamic-form template="setting.blkTplConfData"/>
 					</div>
 				</div>
@@ -172,7 +132,7 @@
 						<div class="col-xs-12">
 							<div data-platform-ace-editor
 							     data-ng-model="setting.projBlkTpl.htmlContent"
-							     data-editor-width="100%"
+							     data-editor-width="690px"
 							     data-editor-height="310px"
 							     data-mode="html"
 							     data-theme="terminal"></div>
@@ -184,9 +144,13 @@
 		</tabset>
 	</div>
 	<div class="modal-footer">
+
 		<button class="btn btn-primary btn-color" ng-click="save()"><label class="checkright"></label><span
 				class="btntext">确&nbsp;定</span></button>
 		<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label
 				class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
 	</div>
+
+	<a class="col-xs-2 pull-right" href="###" ng-click="switchBlkType(setting.pubBlkTpls);" style="text-decoration:underline;text-align:right;margin-top:-25px;">切换到版块选择</a>
+
 </div>

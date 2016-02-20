@@ -1,0 +1,6 @@
+<div platform-modal>
+    <div class="form-group col-sm-12 adv-group" data-ng-repeat="ad in data.ads">
+        <div class="col-sm-1" ng-bind="ad.blkName"></div>
+        <div class="col-sm-11" tool-ad-item data-ng-model="ad"  data-width="ad.blkWidth" data-height="ad.blkHeight"></div>
+    </div>
+</div>

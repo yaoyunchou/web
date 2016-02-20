@@ -5,26 +5,26 @@
 			restrict: 'A',
 			required: 'ngModel',
 			replace: true,
-			//scope:true,
-			/*scope: {
-			 options: '=',
-			 onPropertyChanged: '&'
-			 },*/
 			link: function (scope, element, attrs) {
 
-				scope.formOptions = scope.$eval(attrs.options);
+				scope.formOptions = scope.$eval(attrs.options) || {};
 				scope.onPropertyChanged = scope.$eval(attrs.onPropertyChanged) || angular.noop;
 
+				attrs.$observe('onPropertyChanged', function () {
+					scope.onPropertyChanged = scope.$eval(attrs.onPropertyChanged) || angular.noop;
+				});
+
 				var buildForm = function buildForm() {
-					if (scope.options) {
-						var template = $(platformFormBuilderSvc.buildTemplate(scope.formOptions));
+					if (scope.formOptions) {
+						scope.lookups = scope.formOptions.lookups;
+						var template = $(platformFormBuilderSvc.buildForm(scope.formOptions));
+						element.html('');
 						element.append(template);
 						$compile(template)(scope);
 					}
 				};
 
-				scope.$watch('options', buildForm);
-				scope.$watch(scope.formOptions.formName + '.$invalid', function (val) {
+				scope.$watch(scope.formOptions.name + '.$invalid', function (val) {
 					scope.formOptions.$invalid = val;
 				});
 
@@ -33,12 +33,33 @@
 					scope.formOptions.isDirty = true;
 				};
 
-				scope.formOptions.setData = function setData(data) {
-					scope.formOptions.data = data;
-					scope.data = data;
+				var init = function init(){
+					scope.formOptions.setData = function setData(data) {
+						scope.formOptions.data = data;
+						scope.data = data;
+						scope[scope.formOptions.name].$setPristine(true);
+					};
+
+					scope.formOptions.setData(scope.formOptions.data);
 				};
 
-				scope.formOptions.setData(scope.formOptions.data);
+				if(scope.formOptions && scope.formOptions.name) {
+					attrs.$observe('options', function () {
+						scope.formOptions = scope.$eval(attrs.options) || {};
+						init();
+						buildForm();
+					});
+
+					scope.$watch('formOptions.rows',function(){
+						buildForm();
+					});
+
+					scope.$watch('formOptions.data',function(newVal){
+						scope.formOptions.setData(newVal);
+					});
+
+					init();
+				}
 			}
 		};
 	}]);

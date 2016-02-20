@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../js/components/content/style.css">
     <link rel="stylesheet" href="../../css/menu.css"/>
+    <link rel="stylesheet" href="../js/tools/content/css/style.css">
+    <link rel="stylesheet" href="../js/tools/content/css/advertising-lib.css">
+    <link rel="stylesheet" href="../js/components/content/css/platform.css">
 </head>
 
 <body>
@@ -38,7 +41,7 @@
                         <a>帮助中心</a>
                     </div>
                     <div>
-                        <a class="c-user-name"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;NSW&nbsp;&nbsp;欢迎你！</a>｜
+                        <a class="c-user-name" href="../../js/personal/index.html#/personalInfo"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;NSW&nbsp;&nbsp;欢迎你！</a>｜
                         <a href="/pccms/j_spring_cas_security_logout">退出</a>
                     </div>
                 </div>
@@ -66,6 +69,8 @@
                     <div class="c-menu" ng-class="{selected: menuItem == 'imglib'}" ui-sref="imglib"><i class="glyphicon glyphicon-tag"></i> 图标、图片库</div>
                     <div class="c-menu" ng-class="{selected: menuItem == 'taglib'}" ui-sref="taglib"><i class="glyphicon glyphicon-tag"></i> 标签库</div>
                     <div class="c-menu" ng-class="{selected: menuItem == 'aceEditor'}" ui-sref="aceEditor"><i class="glyphicon glyphicon-tag"></i> 源码编辑器</div>
+                    <div class="c-menu" ng-class="{selected: menuItem == 'adSelector'}" ui-sref="adSelector"><i class="glyphicon glyphicon-tag"></i> 广告选择器</div>
+                    <div class="c-menu" ng-class="{selected: menuItem == 'kindeditor'}" ui-sref="kindeditor"><i class="glyphicon glyphicon-tag"></i> KindEditor</div>
                 </div>
             </div>
         </div>
@@ -84,62 +89,13 @@
     <![endif]-->
 
 
+    <script type="text/javascript" src="../target/plugin.all.js"></script>
 
-    <script type="text/javascript" src="../plugin/jquery/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="../plugin/jquery/jquery-ui.js"></script>
-    <script type="text/javascript" src="../plugin/jquery/jquery-ui-timepicker-addon.js"></script>
-    <script type="text/javascript" src="../plugin/angular/angular.js"></script>
-    <script type="text/javascript" src="../plugin/angular/angular-locale_zh-cn.js"></script>
-    <script type="text/javascript" src="../plugin/angular/angular-sanitize.js"></script>
-    <script type="text/javascript" src="../plugin/angular/angular-ui-router.js"></script>
-    <script type="text/javascript" src="../plugin/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
-
-    <!-- 分页 -->
-    <script type="text/javascript" src="../plugin/bootstrap/pagination.js"></script>
-
-    <!-- 树 -->
-    <script type="text/javascript" src="../plugin/angular-ui-tree/angular-ui-tree.js"></script>
-
-    <!-- 富文本编辑器 -->
-    <script type="text/javascript" src="../plugin/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="../plugin/ueditor/ueditor.all.min.js"> </script>
-    <script type="text/javascript" src="../plugin/ueditor/lang/zh-cn/zh-cn.js"></script>
-
-    <script type="text/javascript" src="../plugin/ueditor/angular-ueditor.js"></script>
-
-
-
-
-    <!-- 文件上传组件 -->
-    <script type="text/javascript" src="../plugin/ueditor/third-party/webuploader/webuploader.js"></script>
-    <script type="text/javascript" src="../plugin/ueditor/third-party/webuploader/angular-webuploader.js"></script>
-
-    <!-- 树型下拉列表 -->
-    <script type="text/javascript" src="../plugin/angular-combobox/ng-nested-combobox.js"></script>
-
-    <!-- 共用组件 -->
-    <script type="text/javascript" src="../js/common-jquery.js"></script>
-    <script type="text/javascript" src="../js/common.js"></script>
-
-    <!-- 源码编辑器 -->
-    <script type="text/javascript" src="../plugin/ace/ace.js"></script>
-    <script src="../plugin/ace/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../plugin/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../plugin/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
+    <!--Concated components  -->
+    <script type="text/javascript" src="../target/conponent.all.js"></script>
 
     <!-- demo -->
     <script type="text/javascript" src="../demo/js/app.js"></script>
-
-
-    <!--面包削导航-->
-    <script src="../js/components/globals.js"></script>
-    <script src="../js/components/platform-app.js"></script>
-    <script src="../js/components/directives/widgets/platform-bread-nav-dir.js"></script>
-
-    <!-- 弹窗服务 -->
-    <script src="../js/components/services/platform-modal-svc.js"></script>
-    <script src="../js/components/directives/widgets/platform-modal-dir.js"></script>
-
     <script type="text/javascript" src="../demo/js/tree.js"></script>
     <script type="text/javascript" src="../demo/js/btn.js"></script>
     <script type="text/javascript" src="../demo/js/dialog.js"></script>
@@ -148,26 +104,18 @@
     <script type="text/javascript" src="../demo/js/ueditor.js"></script>
     <script type="text/javascript" src="../demo/js/page.js"></script>
     <script type="text/javascript" src="../demo/js/combobox.js"></script>
-    <script type="text/javascript" src="../demo/js/imglib.js"></script>
+   <!-- <script type="text/javascript" src="../demo/js/imglib.js"></script>-->
     <script type="text/javascript" src="../demo/js/taglibCtrl.js"></script>
     <script type="text/javascript" src="../demo/js/demo-path-ctrl.js"></script>
 
-
-    <!--ace editor-->
     <script type="text/javascript" src="../demo/js/ace-editor.js"></script>
-    <script type="text/javascript" src="../js/directives/ace-editor-directive.js"></script>
 
-    <!-- modal dialogs -->
-    <script type="text/javascript" src="../js/components/services/platform-modal-svc.js"></script>
-    <script type="text/javascript" src="../js/components/services/platform-image-lib-svc.js"></script>
-    <script type="text/javascript" src="../js/components/directives/widgets/platform-modal-dir.js"></script>
-    <script type="text/javascript" src="../js/components/controllers/platform-modal-tip-ctrl.js"></script>
-    <script type="text/javascript" src="../js/components/controllers/platform-modal-message-ctrl.js"></script>
-    <!-- tab-lib-->
-    <script type="text/javascript" src="../js/components/directives/tag-lib/platform-tag-lib-dir.js"></script>
-    <!-- widgets -->
-    <script type="text/javascript" src="../js/components/directives/widgets/nsw-enter-dir.js"></script>
-    <script type="text/javascript" src="../js/components/directives/validators/max-word-validator-dir.js"></script>
+    <script type="text/javascript" src="../js/tools/tool-app.js"></script>
+    <script type="text/javascript" src="../js/tools/services/advertising-list-svc.js"></script>
+    <script type="text/javascript" src="../js/tools/controllers/advertising-lib-ctrl.js"></script>
+    <script type="text/javascript" src="../js/tools/directives/tool-ad-item-dir.js"></script>
+    <script type="text/javascript" src="../demo/js/ad-selector.js"></script>
+    <script type="text/javascript" src="../demo/js/kindeditor.js"></script>
 
     <script>
         $(document).ready(function(){

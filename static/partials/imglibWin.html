@@ -90,7 +90,7 @@
 								<ul class="c-img-list up_ul" index = "0">
 									<li ng-repeat="(key,item) in fileQueued">
 										<i class="fa fa-times" ng-click="removeQueuedImg(key);"></i>
-										<a href="javascript:void(0);"><img ng-src="{{item.src}}"/></a>
+										<a href="javascript:void(0);"><img nsw-src="{{item.src}}"/></a>
 										<span><input class="c-file-name" ng-model="item.name"/></span>
 										<span class="c-ready-up" ng-hide="item.hasProgress">{{item.state}}</span>
 										<div class="progress progress-mini" ng-show="item.hasProgress"><div style="width:{{item.progress}}%;" class="progress-bar progress-bar-success"></div></div>
@@ -119,7 +119,7 @@
 							<li ng-class="{selected: item.selected}" ng-repeat="item in imglibList" ng-click="selectImg(item);">
                                 <i class="fa fa-eye" ng-click="imgPreview(item.url,$event)"></i>
 								<i class="fa fa-check"></i>
-								<a href="javascript:void(0);"><img ng-src="{{item.url}}"/></a>
+								<a href="javascript:void(0);"><img nsw-src="{{item.url}}"/></a>
 								<span>{{item.fileName}}</span>
 							</li>
 						</ul>
@@ -146,7 +146,7 @@
 									<li ng-repeat="item in selectImgList">
 										<i class="fa fa-times" ng-click="removeImg(item);"></i>
 										<i class="fa fa-eye" ng-click="imgPreview(item.url,$event)"></i>
-										<a href="javascript:void(0);"><img ng-src="{{item.url}}"/></a>
+										<a href="javascript:void(0);"><img nsw-src="{{item.url}}"/></a>
 										<span>{{item.fileName}}</span>
 									</li>
 								</ul>

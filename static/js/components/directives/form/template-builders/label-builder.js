@@ -5,13 +5,23 @@
 		['baseTemplateBuilder',
 			function (baseTemplateBuilder) {
 
-				var service = {}, requiredTemplate = baseTemplateBuilder.getTemplate('required');
-				baseTemplateBuilder.getTemplate('label');
-				baseTemplateBuilder.addConfiguration(/%required%/g, requiredTemplate);
-				service.init = baseTemplateBuilder.init;
+				var service = {}, baseBuilder = new baseTemplateBuilder();
+
+				service.init = function init(formOptions, editorOptions) {
+					baseBuilder.init(formOptions, editorOptions);
+					baseBuilder.getTemplate('label');
+
+					if (editorOptions.hasLabel) {
+						var requiredTemplate = editorOptions.required?baseBuilder.getTemplate('required', true):'';
+						baseBuilder.addConfiguration(/%required%/g, requiredTemplate);
+					} else {
+						baseBuilder.template = '';
+						baseBuilder.configuration = [];
+					}
+				};
 
 				service.build = function () {
-					return baseTemplateBuilder.buildConfigurations();
+					return baseBuilder.buildConfigurations();
 				};
 				return service;
 			}]);

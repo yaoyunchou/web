@@ -4,7 +4,7 @@
 (function(angular){
 	"use strict";
 	angular.module('seoApp').controller('seoDefaultCtrl',['$scope','seoDefaultSvc','platformModalSvc', function($scope,seoDefaultSvc,platformModalSvc){
-		/*$scope.seoDefault = seoDefaultSvc.seoData;*/
+		$scope.seoDefault = seoDefaultSvc.seoData;
 		seoDefaultSvc.getSeoData().then(function(data){
 			$scope.seoDefault = data;
 		});

@@ -4,7 +4,8 @@
 (function (angular) {
 	"use strict";
 
-	angular.module('personalInfoApp',['ui.router', 'ui.bootstrap','ngStorage']).config(['$stateProvider', '$urlRouterProvider',
+
+	angular.module('personalInfoApp',['platform','common','ui.router', 'ui.bootstrap','ngStorage']).config(['$stateProvider', '$urlRouterProvider',
 		function ($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider.otherwise('/personalInfo');
 			$stateProvider.state('personalInfo', {

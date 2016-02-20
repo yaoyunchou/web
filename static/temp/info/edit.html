@@ -115,7 +115,7 @@
                         <div class="col-sm-5">                           
                             <pre class="form-control">{{bean.cmsTags|showCtgsName}}</pre>                   
                         </div>                         
-                        <button type="button" class="btn btn-default clean-btn" tag-lib result="bean.cmsTags" ng-model="bean.cmsTags">选择标签</button>
+                        <button type="button" class="btn btn-default clean-btn" data-module-id="{{moduleId}}" tag-lib result="bean.cmsTags" ng-model="bean.cmsTags">选择标签</button>
                     </div>                    
                    <div class="form-group">
                         <label  class="col-sm-2 control-label lighter-weight">                            
@@ -134,7 +134,7 @@
                         <div class="col-md-offset-2 col-sm-2">
                             <a href="javascript:void(0)">
                                 <div class="border-slt text-center" img-lib ng-model="img.thumbnail">  
-                                    <img id="thumbnail" style="height: 128px;width: 128px;" ng-src="{{img.thumbnail[0].path}}" ng-show="img.thumbnail[0].path != undefined">  
+                                    <img id="thumbnail" style="height: 128px;width: 128px;" nsw-src="{{img.thumbnail[0].path}}" ng-show="img.thumbnail[0].path != undefined">
                                     <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="img.thumbnail[0].path == undefined"></i>  
                                     <h6 ng-show="img.thumbnail[0].path == undefined" style="margin-bottom: 20px;">点击上传</h6>
                                 </div>                              

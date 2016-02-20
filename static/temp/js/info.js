@@ -635,10 +635,10 @@ infoApp.controller('editCtrl', ['$scope', '$http', '$state','$stateParams','comm
 			name: $scope.classify.activeItemBean.name
 		}			
 		
-		$scope.bean.imgSm = {
+		/*$scope.bean.imgSm = {
 			url:$('#thumbnail').attr('src'),
 			alt:''
-		}
+		}*/
 
 		// alert(JSON.stringify($scope.bean));
 		if ($stateParams.id) { //修改。			
@@ -1440,19 +1440,32 @@ angular.module('infoApp').directive('beyond', function() {
 		}
     }
 });
-angular.module('infoApp').directive('leftInformation', function() {
+angular.module('infoApp').directive('leftInformation',['$compile',function($compile) {
 	 return {
         restrict : 'ACE',
-        replace : true,        
-        scope : {},
-        link : function(scope, element, attrs) { 
-				element.find('button').bind('click',function(){					
-				$(this).hide();
-				element.find('.left-info').show();
-			});        	
+        link : function(scope, element, attrs) {
+
+	        var showInput = function showInput(){
+		        element.find('button').hide();
+		        $compile(element.find('.left-info').show())(scope);
+	        };
+
+	        var inputNgModel = element.find('.form-control[ng-model],.form-control[data-ng-model]').data('$ngModelController');
+	        var render = inputNgModel.$render;
+	        inputNgModel.$render = function render(){
+		        var viewValue = inputNgModel.$viewValue;
+		        if(viewValue){
+			        showInput();
+		        }
+		        render.apply(this, arguments);
+		        return viewValue;
+	        };
+	        element.find('button').bind('click', function () {
+		        showInput();
+	        });
 		}
     }
-});
+}]);
 angular.module('infoApp').directive('selectToggle', function() {
 	 return {
         restrict : 'ACE',

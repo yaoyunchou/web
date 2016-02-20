@@ -223,11 +223,12 @@
 
                     <div class="col-sm-5">
                         <input type="text" name="linkUrl" class="form-control" autocomplete="off" ng-model="bean.linkUrl"
-                               ng-maxlength="100" required>
+                               data-nsw-max-length="100" required>
 
                         <div ng-show="formInfo.linkUrl.$dirty && formInfo.linkUrl.$invalid"><span class="err"
                                                                                                   ng-show="formInfo.linkUrl.$error.required">请填写网址</span><span
-                                class="err" ng-show="!formInfo.linkUrl.$error.required && formInfo.linkUrl.$error">网址长度为0~100字符</span>
+                                class="err" ng-show="formInfo.linkUrl.$error.nswmaxlength">网址长度为0~100字符</span>
+                            <span class="err" ng-show="formInfo.linkUrl.$error.url">以http://开头，如http://www.nsw88.com</span>
                         </div>
                     </div>
                     <span class="mess-zx martop-5">0</span>/100字符
@@ -245,52 +246,74 @@
                     </div>
                     <span class="mess-zx martop-5">0</span>
                     /100字符
-                    <button type="button" class="btn btn-default clean-btn no-radus-btn" tag-lib
+                    <button type="button" class="btn btn-default clean-btn no-radus-btn" tag-lib data-module-id="{{state.moduleId}}"
                             ng-model="bean.cmsTags"><span class="sel-cmstags"></span><span>选择标签</span></button>
                 </div>
                 <div class="form-group" ng-show="isLinkFlag">
                     <label class="col-sm-2 control-label lighter-weight padleft70">分类名称图标</label>
-
                     <div class="col-sm-2">
                         <a href="javascript:void(0)">
-                            <div class="border-slt text-center" img-lib ng-model="img.iconClassify" data-img-count="1">
-                                <img id="wlicon" class="hw128" ng-src="{{img.iconClassify[0].url}}"
-                                     ng-show="img.iconClassify[0].url != undefined">
+                            <div class="border-slt text-center" img-lib="image" ng-model="bean.imgMd" data-img-count="1">
+                                <img id="wlicon1" class="hw128" nsw-src="{{bean.imgMd.url}}"
+                                     ng-show="bean.imgMd.url != undefined">
                                 <i class="fa fa-cloud-upload fa-3x martop20"
-                                   ng-show="img.iconClassify[0].url == undefined"></i>
-                                <h6 ng-show="img.iconClassify[0].url == undefined" class="marbottom20">点击上传</h6>
+                                   ng-show="bean.imgMd.url == undefined"></i>
+                                <h6 ng-show="bean.imgMd.url == undefined" class="marbottom20">点击上传</h6>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0)">
+                            <div class="border-slt text-center" img-lib="image" ng-model="bean.imgMdPhone" data-img-count="1">
+                                <img id="wlicon2" class="hw128" nsw-src="{{bean.imgMdPhone.url}}"
+                                     ng-show="bean.imgMdPhone.url != undefined">
+                                <i class="fa fa-cloud-upload fa-3x martop20"
+                                   ng-show="bean.imgMdPhone.url == undefined"></i>
+                                <h6 ng-show="bean.imgMdPhone.url == undefined" class="marbottom20">点击上传</h6>
                             </div>
                         </a>
                     </div>
                 </div>
                 <div ng-show="!isLinkFlag">
                     <div class="form-group marbottom32">
-                        <label class="col-sm-2 control-label lighter-weight padleft70">是否上传板块名称图标</label>
+                        <label class="col-sm-2 control-label lighter-weight padleft70">是否上传版块名称图标</label>
 
                         <div class="col-sm-8">
                             <label class="radio-inline">
-                                <input type="radio" name="radioCheckedImg" ng-click="hasNotThumbnail()"
-                                       ng-checked="!imageExist">否
+                                <input type="radio" name="radioCheckedImg"
+                                       ng-value="false"
+                                       ng-change="clearImageSm()"
+                                       ng-model="isThumbnail">否
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="radioCheckedImg" ng-click="hasThumbnail()"
-                                       ng-checked="imageExist">是
+                                <input type="radio" name="radioCheckedImg"
+                                       ng-value="true"
+                                       ng-change="clearImageSm()"
+                                       ng-model="isThumbnail">是
                             </label>
                         </div>
                     </div>
 
-                    <div class="form-group" ng-show="isThumbnail">
-                        <div class="col-md-offset-2 col-sm-2">
+                    <div class="col-sm-offset-2 row marbottom32" ng-show="isThumbnail">
+                        <div class="col-sm-2" data-ng-show="showPcImage">
                             <a href="javascript:void(0)">
-                                <div class="border-slt text-center" img-lib ng-model="img.thumbnail" data-img-count="1">
-                                    <img id="thumbnail" class="hw128" ng-src="{{img.thumbnail[0].url}}"
-                                         ng-show="img.thumbnail[0].url != undefined">
-                                    <i class="fa fa-cloud-upload fa-3x martop20"
-                                       ng-show="img.thumbnail[0].url == undefined"></i>
-                                    <h6 ng-show="img.thumbnail[0].url == undefined" class="marbottom20">点击上传</h6>
+                                <div class="border-slt text-center" img-lib="url" ng-model="bean.imgSm.urlPc" data-img-count="1">
+                                    <img id="thumbnail" class="hw128" nsw-src="{{images[0].url}}"
+                                         ng-show="images[0].url">
+                                    <i class="fa fa-cloud-upload fa-3x martop20" ng-show="!images[0].url"></i>
+                                    <h6 class="marbottom20" ng-show="!images[0].url">点击上传（pc）</h6>
                                 </div>
                             </a>
                         </div>
+
+                        <div class="col-sm-2" data-ng-show="showPhoneImage">
+                            <a href="javascript:void(0)">
+                                <div class="border-slt text-center"  img-lib="url" ng-model="bean.imgSm.urlPhone" data-img-count="1">
+                                    <img id="thumbnailphone" class="hw128" nsw-src="{{images[0].url}}" ng-show="images[0].url">
+                                    <i class="fa fa-cloud-upload fa-3x martop20" ng-show="!images[0].url"></i>
+                                    <h6 class="marbottom20" ng-show="!images[0].url">点击上传(手机)</h6>
+                                </div>
+                            </a>
+                        </div>
+
                         <div class="col-sm-8 martop10" beyond max-count='64'>
                             <label class="col-sm-2 control-label lighter-weight">alt标签</label>
 
@@ -314,8 +337,8 @@
                 <div class="form-group marbottom32" ng-show="!isLinkFlag">
                     <label class="col-sm-2 control-label lighter-weight padleft70">分类描述</label>
 
-                    <div class="col-sm-8" style="z-index: 1;">
-                        <div ueditor ng-model="bean.desc" config="configDesc"></div>
+                    <div class="col-sm-9" style="z-index: 1;">
+                        <div platform-kindeditor  k-maximum-words="600" data-ng-model="bean.desc"></div>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:25px;margin-top:-10px;" ng-show="isLinkFlag">
@@ -367,8 +390,13 @@
                     </label>
 
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()"
-                               name="staticPageName" ng-maxlength="30" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control" autocomplete="off"
+                                   ng-model="bean.seo.staticPageName" ng-blur="verRepeat()"
+                                   name="staticPageName" ng-maxlength="30" required>
+
+                            <div class="input-group-addon">.html</div>
+                        </div>
 
                         <div ng-show="formInfo.staticPageName.$dirty && formInfo.staticPageName.$invalid">
                             <span class="err" ng-show="formInfo.staticPageName.$error.required">请填写静态页名称</span>
@@ -450,27 +478,27 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="list in mylist">
-                                <td>{{list.name}}<a class="pull-right editbtn" ng-click="editProduct(list)"
+                            <tr ng-repeat="list in bean.optionFields">
+                                <td>{{list.title}}<a class="pull-right editbtn" ng-click="editProduct(list)"
                                                     title="快速编辑">
                                     <i class="fa fa-edit"></i>
                                 </a></td>
-                                <td>{{list.index}}</td>
-                                <td>出版社</td>
+                                <td><span data-ng-show="list.formType=='text'">文本框</span><span data-ng-show="list.formType=='radio'">单选框</span><span data-ng-show="list.formType=='checkbox'">多选框</span><span data-ng-show="list.formType=='select'">下拉框</span></td>
+                                <td>{{ list.optionFields | fileOption}}</td>
                                 <td>
                                             <span>
-                                                <i class="fa fa-arrow-up"
-                                                   style="display:{{list.up ? 'inline-block':'none'}}"
-                                                   ng-click="changtype(list.index,'up')"></i>&nbsp;
-                                                <i class="fa fa-arrow-down"
-                                                   style="display:{{list.down ? 'inline-block':'none'}} "
-                                                   ng-click="changtype(list.index,'down')"></i>
+                                              <span>
+								    		    <i ng-hide="$first" class="fa fa-arrow-up"
+                                                   ng-click="interchange(list,optionFields[$index-1])"></i>&nbsp;
+												 <i ng-hide="$last" class="fa fa-arrow-down"
+                                                    ng-click="interchange(list,optionFields[$index+1])"></i>
+							    		    </span>
                                             </span>
                                 </td>
                                 <td class="text-right">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default btn-sm"
-                                                ng-click="deletOtherType($index)">
+                                                ng-click="deletOtherType($index,list)">
                                             <i class="fa fa-trash-o"></i>
                                             删除
                                         </button>
@@ -485,17 +513,29 @@
                 <div style="clear:both;" class="marbottom100"></div>
             </tab>
             <tab heading="其他属性" status="infoOther" ng-show="infoOther">
+                <div class="form-group adv-group" data-ng-repeat="ad in bean.data.ads" style="padding-top:20px;">
+                    <label class="col-sm-2 control-label lighter-weight padleft70" ng-bind="ad.blkName"></label>
+                    <div class="col-sm-10" tool-ad-item data-ng-model="ad" data-channel-id="bean.data.ctgId"  data-width="ad.blkWidth" data-height="ad.blkHeight"></div>
+                </div>
                 <div class="form-group pt20">
                     <label class="col-sm-2 control-label lighter-weight padleft70">分类名称图标</label>
-
                     <div class="col-sm-2">
                         <a href="javascript:void(0)">
-                            <div class="border-slt text-center" img-lib ng-model="img.lmicon" data-img-count="1">
-                                <img id="lmicon" class="hw128" ng-src="{{img.lmicon[0].url}}"
-                                     ng-show="img.lmicon[0].url != undefined">
+                            <div class="border-slt text-center" img-lib="image" ng-model="bean.imgMd" data-img-count="1">
+                                <img id="lmicon" class="hw128" nsw-src="{{bean.imgMd.url}}"
+                                     ng-show="bean.imgMd.url != undefined">
                                 <i class="fa fa-cloud-upload fa-3x martop20"
-                                   ng-show="img.lmicon[0].url == undefined"></i>
-                                <h6 ng-show="img.lmicon[0].url == undefined" class="marbottom20">点击上传</h6>
+                                   ng-show="bean.imgMd.url == undefined"></i>
+                                <h6 ng-show="bean.imgMd.url == undefined" class="marbottom20">点击上传</h6>
+                            </div>
+                        </a>
+                        <a href="javascript:void(0)">
+                            <div class="border-slt text-center" img-lib="image" ng-model="bean.imgMdPhone" data-img-count="1">
+                                <img id="wlicon" class="hw128" nsw-src="{{bean.imgMdPhone.url}}"
+                                     ng-show="bean.imgMdPhone.url != undefined">
+                                <i class="fa fa-cloud-upload fa-3x martop20"
+                                   ng-show="bean.imgMdPhone.url == undefined"></i>
+                                <h6 ng-show="bean.imgMdPhone.url == undefined" class="marbottom20">点击上传</h6>
                             </div>
                         </a>
                     </div>
@@ -556,7 +596,7 @@
                             <li ng-repeat="row in tempList" ng-click="selectListImageOne(row)">
                                 <a href="javascript:void(0)">
                                     <div class="item y-pad0">
-                                        <img class="img" ng-src="{{row.imgSm ? row.imgSm : '../../img/nsw.png'}}" title="{{row.name}}">
+                                        <img class="img" nsw-src="{{row.imgSm ? row.imgSm : '../../img/nsw.png'}}" title="{{row.name}}">
                                         <i class="fa fa-check" ng-show="listTempOk[row._id]"></i>
                                     </div>
                                     {{row.name}}
@@ -573,7 +613,7 @@
                             <li ng-repeat="row in tempDetail" ng-click="selectDetailImageOne(row)">
                                 <a href="javascript:void(0)">
                                     <div class="item y-pad0">
-                                        <img class="img" ng-src="{{row.imgSm ? row.imgSm : '../../img/nsw.png'}}" title="{{row.name}}">
+                                        <img class="img" nsw-src="{{row.imgSm ? row.imgSm : '../../img/nsw.png'}}" title="{{row.name}}">
                                         <i class="fa fa-check" ng-show="detailTempOk[row._id]"></i>
                                     </div>
                                     {{row.name}}

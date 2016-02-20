@@ -28,11 +28,32 @@
 					deptList.push(response.data.data);
 					defer.resolve(deptList);
 					service.getCtgDetpList();
+					platformModalSvc.showSuccessTip("添加成功!");
+				}else{
+					platformModalSvc.showWarmingTip(response.data.msg);
 				}
-				platformModalSvc.showSuccessTip(response.data.msg);
 			}, function (response) {
 				platformModalSvc.showWarmingTip(response.data.msg);
 			});
+			return defer.promise;
+		};
+		service.updata = function updata(data) {
+			var defer = $q.defer();
+			$http({
+				'method': 'POST',
+				'url': '/pccms/addDept',
+				'data': data
+			}).then(function (response) {
+				if (response.data.isSuccess) {
+					deptList.push(response.data.data);
+					defer.resolve(deptList);
+				}
+				platformModalSvc.showSuccessTip(response.data.msg);
+				service.getCtgDetpList(false);
+			}, function (response) {
+				platformModalSvc.showWarmingTip(response.data.msg);
+			});
+
 			return defer.promise;
 		};
 		/*左侧列表*/
@@ -42,7 +63,6 @@
 			$http.get('/pccms/ctgDetpList').then(function (response) {
 				deptList = response.data.data||[];
 				deptList = _.sortBy(deptList,'orderBy')
-
 				if (flog) {
 					service.setSelectCatalog(deptList[0]);
 				}
@@ -97,60 +117,6 @@
 		//交换排序字段 optimized
 		service.switchSortIndex = function switchSortIndex(item1, item2) {
 			service.sortCtg({id1: item1.id, id2: item2.id});
-		};
-
-		service.movUp = function movUp(item, type, obj) {
-			if (type === "svc") {
-				var sorted = _.sortBy(obj, 'orderBy');
-				var index = _.findIndex(sorted, {_id: item._id});
-				var prevItem = sorted[index - 1];
-				if (prevItem) {
-					var data = {};
-					data.id1 = item._id;
-					data.id2 = prevItem._id;
-					data.deptId = selectedCatalog.id;
-					service.sortItem(data);
-				}
-			} else if (type === "ctg") {
-				var sortedctg = _.sortBy(obj, 'orderBy');
-				var indexctg = _.findIndex(sortedctg, {id: item.id});
-				var prevItemctg = sortedctg[indexctg - 1];
-				if (prevItemctg) {
-					var data2 = {};
-					data2.id1 = item.id;
-					data2.id2 = prevItemctg.id;
-					service.sortCtg(data2);
-				}
-			}
-		};
-		service.movDown = function movDone(item, type, obj) {
-			if (type === "svc") {
-				var sorted = _.sortBy(obj, 'orderBy');
-				var index = _.findIndex(sorted, {_id: item._id});
-				var nextItem = sorted[index + 1];
-				if (nextItem) {
-					var data = {};
-					data.id1 = item._id;
-					data.id2 = nextItem._id;
-					data.deptId = selectedCatalog.id;
-					service.sortItem(data);
-				}
-			} else if (type === "ctg") {
-				var sortedctg = _.sortBy(obj, 'orderBy');
-				var indexctg = _.findIndex(sortedctg, {id: item.id});
-				var nextItemctg = sortedctg[indexctg + 1];
-				if (nextItemctg) {
-					var data2 = {};
-					data2.id1 = item.id;
-					data2.id2 = nextItemctg.id;
-					service.sortCtg(data2);
-				}
-				/*var data2 = {};
-				 data2.id1 = item.id;
-				 data2.id2 = nextItem.id;
-				 service.sortCtg(data2);*/
-			}
-
 		};
 		//获取选中部门对象
 		service.getSelectCatalog = function getSelectCatalog() {

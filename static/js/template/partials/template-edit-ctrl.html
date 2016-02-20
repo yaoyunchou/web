@@ -1,30 +1,46 @@
-<div class="c-menu-container">
-	<div class="tool-bar">
-		<div class="container">
-			<div class="pull-left toolbar">
-				<button class="btn btn-primary btn-lg"  data-ng-show="!isDesign" data-ng-click="turnEdit()"> 编辑模板</button>
-				<button class="btn btn-primary  btn-lg" data-ng-show="isDesign"
-				        data-ng-click="editSource(projPageData.id)">
-					编辑源码
-				</button>
-				<button class="btn btn-primary btn-lg" data-ng-show="isDesign" data-ng-click="savePageDesign()"> 保存</button>
-				<button class="btn btn-primary btn-lg" data-ng-click="showPad()">Pad</button>
-				<button class="btn btn-primary btn-lg" data-ng-click="showPhone()">Phone</button>
-				<button class="btn btn-primary btn-lg" data-ng-click="rotate()">旋转</button>
-				<!--<button class="btn btn-primary btn-lg" data-ng-click="goBack()"> Go Back</button>-->
-			</div>
+<div class="template-container full-container">
+	<div class="template-edit-tool" ng-hide="!isResponsive && isPreview">
+		<button class="btn btn-default btn-lg" ng-show="!isDesign && !isPreview" ng-click="turnEdit()"> 编辑模板</button>
+		<button class="btn btn-default btn-lg" ng-show="isDesign" ng-click="editSource(projPageData.id)"> 编辑源码</button>
+		<button class="btn btn-primary btn-lg" data-ng-show="isResponsive" data-ng-click="showPhone()">手机预览</button>
+		<button class="btn btn-primary btn-lg" data-ng-show="isResponsive" data-ng-click="showPc()">PC预览</button>
 
-			<div class="qr-code">
-				<div platform-qr-code="viewTemplate"/>
-				扫一扫
+		<div style="display:inline-block;height:30px;line-height:30px;margin-top:10px;" ng-show="isDesign && !showQrCode">
+			<label>对比模式：</label>
+			<label><input type="radio" name="compareType" ng-value="'same'" ng-model="compareType"/> 同屏</label>
+			<label><input type="radio" name="compareType" ng-value="'wide'" ng-model="compareType"/> 宽屏</label>
+		</div>
+
+		<div style="display:inline-block;height:30px;line-height:30px;" ng-show="isDesign&& !showQrCode">
+			<button class="btn btn-default btn-lg backup-btn" ng-disabled="disabled" ng-click="backup()"> 保存快照 >></button>
+		</div>
+		<div style="display:inline-block;height:20px;line-height:20px;" ng-show="isDesign&& !showQrCode">
+			<div ng-repeat="item in projPageDataList" style="display:inline-block;">
+				<span>效果<span data-ng-bind="$index+1"/></span>
+				<i class="fa fa-times" ng-click="delBackup($index, item)"></i>
+			</div>
+			<div style="display:inline-block;">
+				<button class="btn btn-primary btn-sm" ng-click="compare()" ng-if="projPageDataList.length == 2"> 开始对比</button>
 			</div>
 		</div>
+
+		<button class="btn btn-default btn-lg pull-right" style="margin-right: 10px;margin-left: 10px" ng-show="isDesign" ng-click="outPageDesign()"> 取消</button>
+		<button class="btn btn-primary btn-lg pull-right" ng-show="isDesign" ng-click="savePageDesign()"> 保存</button>
 	</div>
-	<div class="phone-container">
-		<div class="phone-brand-container">
+	<div class="c-menu-container full-container">
+		<div class="tool-bar">
+			<div>
+				<div class="qr-code" data-ng-show="showQrCode">
+					<div platform-qr-code data-ng-model="viewTemplate" data-width="150" data-height="150"/>
+					扫一扫，手机访问！
+				</div>
+			</div>
 		</div>
-		<div ng-class="getBoxStyle()">
-			<iframe name="formTemplate" ng-src="{{templateUrl}}"></iframe>
+		<div class="phone-container full-container">
+			<div class="phone-brand-container"></div>
+			<div class="scroll" ng-class="getBoxStyle()">
+				<iframe name="formTemplate" class="full-container" ng-src="{{templateUrl}}"></iframe>
+			</div>
 		</div>
 	</div>
 </div>

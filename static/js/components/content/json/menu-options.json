@@ -4,6 +4,7 @@
 	{
 	  "icon":"nswicon menu-icon-web",
 	  "name": "我要建站",
+	  "key":"tools",
 	  "menus": [
 		{
 		  "name": "首页入驻",
@@ -11,11 +12,13 @@
 		},
 		{
 		  "name": "频道策划",
-		  "href": "/temp/page/index.html#/"
+		  "href": "/temp/page/index.html#/",
+		  "key":"channel"
 		},
 		{
 		  "name": "模板市场",
-		  "href": "/temp/tplMarket/index.html#/"
+		  "href": "/temp/tplMarket/index.html#/",
+		  "key": "tplMarket"
 		}
 	  ]
 	},
@@ -116,11 +119,15 @@
 		},
 		{
 		  "name": "搜索引擎提交",
-		  "href": "#"
+		  "href": "js/seo/index.html#/map"
 		},
 		{
 		  "name": "Robot设置",
 		  "href": "js/seo/index.html#/robot-seo"
+		},
+		{
+		  "name": "关键词管理",
+		  "href": "js/tools/index.html#/keywords"
 		}
 	  ]
 	},
@@ -131,12 +138,7 @@
 		{
 		  "name": "最新意向订单",
 		  "href": "js/intentional-order/index.html#/intentional-order"
-		},
-		{
-		  "name": "分类配置",
-		  "href": "js/intentional-order/index.html#/catalog-config"
-		}
-	  ]
+		}]
 	},
 	{
 	  "icon":"nswicon menu-icon-tool",
@@ -149,30 +151,26 @@
 		},
 		{
 		  "name": "友情链接",
-		  "href": "#"
+		  "href": "js/tools/index.html#/friendlyLink"
 		},
 		{
 		  "name": "广告投放",
-		  "href": "#"
+		  "href": "js/tools/index.html#/advertising"
 		}
 	  ]
 	},
 	{
-	  "icon":"nswicon menu-icon-setting",
 	  "name": "全局配置",
 	  "icon":"nswicon menu-icon-setting",
 	  "menus": [
 		{
-		  "name": "网站默认SEO",
-		  "href": "#"
-		},
-		{
+		  "key": "catalog-config",
 		  "name": "留言表单设置",
-		  "href": "#"
+		   "href": "js/system-settings/index.html#/catalog-config"
 		},
 		{
 		  "name": "联系方式设置",
-		  "href": "#"
+		  "href": "js/system-settings/index.html#/contactInfo"
 		},
 		{
 		  "name": "频道扩展",
@@ -189,7 +187,6 @@
 	{
 	  "icon":"nswicon menu-icon-world",
 	  "name": "发布网站",
-	  "icon":"nswicon menu-icon-world",
 	  "href": "/temp/publish/index.html#/",
 	  "menus": []
 	}

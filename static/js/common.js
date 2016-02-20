@@ -1,4 +1,4 @@
-angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'commonJQuery', 'ng.webuploader'])
+angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'commonJQuery', 'ng.webuploader'])
 	.factory('utils', ['$rootScope', '$location', '$http', '$modal', function ($rootScope, $location, $http, $modal) {
 		"use strict";
 		function alertBox(title, msg, ok, size, btnLbl) {
@@ -22,6 +22,7 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 				}
 			);
 		}
+
 		function confirmBox(title, msg, ok, cancel, size) {
 			$modal.open({
 				template: '<div class="defa-font"><div class="modal-header"><h3 class="modal-title">{{title}}</h3></div><div class="modal-body"><p>{{msg}}</p></div><div class="modal-footer"><button class="btn btn-primary" ng-click="ok()"><span class="glyphicon glyphicon-ok"></span> 确定</button><button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> 取消</button></div></div>',
@@ -102,13 +103,13 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 		//图片预览弹窗
 		function imgPreview(image) {
 			$modal.open({
-				template: '<div class="c-dialog-img-preview"><i class="fa fa-times" ng-click="close();"></i><img src="' + image + '"/></div>',
+				template: '<div class="c-dialog-img-preview"><i class="fa fa-times" ng-click="close();"></i><img nsw-src="' + image + '"/></div>',
 				controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 					$scope.close = function () {
 						$modalInstance.close();
 					};
 				}],
-				backdrop: 'static',
+				backdrop: 'static', 
 				size: ''
 			});
 		}
@@ -121,7 +122,7 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 
 			helpBox: function (image, size) {
 				$modal.open({
-					template: '<div class="defa-font"><div class="modal-body help"><img class="w-100" ng-src="{{asset(image)}}" /></div><div class="modal-footer"><button class="btn btn-default" ng-click="close()"><span class="glyphicon glyphicon-remove"></span> 关闭</button></div></div>',
+					template: '<div class="defa-font"><div class="modal-body help"><img class="w-100" nsw-src="{{asset(image)}}" /></div><div class="modal-footer"><button class="btn btn-default" ng-click="close()"><span class="glyphicon glyphicon-remove"></span> 关闭</button></div></div>',
 					controller: ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 						$scope.image = image;
 						$scope.close = function () {
@@ -218,19 +219,17 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 		}
 	])
 //图片库lx
-	.controller('imglibWinCtrl', ['$scope', '$modalInstance', '$http', '$modal', 'utils', '$rootScope','platformModalSvc', function ($scope, $modalInstance, $http, $modal, utils, $rootScope,platformModalSvc) {
+	.controller('imglibWinCtrl', ['$scope', '$modalInstance', '$http', '$modal', 'utils', '$rootScope', 'platformModalSvc', function ($scope, $modalInstance, $http, $modal, utils, $rootScope, platformModalSvc) {
 		"use strict";
 
-		var backImgList;
-		backImgList = $scope.modalOptions.backImgList;
-		console.log(backImgList);
+		var backImgList = $scope.modalOptions.backImgList;
 		var imgConfig = $scope.modalOptions.imgConfig;
 		//切换tab事件
 		$scope.tabSelected = function (tab) {
 			$scope.activeTab = tab;
 		};
 		$scope.chaochu = true;
-		$scope.goTrue = function(){
+		$scope.goTrue = function () {
 			$scope.chaochu = true;
 		}
 		//获取上传组件实例
@@ -252,41 +251,40 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 			}).success(function (data) {
 				if (data.isSuccess) {
 					$scope.imglibList = data.data.list;
-					if(conbox){
-						checkIsItemSelected($scope.imglibList);
-					}
 
-						angular.forEach(backImgList, function (img) {
-							var tem = {"url": img.url, "fileName": img.fileName, "_id": img._id};
-							$scope.selectImgList.push(tem);
-						});
+					checkIsItemSelected($scope.imglibList);
+
+					angular.forEach(backImgList, function (img) {
+						var backImg = angular.copy(_.find($scope.imglibList, {url: img.url})) ||
+							{_id: '-1', url: '' + ''};
+						$scope.selectImgList.push(backImg);
+					});
 
 					//$scope.totalItems = data.data.totalItems;
 					$scope.bigTotalItems = data.data.totalItems;
 				} else {
-					platformModalSvc.showWarmingMessage(data.data,'提示');
+					platformModalSvc.showWarmingMessage(data.data, '提示');
 				}
 			}).error(function () {
-				platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
+				platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 			});
 		};
-		var conbox =  $rootScope.img? $rootScope.img.product:false;
-      if(conbox){
-	        var checkIsItemSelected = function checkIsItemSelected(imglibList) {
-		        var selectedItems = $rootScope.img.product;
-		        imgdiff(selectedItems, imglibList);
-	        };
-	        //对比已经选中的与图片列表
-	        var imgdiff = function imgdiff(selectItemList, imglblist) {
-		        angular.forEach(selectItemList, function (selected) {
-			        angular.forEach(imglblist, function (item) {
-				        if (item._id === selected._id) {
-					        item.selected = true;
-				        }
-			        });
-		        });
-	        }
-        }
+
+		if (backImgList) {
+			var checkIsItemSelected = function checkIsItemSelected(imglibList) {
+				imgdiff(imglibList);
+			};
+			//对比已经选中的与图片列表
+			var imgdiff = function imgdiff(imglblist) {
+				angular.forEach(backImgList, function (selected) {
+					angular.forEach(imglblist, function (item) {
+						if (item._id === selected._id || item.url === selected.url) {
+							item.selected = true;
+						}
+					});
+				});
+			};
+		}
 
 
 		//$scope.imgboxHttp(1);
@@ -300,21 +298,30 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 
 		//是否多图片上传
 		var multiple = imgConfig.count > 1;
-
+		var faileCounter = 0;
 		//图片上传配置
 		$scope.imgConfig = {
 			multiple: multiple,//是否多图片上传
 			extensions: imgConfig.ext,
 			beforeFileQueued: function (uploader, file) {//当图片添加前回调
-				//验证可上传图片的张数
-				var len = uploader.getFiles('queued').length;//查询上传队列中的文件数
-				if (len >= imgConfig.count) {
-					if ($scope.chaochu) {
-						$scope.chaochu = false;
-						platformModalSvc.showWarmingMessage('只能上传 ' + imgConfig.count + ' 张图片！！！','提示');
-					}
+				//console.log(file);//3145728
+				if(file.size>3145728){
+					setTimeout(function(){
+						platformModalSvc.showWarmingTip(file.name+"大小超过3M!");
+					},3000 * faileCounter++);
 					return false;
+				}else{
+					//验证可上传图片的张数
+					var len = uploader.getFiles('queued').length;//查询上传队列中的文件数
+					if (len >= imgConfig.count) {
+						if ($scope.chaochu) {
+							$scope.chaochu = false;
+							platformModalSvc.showWarmingMessage('只能上传 ' + imgConfig.count + ' 张图片！！！', '提示');
+						}
+						return false;
+					}
 				}
+
 
 			},
 			fileQueued: function (uploader, file) {//当图片添加队列时回调
@@ -332,8 +339,9 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 					img.hasProgress = false;
 					img.progress = 0;
 					$scope.fileQueued[id] = img;
+					faileCounter = 0;
 					/*var length = $scope.fileQueuedlength || 0;
-					$scope.fileQueuedlength = length + 1;*/
+					 $scope.fileQueuedlength = length + 1;*/
 					//触发页面刷新
 					$scope.$apply();
 				}, 94, 79);
@@ -373,11 +381,11 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 			},
 			error: function (uploader, res) {//当图片验证出错时回调
 				if (res == 'Q_TYPE_DENIED') {
-					platformModalSvc.showWarmingMessage('图片类型不正确！！！','提示');
+					platformModalSvc.showWarmingMessage('图片类型不正确！！！', '提示');
 				} else if (res == 'Q_EXCEED_SIZE_LIMIT') {
-					platformModalSvc.showWarmingMessage('图片总大小超出！！！','提示');
+					platformModalSvc.showWarmingMessage('图片总大小超出！！！', '提示');
 				} else if (res == 'Q_EXCEED_NUM_LIMIT') {
-					platformModalSvc.showWarmingMessage('图片数量超出！！！','提示');
+					platformModalSvc.showWarmingMessage('图片数量超出！！！', '提示');
 
 				}
 			}
@@ -393,25 +401,25 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 		/*图片预览轮番*/
 		$scope.movLeft = function (e) {
 			"use strict";
-			var index = $("."+e).attr('index');
+			var index = $("." + e).attr('index');
 			index++;
-			var elength =  $("."+e).children("li").length;
-			if(index*6<elength){
+			var elength = $("." + e).children("li").length;
+			if (index * 6 < elength) {
 
-				$("."+e).animate({"left": -index*6*112+"px"},1000);
-				$("."+e).attr("index",index);
+				$("." + e).animate({"left": -index * 6 * 112 + "px"}, 1000);
+				$("." + e).attr("index", index);
 			}
 		}
 		$scope.movRight = function (e) {
 			"use strict";
-			var index = $("."+e).attr('index');
+			var index = $("." + e).attr('index');
 			//var elength =  $("."+e).children("li").length;
 			index--;
-			if(index >= 0){
+			if (index >= 0) {
 
-				$("."+e).animate({"left": -index*6*112+"px"},1000);
+				$("." + e).animate({"left": -index * 6 * 112 + "px"}, 1000);
 
-				$("."+e).attr("index",index);
+				$("." + e).attr("index", index);
 			}
 		}
 		//图片预览
@@ -428,7 +436,7 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 				return;
 			}
 			if ($scope.selectImgList.length == imgConfig.count) {
-				platformModalSvc.showWarmingMessage('只能上传 ' + imgConfig.count + ' 张图片！！！','提示');
+				platformModalSvc.showWarmingMessage('只能上传 ' + imgConfig.count + ' 张图片！！！', '提示');
 
 				return;
 			}
@@ -460,15 +468,15 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 		//图片库条件查询
 		//用户名系弹窗
 		$scope.findPic = function (imgParam) {
-			$scope.fileName = imgParam;
+			$scope.fileName = imgParam!=undefined?imgParam:"";
 			$http({
 				method: 'GET',
-				url: globals.basAppRoot + '/file/list?fileName=' + imgParam,
+				url: globals.basAppRoot + '/file/list?fileName=' + $scope.fileName,
 			}).success(function (data) {
 				if (data.isSuccess) {
 					$scope.imglibList = data.data.list;
 				} else {
-					platformModalSvc.showWarmingMessage('获取失败！','提示');
+					platformModalSvc.showWarmingMessage('获取失败！', '提示');
 				}
 			});
 
@@ -480,7 +488,7 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 			if ('local' == $scope.activeTab) {
 				var len = imgUploader.getFiles('queued').length;//查询上传队列中的文件数
 				if (len == 0) {
-					platformModalSvc.showWarmingMessage('请上传图片！！！','提示');
+					platformModalSvc.showWarmingMessage('请上传图片！！！', '提示');
 					return;
 				}
 				//开始上传图片
@@ -489,10 +497,10 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 				//选择图库图片
 				var len = $scope.selectImgList.length;
 				if (len == 0) {
-					platformModalSvc.showWarmingMessage('请选择图片！！！','提示');
+					platformModalSvc.showWarmingMessage('请选择图片！！！', '提示');
 					return;
 				}
-				$scope.closeModal(true,$scope.selectImgList);
+				$scope.closeModal(true, $scope.selectImgList);
 				//$modalInstance.close($scope.selectImgList);
 			} else {
 				//$modalInstance.close();
@@ -549,11 +557,14 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 
 	}])
 	/*	.factory('')*/
-	.directive('imgLib', ['$modal', '$parse','platformModalSvc', function ($modal, $parse, platformModalSvc) {
+	.directive('imgLib', ['$modal', '$parse', 'platformModalSvc', function ($modal, $parse, platformModalSvc) {
 		return {
 			restrict: 'A',
 			require: 'ngModel',
+			scope: true,
 			link: function (scope, element, attrs, ngModel) {
+				attrs.imgLib = attrs.imgLib || 'array';
+				attrs.modelMapper = attrs.modelMapper || "_id,url"
 				var imgConfig = attrs.imgConfig ? $parse(attrs.imgConfig)(scope) : {
 					'count': 2,//限制图片张数
 					'size': 300,//图片大小,单位为k
@@ -563,10 +574,36 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 				};
 				if (angular.isDefined(attrs.imgCount)) {
 					imgConfig.count = parseInt(attrs.imgCount);
+				}else if(attrs.imgLib==='url' || attrs.imgLib==='image'){
+					imgConfig.count = 1;
 				}
-			/*	ngModel.$render = function () {
-					// not implemented: hightlight current image using ngModel.$viewValue
-				};*/
+
+				ngModel.$render = function () {
+					if (_.isArray(ngModel.$viewValue)) {
+						scope.images = angular.copy(ngModel.$viewValue);
+					} else if (_.isString(ngModel.$viewValue) && ngModel.$viewValue) {
+						scope.images = [{url: ngModel.$viewValue}];
+						imgConfig.count = 1;
+					} else if (_.isObject(ngModel.$viewValue) && _.has(ngModel.$viewValue, 'url')) {
+						scope.images = [ngModel.$viewValue];
+						imgConfig.count = 1;
+					} else {
+						scope.images = [];
+					}
+				};
+
+				//通过设置 model-mapper属性设置生成图片的属性结构.
+				var modelMapper = function modelMapper(item) {
+					var result = {};
+					if (attrs.modelMapper && attrs.modelMapper.length) {
+						_.forEach(attrs.modelMapper.split(','), function (key) {
+							result[key] = item[key];
+						});
+					} else {
+						result = angular.copy(item);
+					}
+					return result;
+				};
 
 				element.bind('click', function (e) {
 					e.stopPropagation();
@@ -576,22 +613,30 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 						templateUrl: globals.basAppRoot + '/partials/imglibWin.html',
 						controller: 'imglibWinCtrl',
 						size: 'lg',
-						userTemplate:true,
-						options:{
-							imgConfig:imgConfig,
-							backImgList:angular.copy(ngModel.$viewValue)
+						userTemplate: true,
+						options: {
+							imgConfig: imgConfig,
+							backImgList: angular.copy(scope.images)
 						}
-					}).then(function(imgList){
-						ngModel.$setViewValue(imgList);
+					}).then(function (imgList) {
+						imgList = _.map(imgList, modelMapper);
+						if (_.isArray(ngModel.$viewValue) || imgConfig.count > 1 || attrs.imgLib === 'array') {
+							ngModel.$setViewValue(imgList);
+						} else if (attrs.imgLib === 'url') {
+							ngModel.$setViewValue((imgList[0] || {}).url);
+						} else {
+							ngModel.$setViewValue(imgList[0]);
+						}
+
+						scope.images = imgList;
 					});
 				});
 			}
 		};
 	}])
 //标签库。zy
-	.controller('taglibWinCtrl', ['$scope', '$modalInstance', '$http', '$modal', 'utils', '$animate', 'result','platformModalSvc',
-		function ($scope, $modalInstance, $http, $modal, utils, $animate, result,platformModalSvc) {
-
+	.controller('taglibWinCtrl', ['$scope', '$modalInstance', '$http', '$modal', 'utils', '$animate', 'result', 'platformModalSvc', 'moduleId',
+		function ($scope, $modalInstance, $http, $modal, utils, $animate, result, platformModalSvc, moduleId) {
 
 			$scope.tab1 = {active: true};
 
@@ -600,30 +645,37 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 				$scope.activeTab = tab;
 			};
 
-			var arr = []; //初始化一个数组，用来存放标签。
-
 			$scope.tagsData = {};
+			$scope.selectedTags = _.map(result || [], function(tag){
+				return {_id: tag.id};
+			});
 
-			if (result) {
-				console.log(JSON.stringify(result));
-				arr = result;
-				var nameArr = [];
-				for (var key in arr) {
-					nameArr.push(arr[key].name);
-				}
-				$scope.tagName = nameArr.join(',');
-			}
+			var getSelectedTags = function getSelectedTags(){
+				var selectedTags = [];
+				_.forEach($scope.items,function(module){
+					_.forEach(_.filter(module.tags,{isChecked:true}),function(tag){
+						selectedTags.push(tag);
+					});
+				});
+				return selectedTags;
+			};
 
-			initTags();
+			var setSelectedTags = function setSelectedTags(selectedTags){
+				_.forEach($scope.items, function (module) {
+					_.forEach(module.tags, function (tag) {
+						tag.isChecked = !!_.find(selectedTags, {_id: tag._id});
+					});
+				});
+			};
+
 			//初始化查询标签列表。
 			function initTags() {
-				$http.get('/pccms/projTagCtgList/findAllTags')
+				return $http.get('/pccms/projTagCtgList/findAllTags')
 					.success(function (data, status, headers, config) {
 						if (data.isSuccess && data.data) {
 							$scope.items = data.data;
 							$scope.itmesbig = [];
-							tabindex = $scope.items[0];
-							for (var i = 0; i < data.data.length; i++) {
+							_.forEach(data.data, function(module, i){
 								if (i % 5 === 0) {
 									var tem = [];
 									for (var j = 0; j < 5; j++) {
@@ -633,132 +685,63 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 									}
 									$scope.itmesbig[parseInt(i / 5)] = tem;
 								}
+							});
+							$scope.selectedModule = _.find($scope.items,{_id:moduleId});
+							$scope.tagsData.ctgId = moduleId;
+							if ($scope.selectedModule && $scope.selectedModule.tags.length > 0) {
+								$scope.tags = $scope.selectedModule.tags;
 							}
-
-							if (result && result.name) $scope.tagName = result.name;
-
-							for (var k in $scope.items) {
-								for (var j in $scope.items[k].tags) {
-									if (result) {
-										for (var m in result) {
-											if ($scope.items[k].tags[j]._id === result[m].id) {
-												$scope.items[k].tags[j].isChecked = true;
-											}
-										}
-									}
-								}
-							}
-
-							if (data.data[0].tags && data.data[0].tags.length > 0) {
-								$scope.tags = data.data[0].tags;
-							}
-							$scope.items[0].isChecked = true;
+							setSelectedTags($scope.selectedTags);
 						} else {
-							platformModalSvc.showWarmingMessage('获取数据失败：' + data.data,'提示');
+							platformModalSvc.showWarmingMessage('获取数据失败：' + data.data, '提示');
 						}
 					})
 					.error(function (data, status, headers, config) {
-						platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
+						platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 					});
 			}
+			initTags();
 
+			$scope.selectModule = function selectModule(module){
+				$scope.selectedModule = module;
+				$scope.tagsData.ctgId = moduleId = module._id;
+			};
 			//获取化所属栏目下拉列表。
-			$http.get('/pccms/projTagCtgList')
+			$http.get('/pccms/module/extend/projModuleList')
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess && data.data.length > 0) {
 						$scope.opts = data.data;
-					} else {
-						//platformModalSvc.showWarmingMessage('操作失败：' + data.data,'提示');
 					}
-				})
-				.error(function (data, status, headers, config) {
-					//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
 				});
-			//选择标签类型。
-			var tabindex;
-			$scope.mouseov = false;
-			$scope.tagLabels = function (event) {
-				$scope.mouseov = true;
-				if (tabindex !== event) {
-					event.isChecked = true;
-					tabindex.isChecked = false;
-					tabindex = event;
-				} else {
-					event.isChecked = true;
-				}
-				$scope.tagLabelsLeave = function (event) {
-					$scope.mouseov = false;
-				}
-			};
+
 			//选择标签。
 			$scope.checkedLabel = function ($event, data) {
-
-				if (!data.isChecked) data.isChecked = false;
+				if (!data.isChecked) {
+					data.isChecked = false;
+				}
 				data.isChecked = !data.isChecked;
-
 				var _o = {
 					id: data._id,
 					name: data.name
 				};
-
-				if (data.isChecked && !hasObjFromArr(arr, _o)) {
-					arr.push(_o);
-				} else if (!data.isChecked && hasObjFromArr(arr, _o)) {
-					arr = removeObjFromArr(arr, _o);
-				} else {
-					return;
+				if (data.isChecked && !_.has($scope.selectedTags, _o)) {
+					$scope.selectedTags.push(_o);
+				} else if (!data.isChecked && _.has($scope.selectedTags, _o)) {
+					_.remove($scope.selectedTags, _o);
 				}
-
-				var tagNameArr = [];
-
-				for (var key in arr) {
-					if (arr[key] && arr[key].name)  {
-						tagNameArr.push(arr[key].name);
-					}
-				}
-
-				$scope.tagName = tagNameArr.join(',');
-				$scope.result = arr;
-
-
 			};
 
-			function removeObjFromArr(array, obj) {
-				if (!array instanceof Array) {
-					throw new error("arguments[0] are not Array");
-					return;
-				}
-				for (var i = 0; i < array.length; i++) {
-					if (array[i].id == obj.id) {
-						array.splice(i, 1);
-					}
-				}
-				return array;
-			}
-			function hasObjFromArr(array, obj) {
-				if (!array instanceof Array) {
-					throw new error("arguments[0] are not Array");
-					return;
-				}
-				var flag = false;
-				for (var i = 0; i < array.length; i++) {
-					var _f = true;
-					for (var key in array[i]) {
-						if (array[i][key] != obj[key]) {
-							_f = false;
-						}
-					}
-					if (_f) {
-						flag = true;
-					}
-				}
-				return flag;
-			}
 			//确定
 			$scope.ok = function () {
 				switch ($scope.activeTab) {
 					case 'list':
-						$modalInstance.close($scope.result);
+						var result = _.map(getSelectedTags()||[],function(tag){
+							return {
+								id:tag._id,
+								name:tag.name
+							};
+						});
+						$modalInstance.close(result);
 						break;
 					case 'add':
 						addTags();
@@ -776,12 +759,21 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 					.success(function (data, status, headers, config) {
 						if (data.isSuccess) {
 							$scope.tab1.active = true;
-							initTags();
+							moduleId = $scope.tagsData.ctgId;
+							var createdTagName = $scope.tagsData.name;
+							var selectedTags = getSelectedTags();
+							initTags().then(function(){
+								var created = _.find($scope.selectedModule.tags,{name:createdTagName});
+								selectedTags.push(created);
+								setSelectedTags(selectedTags);
+							});
+							$scope.tagsData.name = '';
+							$scope.tagsData.url = '';
 						} else {
-							platformModalSvc.showWarmingMessage(data.data,'提示');
+							platformModalSvc.showWarmingMessage(data.data, '提示');
 						}
 					}).error(function (data, status, headers, config) {
-						platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
+						platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 					});
 			}
 		}
@@ -807,6 +799,9 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 						resolve: {
 							result: function () {
 								return angular.copy(ngModel.$viewValue);
+							},
+							moduleId:function(){
+								return attrs.moduleId;
 							}
 						}
 					});
@@ -843,20 +838,40 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 			},
 			link: function (scope, element, attrs) {
 				//TODO 临时解决方案
-				var inputNgModel = element.find('.form-control[ng-model],.form-control[data-ng-model]').data('$ngModelController');
+				var inputElement = $(element.find('.form-control[ng-model],.form-control[data-ng-model]')[0]);
+				var inputNgModel = inputElement.data('$ngModelController');
 				if (inputNgModel) {
+					var updateDisplay  = function updateDisplay(){
+						var o = inputNgModel.$viewValue;
+						element.find('.mess-zx').html(o && o.length ?tureLength(o) : 0);
+					};
+
 					scope.$evalAsync(function () {
 						var render = inputNgModel.$render;
 						inputNgModel.$render = function $render() {
 							render.apply(this, arguments);
-							var o = inputNgModel.$viewValue;// element.find('.form-control').val();
-							element.find('.mess-zx').html(o && o.length ? o.length : 0);
+							updateDisplay();
 						};
+						updateDisplay();
 					});
-					inputNgModel.$viewChangeListeners.push(function () {
-						var o = inputNgModel.$viewValue;// element.find('.form-control').val();
-						element.find('.mess-zx').html(o && o.length ? o.length : 0);
+
+					inputElement.on('change',function(){
+						updateDisplay();
 					});
+					inputNgModel.$viewChangeListeners.push(updateDisplay);
+				}
+				var tureLength = function tureLength(data){
+					var totalCount = 0;
+					for(var i=0; i<data.length; i++){
+						var c = data.charCodeAt(i);
+						if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
+							totalCount++;
+						}
+						else{
+							totalCount+=2;
+						}
+					}
+					return totalCount;
 				}
 
 
@@ -877,6 +892,7 @@ angular.module('common', ['platform','ngLocale', 'ngSanitize', 'ui.router', 'ui.
 	}]);
 
 
+
 //过滤除img以外的html标签
 function deletHtmlTag(str) {
 	var reg = /<(?!img\/p).*?>/g;
@@ -885,4 +901,7 @@ function deletHtmlTag(str) {
 	return str;
 }
 
-
+var UniformSymbol = function UniformSymbol(str){
+	str = str.replace(/[\s]+|[,，]+|[;]+|[|]+/g,",");
+	return str;
+};

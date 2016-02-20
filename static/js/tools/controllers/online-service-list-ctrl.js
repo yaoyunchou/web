@@ -20,9 +20,11 @@
 			$scope.dataList = data;
 		});
 		var navListLoaded = function navListLoaded(data) {
-			$scope.dataList = data;
 			if ($scope.catalogListOptions.setData) {
+				$scope.dataList = data;
 				$scope.catalogListOptions.setData(data);
+			}else{
+				$scope.catalogListOptions.data.dataList =data;
 			}
 		};
 		$scope.deletDept = function deletDept(id, index) {
@@ -37,7 +39,8 @@
 				}
 			};
 			onlineService.addOnlineSrv(bean);
-			$scope.onlineServicename = {};
+			$scope.onlineServicename = '';
+			$scope.formOnlineServiceName.$setPristine(true);
 		};
 		$scope.gotoPage = function gotoPage(item) {
 			if (!item.whiteSpace) {
@@ -115,7 +118,7 @@
 			onDeleted: onlineServiceCatalog.deletCatalog,
 			onSelectedChanged: onlineServiceCatalog.setSelectCatalog,
 			onCreated: onlineServiceCatalog.addDept,
-			onLineEdited: onlineServiceCatalog.addDept,
+			onLineEdited: onlineServiceCatalog.updata,
 			data: {
 				dataList: $scope.dataList,
 				sortBy: 'orderBy',
@@ -123,15 +126,19 @@
 				selectedItem: onlineServiceCatalog.getSelectCatalog()
 			},
 			formOptions: {
-				formName: 'onLineCatalog',
+				name: 'onLineCatalog',
+				//是否显示label
 				hasLabel: false,
+				//beyong 对应的提示
 				hasValidateTip: false,
+				//初始化
 				data: {},
 				rows: [{
 					label: '部门名称',
 					domain: 'name',
+					placeholder:'请填写部门名称',
+					maxLength: 18,
 					size: 12,
-					required: false,
 					model: 'name'
 				}]
 			}
@@ -140,9 +147,12 @@
 	}])
 		.controller('editOnlineSvcCtrl', ['$scope', 'onlineServiceSvc', 'onlineServiceCatalogSvc', function ($scope, onlineService) {
 			$scope.editBean = $scope.modalOptions.item;
+			if(!_.has($scope.editBean,'serverType.name')){
+				$scope.editBean.serverType={};
+				$scope.editBean.serverType.name = 'QQ';
+			}
 			$scope.ctgList = $scope.modalOptions.dataList;
 			$scope.defultName = $scope.ctgList[0];
-			console.log($scope.ctgList);
 			$scope.ok = function ok() {
 				onlineService.editOnlineSvc($scope.editBean);
 				$scope.closeModal(true);

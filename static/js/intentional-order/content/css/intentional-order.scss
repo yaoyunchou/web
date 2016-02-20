@@ -1,0 +1,31 @@
+@import "../../../components/content/css/platform-catalog-list";
+
+//tab list tr style
+tr {
+	.editbtn {
+		padding: 0px 4px;
+		color: $promise-color;
+		border: 1px solid $promise-color;
+		border-radius: 3px;
+		cursor: pointer;
+		display: none;
+	}
+	.reply{
+		margin-left: 10px;
+		padding: 10px;
+		max-width:324px;
+		border: 1px dashed #CCCCCC;
+	}
+	&:hover {
+		.editbtn {
+			display: inline-block;
+		}
+	}
+}
+
+.more-search {
+	padding: 15px 0;
+	overflow: hidden;
+	border: 1px solid #cccccc;
+	margin-top: 10px;
+}

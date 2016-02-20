@@ -1,7 +1,7 @@
 var tplMarketApp = angular.module('tplMarketApp', ['ui.tree', 'platform', 'common', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination']);
 
 //模板市场
-tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$stateParams', 'utils', 'platformModalSvc', 'mobilePreviewSvc', function ($scope, $http, $state, $stateParams, utils, platformModalSvc, mobilePreviewSvc) {
+tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$stateParams', 'utils', 'platformModalSvc', 'mobilePreviewSvc','desktopMainSvc', function ($scope, $http, $state, $stateParams, utils, platformModalSvc, mobilePreviewSvc,desktopMainSvc) {
 	//筛选类型
 	$scope.filterType = 'single';
 	//记录选中项
@@ -13,12 +13,12 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 	//加载标签列表
 	$http.get('/pccms/tpl/loadTplTag').success(function (data, status, headers, config) {
 		if (data.isSuccess) {
-			$scope.tagList = data.data.filter(function (elem, pos) {
-				if (pos === 0) {
-					data.data[0].children.splice(0, 1);
-				}
-				return data.data;
-			});
+			$scope.tagList = data.data/*.filter(function (elem, pos) {
+			 if (pos === 0) {
+			 data.data[0].children.splice(0, 1);
+			 }
+			 return data.data;
+			 })*/;
 			initTagState();
 			//加载初始筛选列表
 			filterTplList($http, $scope.selectList.join(","));
@@ -55,19 +55,20 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 		}
 		filterTplList($http, $scope.selectList.join(","));
 	};
-    //获取当前项目类型(手机、响应式)
+	//获取当前项目类型(手机、响应式)
 	$http.get('/pccms/user/findProjType').success(function (data, status, headers, config) {
 		if (data.isSuccess) {
 			if(data.data === '4'){
 				$scope.isSelcted4 = true;
-				$scope.isSelcted5 = $scope.isSelcted9 = false;				
+				$scope.isSelcted5 = $scope.isSelcted9 = false;
 			}else if(data.data === '5'){
 				$scope.isSelcted5 = true;
 				$scope.isSelcted4 = $scope.isSelcted9 = false;
 			}else if(data.data === '9'){
 				$scope.isSelcted9 = true;
-				$scope.isSelcted4 = $scope.isSelcted5 = false;				
+				$scope.isSelcted4 = $scope.isSelcted5 = false;
 			}
+			$scope.num = data.data;
 			$scope.selectList.push(data.data);
 			filterTplList($http, $scope.selectList.join(","));
 		} else {
@@ -127,15 +128,34 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 
 	//在模板市场中预览单页,单页id为singleId
 	$scope.preSinglePag = function (singleId) {
-		$state.go('preview', {'id': singleId});
+
+		$state.go('preview', {'id': singleId,'num': $scope.num});
 	};
 
 	//在模板市场中预览套装,套装id
 	$scope.previewPackPag = function (packId) {
-		$state.go('previewPack', {'id': packId});
+		
+		$state.go('previewPack', {'id': packId,'num': $scope.num});
 	};
 	
-    //在模板市场中手机预览
+	//删除单页模版
+	$scope.singleTplRemove = function(singleId){
+		platformModalSvc.showConfirmMessage('确认删除当前模版吗？','提示',true).then(function(){
+			$http({
+				method: 'DELETE',
+				url: globals.basAppRoot + '/tpl/page/' + singleId
+			}).then(function (res) {
+				if(res.data.isSuccess){
+					_.remove($scope.filterData.list,{_id:singleId});
+					platformModalSvc.showSuccessTip(res.data.data);
+				}else{
+					platformModalSvc.showWarmingMessage(res.data.data,'提示');
+				}
+			});
+		});
+	};
+	
+	//在模板市场中手机预览
 	$scope.mobilePreview = function(tplId){
 		if(tplId){
 			var urlLink = globals.basAppRoot + 'pageTpl/design/' +tplId+ '/view?isPubTpl=true#/';
@@ -178,17 +198,30 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 }]);
 
 //单页面预览
-tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$stateParams', 'utils', function ($scope, $http, $state, $stateParams, utils) {
+tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$stateParams', 'platformTemplatePreviewSvc', function ($scope, $http, $state, $stateParams, previewSvc) {
 	$scope.tplId = $stateParams.id;
 	//筛选类型
 	$scope.filterType = $stateParams.type;
+	//手机、pc、响应式
+	$scope.filterNum = $stateParams.num;
 	//效果图、框架图之间的切换
 	$scope.isShow = true;
-	$scope.mask = false;
 
-	if(_.last($scope.breadNavs).name !== '单页预览') {
-		$scope.breadNavs.push({href: '#', name: '单页预览'});
+
+	if(!$scope.tplId){
+		$state.go('tplMarket');
 	}
+
+	$scope.breadNavs = [
+		{name: '首页', href: '/js/personal/index.html#/personalInfo'},
+		{href: '#', name: '我要建站'},
+		{href: '#', name: '模板市场'},
+		{href: '#', name: '单页预览'}
+	];
+
+	/*if(_.last($scope.breadNavs).name !== '单页预览') {
+		$scope.breadNavs.push({href: '#', name: '单页预览'});
+	}*/
 
 	//取消
 	$scope.cancelTpl = function () {
@@ -208,7 +241,7 @@ tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$statePara
 				platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 			}
 		}).error(function (data, status, headers, config) {
-		platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+			platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
 		});
 
 	//右侧菜单效果图
@@ -300,25 +333,28 @@ tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$statePara
 
 	//通过url，获取参数
 	function GetRequest() {
-		//var url = location.search; //获取url中"?"符后的字串
-		/* var theRequest = new Object();
-		 if (url.indexOf("?") != -1) {
-		 var str = url.substr(1);
-		 strs = str.split("&");
-		 for(var i = 0; i < strs.length; i ++) {
-		 theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
-		 }
-		 }
-		 return theRequest;  */
-	};
+	}
 
 	//公有页面模板的设计
 	$scope.tplDesign = function (tplId) {
 		$scope.desket = $scope.frmchat = $scope.source = $scope.design = $scope.used = false;
 		$scope.tpldes = true;
-		var url = '/pccms/pageTpl/design/' + tplId + '/edit?isPubTpl=true';
-		window.open(url);
+		previewSvc.preview(tplId, 'view',true);
 	}
+	$scope.tplCopy = function (_tplId) {
+		$http({//保存
+			method: 'GET',
+			url: '/pccms/tpl/page/copy/' + _tplId
+		}).success(function (data, status, headers, config) {
+			if (data.isSuccess) {
+				$state.go('tplMarket');
+			} else {
+				platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+			}
+		}).error(function (data, status, headers, config) {
+			platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+		});
+	};
 
 	//取消
 	$scope.cancelTpl = function () {
@@ -337,122 +373,123 @@ tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$statePara
 }]);
 
 //套装页面预览
-tplMarketApp.controller('previewPackCtrl', ['$scope', '$http', '$state', '$stateParams', 'utils','platformModalSvc', function ($scope, $http, $state, $stateParams, utils,platformModalSvc) {
+tplMarketApp.controller('previewPackCtrl', ['$scope', '$http', '$state', '$stateParams', 'utils','platformModalSvc', 'platformTemplatePreviewSvc',
+	function ($scope, $http, $state, $stateParams, utils,platformModalSvc, previewSvc) {
 
-	//$scope.breadNavs.push({href: '#', name: '套装预览'});
-	if(_.last($scope.breadNavs).name !== '套装预览') {
-		$scope.breadNavs.push({href: '#', name: '套装预览'});
-	}
+		//$scope.breadNavs.push({href: '#', name: '套装预览'});
+		if(_.last($scope.breadNavs).name !== '套装预览') {
+			$scope.breadNavs.push({href: '#', name: '套装预览'});
+		}
 
-	$scope.packId = $stateParams.id;
-	$http.get('/pccms/tpl/pubPageTplPack/' + $scope.packId)
-		.success(function (data, status, headers, config) {
-			if (data.isSuccess) {
-				$scope.data = data.data;
-			} else {
-				platformModalSvc.showWarmingMessage('系统异常或网络不给力！',nsw.Constant.TIP);
-			}
-		})
-		.error(function (data, status, headers, config) {
-			platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-		});
-	//套装树形结构页面返回操作
-	$scope.packUsedBack = function () {
-		$state.go('preview');
-	};
-	//树形列表，鼠标移动到缩略图，中图显示
-	$scope.mdShowed = function (name) {
-		$scope.nodeName = name;
-	};
-	//树形列表，鼠标移动到缩略图，中图隐藏
-	$scope.mdHided = function (name) {
-		$scope.nodeName = !name;
-	};
-	//树形列表，点击缩略图，进入套装效果图页面
-	$scope.singlePage = function (id) {
-		$state.go('preview', {'id': id, 'type': 'pack'});
-	};
-	
-	var _tplId;
-	//编辑公有页面源码
-	$scope.editSource = function (tplId) {
-		alert(GetRequest())
-		_tplId = tplId;
-		$scope.mask = true;
-		$scope.desket = $scope.frmchat = $scope.design = $scope.tpldes = $scope.used = false;
-		$scope.source = true;
-		$http({
-			method: 'GET',
-			url: '/pccms/tpl/page/load/' + tplId + '/?isPubTpl =' + GetRequest(),
-		}).success(function (data, status, headers, config) {
-			if (data.isSuccess) {
-				$scope.name = data.name;
-				$scope.content = data.htmlContent;
-				$scope.res = [];
-				$scope.res[0] = {};
-				$scope.res[0].url = data.imgSm;
+		$scope.packId = $stateParams.id;
+		$http.get('/pccms/tpl/pubPageTplPack/' + $scope.packId)
+			.success(function (data, status, headers, config) {
+				if (data.isSuccess) {
+					$scope.data = data.data;
+				} else {
+					platformModalSvc.showWarmingMessage('系统异常或网络不给力！',nsw.Constant.TIP);
+				}
+			})
+			.error(function (data, status, headers, config) {
+				platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+			});
+		//套装树形结构页面返回操作
+		$scope.packUsedBack = function () {
+			$state.go('preview');
+		};
+		//树形列表，鼠标移动到缩略图，中图显示
+		$scope.mdShowed = function (name) {
+			$scope.nodeName = name;
+		};
+		//树形列表，鼠标移动到缩略图，中图隐藏
+		$scope.mdHided = function (name) {
+			$scope.nodeName = !name;
+		};
+		//树形列表，点击缩略图，进入套装效果图页面
+		$scope.singlePage = function (id) {
+			$state.go('preview', {'id': id, 'type': 'pack'});
+		};
 
-				$scope.res1 = [];
-				$scope.res1[0] = {};
-				$scope.res1[0].url = data.imgMd;
+		var _tplId;
+		//编辑公有页面源码
+		$scope.editSource = function (tplId) {
+			alert(GetRequest())
+			_tplId = tplId;
+			$scope.mask = true;
+			$scope.desket = $scope.frmchat = $scope.design = $scope.tpldes = $scope.used = false;
+			$scope.source = true;
+			$http({
+				method: 'GET',
+				url: '/pccms/tpl/page/load/' + tplId + '/?isPubTpl =' + GetRequest(),
+			}).success(function (data, status, headers, config) {
+				if (data.isSuccess) {
+					$scope.name = data.name;
+					$scope.content = data.htmlContent;
+					$scope.res = [];
+					$scope.res[0] = {};
+					$scope.res[0].url = data.imgSm;
 
-				$scope.res2 = [];
-				$scope.res2[0] = {};
-				$scope.res2[0].url = data.imgLg;
+					$scope.res1 = [];
+					$scope.res1[0] = {};
+					$scope.res1[0].url = data.imgMd;
 
-				$scope.res3 = [];
-				$scope.res3[0] = {};
-				$scope.res3[0].url = data.imgFr;
+					$scope.res2 = [];
+					$scope.res2[0] = {};
+					$scope.res2[0].url = data.imgLg;
 
-			} else {
-				platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-			}
-		}).error(function (data, status, headers, config) {
-			platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-		});
-	}
+					$scope.res3 = [];
+					$scope.res3[0] = {};
+					$scope.res3[0].url = data.imgFr;
 
-	$scope.saveTpl = function () {
-		var obj = {};
-		obj.name = $scope.name;
-		obj.content = $scope.content;
-		//设计思路
-		obj.designIdea = $scope.designIdea;
-		obj.isPubTpl = false;
-		if ($scope.res) obj.imgSm = $scope.res[0].url || '';
-		if ($scope.res1) obj.imgMd = $scope.res1[0].url || '';
-		if ($scope.res2)obj.imgLg = $scope.res2[0].url || '';
-		if ($scope.res3)obj.imgFr = $scope.res3[0].url || '';
-		saveCode(obj);
-	}
+				} else {
+					platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+				}
+			}).error(function (data, status, headers, config) {
+				platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+			});
+		}
 
-	function saveCode(_obj) {
-		$http({//保存
-			method: 'POST',
-			url: '/pccms/tpl/page/' + _tplId + '/?isPubTpl =' + GetRequest(),
-			data: _obj
-		}).success(function (data, status, headers, config) {
-			if (data.isSuccess) {
-				closeDialog();
-				$state.go('previewPack', {'id': _tplId});
-			} else {
-				platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-			}
-		}).error(function (data, status, headers, config) {
-			platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-		});
-	}
+		$scope.saveTpl = function () {
+			var obj = {};
+			obj.name = $scope.name;
+			obj.content = $scope.content;
+			//设计思路
+			obj.designIdea = $scope.designIdea;
+			obj.isPubTpl = false;
+			if ($scope.res) obj.imgSm = $scope.res[0].url || '';
+			if ($scope.res1) obj.imgMd = $scope.res1[0].url || '';
+			if ($scope.res2)obj.imgLg = $scope.res2[0].url || '';
+			if ($scope.res3)obj.imgFr = $scope.res3[0].url || '';
+			saveCode(obj);
+		}
 
-	//公有页面模板的设计
-	$scope.tplDesign = function (tplId) {
-		$scope.desket = $scope.frmchat = $scope.source = $scope.design = $scope.used = false;
-		$scope.tpldes = true;
-		window.open('/pccms/pageTpl/design/' + tplId + '/edit?isPubTpl=true');
-	};
+		function saveCode(_obj) {
+			$http({//保存
+				method: 'POST',
+				url: '/pccms/tpl/page/' + _tplId + '/?isPubTpl =' + GetRequest(),
+				data: _obj
+			}).success(function (data, status, headers, config) {
+				if (data.isSuccess) {
+					closeDialog();
+					$state.go('previewPack', {'id': _tplId});
+				} else {
+					platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+				}
+			}).error(function (data, status, headers, config) {
+				platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+			});
+		}
 
-	//通过url，获取参数
-	function GetRequest() {
-		//var url = location.search; //获取url中"?"符后的字串
+		//公有页面模板的设计
+		$scope.tplDesign = function (tplId) {
+			$scope.desket = $scope.frmchat = $scope.source = $scope.design = $scope.used = false;
+			$scope.tpldes = true;
+			previewSvc.preview(tplId,'edit',true);
+		};
+
+		//通过url，获取参数
+		function GetRequest() {
+			//var url = location.search; //获取url中"?"符后的字串
 //	   var theRequest = new Object();   
 //	   if (url.indexOf("?") != -1) {   
 //	      var str = url.substr(1);   
@@ -462,9 +499,9 @@ tplMarketApp.controller('previewPackCtrl', ['$scope', '$http', '$state', '$state
 //	      }   
 //	   }   
 //	   return theRequest;   
-	};
+		};
 
-}]).controller('addTplCtrl', ['$scope', 'platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
+	}]).controller('addTplCtrl', ['$scope', 'platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
 	function ($scope, platformModalSvc, $modalInstance, $http, utils, $animate, $state, $stateParams) {
 
 		//公用模板保存
@@ -508,15 +545,18 @@ tplMarketApp.config(['$stateProvider', '$urlRouterProvider',
 		$stateProvider.state('tplMarket', {
 			url: '/',
 			templateUrl: 'tplMarket.html',
-			controller: 'tplMarketCtrl'
+			controller: 'tplMarketCtrl',
+			key:'tools|tplMarket'
 		}).state('preview', {
-			url: '/preview/{id}/{type}',
+			url: '/preview/{id}/{type}/{num}',
 			templateUrl: 'preview.html',
-			controller: 'previewCtrl'
+			controller: 'previewCtrl',
+			key:'tools|tplMarket'
 		}).state('previewPack', {
-			url: '/previewPack/{id}',
+			url: '/previewPack/{id}/{num}',
 			templateUrl: 'previewPack.html',
-			controller: 'previewPackCtrl'
+			controller: 'previewPackCtrl',
+			key:'tools|tplMarket'
 		});
 	}
 ]);

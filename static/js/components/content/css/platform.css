@@ -1,0 +1,265 @@
+@charset "UTF-8";
+.nsw-form {
+  /*border: dotted ;
+  .nsw-form-row{
+    height: 50px;
+  }
+  .form-group{
+    margin: 32px 0 32px 0;
+  }*/ }
+
+.ace {
+  margin-top: 5px;
+  width: 100%;
+  height: 100%; }
+  .ace .toolbar {
+    border-bottom: solid 1px #d0d0d0;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    padding: 5px;
+    overflow: hidden;
+    zoom: 1;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 1px 4px rgba(204, 204, 204, 0.6);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    height: 26px;
+    width: 100%;
+    background-color: #f0f0ee;
+    border-top: #ccc 1px solid;
+    border-left: #ccc 1px solid;
+    border-right: #ccc 1px solid; }
+    .ace .toolbar .toolitem {
+      width: 16px;
+      height: 16px;
+      background-color: #ccc;
+      display: inline-block;
+      background-image: url(../../../../plugin/kindeditor/themes/default/default.png); }
+      .ace .toolbar .toolitem.fullscreen {
+        background-position: 0px -656px;
+        float: right; }
+      .ace .toolbar .toolitem.redo {
+        background-position: 0px -64px; }
+      .ace .toolbar .toolitem.undo {
+        background-position: 0px -48px; }
+  .ace.display-full {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; }
+
+.kind-editor, .ke-container {
+  /*li{list-style:none;}*/
+  /*title*/
+  /* -- 外边距 -- */
+  /*特殊字符弹窗*/ }
+  .kind-editor html, .ke-container html {
+    color: #000;
+    background: #FFF;
+    overflow-y: scroll; }
+  .kind-editor body, .kind-editor div, .kind-editor dl, .kind-editor dt, .kind-editor dd, .kind-editor ul, .kind-editor ol, .kind-editor li, .kind-editor h1, .kind-editor h2, .kind-editor h3, .kind-editor h4, .kind-editor h5, .kind-editor h6, .kind-editor pre, .kind-editor code, .kind-editor form, .kind-editor fieldset, .kind-editor legend, .kind-editor input, .kind-editor button, .kind-editor textarea, .kind-editor p, .kind-editor blockquote, .kind-editor th, .kind-editor td, .ke-container body, .ke-container div, .ke-container dl, .ke-container dt, .ke-container dd, .ke-container ul, .ke-container ol, .ke-container li, .ke-container h1, .ke-container h2, .ke-container h3, .ke-container h4, .ke-container h5, .ke-container h6, .ke-container pre, .ke-container code, .ke-container form, .ke-container fieldset, .ke-container legend, .ke-container input, .ke-container button, .ke-container textarea, .ke-container p, .ke-container blockquote, .ke-container th, .ke-container td {
+    margin: 0;
+    padding: 0; }
+  .kind-editor table, .ke-container table {
+    border-collapse: collapse;
+    border-spacing: 0; }
+  .kind-editor fieldset, .kind-editor img, .ke-container fieldset, .ke-container img {
+    border: 0; }
+  .kind-editor address, .kind-editor caption, .kind-editor cite, .kind-editor code, .kind-editor dfn, .kind-editor th, .kind-editor var, .kind-editor optgroup, .ke-container address, .ke-container caption, .ke-container cite, .ke-container code, .ke-container dfn, .ke-container th, .ke-container var, .ke-container optgroup {
+    font-style: inherit;
+    font-weight: inherit; }
+  .kind-editor em, .ke-container em {
+    font-style: italic; }
+  .kind-editor del, .kind-editor ins, .ke-container del, .ke-container ins {
+    text-decoration: none; }
+  .kind-editor caption, .kind-editor th, .ke-container caption, .ke-container th {
+    text-align: left; }
+  .kind-editor q:before, .kind-editor q:after, .ke-container q:before, .ke-container q:after {
+    content: ''; }
+  .kind-editor abbr, .kind-editor acronym, .ke-container abbr, .ke-container acronym {
+    border: 0;
+    font-variant: normal; }
+  .kind-editor sup, .ke-container sup {
+    vertical-align: baseline; }
+  .kind-editor sub, .ke-container sub {
+    vertical-align: baseline; }
+  .kind-editor input, .kind-editor button, .kind-editor textarea, .kind-editor select, .kind-editor optgroup, .kind-editor option, .ke-container input, .ke-container button, .ke-container textarea, .ke-container select, .ke-container optgroup, .ke-container option {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit; }
+  .kind-editor input, .kind-editor button, .kind-editor textarea, .kind-editor select, .ke-container input, .ke-container button, .ke-container textarea, .ke-container select {
+    *font-size: 100%; }
+  .kind-editor input, .kind-editor select, .ke-container input, .ke-container select {
+    vertical-align: middle; }
+  .kind-editor body, .ke-container body {
+    font: 12px/1.231 arial, helvetica, clean, sans-serif; }
+  .kind-editor select, .kind-editor input, .kind-editor button, .kind-editor textarea, .kind-editor button, .ke-container select, .ke-container input, .ke-container button, .ke-container textarea, .ke-container button {
+    font: 99% arial, helvetica, clean, sans-serif; }
+  .kind-editor table, .ke-container table {
+    font-size: inherit;
+    font: 100%;
+    border-collapse: collapse; }
+  .kind-editor pre, .kind-editor code, .kind-editor kbd, .kind-editor samp, .kind-editor tt, .ke-container pre, .ke-container code, .ke-container kbd, .ke-container samp, .ke-container tt {
+    font-family: monospace;
+    *font-size: 108%;
+    line-height: 100%; }
+  .kind-editor .txtboxcs, .ke-container .txtboxcs {
+    border: solid 1px #ccc;
+    height: 22px; }
+  .kind-editor h1, .ke-container h1 {
+    font-size: 32px; }
+  .kind-editor h2, .ke-container h2 {
+    font-size: 26px; }
+  .kind-editor h3, .ke-container h3 {
+    font-size: 20px; }
+  .kind-editor h4, .ke-container h4 {
+    font-size: 14px; }
+  .kind-editor h5, .ke-container h5 {
+    font-size: 12px; }
+  .kind-editor h6, .ke-container h6 {
+    font-size: 10px; }
+  .kind-editor .mt10, .ke-container .mt10 {
+    margin-top: 10px; }
+  .kind-editor body, .ke-container body {
+    font-size: 14px; }
+  .kind-editor p, .ke-container p {
+    margin: 5px 0; }
+  .kind-editor .fl, .ke-container .fl {
+    float: left; }
+  .kind-editor .fr, .ke-container .fr {
+    float: right; }
+  .kind-editor .clear, .ke-container .clear {
+    clear: both;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden; }
+  .kind-editor .usercontrol_tab input, .ke-container .usercontrol_tab input {
+    width: 268px; }
+  .kind-editor .usercontrol_tab .fl, .ke-container .usercontrol_tab .fl {
+    width: 200px;
+    height: 315px;
+    overflow: hidden; }
+  .kind-editor .tabbody, .ke-container .tabbody {
+    height: 390px;
+    overflow: hidden; }
+  .kind-editor .tabbody span, .ke-container .tabbody span {
+    margin: 5px 3px;
+    text-align: center;
+    display: inline-block;
+    width: 40px;
+    height: 16px;
+    line-height: 16px;
+    cursor: pointer; }
+
+.ke-icon-mytest {
+  background-image: url(../../../../plugin/kindeditor/themes/default/default.png);
+  background-position: 0px -672px;
+  width: 16px;
+  height: 16px; }
+
+span.ke-icon-spechars {
+  background-position: 0px -1216px;
+  width: 15px;
+  height: 16px; }
+
+/* tabs */
+.ke-tabs {
+  font: 12px/1 "sans serif", tahoma, verdana, helvetica;
+  border-bottom: 1px solid #A0A0A0;
+  padding-left: 5px;
+  margin-bottom: 20px; }
+
+.ke-tabs-ul {
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+.ke-tabs-li {
+  position: relative;
+  border: 1px solid #A0A0A0;
+  background-color: #F0F0EE;
+  margin: 0 2px -1px 0;
+  padding: 0 20px;
+  float: left;
+  line-height: 25px;
+  text-align: center;
+  color: #555555;
+  cursor: pointer; }
+
+.ke-tabs-li-selected {
+  background-color: #FFF;
+  border-bottom: 1px solid #FFF;
+  color: #000;
+  cursor: default; }
+
+.ke-tabs-li-on {
+  background-color: #FFF;
+  color: #000; }
+
+.spec-char .ke-tabs-li {
+  padding: 0 5px; }
+
+.ke-dialog-row-row {
+  height: 30px;
+  line-height: 30px; }
+
+.ke-dialog-row-row label {
+  width: 70px; }
+
+/*模板库*/
+.ke-outline .ke-icon-selecttemps, .ke-outline .ke-icon-selectmodular {
+  background: url(../images/nswtpl.png) no-repeat;
+  width: 110px;
+  height: 19px; }
+
+/*图库*/
+.ke-icon-nswmultiimage {
+  background-position: 0px -1232px;
+  width: 16px;
+  height: 16px; }
+
+/*预览*/
+.ke-icon-nswpreview {
+  background-position: 0px -16px;
+  width: 16px;
+  height: 16px; }
+
+.ke-outline .ke-icon-nswpreviewphone {
+  background: url(../images/phone-preview.png) no-repeat;
+  background-size: 18px;
+  width: 16px;
+  height: 16px; }
+
+.ke-toolbar-icon.ke-toolbar-icon-url.ke-icon-baidumap {
+  background: url(../images/baidu-icon.png) no-repeat;
+  background-size: 18px;
+  width: 16px;
+  height: 16px; }
+
+/*自动重排*/
+.ke-icon-reformat {
+  background-position: 0px -1056px;
+  width: 16px;
+  height: 16px; }
+
+.phone-box iframe::-webkit-scrollbar {
+  width: 2px;
+  height: 6px; }
+
+.phone-box iframe::-webkit-scrollbar-thumb {
+  background: #f07802;
+  border-radius: 4px; }
+
+/*# sourceMappingURL=platform.css.map */

@@ -10,6 +10,14 @@
 				desktopMainSvc.getLoginUser().then(function (data) {
 					$scope.user = data;
 				});
+				desktopMainSvc.getProjectType().then(function (data) {
+					$scope.projectType = data;
+					$scope.isPcProject = desktopMainSvc.isPcProject();
+					$scope.isPhoneProject = desktopMainSvc.isPoneProject();
+					$scope.isResponsiveProject = desktopMainSvc.isResponsiveProject();
+					$scope.isPhoneType = desktopMainSvc.isPoneProject || desktopMainSvc.isResponsiveProject;
+					$scope.isPCType = desktopMainSvc.isPcProject || desktopMainSvc.isResponsiveProject;
+				});
 			};
 
 			var init = function init() {

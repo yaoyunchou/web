@@ -15,7 +15,7 @@
 		service.getTabDataList = function getTabDataList() {
 			var selectedCatalog =onlineServiceCatalogSvc.getSelectCatalog();
 			var defer = $q.defer();
-			if (selectedCatalog) {
+			if (selectedCatalog.id) {
 				$http.get('/pccms/onlineSrvList?id=' + selectedCatalog.id + '').then(function (response) {
 					serviceList = response.data.data||[];
 					serviceList = _.sortBy(serviceList,'orderBy');
@@ -33,16 +33,21 @@
 
 		//添加在线客服
 		service.addOnlineSrv = function addOnlineSrv(data) {
-			$http({
-				'method': 'POST',
-				'url': '/pccms/addOnlineSrv',
-				'data': data
-			}).then(function (response) {
-				service.getTabDataList();
-				platformModalSvc.showSuccessTip(response.data.data);
-			}, function (response) {
-				platformModalSvc.showWarmingTip(response.data.data);
-			});
+			if(onlineServiceCatalogSvc.getSelectCatalog().id){
+				$http({
+					'method': 'POST',
+					'url': '/pccms/addOnlineSrv',
+					'data': data
+				}).then(function (response) {
+					service.getTabDataList();
+					platformModalSvc.showSuccessTip(response.data.data);
+				}, function (response) {
+					platformModalSvc.showWarmingTip(response.data.data);
+				});
+			}else{
+				platformModalSvc.showWarmingTip("请先添加部门");
+			}
+
 		};
 		//删除客服方法
 		service.deletOnlineSvcFactory = function deletOnlineSvcFactory(data) {
@@ -60,8 +65,9 @@
 
 		};
 		service.deletSingleOnlineSvc = function deletSingleOnlineSvc(item) {
-			service.deletOnlineSvcFactory({"ids": item._id});
-
+			platformModalSvc.showConfirmMessage('确定要删除当前在线客服吗？','网站操作信息提示').then(function(){
+				service.deletOnlineSvcFactory({"ids": item._id});
+			})
 		};
 		//编辑客服
 		service.editOnlineSvcModal = function editOnlineSvcModal(item,dataList) {
@@ -72,7 +78,7 @@
 				size: 'lg',
 				userTemplate: true,
 				options: {
-					item: item,
+					item: angular.copy(item),
 					dataList:dataList
 				}
 			});
@@ -136,7 +142,9 @@
 
 				}
 			});
-			service.deletOnlineSvcFactory({"ids": strList});
+			platformModalSvc.showConfirmMessage('确定要删除这些在线客服吗？','网站操作信息提示').then(function() {
+				service.deletOnlineSvcFactory({"ids": strList});
+			});
 		};
 		//显示删除
 		service.ifShow = function ifShow(item){

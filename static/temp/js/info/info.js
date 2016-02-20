@@ -1,4 +1,4 @@
-var infoApp = angular.module('infoApp', ['ui.tree','platform','common','ng.ueditor','ui.bootstrap','ui.bootstrap.pagination','ui.nested.combobox']);
+var infoApp = angular.module('infoApp', ['ui.tree','platform','common','ng.ueditor','ui.bootstrap','ui.bootstrap.pagination','ui.nested.combobox','toolApp']);
 
 //路由配置、
 infoApp.config(['$stateProvider', '$urlRouterProvider',
@@ -101,27 +101,33 @@ infoApp.config(['$stateProvider', '$urlRouterProvider',
 	
 ]);
 
-angular.module('infoApp').directive('leftInformation', function() {
+angular.module('infoApp').directive('leftInformation',['$compile', function($compile) {
 	return {
 		restrict: 'ACE',
-		replace: true,
-		scope: {
-			findId : '=findId'
-		},
-		link: function (scope, element, attrs) {
-			console.log(scope.findId);
-			if(scope.findId){
+		transclude:true,
+		template:'<div ng-transclude=""></div>',
+		link: function (scope, element) {
+			var showInput = function showInput(){
 				element.find('button').hide();
-				element.find('.left-info').show();
-			}else{
-				element.find('button').bind('click', function () {
-					$(this).hide();
-					element.find('.left-info').show();
-				});
-			}
+				$compile(element.find('.left-info').show())(scope);
+			};
+
+			var inputNgModel = $(element.find('.form-control[ng-model],.form-control[data-ng-model]')[0]).data('$ngModelController');
+			var orginRender = inputNgModel.$render;
+			inputNgModel.$render = function render(){
+				var viewValue = inputNgModel.$viewValue;
+				if(viewValue){
+					showInput();
+				}
+				orginRender.apply(this, arguments);
+				return viewValue;
+			};
+			element.find('button').bind('click', function () {
+				showInput();
+			});
 		}
-	}
-});
+	};
+}]);
 
 
 infoApp.factory('commonTool',function() {

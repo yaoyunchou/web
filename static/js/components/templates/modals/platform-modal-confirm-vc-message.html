@@ -1,0 +1,30 @@
+<div data-ng-controller="platformModalMessageCtrl" class="message-box nsw-modal">
+	<div class="modal-header">
+		<h4 class="modal-title" data-ng-bind="modalOptions.title"></h4>
+		<a class="diaremove" ng-click="closeModal(false)"></a>
+	</div>
+	<div class="modal-body message-body">
+		<div class="icon">
+			<div data-ng-if="modalOptions.type==='confirm'" class="icon-confirm"></div>
+		</div>
+		<div class="message">
+			<div class="message-content" data-ng-bind="modalOptions.message" ></div>
+		</div>
+<!--		<div style="margin-left: 86px;margin-bottom: 26px;margin-top: -26px;">
+			<input id="captcha" name="captcha" class="required" style="border: 1px solid #F90;display: inline-block;margin-top: 22px;height: 30px;line-height: 30px;width: 60px;margin-left: 26px;padding: 2px 16px;border-radius: 5px;" type="text" value="" size="22" autocomplete="off">
+			<img  id="yzcode" src="http://localhost:8083/pccms/common/verifyCode" style="display: inline-block;margin-left: 26px;" onclick="this.src='http://localhost:8083/pccms/common/verifyCode?'+Math.random();">
+		</div>-->
+		<div class="button">
+		    <button type="submit" class="btn" data-ng-class="modalOptions.cancelText? 'btn-commit': 'btn-center'"
+			        data-ng-show="modalOptions.commitText" ng-click="closeModal(true)">
+				<label class="btn-icon" data-ng-class="modalOptions.commitIcon"></label>
+				<span class="btn-text" data-ng-bind="modalOptions.commitText"></span>
+			</button>
+			<button class="btn" data-ng-class="modalOptions.commitText? 'btn-cancel': 'btn-center'"
+			        data-ng-show="modalOptions.cancelText" ng-click="closeModal(false)">
+				<label class="btn-icon" data-ng-class="modalOptions.cancelIcon"></label>
+				<span class="btn-text black" data-ng-bind="modalOptions.cancelText"></span>
+			</button>
+		</div>
+	</div>
+</div>

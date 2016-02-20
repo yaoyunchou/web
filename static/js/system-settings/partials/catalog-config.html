@@ -1,0 +1,69 @@
+<link rel="stylesheet" type="text/css" href="content/css/catalog-config.css">
+<div class="row">
+	<div class="col-md-12">
+		<div platform-bread-nav="breadNavs"/>
+	</div>
+</div>
+
+<div class="row  catalog-config">
+	<div class="col-xs-9">
+		<div class="configList">
+			<h2 class="list-group-item">在线留言设置</h2>
+
+			<form name="catalogConfig">
+				<div class="form-group ">
+					<label class="col-sm-2">留言开启验证码</label>
+
+					<div class="col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked1" data-ng-value="true" ng-model="bean.isValidate">是</label>
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked1" data-ng-value="false" ng-model="bean.isValidate">否</label>
+					</div>
+				</div>
+				<div class="form-group ">
+					<label class="col-sm-2">留言间隔时间</label>
+
+					<div class="col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked2" data-ng-value="false" ng-model="limit">无限制</label>
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked2" data-ng-value="true" ng-model="limit">限制</label>
+						<label class="radio-inline" ng-show="limit">
+							<input type="number" name = 'second' data-ng-value="false" ng-model="bean.timeInterval">秒</label><span class="err" data-ng-show = "catalogConfig.second.$invalid" >请填入正确的数子!</span>
+					</div>
+				</div>
+				<div class="form-group ">
+					<label class="col-sm-2">审核后显示</label>
+
+					<div class="col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked3" data-ng-value="true"
+							       ng-model="bean.isAuditDisplay">是</label>
+						<label class="radio-inline">
+							<input type="radio" name="radioChecked3" data-ng-value="false"
+							       ng-model="bean.isAuditDisplay">否</label>
+					</div>
+				</div>
+				<div class="form-group ">
+					<label class="col-sm-2">留言表单设计</label>
+
+					<div class="col-sm-8">
+						<a href="javascript:void(0)" data-ng-click="desigenerForm()">个性化设置表单</a>
+					</div>
+				</div>
+			</form>
+			<div class="form-group">
+				<div class="col-sm-8 text-left col-sm-offset-2">
+					<button type="submit" class="btn btn-warning btn-color" ng-disabled="catalogConfig.$invalid"
+					        ng-click="updata()"><label class="checkright"></label><span
+							class="btntext">保&nbsp;存</span></button>
+					<a href="#" data-ng-click="getJS()">如何投放留言表单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div data-platform-catalog-list data-options="catalogListOptions"></div>
+	</div>
+</div>

@@ -30,7 +30,6 @@
 <form class="form-horizontal">
 	<tabset>
 		<tab heading="录入项" active>
-
 			<ul class="c-w95">
 				<li class="mt20">
 					<p class="c-top-title">{{pagename}}属性</p>
@@ -99,14 +98,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat = "list in mylist">
-										<td>{{list.name}}</td>
-										<td>{{list.index}}</td>
-										<td>出版社</td>
+									<tr ng-repeat = "list in optionFields">
+										<td>{{list.title}}</td>
+										<td><span data-ng-show="list.formType=='text'">文本框</span><span data-ng-show="list.formType=='radio'">单选框</span><span data-ng-show="list.formType=='checkbox'">多选框</span><span data-ng-show="list.formType=='select'">下拉框</span></td>
+										<td>{{ list.optionFields | fileOption}}</td>
 										<td>
 											<span>
-								    		    <i class="fa fa-arrow-up" style="display:{{list.up ? 'inline-block':'none'}}"  ng-click = "changtype(list.index,'up')"></i>&nbsp;
-								    		    <i class="fa fa-arrow-down" style="display:{{list.down ? 'inline-block':'none'}} " ng-click = "changtype(list.index,'down')"></i>
+								    		    <i ng-hide="$first" class="fa fa-arrow-up"
+										           ng-click="interchange(list,optionFields[$index-1])"></i>&nbsp;
+												 <i ng-hide="$last" class="fa fa-arrow-down"
+												    ng-click="interchange(list,optionFields[$index+1])"></i>
 							    		    </span>
 										</td>
 										<td class="text-right">
@@ -126,127 +127,14 @@
 				 
 					 <div class="form-group ">
 						<div class="col-sm-offset-2 col-sm-8">
-							<button type="button" class="btn btn-primary"> <i class="glyphicon glyphicon-plus-sign c-icon"></i>添加</button>
+							<button type="button" data-ng-click="saveOptions()" class="btn btn-primary"> <i class="glyphicon glyphicon-plus-sign c-icon"></i>添加</button>
 						</div>
 					</div>
+
 				</li>
 
 
 				<li class="mt50">
-					<!-- <p class="c-top-title">内容模板</p>
-					<div class="form-group">
-						<label  class="col-sm-2 control-label lwt">列表显示行列数量</label>
-						<div class="col-sm-8">
-							<label class="radio-inline">
-								<input type="radio" name="radioChecked">开启
-							</label>
-							<label class="radio-inline">
-								默认设置为
-							</label>
-							<label class="radio-inline">
-								<select class="c-select">
-							              <option value="1">1</option>
-							              <option value="2">2</option>
-							              <option value="3">3</option>
-							              <option value="4">4</option>
-							 	</select>行
-							</label>
-							<label class="radio-inline">
-								<select class="c-select">
-							              <option value="1">1</option>
-							              <option value="2">2</option>
-							              <option value="3">3</option>
-							              <option value="4">4</option>
-							 	</select>行
-							</label>
-						</div>
-					</div>
-					
-
-					<div class="form-group">
-						<label  class="col-sm-2 control-label lwt">默认列表排序方式</label>
-						<div class="col-sm-8">
-							<label class="radio-inline">
-								<input type="radio" name="radioChecked">开启
-							</label>
-							<label class="radio-inline">
-								默认设置为
-							</label>
-							<label class="radio-inline">
-								<select class="c-select" style="width: 154px;">
-							              <option value="1">列表常用显示方式模板1</option>
-							              <option value="2">列表常用显示方式模板2</option>
-							              <option value="3">列表常用显示方式模板3</option>
-							              <option value="4">列表常用显示方式模板4</option>
-							 	</select>
-							</label>
-							
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label  class="col-sm-2 control-label lwt">列表显示方式</label>
-						<div class="col-sm-8">
-							<label class="radio-inline">
-								<input type="radio" name="radioChecked">开启
-							</label>
-							<label class="radio-inline">
-								默认设置为
-							</label>
-							<label class="radio-inline">
-								<select class="c-select" style="width: 154px;">
-							              <option value="1">列表常用显示方式模板1</option>
-							              <option value="2">列表常用显示方式模板2</option>
-							              <option value="3">列表常用显示方式模板3</option>
-							              <option value="4">列表常用显示方式模板4</option>
-							 	</select>
-							</label>
-							
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label  class="col-sm-2 control-label lwt">列表页模板</label>
-						<div class="col-sm-8">
-							<label class="radio-inline">
-								<input type="radio" name="radioChecked">开启
-							</label>
-							<label class="radio-inline">
-								默认设置为
-							</label>
-							<label class="radio-inline">
-								<select class="c-select" style="width: 154px;">
-							              <option value="1">列表常用显示方式模板1</option>
-							              <option value="2">列表常用显示方式模板2</option>
-							              <option value="3">列表常用显示方式模板3</option>
-							              <option value="4">列表常用显示方式模板4</option>
-							 	</select>
-							</label>
-							
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label  class="col-sm-2 control-label lwt">详细页模板</label>
-						<div class="col-sm-8">
-							<label class="radio-inline">
-								<input type="radio" name="radioChecked">开启
-							</label>
-							<label class="radio-inline">
-								默认设置为
-							</label>
-							<label class="radio-inline">
-								<select class="c-select" style="width: 154px;">
-							              <option value="1">列表常用显示方式模板1</option>
-							              <option value="2">列表常用显示方式模板2</option>
-							              <option value="3">列表常用显示方式模板3</option>
-							              <option value="4">列表常用显示方式模板4</option>
-							 	</select>
-							</label>
-							
-						</div>
-					</div>-->
-
 					<div class="form-group mt50">
 						<div class="col-sm-offset-2 col-sm-8">
 							<button type="button" class="btn btn-primary btn-color" ng-click="changeOK()">
