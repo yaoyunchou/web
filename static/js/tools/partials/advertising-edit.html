@@ -1,0 +1,307 @@
+<style>
+
+    /*表单*/
+    .nsw-form:first-child {
+        padding-top: 30px;
+    }
+
+    .nsw-form:last-child {
+        padding-bottom: 100px;
+    }
+
+    .nsw-form-row {
+        margin-bottom: 32px;
+        height: 29px;
+        clear: both;
+    }
+
+    .nsw-form-label {
+        padding-left: 40px;
+        font-weight: normal;
+    }
+
+    .nsw-form-required {
+        margin-left: -8px;
+        color: #f44336;
+    }
+
+    .nsw-form-validate-tip {
+        display: inline-block;
+        margin-top: 6px;
+    }
+
+    .nsw-form-textarea {
+        resize: none;
+        max-height: 150px;
+    }
+
+    .nsw-form-error-message {
+        padding-top: 2px;
+        padding-bottom: 10px;
+        display: inline-block;
+        color: #f44336;
+    }
+
+    .nsw-form-footer {
+        text-align: left;
+        margin-left: 168px;
+        padding: 0px;
+        position: relative;
+        top: -63px;
+    }
+
+    .nsw-form-textarea:focus {
+        height: 68px;
+    }
+
+    .nsw-form-textarea-validate-tip {
+        display: inline-block;
+        margin-top: 26px;
+    }
+
+
+
+    .nsw-table tr {
+        height: 60px;
+    }
+
+    .nsw-table tr td:nth-child(1) {
+        border-right: 1px dashed #ddd;
+    }
+
+    .nsw-table tr:last-child td {
+        border-bottom: 0px dashed #ddd;
+    }
+
+    .nsw-table tr:hover {
+        background: #ebebeb;
+    }
+
+    /*广告*/
+    .adv-row-height{
+        height:29px;
+        line-height:29px;
+    }
+    .adv-img-upload{
+        text-align:center;margin-top:-1px;border:1px solid #dcdcdc;padding:27px;margin-left:168px;height:122px;
+    }
+
+    .adv-classify{
+        border:none;width:353px;padding:0;
+    }
+
+    .adv-alt-message{
+        margin-left:0px;
+    }
+    .adv-arrow{
+        display:inline-block;margin-top:20px;
+    }
+    .adv-arrow i{
+        cursor:pointer;
+    }
+    .add-adv-imgs{
+        margin-left:150px;margin-bottom:32px;
+    }
+    .adv-js{
+        margin-bottom:32px;clear:both;margin-left:168px;
+    }
+    .adv-js-textarea{
+        height:300px;width:504px;resize:none;border:1px solid #dcdcdc;
+    }
+    .adv-desc{margin-bottom:32px;}
+    .advImg {max-width: 90px;max-height: 90px;text-align:center;vertical-align:middle;} /* for Firefox & IE7 */
+    * html .advImg { /* for IE6 */
+        width: expression(this.width > 90 && this.width > this.height ? 90 : auto);
+        height: expression(this.height > 90 ? 90 : auto);
+    }
+    .advinfo{
+        border:1px solid #dcdcdc;border-top:0;
+    }
+
+</style>
+<div class="modal-body">
+    <form class="form-horizontal form-validation" ng-show="setForm(100, advertisingInfo)" name="advertisingInfo" novalidate>
+        <tabset>
+            <tab heading="广告基本信息" status="infoBase" active>
+                <div class="advinfo">
+                    <div  class="nsw-form">
+                        <div class="nsw-form-row" beyond max-count='32'>
+                            <label class="col-sm-2 nsw-form-label adv-row-height">
+                                <span class="nsw-form-required">*</span>
+                                广告名称
+                            </label>
+
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control input-control" ng-pattern="/^[\u4e00-\u9fa5_a-zA-Z]+$/" data-nsw-max-length="20" ng-model="advList.name" autocomplete="off"
+                                       name="advName" data-nsw-max-length="20" required>
+
+                                <div ng-show="advertisingInfo.advName.$dirty && advertisingInfo.advName.$invalid">
+                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.pattern">请填写中英文</span>
+                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.required">请填写广告名称</span>
+                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.nswmaxlength">广告名称长度为0~20字符</span>
+                                </div>
+                            </div>
+                            <span class="nsw-form-validate-tip mess-zx">0</span>/20字符
+                        </div>
+                    </div>
+
+                    <div  class="nsw-form">
+                        <div class="nsw-form-row" beyond>
+                            <label class="col-sm-2 nsw-form-label adv-row-height">
+                                <span class="nsw-form-required">&nbsp;&nbsp;</span>
+                                所属分类
+                            </label>
+
+                            <div class="col-sm-5">
+                                <div class="form-control adv-classify">
+                                    <select class="form-control nsw-form-input"  ng-model="advList.ctgId"
+                                            data-ng-options="item._id as item.name for item in collectionAdvanced"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nsw-form">
+                        <div class="nsw-form-row">
+                            <label class="col-sm-2 nsw-form-label adv-row-height">
+                                <span class="nsw-form-required">&nbsp;&nbsp;</span>
+                                广告类型
+                            </label>
+
+                            <div class="col-sm-5" style="line-height:15px;">
+                                <label class="radio-inline" ng-show="advList.type ==='imgs' || isNew">
+                                    <input type="radio" name="radioChecked" value="imgs" ng-model="advList.type" ng-click="switchType('imgs');"  ng-checked="true" required>图片广告
+                                </label>
+                                <label class="radio-inline" ng-show="advList.type ==='js' || isNew">
+                                    <input type="radio" name="radioChecked" value="js" ng-click="switchType('js');" ng-model="advList.type" >JS(流量联盟广告)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="nsw-form col-sm-offset-2" ng-if="advList.type==='imgs'" ng-show="setForm($index, imgForm{{$index}})"  data-ng-repeat="img in advList.imgs " ng-form="imgForm{{$index}}">
+
+                        <div class="col-sm-2" class="adv-img-upload"  data-ng-show="showPcImage" style="margin-bottom:20px;clear:both;">
+                            <a href="javascript:void(0)" style="display:inline-block;">
+                                <div img-lib="url" ng-model="advList.imgs[$index].urlPc" data-img-count="1">
+                                    <img class="advImg" id="thumbnail"  nsw-src="{{img.urlPc}}"
+                                         ng-show="img.urlPc">
+                                    <i class="fa fa-cloud-upload fa-3x" ng-show="!img.urlPc"></i>
+                                    <h6 ng-show="!img.urlPc">点击上传(PC)</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-2" class="adv-img-upload" data-ng-show="showPhoneImage" style="margin-bottom:10px;">
+                            <a href="javascript:void(0)" style="display:inline-block;">
+                                <div img-lib="url" ng-model="advList.imgs[$index].urlPhone" data-img-count="1">
+                                    <img class="advImg" id="thumbnailphone"  nsw-src="{{img.urlPhone}}"
+                                         ng-show="img.urlPhone">
+                                    <i class="fa fa-cloud-upload fa-3x" ng-show="!img.urlPhone"></i>
+                                    <h6 ng-show="!img.urlPhone">点击上传(手机)</h6>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6" style="margin-bottom:10px;">
+                            <div beyond="" max-count="64" class="form-group">
+                                <label class="col-sm-4 control-label">广告超链接</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-disabled="!img.urlPc && !img.urlPhone"
+                                           ng-model="img.adLink" name="adLink"  autocomplete="off"  data-nsw-max-length="64"  required>
+                                    <div  ng-show="imgForm{{$index}}.adLink.$dirty && imgForm{{$index}}.adLink.$invalid">
+                                        <span class="err" ng-show="imgForm{{$index}}.adLink.$error.required">请填写广告超链接</span>
+                                        <span class="err" ng-show="imgForm{{$index}}.adLink.$error.nswmaxlength">广告超链接为0~64字符</span>
+                                    </div>
+                                </div>
+                                <span class="mess-zx pull-left">0</span><span>/64字符</span>
+                            </div>
+                            <div beyond="" max-count="64"  class="form-group" style="margin-bottom:10px;">
+                                <label class="col-sm-4 control-label">alt标签</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-disabled="!img.urlPc && !img.urlPhone" ng-model="img.alt" name="alt"  autocomplete="off"  data-nsw-max-length="64"  required>
+                                    <div class="adv-alt-message"  ng-show="imgForm{{$index}}.alt.$dirty && imgForm{{$index}}.alt.$invalid">
+                                        <span class="err" ng-show="imgForm{{$index}}.alt.$error.nswmaxlength">alt标签为0~64字符</span>
+                                        <span class="err" ng-show="imgForm{{$index}}.alt.$error.required">请填写alt标签</span>
+                                    </div>
+                                </div>
+                                <span class="mess-zx pull-left">0</span><span>/64字符</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 adv-arrow" style="margin-bottom:10px;">
+                            <i ng-hide="$first" class="fa fa-arrow-up" ng-click="sortImage($index,$index-1)"></i>
+                            <i ng-hide="$last" class="fa fa-arrow-down" ng-click="sortImage($index,$index+1)"></i>
+                            <i class="fa fa-close" ng-click="removeImage($index)"></i>
+                        </div>
+                    </div>
+
+                    <div  ng-show="advList.type ==='imgs'" class="col-sm-6" class="add-adv-imgs" style="margin-left:152px;margin-bottom:32px;">
+                        <a href="javascript:void(0);" data-ng-click="addImage(advList)" class="btn btn-default borderorange no-radus-btn btnh26"><span class="newadd"></span> 添加</a>
+                    </div>
+
+                    <div ng-if="advList.type ==='js'" class="nsw-form adv-js">
+                        <textarea class="form-control adv-js-textarea" ng-model="advList.js"></textarea>
+                        <span style="display:block;">(请把JS代码填入到上述录入框)</span>
+                    </div>
+
+                    <div  class="nsw-form adv-desc">
+                        <div class="nsw-form-row" beyond max-count='32' style="height:auto;margin-top:2px;">
+                            <label class="col-sm-2 nsw-form-label">
+                                <span class="nsw-form-required">*</span>
+                                广告简介
+                            </label>
+
+                            <div class="col-sm-7">
+                                <textarea class="form-control nsw-form-textarea" ng-model="advList.desc"
+                                          name="description" data-nsw-max-length="200" required />
+
+                                <div ng-show="advertisingInfo.description.$dirty && advertisingInfo.description.$invalid">
+                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.description.$error.required">请填写网页描述</span>
+                                    <span class="nsw-form-error-message" ng-show="!advertisingInfo.description.$error.required && advertisingInfo.description.$error">网页描述长度为0~200字符</span>
+                                </div>
+                            </div>
+                            <span class="nsw-form-textarea-validate-tip mess-zx">0</span>/200字符
+                        </div>
+                    </div>
+
+                    <div  class="nsw-form">
+                        <div class="nsw-form-row">
+                            <label class="col-sm-2 nsw-form-label adv-row-height">
+                                <span class="nsw-form-required">&nbsp;&nbsp;</span>
+                                显示当前广告
+                            </label>
+                            <div class="col-sm-5" style="line-height:15px;">
+                                <label class="radio-inline">
+                                    <input type="radio" name="isDisplay" ng-value="true" ng-model="advList.isDisplay">显示
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="isDisplay" ng-value="false" ng-model="advList.isDisplay">隐藏
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="nsw-form">
+                        <div class="nsw-form-row">
+                            <label class="col-sm-2 nsw-form-label adv-row-height">
+                                <span class="nsw-form-required">*</span>
+                                发布时间
+                            </label>
+                            <div class="col-sm-5">
+                                <pick-datetime class="form-control" ng-model="advList.publishTime"></pick-datetime>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+        <div class="modal-footer nsw-form-footer">
+            <div>
+                <button type="submit" ng-disabled="!isValid || !isDirty" class="btn btn-warning btn-color" data-ng-click="advInfoSave();">
+                    <label class="checkright"></label><span class="btntext">保&nbsp;存</span>
+                </button>
+                <button class="btn btn-default btn-color btn-cancel" data-ng-click="advReset();">
+                    <label class="checkcancel"></label><span class="btntext black">重&nbsp;填</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

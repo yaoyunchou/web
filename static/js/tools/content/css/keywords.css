@@ -1,0 +1,56 @@
+@charset "UTF-8";
+.add-keywords-info-row {
+  margin-bottom: -10px; }
+  .add-keywords-info-row .add-keywords-info-form {
+    margin-bottom: 15px; }
+    .add-keywords-info-row .add-keywords-info-form .add-keywords-info-btn {
+      margin-top: 4px; }
+  .add-keywords-info-row .keywords-checkAll-btn {
+    margin-top: 3px;
+    margin-left: -15px; }
+  .add-keywords-info-row .keywords-btn {
+    margin-top: 3px; }
+
+.btn-group button {
+  height: 20px;
+  line-height: 20px; }
+.btn-group button:hover .fa-delete {
+  background-position: -587px -22px; }
+
+/*关键词快速编辑*/
+.keywords-edit-form {
+  margin-top: 15px; }
+  .keywords-edit-form .keywords-edit-group {
+    margin-bottom: 15px; }
+
+.keywords-footer {
+  padding: 0px;
+  padding-left: 138px;
+  padding-bottom: 30px; }
+
+/*友情链接*/
+.friendlyLink-body {
+  margin-top: 15px; }
+  .friendlyLink-body .friendlyLink-label {
+    padding-left: 60px;
+    font-weight: normal; }
+
+.friendlyLink-footer {
+  margin-bottom: -10px;
+  margin-top: -10px;
+  margin-left: 50px; }
+
+.friendlyLink-row {
+  margin-bottom: -10px; }
+  .friendlyLink-row .friendlyLink-form {
+    margin-bottom: 15px; }
+  .friendlyLink-row .frinedlyLink-checkAll-btn {
+    margin-top: 3px;
+    margin-left: -15px; }
+  .friendlyLink-row .frinedlyLink-btn {
+    margin-top: 3px; }
+
+.add-friendlyLink-btn {
+  margin-top: 4px; }
+
+/*# sourceMappingURL=keywords.css.map */

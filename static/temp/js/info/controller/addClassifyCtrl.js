@@ -1,6 +1,6 @@
 //文章分类录入
-infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams','platformModalSvc','commonTool',
-    function ($scope, $http, $state, utils, $stateParams,platformModalSvc,commonTool) {
+infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams','platformModalSvc','commonTool','desktopMainSvc',
+    function ($scope, $http, $state, utils, $stateParams,platformModalSvc,commonTool,desktopMainSvc) {
         "use strict";
         $scope.name = $stateParams.name;
         $scope.moduleId = $stateParams.moduleId;
@@ -20,18 +20,8 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
 
         $scope.configDesc = {
-            maximumWords: 300,
-            initialFrameWidth: '100%',
-			initialFrameHeight: 100,
-            toolbars: [
-                [
-                    'fullscreen', 'source', '|', 'undo', 'redo', '|',
-                    'bold', 'italic', 'underline', 'fontborder', '|', 'forecolor', 'backcolor', '|',
-                    'fontfamily', 'fontsize', '|',
-                    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
-                    'link'
-                ]
-            ]
+            simpleMode:true,
+            maximumWords: 300
         };
 
         //加载下拉树。
@@ -39,14 +29,6 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         $scope.classify.activeItemBean = {};
 
 
-        //没有缩略图。
-        $scope.hasNotThumbnail = function () {
-            $scope.isThumbnail = false;
-        };
-        //有缩略图。
-        $scope.hasThumbnail = function () {
-            $scope.isThumbnail = true;
-        };
         //存在外部链接。
         $scope.hasLink = function () {
             $scope.isLinkFlag = true;
@@ -77,7 +59,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
                         //图片。
                         $scope.img = {};
-                        if (data.data.imgSm.url) {
+                        if (data.data.imgSm.urlPc || data.data.imgSm.urlPhone) {
                             $scope.imageExist = true;
                             $scope.isThumbnail = true;
                             $scope.img.thumbnail = [];
@@ -95,18 +77,23 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                             $scope.img.lmicon[0] = {};
                             $scope.img.lmicon[0].url = data.data.imgMd.url;
                         }
-                        try {
-                            if (data.data.pageTpl[0].id) {
+                        if(data.data && data.data.pageTpl){
+                            if (data.data.pageTpl[0] && data.data.pageTpl[0].id) {
                                 $scope.listTempOk[data.data.pageTpl[0].id] = true;
                             }
-                            if (data.data.pageTpl[1].id) {
+                            if (data.data.pageTpl[1] && data.data.pageTpl[1].id) {
                                 $scope.detailTempOk[data.data.pageTpl[1].id] = true;
                             }
 
                         }
-                        catch (e) {
 
+                        if(!$scope.bean.data || !$scope.bean.data.ads) {
+                            $scope.bean.data = $scope.bean.data || {};
+                            $scope.bean.data.ads = $scope.bean.data.ads || null;
+                            setAdInfo();
                         }
+
+                        $scope.isThumbnail = !! $scope.bean.imgSm.urlPc;
                     } else {
                     	platformModalSvc.showWarmingMessage(data.data,'提示');
                     }
@@ -135,6 +122,9 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             $scope.classify.activeItemBean = {};
         }
 
+        $scope.clearImageSm = function clearImageSm(){
+            $scope.bean.imgSm = null;
+        };
 
         $scope.setNetAddress = function () {
           
@@ -240,10 +230,14 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 	    							'type': 'LIST'
 	    						}
 	    				}
-	    				
+                        $scope.bean.data = $scope.bean.data || {};
+                        $scope.bean.data.ads = $scope.bean.data.ads || null;
+                        setAdInfo();
 	    			}
 	    			else{
 	    				$scope.bean.pageTpl[0] = null;
+                        $scope.bean.data =  {};
+                        $scope.bean.data.ads =  null;
 	    			}
 	    		}
 	    	}else{
@@ -299,7 +293,42 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         }).error(function (data, status, headers, config) {
             console.log('系统异常或网络不给力！');
         });
-        
+
+        var setAdInfo = function setAdInfo() {
+
+            if (!$scope.bean || !$scope.bean.data || !$scope.bean.pageTpl || !$scope.bean.pageTpl[0] || !$scope.bean.pageTpl[0].id) {
+                return;
+            }
+            var blkId = $scope.bean.pageTpl[0].id;
+            $http({
+                method: 'PUT',
+                url: globals.basAppRoot + '/productCtg/projBlkTplADList/' + blkId,
+                data: $scope.bean.data
+            }).then(function (res) {
+                if (res.data.isSuccess && res.data && res.data.data) {
+                    $scope.bean.data.ads = res.data.data.ads;
+                } else {
+                    $scope.bean.data =  {};
+                    $scope.bean.data.ads =  null;
+                }
+            });
+        };
+
+        var tplWatcher = $scope.$watch('bean.pageTpl[0].id', function (valueNew, valueOld) {
+            if (valueNew !== valueOld) {
+                if (angular.isDefined(valueNew)) {
+                    setAdInfo();
+                } else {
+                    $scope.bean.data = {};
+                    $scope.bean.data.ads = null;
+                }
+            }
+        });
+
+        $scope.$on('$destroy', function () {
+            tplWatcher();
+        });
+
         //列表模板选中。
         $scope.listTempOk = {};
         for (var k in $scope.listTempOk) {
@@ -314,6 +343,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                 'id': row._id,
                 'type': 'LIST'
             }
+            setAdInfo();
         };
 
         //详情模板选中。
@@ -336,7 +366,6 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         var flagSpeedTree = false;
         $scope.itemChanged = function(){
             flagSpeedTree = true;
-
         };
 
         //提交保存。
@@ -360,10 +389,12 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
             }
 
 
-           $scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
+          /* $scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
 
-            $scope.bean.imgMd.url = $('#lmicon').attr('src') || '';
-
+            $scope.bean.imgMd.url = $('#lmicon').attr('src') || '';*/
+            if(_.has($scope.bean,'seo.keyword')){
+                $scope.bean.seo.keyword = UniformSymbol($scope.bean.seo.keyword);
+            }
             var _saveBean;
             if ($stateParams.id) { //修改。
                 _saveBean = $http.put('/pccms/proj/infoCtg/' + $stateParams.id, $scope.bean);
@@ -399,4 +430,12 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                 reload: true
             });
         };
+        desktopMainSvc.getProjectType().then(function(){
+            var isPhone = desktopMainSvc.isPoneProject();
+            var isPc = desktopMainSvc.isPcProject();
+            var isResponsive = desktopMainSvc.isResponsiveProject();
+
+            $scope.showPcImage = isPc || isResponsive;
+            $scope.showPhoneImage = isPhone || isResponsive;
+        });
     }]);

@@ -1,4 +1,4 @@
-var productApp = angular.module('productApp', ['platform', 'ui.tree', 'common', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox']);
+var productApp = angular.module('productApp', ['platform', 'ui.tree', 'common', 'ng.ueditor', 'ui.bootstrap', 'ui.bootstrap.pagination', 'ui.nested.combobox','toolApp']);
 
 productApp.config(['$stateProvider', '$urlRouterProvider',
 	function ($stateProvider, $urlRouterProvider) {
@@ -49,27 +49,31 @@ productApp.config(['$stateProvider', '$urlRouterProvider',
 ]);
 
 
-angular.module('productApp').directive('leftInformation', function () {
+angular.module('productApp').directive('leftInformation',['$compile', function ($compile) {
 	return {
 		restrict: 'ACE',
-		replace: true,
-		scope: {
-			findId : '=findId'
-		},
-		link: function (scope, element, attrs) {
-			console.log(scope.findId);
-			if(scope.findId){
+		link: function (scope, element) {
+			var showInput = function showInput(){
 				element.find('button').hide();
-				element.find('.left-info').show();
-			}else{
-				element.find('button').bind('click', function () {
-					$(this).hide();
-					element.find('.left-info').show();
-				});
-			}
+				$compile(element.find('.left-info').show())(scope);
+			};
+
+			var inputNgModel = $(element.find('.form-control[ng-model],.form-control[data-ng-model]')[0]).data('$ngModelController');
+			var orginRender = inputNgModel.$render;
+			inputNgModel.$render = function render() {
+				var viewValue = inputNgModel.$viewValue;
+				if (viewValue) {
+					showInput();
+				}
+				orginRender.apply(this, arguments);
+				return viewValue;
+			};
+			element.find('button').bind('click', function () {
+				showInput();
+			});
 		}
-	}
-});
+	};
+}]);
 
 
 productApp.factory('commonTool', function () {

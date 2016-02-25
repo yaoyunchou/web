@@ -1,37 +1,38 @@
+<link rel="stylesheet" href="content/css/seo.css"/>
 <div class="modal-header">
     <h4 class="modal-title">链接快速编辑</h4>
     <a class="diaremove" ng-click="$close()"></a>
 </div>
 <div class="modal-body">
     <form class="form-horizontal form-validation" name="formLink" novalidate>
-        <div class="form-group marbottom32" beyond max-count='32'>
+        <div class="form-group marbottom32" beyond max-count='64'>
             <label class="col-sm-2 control-label lighter-weight padleft35">
                 <span class="err mleft-10">*</span> 链接名称
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.name" name="name" ng-maxlength="32" required>
+                <input type="text" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="64" required>
                 <div ng-show="formLink.name.$dirty && formLink.name.$invalid">
-                    <span class="err" ng-show="formLink.name.$error.required"></span>
+                    <span class="err" ng-show="formLink.name.$error.required">链接名不能为空!</span>
                     <span class="err"
-                          ng-show="!formLink.name.$error.required && formLink.name.$error">分类名称长度为0~32字符</span>
+                          ng-show="!formLink.name.$error.required && formLink.name.$error">分类名称长度为0~64字符</span>
                 </div>
             </div>
-            <span class="mess-zx mtop6">0</span>/32字符
+            <span class="mess-zx mtop6">0</span>/64字符
         </div>
-        <div class="form-group marbottom32" beyond max-count='32'>
+        <div class="form-group marbottom32" beyond max-count='200'>
             <label class="col-sm-2 control-label lighter-weight padleft35">
                 <span class="err mtop6 mleft-10">*</span>
                 超链接地址
             </label>
             <div class="col-sm-8 padleft26">
-                    <input type="url" class="form-control" ng-model="editBean.url" name="url" ng-maxlength="32" required>
+                    <input type="url" class="form-control" ng-model="editBean.url" name="url" data-nsw-max-length="200" required>
                     <div ng-show="formLink.url.$dirty && formLink.url.$invalid">
-                        <span class="err" ng-show="formLink.name.$error.required"></span>
-                    <span class="err"
-                          ng-show="!formLink.name.$error.required && formLink.name.$error">请填写正确的url,以http://开头!</span>
+                        <span class="err" ng-show="formLink.url.$error.required"> 超链接地址不能为空</span>
+                         <span class="err" ng-show="!formLink.url.$error.required && formLink.url.$invalid">请填写正确的url,以http://开头!</span>
+                         <span class="err" ng-show="formLink.url.$error.nswmaxlength">超链接地址不能超过200字符!</span>
                     </div>
             </div>
-            <span class="mess-zx martop-5">0</span>/100字符
+            <span class="mess-zx martop-5">0</span>/200字符
         </div>
     </form>
 </div>

@@ -203,3 +203,33 @@
 .tool-nav .submitbox {
     padding: 0 10px;
 }
+
+tr .editbtn {
+    display: none;
+}
+
+tr:hover .editbtn {
+    display: inline-block;
+}
+.addbtn {
+    border-color: #f08300;
+    background-color: #FFFFFF;
+    color: #f08300;
+}
+.addbtn .addattr {
+    background-position: -365px -283px;
+}
+.c-channel-tfoot {
+    background-color: #f6f6f6;
+}
+
+.c-channel-tfoot td {
+    border-top: 1px solid #dcdcdc;
+}
+.form-control.ng-dirty.ng-invalid {
+    border-color: #f44336;
+}
+
+.form-control.ng-dirty.ng-valid, .form-validation .form-control.ng-dirty.ng-valid:focus {
+    border-color: #4caf50;
+}

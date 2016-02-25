@@ -94,9 +94,9 @@
 							if (data.data.imgSm.url) {
 								$scope.imageExist = true;
 								$scope.isThumbnail = true;
-								$scope.img.thumbnail = [];
+								/*$scope.img.thumbnail = [];
 								$scope.img.thumbnail[0] = {};
-								$scope.img.thumbnail[0].path = data.data.imgSm.url;
+								$scope.img.thumbnail[0].path = data.data.imgSm.url;*/
 							}
 
 							$scope.classify.activeItemBean = {
@@ -105,7 +105,7 @@
 								path: data.data.path
 							};
 
-							if (data.data.imgMd.url) {
+							/*if (data.data.imgMd.url) {
 								if (data.data.isLink) {
 									$scope.img.iconClassify = [];
 									$scope.img.iconClassify[0] = {};
@@ -114,9 +114,9 @@
 									$scope.img.lmicon = [];
 									$scope.img.lmicon[0] = {};
 									$scope.img.lmicon[0].path = data.data.imgMd.url;
-								}
+								}*/
 
-							}
+							//}
 							try {
 								if (data.data.pageTpl[0].id) {
 									$scope.listTempOk[data.data.pageTpl[0].id] = true;
@@ -319,13 +319,13 @@
 				}
 
 
-				$scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
-				if ($scope.isLinkFlag) {
+				//$scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
+				/*if ($scope.isLinkFlag) {
 					$scope.bean.imgMd.url = $('#wlicon').attr('src') || '';
 				} else {
 					$scope.bean.imgMd.url = $('#lmicon').attr('src') || '';
 
-				}
+				}*/
 
 				var _saveBean;
 				if ($stateParams.id) { //修改。

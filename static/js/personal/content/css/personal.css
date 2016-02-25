@@ -1,0 +1,41 @@
+.company{color:#f08300;}
+.personal-info-table>tbody>tr>td{border-bottom:0px;}
+.input-control:focus {
+    box-shadow: 0px 0px 4px #f08300;
+    border: 0;
+}
+.input-control{padding:5px;width:156px;height:30px;position:absolute;top:13px;left:48px;}
+.valid-err-tip{color:#ff0000;}
+input.ng-invalid {
+    border:1px solid #ff0000;
+}
+.personnalInfo-tip-l{
+    position:absolute;left:230px;top:19px;
+}
+.personnalInfo-tip-r{
+    position:absolute;left:243px;top:19px;
+}
+.personnalInfo-td{
+    position:relative;
+}
+.personnalInfo-tip-message{
+    display:block;margin-left:40px;margin-top:5px;position:absolute;
+}
+.personalInfo-dept-tip-message{
+    display:block;margin-left:41px;margin-top:5px;position:absolute;
+}
+.passwordInfo-tip-l{
+    position:absolute;left:290px;top:19px;
+}
+.passwordInfo-tip-r{
+    position:absolute;left:303px;top:19px;
+}
+.password-hiden{
+    vertical-align: middle;padding-top: 4px; display: inline-block;
+}
+.personnalInfo-password{
+    position:absolute;top:0px;left:56px;
+}
+.passwordInfo-password-tip-message{
+    position:absolute; left:104px;top:42px;
+}

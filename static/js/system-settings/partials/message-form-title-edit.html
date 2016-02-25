@@ -1,0 +1,119 @@
+<div class="modal-header">
+	<h4 class="modal-title">留言字段编辑</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal form-validation" name="formOnlineService" novalidate>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mleft-10">*</span> 客服名称
+			</label>
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
+				<div ng-show="formOnlineService.name.$dirty && formOnlineService.name.$invalid">
+					<span class="err" ng-show="formOnlineService.name.$error.required"></span>
+                    <span class="err"
+                          ng-show="!formOnlineService.name.$error.required && formOnlineService.name.$error">分类名称长度为0~32字符</span>
+				</div>
+			</div>
+			<span class="mess-zx mtop6">0</span>/32字符
+		</div>
+		<div class="form-group marbottom32">
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mleft-10">*</span>
+				所属部门
+			</label>
+
+			<div class="col-sm-8 padleft26">
+				<!--下拉树-->
+				<div class="form-control" style="border:none;padding:0;">
+					<nested-combo-box control-disabled="false" collection = " ctgList" defult-name ="defultName"
+					                  change-event="itemTreeChanged()" ng-model="editBean.dept">
+						<!-- ng-model="editree.activeItem"  -->
+					</nested-combo-box>
+				</div>
+			</div>
+		</div>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mtop6 mleft-10">*</span>
+				客服类型
+			</label>
+			<div class="col-sm-8 padleft26">
+				<div class="col-sm-8">
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked" value="QQ" ng-model="editBean.serverType.name" >QQ</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked" value="MSN" ng-model="editBean.serverType.name" >MSN</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked" value="诚信通" ng-model="editBean.serverType.name" >诚信通</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked" value="其他" ng-model="editBean.serverType.name">其他</label>
+				</div>
+				<input type="text" class="form-control" ng-model="editBean.serverType.content" name="name" data-nsw-max-length="32" required>
+			</div>
+			<span class="mess-zx martop-5">0</span>/100字符
+		</div>
+		<div class="form-group marbottom32">
+			<label class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35">
+				<span class="err mleft-10">*</span>
+				客服介绍
+			</label>
+			<div class="col-sm-8 padleft26" beyond max-count='32'>
+				<textarea class="form-control" rows="3" ng-model="editBean.desc" name="desc" data-nsw-max-length="32" required></textarea>
+			</div>
+
+		</div>
+
+		<div class="form-group marbottom32" beyond max-count='32' >
+			<label class="col-sm-2 control-label lighter-weight pt0 padleft35">
+				员工姓名
+			</label>
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
+
+				<div ng-show="formOnlineService.staffName.$dirty && formOnlineService.staffName.$invalid">
+                    <span class="err"
+                          ng-show="!formOnlineService.staffName.$error.required && formOnlineService.staffName.$error">分类名称长度为0~32字符</span>
+				</div>
+			</div>
+			<span class="mess-zx mtop6">0</span>/32字符
+		</div>
+		<div class="form-group marbottom32" beyond max-count='11'>
+			<label class="col-sm-2 control-label lighter-weight pt0 padleft35">
+				员工电话
+			</label>
+
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" ng-model="editBean.staffPhone" name="staffPhone" data-nsw-max-length="11" >
+
+				<div ng-show="formOnlineService.staffPhone.$dirty && formOnlineService.staffPhone.$invalid">
+					<span class="err" ng-show="formOnlineService.staffPhone.$error.required"></span>
+                    <span class="err"
+                          ng-show="!formOnlineService.staffPhone.$error.required && formOnlineService.staffPhone.$error">员工电话长度为0~11数组</span>
+				</div>
+			</div>
+			<span class="mess-zx mtop6">0</span>/11字符
+		</div>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight pt0 padleft35">
+				员工Email
+			</label>
+
+			<div class="col-sm-8 padleft26" >
+				<input type="email" class="form-control" ng-model="editBean.staffMail" name="staffMail" data-nsw-max-length="32" >
+				<div ng-show="formOnlineService.staffMail.$dirty && formOnlineService.staffMail.$invalid">
+					<span class="err" >请填写正确的邮箱!</span>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer text-align-left" style="margin-top:-15px;">
+	<button type="submit" class="btn btn-warning btn-color"
+	        ng-disabled="formOnlineService.$invalid" ng-click="ok()"><label
+			class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span
+			class="btntext black">取&nbsp;消</span></button>
+</div>
+

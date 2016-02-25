@@ -12,7 +12,7 @@
 			<span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
 		</a>
         <a title="网站缩略图" href="javascript:void(0)" style="cursor:default;" ng-if="node.type == 'PAGETPL'">
-		   <span><img class="c-thumbImage" ng-src="{{node.imgSm}}"/></span>
+		   <span><img class="c-thumbImage" nsw-src="{{node.imgSm}}"/></span>
 		</a>
         <span ng-show="node._id != nodeId || ! change">
     		{{node.name}}
@@ -26,7 +26,10 @@
     	<a class="pull-right btn btn-xs" data-nodrag ng-click="addSingle(this)" title="页面新增" ng-if="node.type == 'PAGETYPE' || node.type == 'PAGEMAIN'">
 			<span class="glyphicon glyphicon-plus"></span>
 		</a>
-        <a class="pull-right btn btn-xs" data-nodrag  title="区块编辑" ng-if="node.type == 'PAGETPL'" ng-click="blkEdit(node._id)">
+	    <a class="pull-right btn btn-xs" data-nodrag ng-click="copyCreate(node)" title="复制新增" ng-if="node.type == 'PAGETPL'">
+		    <span class="glyphicon glyphicon-duplicate"></span>
+	    </a>
+        <a class="pull-right btn btn-xs" data-nodrag  title="版块编辑" ng-if="node.type == 'PAGETPL'" ng-click="blkEdit(node._id)">
 			<span class="glyphicon glyphicon-edit"></span>
 		</a>
         <a class="pull-right btn btn-xs" data-nodrag  title="页面预览"  ng-if="node.type == 'PAGETPL'" ng-click="singlePagePreview(node._id)">

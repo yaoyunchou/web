@@ -1,10 +1,12 @@
 //文章分类录入
-productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams', '$rootScope', '$modal','platformModalSvc',
-	function ($scope, $http, $state, utils, $stateParams, $rootScope, $modal,platformModalSvc) {
+productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams', '$rootScope', '$modal', 'platformModalSvc','desktopMainSvc',
+	function ($scope, $http, $state, utils, $stateParams, $rootScope, $modal, platformModalSvc,desktopMainSvc) {
 		$scope.name = $stateParams.name;
 		$scope.moduleId = $stateParams.moduleId;
 		$scope.bean = {};
+		$scope.bean.optionFields =[];
 
+		$scope.state = {};
 		$scope.bean.seo = {};
 		$scope.bean.imgSm = {};
 		$scope.bean.imgMd = {};
@@ -20,33 +22,19 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 		$scope.isThumbnail = false; //是否有缩略图。
 
-			$scope.$watch('bean.cmsTags', function(newVal) {
-				function toString(array) {
-					var _arr = [];
-					if (array instanceof Array) {
-						for (var k in array) {
-							_arr.push(array[k].name);
-						}
+		$scope.$watch('bean.cmsTags', function (newVal) {
+			function toString(array) {
+				var _arr = [];
+				if (array instanceof Array) {
+					for (var k in array) {
+						_arr.push(array[k].name);
 					}
-					return _arr.join(',');
 				}
-				$scope.tig = toString(newVal);
-			},true);
+				return _arr.join(',');
+			}
 
-		$scope.configDesc = {
-			maximumWords: 600,
-			initialFrameWidth: '100%',
-			initialFrameHeight: 100,
-			toolbars: [
-				[
-					'fullscreen', 'source', '|', 'undo', 'redo', '|',
-					'bold', 'italic', 'underline', 'fontborder', '|', 'forecolor', 'backcolor', '|',
-					'fontfamily', 'fontsize', '|',
-					'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
-					'link'
-				]
-			]
-		};
+			$scope.tig = toString(newVal);
+		}, true);
 
 		//加载下拉树。
 		$scope.classify = {};
@@ -64,14 +52,6 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			});
 
 
-		//没有缩略图。
-		$scope.hasNotThumbnail = function () {
-			$scope.isThumbnail = false;
-		};
-		//有缩略图。
-		$scope.hasThumbnail = function () {
-			$scope.isThumbnail = true;
-		};
 		//存在外部链接。
 		$scope.hasLink = function () {
 			$scope.isLinkFlag = true;
@@ -81,23 +61,32 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			$scope.faceCheck = false;
 			$scope.productSame = false;
 		};
-		$scope.noLink  = function () {
+		$scope.noLink = function () {
 			$scope.isLinkFlag = false;
 
-			$scope.infoSeo =true;
+			$scope.infoSeo = true;
 			$scope.infoOther = true;
 			$scope.faceCheck = true;
 			$scope.productSame = true;
 		};
 
-
+		$http.get(globals.basAppRoot + 'module/extend/projPorductModuleId')
+			.success(function(data) {
+				if (data.isSuccess) {
+					$scope.state.moduleId = data.data;
+				} else {
+					console.log('moduleId获取失败。' + data.data);
+				}
+			})
+			.error(function() {
+				console.log('系统异常或网络不给力！');
+			});
 
 		//修改就去加载表单数据。
 		if ($stateParams.id) {
 			if ($stateParams.isLink === 'true') {
 				$scope.hasLink();
 			}
-
 			$http.get('/pccms/productCtg/' + $stateParams.id)
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
@@ -105,7 +94,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 						//图片。
 						$scope.img = {};
-						if (data.data.imgSm.url) {
+						if (data.data.imgSm.urlPc || data.data.imgSm.urlPhone) {
 							$scope.imageExist = true;
 							$scope.isThumbnail = true;
 							$scope.img.thumbnail = [];
@@ -119,38 +108,37 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 							url: data.data.url
 						};
 
-						if (data.data.imgMd.url) {
-							if (data.data.isLink) {
-								$scope.img.iconClassify = [];
-								$scope.img.iconClassify[0] = {};
-								$scope.img.iconClassify[0].url = data.data.imgMd.url;
-							} else {
-								$scope.img.lmicon = [];
-								$scope.img.lmicon[0] = {};
-								$scope.img.lmicon[0].url = data.data.imgMd.url;
-							}
-
+						$scope.listTempOk = {};
+						if (data.data.pageTpl && data.data.pageTpl[0] && data.data.pageTpl[0].id) {
+							$scope.listTempOk[data.data.pageTpl[0].id] = true;
 						}
-						try {
-							$scope.listTempOk = {};
-							if (data.data.pageTpl[0].id) {
-								$scope.listTempOk[data.data.pageTpl[0].id] = true;
-							}
-							if (data.data.pageTpl[1].id) {
-								$scope.detailTempOk[data.data.pageTpl[1].id] = true;
-							}
-						}
-						catch (e) {
-
+						if (data.data.pageTpl && data.data.pageTpl[1] && data.data.pageTpl[1].id) {
+							$scope.detailTempOk[data.data.pageTpl[1].id] = true;
 						}
 
-
+						//设置默认广告数据
+						if (!$scope.bean.data || !$scope.bean.data.ads) {
+							$scope.bean.data = $scope.bean.data || {};
+							$scope.bean.data.ads = $scope.bean.data.ads || null;
+						}
+						$scope.isThumbnail = !! $scope.bean.imgSm.url;
+						setAdInfo();
 					} else {
 						platformModalSvc.showWarmingMessage(data.data, '提示');
 					}
 				}).error(function (data, status, headers, config) {
 					platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 				});
+			$http({
+				'method': 'GET',
+				'url': '/pccms/orderForm/getFields',
+				'params': {'formId': $stateParams.id}
+			}).then(function (response) {
+				$scope.bean.optionFields  = response.data.data;
+				//$scope.formOptions = angular.copy($scope.formOptions);
+		}, function (response) {
+
+			});
 
 		}
 		else {
@@ -159,7 +147,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
 						$scope.collectionBean = data.data;
-						if(data.data.length){
+						if (data.data.length) {
 							$scope.classify.activeItemBean = {
 								_id: data.data[0]._id,
 								name: data.data[0].name,
@@ -176,9 +164,11 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 		}
 
+		$scope.clearImageSm = function clearImageSm(){
+			$scope.bean.imgSm = null;
+		};
 
 		$scope.setNetAddress = function () {
-
 			if ($scope.bean.name && !$stateParams.id) {
 				$http({
 					method: 'GET',
@@ -241,7 +231,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 								$scope.bean.pageTpl[0] = {
 									'id': tempItem._id,
 									'type': 'LIST'
-								}
+								};
 								return false;
 							}
 						});
@@ -252,7 +242,10 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 							$scope.bean.pageTpl[0] = {
 								'id': $scope.tempList[0]._id,
 								'type': 'LIST'
-							}
+							};
+							$scope.bean.data = $scope.bean.data || {};
+							$scope.bean.data.ads = $scope.bean.data.ads || null;
+							setAdInfo();
 						}
 					}
 					else {
@@ -312,6 +305,24 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 		});
 
+		var setAdInfo = function setAdInfo() {
+			if (!$scope.bean || !$scope.bean.data || !$scope.bean.pageTpl|| !$scope.bean.pageTpl[0] || !$scope.bean.pageTpl[0].id) {
+				return;
+			}
+
+			var blkId = $scope.bean.pageTpl[0].id;
+			$http({
+				method: 'PUT',
+				url: globals.basAppRoot + '/productCtg/projBlkTplADList/' + blkId,
+				data: $scope.bean.data
+			}).then(function (res) {
+				if (res.data.isSuccess && res.data && res.data.data) {
+					$scope.bean.data.ads = res.data.data.ads;
+				} else {
+					$scope.bean.data = {ads : null};
+				}
+			});
+		};
 
 		//列表模板选中。
 		$scope.listTempOk = {};
@@ -326,8 +337,10 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			$scope.bean.pageTpl[0] = {
 				'id': row._id,
 				'type': 'LIST'
-			}
+			};
+			setAdInfo();
 		};
+
 
 		//详情模板选中。
 		$scope.detailTempOk = {};
@@ -345,15 +358,13 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				'id': row._id,
 				'type': 'DETAIL'
 			}
-
 		};
 
 		var flagSpeedTree = false;
 		$scope.itemTreeChanged = function () {
 			flagSpeedTree = true;
-
 		};
-		$scope.clearFormBtn = function() {
+		$scope.clearFormBtn = function () {
 			$state.go('addproductclass', {
 				'moduleId': $stateParams.moduleId,
 				'name': $stateParams.name,
@@ -364,7 +375,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 		};
 		//提交保存。
 		$scope.saveBean = function () {
- 
+
 			//获取moduleId
 			if ($stateParams.moduleId) {
 				$scope.bean.moduleId = $stateParams.moduleId;
@@ -372,7 +383,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			if ($scope.isLinkFlag) {
 				$scope.bean.isLink = true;
 				$scope.bean.seo = null;
-			}else{
+			} else {
 				$scope.bean.isLink = false;
 			}
 
@@ -384,15 +395,9 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 			}
 
-
-			$scope.bean.imgSm.url = $('#thumbnail').attr('src') || '';
-			if ($scope.isLinkFlag) {
-				$scope.bean.imgMd.url = $('#wlicon').attr('src') || '';
-			} else {
-				$scope.bean.imgMd.url = $('#lmicon').attr('src') || '';
-
+			if(_.has($scope.bean,'seo.keyword')){
+				$scope.bean.seo.keyword = UniformSymbol($scope.bean.seo.keyword);
 			}
-
 			var _saveBean;
 			if ($stateParams.id) { //修改。
 				_saveBean = $http.put('/pccms/productCtg/' + $stateParams.id, $scope.bean);
@@ -401,7 +406,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			}
 
 			_saveBean.success(function (data) {
-				var tip = $stateParams.id ? '修改成功！':'新增成功！';
+				var tip = $stateParams.id ? '修改成功！' : '新增成功！';
 				if (data.isSuccess) {
 					platformModalSvc.showSuccessTip(tip);
 					$state.go('productClassList', {
@@ -419,196 +424,213 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 
 		/********  其他属性  新建 end**************/
+
+		//$scope.addtype = function () {
+		//	$modal.open({
+		//		templateUrl: 'addProperty.html',
+		//		controller: 'addOtherTypeCtrl',
+		//		backdrop: 'static',
+		//		size: 'lg'
+		//	});
+		//};
+
 		$scope.addtype = function () {
-			$modal.open({
+			platformModalSvc.showModal({
+				backdrop: 'static',
 				templateUrl: 'addProperty.html',
 				controller: 'addOtherTypeCtrl',
+				size: 'md',
+				options:{
+					data:angular.copy($scope.bean.optionFields)
+				}
+			}).then(function(e){
+				$scope.bean.optionFields.push(e);
+			});
+		};
+		$scope.editProduct = function  editProduct(type) {
+			platformModalSvc.showModal({
 				backdrop: 'static',
-				size: 'lg'
+				templateUrl: 'addProperty.html',
+				controller: 'addOtherTypeCtrl',
+				size: 'md',
+				options:{
+					data:angular.copy($scope.bean.optionFields),
+					adddata:angular.copy(type)
+				}
+			}).then(function(e){
+				type = e;
 			});
 		};
 		/********其他属性  新建end**************/
-		$rootScope.lists = [];
-		$rootScope.long = 1;
-		$rootScope.mylist = [];
-		//修改数据  传入序号与方式
-		$scope.changtype = function (index, way) {
-			console.log($rootScope.long);
-			for (list in $scope.mylist) {
-				if (way == "up") {
-					if ($scope.mylist[list].index == index) {
-
-						$scope.mylist[list].index = index - 1;
-					} else if ($scope.mylist[list].index == (index - 1)) {
-						console.log("ok");
-						$scope.mylist[list].index = index;
-					}
-				} else if (way == "down") {
-					if ($scope.mylist[list].index == index) {
-						$scope.mylist[list].index = index + 1;
-					} else if ($scope.mylist[list].index == (index + 1)) {
-						$scope.mylist[list].index = index;
-					}
-				}
-			}
-			jtou();
-			pxun();
-		}
-		//箭头状态
-		function jtou() {
-			for (list in $scope.mylist) {
-				if ($rootScope.long == 1) {
-					$scope.mylist[list].up = false;
-					$scope.mylist[list].down = false;
-
-				} else if ($scope.mylist[list].index == 1) {
-					$scope.mylist[list].down = true;
-					$scope.mylist[list].up = false;
-				} else if ($scope.mylist[list].index == $rootScope.long - 1) {
-					$scope.mylist[list].up = true;
-					$scope.mylist[list].down = false;
-				} else {
-					$scope.mylist[list].up = true;
-					$scope.mylist[list].down = true;
-				}
-			}
-		}
-
-		//对数据排序
-		function pxun() {
-			$rootScope.mylist = [];
-
-			for (var i = 0; i < $scope.lists.length; i++) {
-				for (var j = 0; j < $scope.lists.length; j++) {
-					if ($scope.lists[j].index == (i + 1)) {
-						$rootScope.mylist.push($scope.lists[j]);
-					}
-				}
-			}
-
-			console.log($scope.mylist)
-		}
+		$scope.interchange = function interchange(item1,item2){
+			var order =item1.orderBy;
+			item1.orderBy =item2.orderBy;
+			item2.orderBy =order;
+			$scope.bean.optionFields = _.sortBy($scope.bean.optionFields,'orderBy');
+		};
 
 		//删除数据
-		$scope.deletOtherType = function (index) {
-			for (var i = index; i < $scope.mylist.length; i++) {
-				if ($scope.mylist[i].index > (index + 1)) {
-					$scope.mylist[i].index = $scope.mylist[i].index - 1;
-				}
+		$scope.deletOtherType = function (index,file) {
+			$scope.bean.optionFields.splice(index,1);
+			if($stateParams.id){
+				$http({
+					method: 'DELETE',
+					url: globals.basAppRoot + '/orderForm/deleteField',
+					params:{'formId':$stateParams.id,'fieldIds': file._id}
+				}).then(function (response) {
+
+				});
 			}
-			$scope.mylist.splice(index, 1);
-			$scope.lists.splice(index, 1);
-			$rootScope.long--;
-			console.log($scope.mylist);
+
 		}
+		$scope.saveOptions = function saveOptions(){
+			for(item in $scope.bean.optionFields){
+				console.log(item);
+				$http({
+					method: 'PUT',
+					url: '/pccms/orderForm/addField',
+					data:$scope.bean.optionFields[item]
+				}).then(function (response) {
+
+				});
+			}
+
+			//$scope.optionFields.
+		};
+
+
 		//修改数据
 		$rootScope.tochange = function (ele) {
-
 			$scope.mylist.splice(index, 1);
 			$scope.lists.splice(index, 1);
 			$rootScope.long--;
-			console.log($scope.mylist);
-		}
+		};
+		
+		desktopMainSvc.getProjectType().then(function(){
+			var isPhone = desktopMainSvc.isPoneProject();
+			var isPc = desktopMainSvc.isPcProject();
+			var isResponsive = desktopMainSvc.isResponsiveProject();
+
+			$scope.showPcImage = isPc || isResponsive;
+			$scope.showPhoneImage = isPhone || isResponsive;
+		});
 
 	}])
+	.filter("fileOption",function(){
+		return function (array) {
+			var str='';
+			for(var i = 0; i<array.length;i++){
+				if(array[i].name){
+					if(i===array.length-1){
+						str+= array[i].name;
+					}else {
+						str += array[i].name+','
+					}
+				}
 
+			}
+			return str;
+		}
+	})
 
 //相同属性添加
 	.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '$rootScope', function (utils, $scope, $modalInstance, $rootScope) {
-		$scope.ok = function () {
+		if(_.has($scope.modalOptions,'adddata')){
+			$scope.adddata = $scope.modalOptions.adddata;
+			var index = $scope.adddata.optionFields.length;
+			$scope.inputlist=[];
+			for(var i=0;i<$scope.adddata.optionFields.length;i++){
+				$scope.inputlist.push({"num": i+1,'sx':$scope.adddata.optionFields[i].name});
+			}
 
-			$modalInstance.close();
-		};
-
-		$scope.cancel = function () {
-			$modalInstance.dismiss();
-		};
+		}else{
+			$scope.adddata= {};
+			$scope.adddata.formType = 'text';
+			$scope.adddata.optionFields=[];
+			var index = 5;
+			$scope.inputlist = [{"num": "1"}, {"num": "2"}, {"num": "3"}, {"num": "4"}, {"num": "5"}];
+		}
+		$scope.$watch('adddata.formType', function(newValue, oldValue) {
+			if(newValue == 'text'&&!flag){
+				angular.element(".smwd").show();
+				angular.element(".txmore").show();
+			}else if(newValue == 'text'){
+				angular.element(".txmore").show();
+			}else{
+				angular.element(".smwd").hide();
+				angular.element(".txmore").hide();
+			};
+		});
 		//选择文件类型
 		var type = "text";
 		$scope.checkway = function (mod) {
 			type = "mod";
 			if (mod == "text") {
 
-				$(".textbox,.tishi,.txmore").show();
+				$(".textbox").show();
 				$(".dtbox").hide();
 			} else {
-				$(".textbox,.smwd,.tishi,.txmore").hide();
+				$(".textbox,.smwd").hide();
 				$(".dtbox").show();
 			}
 		}
 
 		//显示input  还是textarea
-
+		var flag = true;
 		$scope.moretoggle = function () {
 
-			if ($('.smwd').is(":hidden")) {
+			if (flag) {
 				$(".smwd").show();
+				flag = false;
 			} else {
 				$(".smwd").hide();
-
+				flag = true;
 			}
-		}
+		};
 
 
 		//添加属性个数
-		var index = 5;
-		$scope.inputlist = [{"num": "1"}, {"num": "2"}, {"num": "3"}, {"num": "4"}, {"num": "5"}];
+
 
 		$scope.addtext = function () {
 			index++;
-			$scope.inputlist.push({'num': index})
-
-
-		}
-
-		//定义数据
-		$scope.adddata = {};//定义一级容器
-
-
+			$scope.inputlist.push({'num': index});
+		};
 		//添加数据
 		$scope.adddatafun = function () {
+			var current;
+			if($scope.adddata.title){
+				if(_.isArray($scope.modalOptions.data)&&$scope.modalOptions.data.length<1){
+					$scope.adddata.orderBy = 1;
+					current = 0;
+				}else{
+					 current = _.maxBy($scope.modalOptions.data,'orderBy').orderBy;
+					$scope.adddata.orderBy =current + 1;
+				}
+			}
 
-			if (type == "text") {
-				$scope.adddata.value = $scope.zdcd ? $scope.zdcd : $scope.zdcdbg;
-			} else {
-				$scope.adddata.value = [];
-				for (var i = 0; i < $scope.inputlist.length; i++) {
-					if ($scope.inputlist[i].sx) {
-						$scope.adddata.value.push($scope.inputlist[i].sx)
-
+			if($scope.adddata.formType!='text'){
+				for(var i = 0;i<$scope.inputlist.length;i++){
+					var current;
+					if($scope.adddata.optionFields.length<1){
+						current = 0;
+					}else {
+						current = _.maxBy($scope.adddata.optionFields, 'orderBy').orderBy;
 					}
-				}
-
-			}
-			$scope.adddata.index = $rootScope.long;
-			$scope.lists.push($scope.adddata);
-			$rootScope.mylist.push($scope.adddata);
-			jtou();
-			$rootScope.long++;
-			//console.log($rootScope.mylist);
-			$scope.adddata = {};
-			$modalInstance.close();
-		}
-
-		//总数据
-
-		//通过序号判断上下箭头
-		function jtou() {
-			for (list in $scope.lists) {
-				if ($rootScope.long == 1) {
-					$scope.mylist[list].up = false;
-					$scope.mylist[list].down = false;
-
-				} else if ($scope.mylist[list].index == 1) {
-					$scope.mylist[list].down = true;
-					$scope.mylist[list].up = false;
-				} else if ($scope.mylist[list].index == $rootScope.long) {
-					$scope.mylist[list].up = true;
-					$scope.mylist[list].down = false;
-				} else {
-					$scope.mylist[list].up = true;
-					$scope.mylist[list].down = true;
+					$scope.adddata.optionFields[i] = {"name":$scope.inputlist[i].sx ,"defaultValue":'file'+(current+1),"orderBy":current+1}
 				}
 			}
+
+			for(var i =0; i<$scope.adddata.optionFields.length;i++){
+				if(_.has($scope.adddata.optionFields[i],'name')){
+					if(!$scope.adddata.optionFields[i].name||$scope.adddata.optionFields[i].name=='undefined'){
+						$scope.adddata.optionFields.splice(i,1);
+					}
+				}else{
+					scope.adddata.optionFields.splice(i,1);
+				}
+			}
+
+			$scope.closeModal(true,$scope.adddata);
 		}
 	}]);

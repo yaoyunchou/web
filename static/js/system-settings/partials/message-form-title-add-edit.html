@@ -1,0 +1,44 @@
+<div class="modal-header">
+	<h4 class="modal-title">留言字段快速编辑</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal form-validation" name="formFieldLable" novalidate>
+		<div class="form-group marbottom32" beyond>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mleft-10">*</span> 字段名称
+			</label>
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" ng-model="editfieldBean.title" name="name" data-nsw-max-length="32" required>
+				<div ng-show="formFieldLable.name.$dirty && formFieldLable.name.$invalid">
+					<span class="err" ng-show="formFieldLable.name.$error.required"></span>
+                    <span class="err"
+                          ng-show="!formFieldLable.name.$error.required && formFieldLable.name.$error">分类名称长度为0~32字符</span>
+				</div>
+			</div>
+			<span class="mess-zx mtop6">0</span>/32字符
+		</div>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mtop6 mleft-10">*</span>
+				录入框下面说明文档
+			</label>
+			<div class="col-sm-8 padleft26">
+				<textarea class="form-control" rows="3" ng-model="editfieldBean.explainText" name="seoDesc" data-nsw-max-length="150" required></textarea>
+				<div ng-show="formSpeed.seoDesc.$dirty && formSpeed.seoDesc.$invalid">
+					<span class="err" ng-show="formSpeed.seoDesc.$error.required">请填写说明文本</span>
+					<span class="err" ng-show="!formSpeed.seoDesc.$error.required && formSpeed.seoDesc.$error">录入框下面说明文档长度为0~150字符</span>
+				</div>
+				<span class="mess-zx mtop6">0</span>/150字符
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer text-align-left" style="margin-top:-15px;">
+	<button type="submit" class="btn btn-warning btn-color"
+	        ng-disabled="formFieldLable.$invalid" ng-click="updata()"><label
+			class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	<button class="btn btn-default btn-color btn-cancel" ng-click="$close()"><label class="checkcancel"></label><span
+			class="btntext black">取&nbsp;消</span></button>
+</div>
+

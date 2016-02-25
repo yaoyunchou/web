@@ -28,6 +28,7 @@
 	        <li ng-click="clickFrmChart()" ng-class="{true: 'actived', false: 'inactived'}[frmchat]">框架图</li>
 	        <!-- <li ng-click="editSource(tplId)" ng-class="{true: 'actived', false: 'inactived'}[source]">编辑源码</li> -->
 	        <li ng-click="tplDesign(tplId)" ng-class="{true: 'actived', false: 'inactived'}[tpldes]">版块设计</li>
+	        <li ng-click="tplCopy(tplId)" ng-class="{true:'actived'}[tplcop]">模板复制</li>
 	        <li ng-click="clickRet()">返回</li>
 	    </ul>
 	    <div ng-show="isShow"><img class="c-lgImage" src="{{dat.imgLg}}" style="border:1px solid green;"/></div>
@@ -44,68 +45,4 @@
 	       </div>
 	    </div>
   	</div>
-  	<div ng-show="mask">
-		<div class="mask"></div>
-		<div class="col-sm-6 dialog" >
-	        <div class="modal-header">
-	            <h3 class="modal-title">编辑源码</h3>
-	            <a class="diaremove" ng-click="$close()"></a>
-	        </div>
-	        <div class="modal-body" style="height:350px;overflow-y:scroll">
-	            <form class="form-horizontal form-airticle form-validation" name="formInfo"  novalidate>
-	                <div class="form-group" beyond max-count='64'>
-	                    <label  class="col-sm-2 control-label lighter-weight">
-	                        <span class="err">*</span>模板名称
-	                    </label>
-	                    <div class="col-sm-5">
-	                        <input type="text" class="form-control" ng-model="name" name="tplTitle" ng-maxlength="64" required>
-	                        <div ng-show="formInfo.tplTitle.$dirty && formInfo.tplTitle.$invalid">
-	                            <span class="err" ng-show="formInfo.tplTitle.$error.required">请填写模板名称</span>
-	                            <span class="err" ng-show="!formInfo.tplTitle.$error.required && formInfo.tplTitle.$error">模板名称长度为0~64字符</span>
-	                        </div>
-	                    </div>
-	                </div>
-	                <div class="form-group" beyond max-count='20000' >
-	                    <label  class="col-sm-2 control-label lighter-weight">
-	                        <span class="err">*</span>编辑器
-	                    </label>
-	                    <div class="col-sm-8">
-	                        <textarea type="text" ng-model="content" config="config" style="width:100%;height:200px;"></textarea>
-	                    </div>
-	                </div>
-	                <div class="row">
-                        <hr style="width:81%;margin-left:10%;">
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res"> 
-                            <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res[0].url }}" ng-show="res[0].url != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>  
-                            <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
-                        </div>
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1"> 
-                            <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>  
-                            <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
-                        </div>
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2">
-                            <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4> 
-                            <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>  
-                            <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
-                        </div>
-                        <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3">
-                            <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">  
-                            <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>  
-                            <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
-                        </div>
-                   </div>
-              </form>  
-	        </div>
-	        <div class="modal-footer">
-	            <button class="btn btn-primary btn-color" type="button" ng-click="saveTpl()" ng-disabled="formInfo.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
-	            <button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancelTpl()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
-	        </div> 
-		</div>
-    </div>
 </div>

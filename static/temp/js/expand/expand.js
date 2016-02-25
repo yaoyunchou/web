@@ -97,7 +97,7 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 								getExtendList();
 								$scope.$emit('onMenuUpdated');
 							} else {
-								platformModalSvc.showWarmingMessage(data.data,nsw.Constant.TIP);
+								platformModalSvc.showWarmingTip(data.data);
 							}
 						}).error(function (data, status, headers, config) {
 						platformModalSvc.showWarmingMessage('系统异常或网络不给力！',nsw.Constant.TIP);
@@ -119,8 +119,6 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 						console.log($scope.deleteModuleMsg);
 						platformModalSvc.showConfirmMessage($scope.deleteModuleMsg , '提示').then(function () {
 							$scope.delModule();
-							$scope.$emit('onMenuUpdated');
-							getExtendList();
 						});
 					} else {
 						platformModalSvc.showWarmingMessage(data.data, nsw.Constant.TIP);
@@ -137,7 +135,8 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 					params: {}
 				}).success(function (data, status, headers, config) {
 					if (data.isSuccess){
-
+						$scope.$emit('onMenuUpdated');
+						getExtendList();
 					} else {
 						platformModalSvc.showWarmingMessage(data.data, nsw.Constant.TIP);
 					}
@@ -218,11 +217,12 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 					if (data.isSuccess) {
 						angular.extend($scope.modalOptions.data, $scope.formData);
 						$scope.closeModal(true);
+						platformModalSvc.showSuccessTip('保存成功!');
 					} else {
-						//platformModalSvc.showErrorMessage(data.data,'提示');
+						platformModalSvc.showWarmingTip(data.data);
 					}
 				}).error(function (data, status, headers, config) {
-					//platformModalSvc.showErrorMessage('系统异常或网络不给力！','提示');
+					platformModalSvc.showErrorMessage('系统异常或网络不给力！','提示');
 				});
 		};
 
@@ -231,11 +231,12 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
 						$scope.closeModal(true);
+						platformModalSvc.showSuccessTip('保存成功!');
 					} else {
-						//platformModalSvc.showErrorMessage(data.data,'提示');
+						platformModalSvc.showWarmingTip(data.data);
 					}
 				}).error(function (data, status, headers, config) {
-					//platformModalSvc.showErrorMessage('系统异常或网络不给力！','提示');
+					platformModalSvc.showErrorMessage('系统异常或网络不给力！','提示');
 				});
 		};
 
@@ -243,7 +244,7 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 			if ($scope.formData.dirName) {
 				if ($scope.modalOptions.type === 'edit') {
 					if ($scope.modalOptions.data.dirName !== $scope.formData.dirName) {
-						platformModalSvc.showConfirmMessage('路径已经更改，确定保存？', '提示').then(function () {
+						platformModalSvc.showConfirmMessage('修改频道目录将影响您已经做好的搜索引擎优化，是否确认修改？', '提示').then(function () {
 							doSaveEditData();
 						})
 					} else {
@@ -264,13 +265,14 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 expandApp.controller('categoryCtrl', ['$scope', '$state', '$http', '$stateParams', '$modal', 'utils', '$rootScope', 'platformModalSvc', function ($scope, $state, $http, $stateParams, $modal, utils, $rootScope, platformModalSvc) {
 
 	$scope.pagename = $stateParams.page == "ctg" ? "分类配置" : "文章配置";
+	$scope.optionFields =[];
 
 	$scope.fromData = {};
 	$scope.infoBases;
 	$scope.infoSEOs = [];
 	$scope.todata = function (obj, value) {
 		obj.isShow = value;
-	}
+	};
 
 
 	/********分类配置start**************/
@@ -284,7 +286,9 @@ expandApp.controller('categoryCtrl', ['$scope', '$state', '$http', '$stateParams
 				$scope.infoBases = data.data.infoBase;
 				$scope.infoSeos = data.data.infoSeo;
 				$scope.infoOthers = data.data.infoOther;
-
+				if(data.data.optionFields){
+					$scope.optionFields = data.data.optionFields;
+				}
 			} else {
 				platformModalSvc.showWarmingMessage(data.data, nsw.Constant.TIP);
 			}
@@ -303,9 +307,10 @@ expandApp.controller('categoryCtrl', ['$scope', '$state', '$http', '$stateParams
 			data: $scope.basedata
 		}).success(function (data, status, headers, config) {
 			if (data.isSuccess) {
-				platformModalSvc.showWarmingMessage(nsw.Constant.SAVESUC, nsw.Constant.TIP);
+				$state.go('channel');
+				platformModalSvc.showSuccessTip(nsw.Constant.SAVESUC);
 			} else {
-				platformModalSvc.showWarmingMessage('获取失败！', nsw.Constant.TIP);
+				platformModalSvc.showWarmingTip('获取失败！');
 			}
 		}).error(function (data, status, headers, config) {
 			platformModalSvc.showErrorMessage('系统异常或网络不给力！',nsw.Constant.TIP);
@@ -332,86 +337,63 @@ expandApp.controller('categoryCtrl', ['$scope', '$state', '$http', '$stateParams
 
 	/********  其他属性  新建 end**************/
 	$scope.addtype = function () {
-		$modal.open({
+		platformModalSvc.showModal({
+			backdrop: 'static',
 			templateUrl: 'addProperty.html',
 			controller: 'addOtherTypeCtrl',
+			size: 'md',
+			options:{
+				data:angular.copy($scope.optionFields)
+			}
+		}).then(function(e){
+			e.formId = $stateParams.moduleId;
+			if($stateParams.page==="ctg"){
+				e.type="MODULE_CTG";
+			}else{
+				e.type="MODULE_ARTICLE";
+			};
+			$scope.optionFields.push(e);
+		});
+	};
+	$scope.addtypex = function () {
+		platformModalSvc.showModal({
 			backdrop: 'static',
-			size: 'md'
+			templateUrl: 'addProperty.html',
+			controller: 'addOtherTypeCtrl',
+			size: 'md',
+			options:{
+				data:angular.copy($scope.optionFields)
+			}
+		}).then(function(e){
+			$scope.optionFields.push(e);
 		});
 	};
 	/********其他属性  新建end**************/
-	$rootScope.lists = [];
-	$rootScope.long = 1;
-	$rootScope.mylist = [];
-	//修改数据  传入序号与方式
-	$scope.changtype = function (index, way) {
-		console.log($rootScope.long);
-		for (list in $scope.mylist) {
-			if (way == "up") {
-				if ($scope.mylist[list].index == index) {
-
-					$scope.mylist[list].index = index - 1;
-				} else if ($scope.mylist[list].index == (index - 1)) {
-					console.log("ok");
-					$scope.mylist[list].index = index;
-				}
-			} else if (way == "down") {
-				if ($scope.mylist[list].index == index) {
-					$scope.mylist[list].index = index + 1;
-				} else if ($scope.mylist[list].index == (index + 1)) {
-					$scope.mylist[list].index = index;
-				}
-			}
-		}
-		jtou();
-		pxun();
-	}
-	//箭头状态
-	function jtou() {
-		for (list in $scope.mylist) {
-			if ($rootScope.long == 1) {
-				$scope.mylist[list].up = false;
-				$scope.mylist[list].down = false;
-
-			} else if ($scope.mylist[list].index == 1) {
-				$scope.mylist[list].down = true;
-				$scope.mylist[list].up = false;
-			} else if ($scope.mylist[list].index == $rootScope.long - 1) {
-				$scope.mylist[list].up = true;
-				$scope.mylist[list].down = false;
-			} else {
-				$scope.mylist[list].up = true;
-				$scope.mylist[list].down = true;
-			}
-		}
-	}
-
-	//对数据排序
-	function pxun() {
-		$rootScope.mylist = [];
-
-		for (var i = 0; i < $scope.lists.length; i++) {
-			for (var j = 0; j < $scope.lists.length; j++) {
-				if ($scope.lists[j].index == (i + 1)) {
-					$rootScope.mylist.push($scope.lists[j]);
-				}
-			}
-		}
-		console.log($scope.mylist)
-	}
+	$scope.interchange = function interchange(item1,item2){
+		var order =item1.orderBy;
+		item1.orderBy =item2.orderBy;
+		item2.orderBy =order;
+		$scope.optionFields = _.sortBy($scope.optionFields,'orderBy');
+	};
 
 	//删除数据
 	$scope.deletOtherType = function (index) {
-		for (var i = index; i < $scope.mylist.length; i++) {
-			if ($scope.mylist[i].index > (index + 1)) {
-				$scope.mylist[i].index = $scope.mylist[i].index - 1;
-			}
-		}
-		$scope.mylist.splice(index, 1);
-		$scope.lists.splice(index, 1);
-		$rootScope.long--;
-		console.log($scope.mylist);
+		$scope.optionFields.splice(index,1);
 	}
+	$scope.saveOptions = function saveOptions(){
+		for(item in $scope.optionFields){
+			console.log(item);
+			$http({
+				method: 'PUT',
+				url: '/pccms/orderForm/addField',
+				data:$scope.optionFields[item]
+			}).then(function (response) {
+
+			});
+		}
+
+		//$scope.optionFields.
+	};
 }]);
 
 //文章配置。
@@ -422,11 +404,40 @@ expandApp.controller('airticleCtrl', ['$scope', function ($scope) {
 
 
 //其他属性添加
-expandApp.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '$rootScope', function (utils, $scope, $modalInstance, $rootScope) {
+expandApp.filter("fileOption",function(){
+	return function (array) {
+		var str='';
+		for(var i = 0; i<array.length;i++){
+			if(array[i].name){
+				if(i===array.length-1){
+					str+= array[i].name;
+				}else {
+					str += array[i].name+','
+				}
+			}
+
+		}
+		return str;
+	}
+})
+	.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '$rootScope', function (utils, $scope, $modalInstance) {
+
+	$scope.adddata= {};
+	$scope.adddata.formType = 'text';
 	$scope.ok = function () {
 		$modalInstance.close();
 	};
-
+	$scope.$watch('adddata.formType', function(newValue, oldValue) {
+		if(newValue == 'text'&&!flag){
+			angular.element(".smwd").show();
+			angular.element(".txmore").show();
+		}else if(newValue == 'text'){
+			angular.element(".txmore").show();
+		}else{
+			angular.element(".smwd").hide();
+			angular.element(".txmore").hide();
+		};
+	});
 	$scope.cancel = function () {
 		$modalInstance.dismiss();
 	};
@@ -447,17 +458,15 @@ expandApp.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '
 	//显示input  还是textarea
 	var flag = true;
 	$scope.moretoggle = function () {
-		console.log("!!!!");
+
 		if (flag) {
 			$(".smwd").show();
-
 			flag = false;
 		} else {
-
 			$(".smwd").hide();
 			flag = true;
 		}
-	}
+	};
 
 
 	//添加属性个数
@@ -466,43 +475,30 @@ expandApp.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '
 
 	$scope.addtext = function () {
 		index++;
-		$scope.inputlist.push({'num': index})
-
-
-	}
-
-	//定义数据
-	$scope.adddata = {};//定义一级容器
-
-
+		$scope.inputlist.push({'num': index});
+	};
 	//添加数据
 	$scope.adddatafun = function () {
-
-		if (type == "text") {
-			$scope.adddata.value = $scope.zdcd ? $scope.zdcd : $scope.zdcdbg;
-		} else {
-			$scope.adddata.value = [];
-			for (var i = 0; i < $scope.inputlist.length; i++) {
-				if ($scope.inputlist[i].sx) {
-					$scope.adddata.value.push($scope.inputlist[i].sx)
-
-				}
+		if($scope.adddata.title){
+			if($scope.modalOptions.data.length<1){
+				$scope.adddata.orderBy = 1;
+			}else{
+				var current = _.maxBy($scope.modalOptions.data,'orderBy').orderBy;
+				$scope.adddata.orderBy =current + 1;
 			}
-
 		}
-		$scope.adddata.index = $rootScope.long;
-		$scope.lists.push($scope.adddata);
-		$rootScope.mylist.push($scope.adddata);
-		jtou();
-		$rootScope.long++;
-		$scope.adddata = {};
-		$modalInstance.close();
+		$scope.adddata.optionFields=[];
+		if($scope.adddata.formType!='text'){
+			for(var i = 0;i<$scope.inputlist.length;i++){
+				$scope.adddata.optionFields[i] = {"name":$scope.inputlist[i].sx ,"defaultValue":'file'+(current + 1)}
+			}
+		}
+		$scope.closeModal(true,$scope.adddata);
 	}
-
 	//总数据
 
 	//通过序号判断上下箭头
-	function jtou() {
+	/*function jtou() {
 		for (list in $scope.lists) {
 			if ($rootScope.long == 1) {
 				$scope.mylist[list].up = false;
@@ -519,9 +515,8 @@ expandApp.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '
 				$scope.mylist[list].down = true;
 			}
 		}
-	}
+	}*/
 }]);
-
 
 //路由配置。
 expandApp.config(['$stateProvider', '$urlRouterProvider',
@@ -538,23 +533,3 @@ expandApp.config(['$stateProvider', '$urlRouterProvider',
 		})
 	}
 ]);
-
-expandApp.directive('tongbu', function () {
-	return {
-		restrict: 'ACE',
-		replace: true,
-		scope: {
-			maxCount: '@maxCount'
-		},
-		link: function (scope, element, attrs) {
-			element.find('.form-control').bind('keyup', function () {
-				var o = $(this).val();
-				if (o.length > 0) {
-					element.find('.mess-zx').html(o.length);
-				} else {
-					element.find('.mess-zx').html(0);
-				}
-			});
-		}
-	}
-});

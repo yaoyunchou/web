@@ -13,7 +13,7 @@
 				url: globals.basAppRoot + '/projConfig/DefaultSeo',
 			}).then(function(res) {
 				if(res.data.isSuccess){
-					seoData = res.data.data.data||{};
+					seoData = res.data.data?res.data.data.data:{};
 					defer.resolve(seoData);
 				}else{
 					defer.reject(res.data.data.data);

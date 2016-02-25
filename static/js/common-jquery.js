@@ -109,7 +109,7 @@ angular.module('commonJQuery',[])
 		timezoneText: '时区',
 		currentText: '现在时间',
 		closeText: '关闭',
-		timeFormat: 'HH:mm:ss',
+		timeFormat: 'HH:mm',
 		amNames: ['AM', 'A'],
 		pmNames: ['PM', 'P'],
 		isRTL: false

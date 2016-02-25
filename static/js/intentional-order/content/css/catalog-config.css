@@ -1,26 +1,82 @@
 @charset "UTF-8";
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+.tool-nav {
+  border: 1px solid #ddd;
+  overflow: hidden;
+  padding-bottom: 10px; }
+  .tool-nav .list-group-item {
+    border: none;
+    background-color: #FFFFFF;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer; }
+    .tool-nav .list-group-item.active {
+      background-color: #f08300; }
+    .tool-nav .list-group-item:hover .editbtn {
+      display: inline-block; }
+    .tool-nav .list-group-item:hover .deletbtn {
+      display: block; }
+    .tool-nav .list-group-item .ctgname {
+      background: none;
+      display: inline-block;
+      width: 110px;
+      border: none; }
+    .tool-nav .list-group-item .white {
+      background: #FFFFFF;
+      color: #000000; }
+    .tool-nav .list-group-item .tool-nav-btn {
+      border: none;
+      height: 20px;
+      line-height: 20px;
+      background: none; }
+    .tool-nav .list-group-item .editbtn, .tool-nav .list-group-item .deletbtn {
+      display: none; }
+  .tool-nav .form-group {
+    padding-left: 0;
+    padding-right: 5px; }
+  .tool-nav .h2 {
+    font-size: 14px;
+    margin: 0;
+    padding: 10px 15px;
+    background: #f5f5f5; }
+  .tool-nav .submitbox {
+    padding: 0 10px; }
+
+tr .editbtn {
+  border-radius: 3px;
+  cursor: pointer;
+  display: none; }
+tr:hover .editbtn {
+  display: inline-block; }
+
+/*对表单的验证框样式定义*/
+.form-control.ng-dirty.ng-invalid {
+  border-color: #f44336; }
+
+.form-control.ng-dirty.ng-valid, .form-validation .form-control.ng-dirty.ng-valid:focus {
+  border-color: #4caf50; }
+
 .catalog-config .configList {
-	border: 1px solid #CCCCCC;
-	margin-top: 10px;
-	overflow: hidden;
-}
-
-.catalog-config .configList h2 {
-	font-size: 14px;
-	margin-top: 0;
-	border: none;
-	border-bottom: 1px solid #ddd;
-	margin-bottom: 30px;
-}
-
-.catalog-config .configList .form-group {
-	min-height: 32px;
-}
+  border: 1px solid #CCCCCC;
+  margin-top: 10px;
+  overflow: hidden; }
+  .catalog-config .configList h2 {
+    font-size: 14px;
+    margin-top: 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px; }
+  .catalog-config .configList .form-group {
+    min-height: 32px; }
 
 /*鎰忓悜璁㈠崟鐣欒█绠＄悊*/
 .more-search {
-	border: 1px solid #CCCCCC;
-	margin-top: 10px;
-}
+  border: 1px solid #CCCCCC;
+  margin-top: 10px; }
 
 /*# sourceMappingURL=catalog-config.css.map */

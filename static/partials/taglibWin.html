@@ -119,13 +119,15 @@
            <div class="tabbgbox">
                <ul  class="list-inline col-sm-12  tabul"  ng-repeat="itembig in itmesbig">
 
-                   <li class="text-center c-tag-list taglist " ng-repeat="item in itembig" ng-class="{true: 'c-selected', false: ''}[item.isChecked]"
-                       ng-click="tagLabels(item)" >{{item.name}}
-                       <i class="taglibimg" ng-show="item.isChecked&&item.tags"></i>
+                   <li class="text-center c-tag-list taglist " ng-repeat="module in itembig" data-ng-click="selectModule(module)"
+                       ng-class="{true: 'c-selected', false: ''}[module===selectedModule]"
+                       ng-click="tagLabels(module)" >{{module.name}}
+                       <i class="taglibimg" ng-show="module===selectedModule&&module.tags"></i>
                    </li>
-                   <div class="sub" ng-show="item.isChecked&&item.tags" ng-repeat="item in itembig" >
-                       <ol class="list-inline col-sm-12" ng-if = "item.isChecked" >
-                           <li class=" text-center c-tag-list c-jieq " style="position:relative;"  ng-repeat="tag in item.tags"
+                   <div class="sub" ng-show="module===selectedModule&&module.tags" ng-repeat="module in itembig">
+                       <ol class="list-inline col-sm-12" ng-if="module===selectedModule">
+                           <li class=" text-center c-tag-list c-jieq " style="position:relative;"
+                               ng-repeat="tag in module.tags"
                                ng-class="{true: 'c-selected', false: ''}[tag.isChecked]"
                                ng-click="checkedLabel($event ,tag)">
                                {{tag.name}} <i class="fa fa-times-circle c-del" ng-if="tag.isChecked"></i>

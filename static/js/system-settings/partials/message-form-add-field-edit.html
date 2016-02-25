@@ -1,0 +1,234 @@
+<div class="modal-header">
+	<h4 class="modal-title">留言字段编辑</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal form-validation formField" name="formField" novalidate>
+		<div class="form-group marbottom32" beyond max-count='64'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mleft-10">*</span> 字段名称
+			</label>
+
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" ng-model="fieldBean.title" name="explainText"
+				       data-nsw-max-length="64" required>
+
+				<div ng-show="formField.explainText.$dirty">
+					<span class="err" ng-show="formField.explainText.$error.required">字段名称不能为空.</span>
+                    <span class="err"
+                          ng-show="!formField.explainText.$error.required && formField.explainText.$error.nswmaxlength">字段名称长度为0~64字符</span>
+				</div>
+			</div>
+			<span class="mess-zx mtop6">0</span>/64字符
+		</div>
+		<div class="form-group marbottom32">
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				<span class="err mtop6 mleft-10">*</span>
+				字段类型
+			</label>
+
+			<div class="col-sm-9 padleft26">
+				<label class="radio-inline" data-ng-if="UI.text">
+					<input type="radio" name="radioChecked1" data-ng-value="'text'"
+					       ng-model="fieldBean.formType">文本框</label>
+				<label class="radio-inline" data-ng-if="UI.textarea">
+					<input type="radio" name="radioChecked1" data-ng-value="'textarea'"
+					       ng-model="fieldBean.formType">多行文本框</label>
+				<label class="radio-inline" data-ng-if="UI.radio">
+					<input type="radio" name="radioChecked1" data-ng-value="'radio'"
+					       ng-model="fieldBean.formType">单选框</label>
+				<label class="radio-inline" data-ng-if="UI.checkbox">
+					<input type="radio" name="radioChecked1" data-ng-value="'checkbox'" ng-model="fieldBean.formType">多选框</label>
+				<label class="radio-inline" data-ng-if="UI.selected">
+					<input type="radio" name="radioChecked1" data-ng-value="'selected'" ng-model="fieldBean.formType">下拉框</label>
+				<button data-ng-click="intentionFormEcho()" class="text-more" data-ng-show="fieldBean.intentionFormEcho&&fieldBean.formType=='text'">+更多文本框设置</button>
+			</div>
+		</div>
+		<div data-ng-show="fieldBean.formType=='text'&&!fieldBean.intentionFormEcho||fieldBean.formType=='textarea'">
+			<div class="form-group marbottom32">
+				<label class="col-sm-2 control-label lighter-weight padleft35">
+					文本长度
+				</label>
+
+				<div class="col-sm-8 padleft26">
+					<input type="number" class="form-control" ng-model="fieldBean.length" name="length">
+
+					<div>
+                    <span class="err"
+                          ng-show="formField.length.$dirty&&formField.length.$invalid ">请填写数字</span>
+					</div>
+				</div>
+				个字符
+			</div>
+			<!--<div class="form-group ">
+				<label class="col-sm-2 ontrol-label lighter-weight padleft35">文本模式</label>
+
+				<div class="col-sm-8 padleft26">
+					<label class="radio-inline" data-ng-show="">
+						<input type="radio" name="radioChecked2" data-ng-value="true" ng-model="fieldBean.isSingle">单行文本</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked2" data-ng-value="false" ng-model="fieldBean.isSingle">多行文本</label>
+				</div>
+			</div>-->
+			<div class="form-group ">
+				<label class="col-sm-2 ontrol-label lighter-weight padleft35">必填项</label>
+
+				<div class="col-sm-8 padleft26">
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked3" data-ng-value="false" ng-model="fieldBean.isRequired">非必填</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked3" data-ng-value="true" ng-model="fieldBean.isRequired">必填</label>
+				</div>
+			</div>
+
+			<div class="form-group ">
+				<label class="col-sm-2 ontrol-label lighter-weight padleft35">开启验证内容是否合法</label>
+				<div class="col-sm-8 padleft26">
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked4" data-ng-value="false" ng-model="fieldBean.isVerify">关闭</label>
+					<label class="radio-inline">
+						<input type="radio" name="radioChecked4" data-ng-value="true" ng-model="fieldBean.isVerify">开启</label>
+					<select class="selectitem" ng-if="fieldBean.isVerify " data-ng-model="fieldBean.select">
+						<option value="phone">确保录入内容为手机</option>
+						<option value="email">确保录入内容为email</option>
+						<option value="number">确保录入内容为数字</option>
+						<option value="Reg">自定义正则表达式(程序员专用)</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group marbottom32" beyond max-count='100'
+			     data-ng-if="fieldBean.select==='Reg'&&fieldBean.isVerify">
+				<label class="col-sm-2 control-label lighter-weight padleft35">
+					自定义正则表达式
+				</label>
+
+				<div class="col-sm-8 padleft26">
+					<input type="text" class="form-control" ng-model="fieldBean.regular" name="regular" data-nsw-max-length="100">
+					<div>
+						<span class="err" ng-show="formField.length.$dirty&&formField.regular.$error.nswmaxlength">自定义正则表达式长度为0~100字符</span>
+					</div>
+				</div>
+				<span class="mess-zx mtop6">0</span>/100字符
+			</div>
+			<div class="form-group marbottom32" beyond max-count='100'>
+				<label class="col-sm-2 control-label lighter-weight padleft35">
+					录入框初始文本
+				</label>
+
+				<div class="col-sm-8 padleft26">
+					<input type="text" class="form-control" ng-model="fieldBean.initContent" name="initContent"
+					       data-nsw-max-length="100">
+
+					<div>
+						<span class="err" ng-show="formField.initContent.$error.nswmaxlength">录入框初始文本长度为0~100字符</span>
+					</div>
+				</div>
+				<span class="mess-zx mtop6">0</span>/100字符
+			</div>
+
+		</div>
+		<!--	<div data-ng-if = "fieldBean.formType!='text'"  >
+				<div class="form-group marbottom32" beyond max-count='150'>
+					<label  class="col-sm-3 control-label lighter-weight pt0 padleft35">
+						说明文档
+					</label>
+					<div class="col-sm-7 padleft26">
+						<textarea class="form-control" rows="3" data-ng-model="fieldBean.desc" name="desc" data-nsw-max-length="150"></textarea>
+						<div >
+							<span class="err" ng-show="formField.desc.$error.nswmaxlength">说明文档长度为0~150字符</span>
+						</div>
+						<span class="mess-zx mtop6">0</span>/150字符
+					</div>
+				</div>-->
+		<div class="form-group marbottom32" beyond max-count='150' data-ng-hide="fieldBean.intentionFormEcho">
+			<label class="col-sm-2 control-label lighter-weight pt0 padleft35">
+				录入框下面说明文档
+			</label>
+
+			<div class="col-sm-8 padleft26">
+					<textarea class="form-control" rows="3" ng-model="fieldBean.explainText" name="desc" data-nsw-max-length="150"></textarea>
+
+				<div>
+					<span class="err" ng-show="formField.desc.$error.nswmaxlength">录入框下面说明文档长度为0~150字符</span>
+				</div>
+				<span class="mess-zx mtop6">0</span>/150字符
+			</div>
+		</div>
+
+		<div data-ng-show="fieldBean.formType!=='text'&&fieldBean.formType!=='textarea'">
+			<ng-form name="addFieldform">
+				<div class="form-inline inline">
+					<div class="form-group">
+						<label for="exampleInputName2">选项名称</label>
+						<input type="text" data-ng-model="optionField.name" name="optionFieldName" class="form-control" id="exampleInputName2" data-nsw-max-length="32">
+					</div>
+					<span class="err" ng-show="addFieldform.optionFieldName.$error.nswmaxlength">选项名称为0~32字符</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div class="form-group">
+						<label for="exampleInputEmail2">选择值</label>
+						<input type="text" data-ng-model="optionField.defaultValue" name="optionFieldDefaultValue" class="form-control"
+						       id="exampleInputEmail2" data-nsw-max-length="32">
+					</div>
+					<span class="err" ng-show="addFieldform.optionFieldDefaultValue.$error.nswmaxlength">选择值为0~32字符</span>
+					<button type="submit" data-ng-disabled="addFieldform.$invalid" data-ng-click="addOptionField()" class="btn btn-default">添加</button>
+				</div>
+			</ng-form>
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>序号</th>
+					<th>标题</th>
+					<th>默认值</th>
+					<th>默认选项</th>
+					<th>排序</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="optionField in fieldBean.data| orderBy:'orderBy'">
+					<td>
+						{{ $index+1}}
+					</td>
+					<td style="position:relative;">
+						<div class="explainText c-wrap">
+							{{ optionField.name}}
+						</div>
+					</td>
+					<td>
+						{{ optionField.defaultValue }}
+					</td>
+					<td>
+						<i class="fa fa-circle-o"
+						   ng-class="{true: 'fa-circle text-success', false: 'fa-circle-o'}[optionField.isDefault]"
+						   ng-click="isDefault(optionField)"></i>
+					</td>
+					<td>
+						 <span>
+							<i ng-hide="$first" class="fa fa-arrow-up"
+							   ng-click="interchange(optionField,fieldBean.data[$index-1])"></i>&nbsp;
+							 <i ng-hide="$last" class="fa fa-arrow-down"
+							    ng-click="interchange(optionField,fieldBean.data[$index+1])"></i>
+						 </span>
+					</td>
+					<td>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default btn-sm" ng-click="deleteOptionField($index)">
+								<span class="fa-delete"></span><span class="fa-delete-text">删除</span>
+							</button>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+
+
+		</div>
+	</form>
+</div>
+<div class="modal-footer text-align-left" style="margin-top:-15px;">
+	<button type="submit" class="btn btn-warning btn-color"
+	        ng-disabled="formField.$invalid" ng-click="addFieldBean()"><label
+			class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+	<button class="btn btn-default btn-color btn-cancel" ng-click="$close()"><label class="checkcancel"></label><span
+			class="btntext black">取&nbsp;消</span></button>
+</div>
+

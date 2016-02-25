@@ -8,7 +8,7 @@
 			$stateProvider.state('intentional-order', {
 				url: '/intentional-order',
 				templateUrl: 'partials/intentional-order.html',
-				controller: 'intentionalOrderCtrl',
+				controller: 'messageCtrl',
 				key: 'intentional-order|intentional-roder'
 			})
 				.state('catalog-config',{

@@ -13,7 +13,7 @@
 .c-header .c-manager{float:right;margin-right:-10px;text-align:right;padding-top:22px;}
 .c-header .c-manager > div{padding-top:15px;}
 .c-header .c-manager a{padding:0px 10px;}
-.c-header .c-manager .c-user-name{color:#f08300;cursor:default;}
+.c-header .c-manager .c-user-name{color:#f08300;}
 .c-footer{height:50px;line-height:50px;text-align:center;background-color:#fffaf4;border-top:2px solid #f18d14;}
 
 .c-menu-div{width:205px;min-height:300px;float:right;margin-right:-205px; margin-bottom:80px;}
@@ -55,7 +55,6 @@
 .c-tpl-list li .item{padding:5px 5px 10px;border:1px solid #ccc;}
 .c-tpl-list li .desc{margin-top:6px;font-size:12px;}
 .c-tpl-list li .action-btn{text-align:center;}
-.c-tpl-list li .action-btn .btn{width:80px;margin-right:10px;}
 .c-tpl-list li .action-btn .btn:last-child{margin-right:0px;}
 
 .c-row{margin-top:15px;}
@@ -70,6 +69,11 @@
 .c-mkname{ white-space:  nowrap; text-overflow:ellipsis; overflow: hidden;}
 /*处理长英文不自动换行*/
 .c-wrap { table-layout:fixed; word-break: break-all; overflow:hidden; }
+/*定义一个错误红色的星号*/
+.err {
+    color: #f44336;
+}
+
 /*bootstrap 样式定制*/
 .btn,.webuploader-pick{border-radius:2px;}
 .btn-primary:hover, .btn-warning:hover{
@@ -102,6 +106,17 @@
     margin:0;
     padding:7px;
     display:inline-block;
+}
+.fa-preview-btn{
+    height:20px;
+    line-height:20px;
+}
+.fa-preview-btn:hover {
+    border:1px solid #f08300;
+    color:#f08300;
+}
+.fa-preview-btn:hover .fa-preview{
+    background-position: -525px -22px;
 }
 .fa-preview{
     background: url(../img/main_sprit1.png) no-repeat -525px 1px;
@@ -151,8 +166,12 @@
 	top:-3px;
 }
 /*產品列表快速編輯彈框*/
-.form-control {height:29px;line-height:29px;}
-.form-control:focus {box-shadow:0px 0px 4px #f08300;border:0;}
+.form-control {height:29px;line-height:22px;}
+.form-control:focus {
+    border-color: #f08300;
+    outline: 0;
+    box-shadow: inset 0 0px 4px rgba(240, 131, 0, .075), 0 0 4px rgba(240, 131, 0, .6);
+}
 .btnh26{height:26px;border-radius:0px;background:#fff;border:1px solid #dcdcdc;}
 .btnh26 .sec-tags{position:relative;top:-5px;}
 .btn-color{
@@ -450,6 +469,7 @@
 
 .message-content{
     margin:20px auto;
+    word-break: break-word;
 }
 
 .message-box .message{
@@ -471,32 +491,32 @@
 .message-box .icon-success{
     background: url(../img/main_sprit1.png) no-repeat -228px -798px;
     display: inline-block;
-    width: 41px;
-    height: 41px;
+    width: 42px;
+    height: 42px;
     margin:0 30%;
 }
 
 .message-box .icon-warming{
 	background: url(../img/main_sprit1.png) no-repeat -228px -865px;
     display: inline-block;
-    width: 41px;
-    height: 41px;
+    width: 42px;
+    height: 42px;
     margin:0 30%; 
 }
 
 .message-box .icon-confirm{
     background: url(../img/main_sprit1.png) no-repeat -228px -865px;
     display: inline-block;
-    width: 41px;
-    height: 41px;
-    margin:0 30%;  
+    width: 42px;
+    height: 42px;
+    margin:0 30%;
 }
 
 .message-box .icon-error{ 
     background: url(../img/main_sprit1.png) no-repeat -228px -930px;
     display: inline-block;
-    width: 41px;
-    height: 41px;
+    width: 42px;
+    height: 42px;
     margin:0 30%;
 
 }

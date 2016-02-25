@@ -16,10 +16,8 @@
 							item:item
 						}
 					});
-
-
-
 			};
+
 			service.showAloneList = function showAloneList(){
 				var defer = $q.defer();
 				$http({
@@ -35,6 +33,7 @@
 				});
 				return defer.promise;
 			};
+
 			service.editComfirm = function editComfirm(seoData){
 				var defer = $q.defer();
 				$http({
@@ -51,8 +50,26 @@
 				});
 				return defer.promise;
 			};
+
 			service.alonePreview = function alonePreview(id){
 				window.open(globals.basAppRoot +"/pageTpl/design/"+id+"/view?isPubTpl=false");
+			};
+
+			service.searchInfoArticle = function searchInfoArticle(name){
+				var defer = $q.defer();
+				$http({
+					method: 'GET',
+					url: globals.basAppRoot + '/pageTpl/design/list/pageMainOrMain',
+					params: {name:name}
+				}).then(function(res){
+					if(res.data.isSuccess){
+						aloneData = res.data.data||{};
+						defer.resolve(aloneData);
+					}else{
+						defer.reject(res.data.data);
+					}
+				});
+				return defer.promise;
 			};
 			return service;
 		}]);

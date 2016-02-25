@@ -2,8 +2,8 @@
 (function (angular) {
 	"use strict";
 
-	angular.module('platform').factory('platformFormBuilderSvc', ['$templateCache', '$compile', 'platformFormDomainSvc',
-		function ($templateCache, $compile, platformFormDomainSvc) {
+	angular.module('platform').factory('platformFormBuilderSvc', ['$templateCache', '$compile', 'rowBuilderSvc', 'platformFormDomainSvc',
+		function ($templateCache, $compile, rowBuilderSvc, platformFormDomainSvc) {
 			var service = {};
 			var getTemplate = function getTemplate(domain) {
 				var name = 'form-' + domain + '.html';
@@ -31,7 +31,7 @@
 					message = message.replace(/%errorMessage%/g, '请填写' + config.label)
 						.replace(/%formName%/g, formName)
 						.replace(/%name%/g, name)
-						.replace(/%error%/g,'required');
+						.replace(/%error%/g, 'required');
 					validatorMessages.push(message);
 				}
 
@@ -42,7 +42,7 @@
 					message = message.replace(/%errorMessage%/g, config.label + '长度为0~' + config.maxLength + '字符')
 						.replace(/%formName%/g, formName)
 						.replace(/%name%/g, name)
-						.replace(/%error%/g,'maxlength');
+						.replace(/%error%/g, 'maxlength');
 					validatorMessages.push(message);
 
 					validateTip = getTemplate('maxLengthValidateTip');
@@ -56,7 +56,7 @@
 					message = message.replace(/%errorMessage%/g, config.label + '使用逗号、空格和分隔符，并不能超过' + config.maxWord + '个关键字')
 						.replace(/%formName%/g, formName)
 						.replace(/%name%/g, name)
-						.replace(/%error%/g,'maxword');
+						.replace(/%error%/g, 'maxword');
 					validatorMessages.push(message);
 				}
 
@@ -91,13 +91,13 @@
 				return rowTemplate;
 			};
 
-			service.buildTemplate = function compileTemplate(configuration) {
+			service.buildFormTemplate = function buildFormTemplate(configuration) {
 				if (!configuration) {
 					return '';
 				}
 				configuration.hasLabel = _.isBoolean(configuration.hasLabel) ? configuration.hasLabel : true;
 				configuration.hasValidateTip = _.isBoolean(configuration.hasValidateTip) ? configuration.hasValidateTip : true;
-				var form = configuration.formName, inputTemplates = [];
+				var form = configuration.name, inputTemplates = [];
 				_.forEach(configuration.rows, function (config) {
 					config.hasLabel = _.isBoolean(config.hasLabel) ? config.hasLabel : configuration.hasLabel;
 					config.hasValidateTip = _.isBoolean(config.hasValidateTip) ? config.hasValidateTip : configuration.hasValidateTip;
@@ -105,6 +105,35 @@
 				});
 				return inputTemplates.join('\r\n');
 			};
+
+			service.buildTemplate = function buildTemplate(formOptions, editorOptions) {
+				rowBuilderSvc.init(formOptions, editorOptions);
+				return rowBuilderSvc.build();
+			};
+
+			service.buildForm = function buildForm(formOptions) {
+				if (!formOptions) {
+					return '';
+				}
+				formOptions.hasLabel = _.isBoolean(formOptions.hasLabel) ? formOptions.hasLabel : true;
+				formOptions.hasValidateTip = _.isBoolean(formOptions.hasValidateTip) ? formOptions.hasValidateTip : true;
+
+				var inputTemplates = [];
+				_.forEach(formOptions.rows, function (row) {
+					var domain = platformFormDomainSvc.getDomainConfig(row.domain) || {};
+					row = angular.extend(domain, row);
+					row.label = row.label || '';
+					row.name = row.name || (row.model || '').replace(/\./g, '');
+					row.hasLabel = _.isBoolean(row.hasLabel) ? row.hasLabel : formOptions.hasLabel;
+					row.hasValidateTip = _.isBoolean(row.hasValidateTip) ? row.hasValidateTip : formOptions.hasValidateTip;
+					if (row.maxLength) {
+						row.validateTip = row.validateTip || 'maxLength';
+					}
+					inputTemplates.push(service.buildTemplate(formOptions, row));
+				});
+				return inputTemplates.join('\r\n');
+			};
+
 
 			return service;
 		}]);

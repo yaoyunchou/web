@@ -28,8 +28,11 @@
 			templateUrl: globals.basAppRoute + 'components/templates/platform-bread-nav-dir.html',
 			link: function (scope) {
 				//scope.breadNavs = scope.breadNavs);
+				scope.breadNavs = scope.breadNavs || [];
 				var index = scope.breadNavs.length - 1;
-				scope.breadNavs[index].href = '#';
+				if(scope.breadNavs[index]) {
+					scope.breadNavs[index].href = '#';
+				}
 
 				scope.navigateTo = function navigateTo(nav) {
 					platformNavigationSvc.navigateTo({group: nav.group, menu: nav.menu, route: nav.route});

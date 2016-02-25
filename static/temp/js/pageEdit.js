@@ -22,17 +22,7 @@ pageEditApp.controller('pageCtrl', ['$scope', '$state', 'utils','platformModalSv
 	};
 	//对比效果
 	$scope.compare = function(){
-		if($scope.projPageData.bakConf.bak.length < 2){
-			platformModalSvc.showWarmingMessage('对比至少需要两个效果备份！','提示');
-			return;
-		}
-		if('same' == $scope.projPageData.bakConf.type){
-			window.open ('compare.html', '_blank');
-		}else{
-			//window.open ('http://www.baidu.com', '_blank', 'fullscreen=1, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no'); 
-			window.open ('/pccms/proj/projPageTpl/5603648d9ea9303192396a3d/view', '_blank');
-			window.open ('/pccms/proj/projPageTpl/5603648d9ea9303192396a3d/view', '_blank');
-		}
+
 	}
 	//保存页面设计
 	$scope.savePageDesign = function(){
@@ -64,36 +54,9 @@ pageEditApp.controller('blkCtrl', ['$scope', '$state', '$http', function($scope,
 	    });
 	
 	$scope.save = function() {
-		
-		/*
-		var postData = {pageConfId: $scope.projPageData.id, blkConfId: $scope.blkConfId, tarBlockConfId: $scope.tarBlkId, dsData: $scope.projPageData.conf[$scope.blkConfId].dsData, confData: $scope.projPageData.conf[$scope.blkConfId].conf};
-		//console.info(angular.toJson(projPageData.conf[$scope.blkConfId].dsData));
-		$http.get('/pccms/page/updTplConf?pageConfId='+postData.pageConfId
-				+'&blkConfId='+postData.blkConfId
-				+'&tarBlockConfId='+postData.tarBlockConfId
-				+'&dsData='+angular.toJson(postData.dsData)
-				+'&confData='+angular.toJson(postData.confData)
-				)
-			.success(function(data, status, headers, config) {
-		    	console.info(data);
-		    	if(data.isSuccess){
-		    		//保存成功
-		    		var html = data.data;
-		    		angular.element("#"+$scope.blkConfId).children("ul").replaceWith(html);
-		    		$scope.projPageData.conf[$scope.blkConfId].tplId = $scope.tarBlkId;
-					$state.go('page');
-		    	}else{
-			    	alert('保存失败：'+html+'！');
-		    	}
-		    })
-		    .error(function(data, status, headers, config) {
-		    	alert('系统异常或网络不给力！');
-		    });
-		    */
 	};
 
 	$scope.cancel = function() {
-		$state.go('page');
 	};
 
 	//切换选中模板

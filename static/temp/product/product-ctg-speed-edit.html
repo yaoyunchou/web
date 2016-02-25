@@ -37,10 +37,11 @@
                 网址
             </label>
             <div class="col-sm-8">
-                <input type="url" name = "linkUrl" class="form-control"  ng-model="editBean.linkUrl"  ng-maxlength="100" required>
+                <input type="url" name = "linkUrl" class="form-control"  ng-model="editBean.linkUrl"  data-nsw-max-length="100" required>
                 <div ng-show="formSpeed.linkUrl.$dirty && formSpeed.linkUrl.$invalid">
                     <span class="err" ng-show="formSpeed.linkUrl.$error.required" >请填写网址</span>
-                    <span class="err" ng-show="!formSpeed.linkUrl.$error.required && formSpeed.linkUrl.$error">网址长度为0~100字符,格式如：http://www.nsw88.com</span>
+                    <span class="err" ng-show="formSpeed.linkUrl.$error.nswmaxlength">网址长度为0~100字符</span>
+                    <span class="err " ng-show="formSpeed.linkUrl.$error.url">以http://开头，如http://www.nsw88.com</span>
                 </div>
 
             </div>
@@ -48,11 +49,11 @@
         </div>
         <div class="form-group marbottom32" ng-if="!editIsLink">
             <label  class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35">
-                <span class="err mleft-10">*</span>
+                <!--<span class="err mleft-10">*</span>-->
                                                  网页标题(Title)
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" ng-maxlength="64" required>
+                <input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" ng-maxlength="64">
                 <div ng-show="formSpeed.seoTitle.$dirty && formSpeed.seoTitle.$invalid">
                     <span class="err" ng-show="formSpeed.seoTitle.$error.required">请填写网页标题</span>
                     <span class="err" ng-show="!formSpeed.seoTitle.$error.required && formSpeed.seoTitle.$error">网页标题长度为0~64字符</span>
@@ -61,12 +62,12 @@
             <span class="mess-zx mtop6">0/64字符</span>
         </div>
         <div class="form-group marbottom32" ng-if="!editIsLink">
-            <label  class="col-sm-2 control-label lighter-weight pt0 padleft35">
-                <span class="err mleft-10">*</span> 
+            <label  class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35">
+                <!--<span class="err mleft-10">*</span> -->
                                                  网页关键词(Keywords)
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword" ng-maxlength="100" required>
+                <input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword" ng-maxlength="100">
                 <div ng-show="formSpeed.seoKeyword.$dirty && formSpeed.seoKeyword.$invalid">
                     <span class="err" ng-show="formSpeed.seoKeyword.$error.required">请填写网页关键词</span>
                     <span class="err" ng-show="!formSpeed.seoKeyword.$error.required && formSpeed.seoKeyword.$error">网页关键词长度为0~100字符</span>
@@ -75,23 +76,28 @@
             <span class="mess-zx mtop6">0/100字符</span>
         </div>
         <div class="form-group marbottom32" ng-if="!editIsLink">
-            <label  class="col-sm-2 control-label lighter-weight pt0 padleft35">
-                <span class="err mleft-10">*</span>
+            <label  class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35">
+                <!--<span class="err mleft-10">*</span>-->
                                                  网页描述(Description)
             </label>
             <div class="col-sm-8 padleft26">
-                <textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" ng-maxlength="150" required></textarea>
+                <textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" ng-maxlength="150"></textarea>
                 <div ng-show="formSpeed.seoDesc.$dirty && formSpeed.seoDesc.$invalid">
                     <span class="err" ng-show="formSpeed.seoDesc.$error.required">请填写网页描述</span>
                     <span class="err" ng-show="!formSpeed.seoDesc.$error.required && formSpeed.seoDesc.$error">网页描述长度为0~150字符</span>
                 </div>
-                <span class="mess-zx mtop6">0/150字符</span>
+                <span class="mess-zx mtop6">0</span>/150字符
             </div>
         </div>
         <div class="form-group marbottom32" ng-if="!editIsLink">
             <label  class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35"> 网页访问地址</label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName" ng-blur="verRepeat()"  ng-maxlength="30">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
+                           ng-blur="verRepeat()" ng-maxlength="30">
+
+                    <div class="input-group-addon">.html</div>
+                </div>
                 <div ng-show="formSpeed.staticPageName.$dirty && formSpeed.staticPageName.$invalid">                         
                     <span class="err" ng-show="formSpeed.staticPageName.$error">网页访问地址长度为0~30字符</span>
                 </div>
@@ -106,7 +112,7 @@
             <div class="col-sm-8 padleft26">                  
                 <pre class="edt-cmstags form-control">{{editBean.cmsTags|showCtgsName}}</pre>                                   
             </div>                      
-            <button type="button" class="btn btn-default clean-btn no-radus-btn" tag-lib result="editBean.cmsTags"  ng-model="editBean.cmsTags"><span class="sel-cmstags"></span>选择标签</button>                
+            <button type="button" class="btn btn-default clean-btn no-radus-btn" data-module-id="{{state.moduleId}}" tag-lib result="editBean.cmsTags"  ng-model="editBean.cmsTags"><span class="sel-cmstags"></span>选择标签</button>
         </div>
     </form>
 </div>

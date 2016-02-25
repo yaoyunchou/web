@@ -119,7 +119,7 @@ div.data-speed-form, .modal-dialog {margin-top: 85px;box-shadow: 0 0 5px rgba(0,
 
 /*-------临时解决弹框出现的时候页面左右晃动一下的问题- 20151223 yao------  */
 .modal-open {
-  overflow: hidden;
-  margin-right:16px;
+    /*overflow: hidden;
+    margin-right:16px;*/
+    height: 300%;
 }
-

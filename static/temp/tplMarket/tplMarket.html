@@ -1,5 +1,5 @@
 <style>
-    .c-smylImage {max-width: 200px;max-height: 96px;} /* for Firefox & IE7 */
+    .c-smylImage {max-width: 200px;max-height: 96px;min-height:96px;} /* for Firefox & IE7 */
 	* html .c-smylImage { /* for IE6 */
 		width: expression(this.width > 200 && this.width > this.height ? 96: auto);
 		height: expression(this.height > 96 ? 96 : auto);
@@ -81,7 +81,7 @@
 			<li ng-repeat="item in filterData.list">
 				<div class="item">
 				    <div style="text-align:center;">
-						<img class="c-smylImage" ng-src="{{item.imgSm}}" />
+						<img class="c-smylImage" nsw-src="{{item.imgSm}}" />
 						<div class="desc">网页特点：{{item.style}}</div>
 						<div class="desc">适合行业：{{item.industry}}</div>
 						<div class="desc">模板名称：{{item.name}}</div>
@@ -89,7 +89,7 @@
 					<div class="desc action-btn">
 						<a ng-if="filterType == 'single'" class="btn btn-success" ng-click="preSinglePag(item._id)">预览</a>
 						<a ng-if="filterType == 'pack'" class="btn btn-success" ng-click="previewPackPag(item._id)">预览</a>
-						<!-- <a class="btn btn-success" ng-click="mobilePreview(item._id)">手机预览</a> -->
+						<a ng-if="filterType == 'single'" class="btn btn-success" ng-click="singleTplRemove(item._id)">删除模版</a>
 					</div>
 				</div>
 			</li>

@@ -7,9 +7,10 @@
 
 			<input type="text" class="ctgname" data-ng-class="{'white':lineEditing}"
 			       data-ng-readonly="!lineEditing"
-			       data-ng-model="item[options.data.displayField]"/>
+			       data-ng-model="item[options.data.displayField]" title="{{ item[options.data.displayField] }}"/>
 
-			<a class="editbtn" title="快速编辑" data-ng-click="toggleLineEdit(item)">
+			<a class="editbtn" title="快速编辑" data-ng-click="toggleLineEdit(item)"
+			   data-ng-show="options.enableLineEdit||options.enableSpeedEdit">
 				<i class="fa fa-edit"
 				   data-ng-class="{true: 'fa fa-edit', false: 'glyphicon glyphicon-floppy-disk'}[!lineEditing]"></i>
 			</a>
@@ -29,7 +30,7 @@
 		</li>
 	</ul>
 	<div class="submitbox" data-ng-show="options.enableCreate">
-		<form class="form-horizontal form-validation" name="{{options.formOptions.formName}}" novalidate>
+		<form class="form-horizontal form-validation" name="{{options.formOptions.name}}" novalidate>
 			<div data-platform-form data-options="options.formOptions"/>
 			<button type="button" class="col-sm-4 btn btn-default btn-hover"
 			        data-ng-readonly="options.formOptions.$invalid"

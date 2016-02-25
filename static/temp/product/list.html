@@ -188,7 +188,7 @@
 			<tbody>
 			<tr ng-repeat="item in dataList">
 				<td><input type="checkbox" ng-model="item.isChecked" ng-click="checkItem(item)"/></td>
-				<td><img ng-if = "item.imgs[0].url" ng-src="{{item.imgs[0].url}}" width="30px" height="30px"/></td>
+				<td><img ng-if = "item.imgs[0].url" nsw-src="{{item.imgs[0].url}}" width="30px" height="30px"/></td>
 				<td style="position:relative;">
 					<div class = "titleTd c-wrap">
 						{{item.title}}
@@ -229,9 +229,6 @@
 						</button>
 						<button type="button" class="btn btn-default btn-sm" ng-click="preview(item._id,item.isLink,item.linkUrl,item.ctgs[0])">
 						    <span class="fa-preview"></span><span class="fa-preview-text">预览</span>
-						</button>
-						<button type="button" class="btn btn-default btn-sm" ng-click="mobilePreview(item.linkUrl);">
-						    <span class="fa-preview"></span><span class="fa-preview-text">手机预览</span>
 						</button>
 						<button type="button" class="btn btn-default btn-sm" ng-click="delInfoArticle(item._id)">
 						    <span class="fa-delete"></span><span class="fa-delete-text">删除</span>
@@ -305,9 +302,12 @@
 			</label>
 
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
-				       ng-blur="verRepeat()" ng-maxlength="30" required>
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
+					       ng-blur="verRepeat()" ng-maxlength="30" required>
 
+					<div class="input-group-addon">.html</div>
+				</div>
 				<div ng-show="formSpeed.staticPageName.$dirty && formSpeed.staticPageName.$invalid">
 					<span class="err" ng-show="formSpeed.staticPageName.$error.required">请填写网页访问地址</span>
 					<span class="err"

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui">
+	<title>Document</title>
+	<style type="text/css">
+		.yxorder-wrap {
+			margin: 0px;
+			box-sizing: border-box;
+			word-spacing: 0;
+		}
+
+		.yxorder-wrap > form {
+			max-width: 500px;
+		}
+
+		.yxorder-wrap .rowcon {
+			width: 100%;
+			margin: 0px auto;
+			display: block;
+			overflow: hidden;
+			margin-bottom: 10px;
+		}
+
+		.yxorder-wrap .rowcon .row-hd {
+			float: left;
+			width: 25%;
+			zoom: 1;
+			text-indent: 1em;
+			font-size: 14px;
+			color: #555;
+			line-height: 28px;
+		}
+
+		.yxorder-wrap .rowcon .row-bd {
+			float: left;
+			width: 75%;
+			min-height: 30px;
+			zoom: 1;
+			text-align: left;
+			font-size: 13px;
+			line-height: 26px;
+			color: #333;
+		}
+
+		.rowcon .row-bd input[type="text"] {
+			width: 150px;
+			height: 26px;
+			padding: 0 3px 0 4px;
+			border: 1px solid #aaa;
+			border-radius: 4px;
+			box-shadow: 0 0 4px #e9eaea;
+			font-size: 1rem;
+			color: #a3a3a2;
+			background: #fff;
+		}
+
+		.rowcon .row-bd input.yzm-txt[type="text"] {
+			margin-right: 10px;
+			width: 90px;
+		}
+
+		.rowcon .row-bd select {
+			width: 159px;
+			height: 30px;
+			border-radius: 4px;
+			border: 1px solid #aaa;
+		}
+
+		.rowcon .row-bd select option {
+			width: 100%;
+		}
+
+		.rowcon .row-bd input[type="checkbox"] {
+		}
+
+		.rowcon .row-bd input[type="radio"] {
+		}
+
+		.rowcon .row-bd label {
+			margin-right: 15px;
+		}
+
+		.rowcon .row-bd textarea {
+			resize: none;
+			border-radius: 4px;
+			border: 1px solid #aaa;
+			height: 100px;
+			min-width: 200px;
+			width: 96%;
+		}
+
+		.rowcon .row-bd .nsw-formtipbd {
+			line-height: 20px;
+		}
+
+		.rowcon .row-bd .nsw-formtipbd span {
+			display: none;
+			color: #f08300;
+		}
+
+		.rowcon .tijaobd {
+			text-align: center;
+		}
+
+		.rowcon .tijaobd input[type="submit"] {
+			background: #f08300;
+			border-radius: 4px;
+			color: #fff;
+			line-height: 28px;
+			border: 0px;
+			text-align: center;
+			width: 80px;
+			font-size: 14px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+<div class="box">
+
+</div>
+</body>
+<script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+	$.ajax({
+		type: 'GET',
+		url: 'http://localhost:8083/pccms/orderForm/generateFormHtml?formId=56a0c697266047eb2fbcaf4d',
+		success: function (response) {
+			var data = JSON.parse(response);
+			$('.box').html(data.data);
+			//verify().run();
+		},
+		error: function (data) {
+			console.log("出错了！")
+		}
+	});
+	/*console.log($("input[type='text']"));*/
+	setTimeout(function () {
+		$(".yxorder-wrap input[type='text']").blur(function () {
+			var pattern = $(this).attr('pattern');
+			var label = $(this).parent().siblings('.row-hd').html();
+			if(label){
+				label = label.replace("：", '');
+			}
+
+			if ($(this).attr('required')) {
+				var requiredReturn = required($(this).val(), label);
+				if (!requiredReturn.flog) {
+					$(this).siblings('.nsw-formtipbd').find('span').show().html(requiredReturn.msg);
+					return false;
+				}
+			}
+			if ($(this).val() !== '') {
+				var returnInfo = verify().run(pattern, $(this).val());
+				if (!returnInfo.flog) {
+					$(this).siblings('.nsw-formtipbd').find('span').show().html(returnInfo.msg);
+					return false;
+				} else {
+					$(this).siblings('.nsw-formtipbd').find('span').hide();
+					return true;
+				}
+			}
+		});
+		$(".tijaobd input").click(function(){
+			var list = kuayu();
+		})
+	}, 200);
+
+
+	var verify = function verify() {
+		//console.log($("input[type='text']"));
+		var service = {
+			run: function run(type, value) {
+				switch (type) {
+					case 'phone' :
+						return checkPhone(value);
+						break;
+					case 'email' :
+						return checkEmail(value);
+						break;
+					case 'number' :
+						return checkNumber(value);
+						break;
+					default :
+						return required(value);
+						break;
+				}
+			}
+		};
+		return service;
+	};
+	function checkPhone(value) {
+		var phone = /^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/;
+		return {flog: phone.test(value), msg: '请填写正确的手机号码！'};
+	}
+	function chechEmail(value) {
+		var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+		return {flog:email.test(value), msg: '请填写正确的email！'};
+	}
+	function checkReg(type, value) {
+		var reg =type;
+		return {flog: reg.test(value), msg: '请填写正确的email！'};
+	}
+	function required(value, lable) {
+		if (!value.length) {
+			return {flog: false, msg: lable + '不能为空！'}
+		} else {
+			return {flog: true}
+		}
+	}
+
+	//提交
+	function kuayu() {
+		if(checkAll()){
+			var dt = $("#orderForm").serializeObject();
+			$.ajax({
+				'url': 'http://192.168.4.159:8082/vcenter/intentionalOrder/add?json=' + JSON.stringify(dt),
+				'type': 'post',
+				'dataType': 'jsonp',
+				'jsonpCallback': 'callback',
+				'error': function (XMLHttpRequest, textStatus) {
+					if ('401' == textStatus) {
+						alert("请勿频繁提交！");
+						console.log("!!!!");
+					}
+				},
+				'success': function (data) {
+					alert(data.msg);
+				}
+			});
+		}
+		}
+		//orderForm 为提交form
+
+	//自动将form表单封装成数组
+	$.fn.serializeObject = function () {
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function () {
+			if (o[this.name]) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+	function checkAll() {
+		var isOk = true;
+		$(".yxorder-wrap input[type='text']").each(function () {
+			var pattern = $(this).attr('pattern');
+			var label = $(this).parent().siblings('.row-hd').html();
+			label = label.replace("：", '');
+			if ($(this).attr('required')) {
+				var requiredReturn = required($(this).val(), label);
+				if (!requiredReturn.flog) {
+					$(this).siblings('.nsw-formtipbd').find('span').show().html(requiredReturn.msg);
+					isOk = isOk&&false;
+				}
+			}
+			if ($(this).val() !== '') {
+				var returnInfo = verify().run(pattern, $(this).val());
+				if (!returnInfo.flog) {
+					$(this).siblings('.nsw-formtipbd').find('span').show().html(returnInfo.msg);
+					isOk = isOk&&false;
+				} else {
+					$(this).siblings('.nsw-formtipbd').find('span').hide();
+					isOk = isOk&&true;
+				}
+			}
+		});
+		return isOk;
+	}
+</script>
+</html>
