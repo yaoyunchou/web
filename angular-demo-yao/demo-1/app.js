@@ -9,17 +9,17 @@
             .state('bookstore', {
                 url: '/bookstore',
                 controller: 'bookStoreMainController',
-                templateUrl: './partials/book-main-view.html'
+                templateUrl: '../partials/book-main-view.html'
             })
             .state('bookstore.list', {
                 url: '/list',
                 controller: 'bookStoreListController',
-                templateUrl: './partials/book-list-view.html'
+                templateUrl: '../partials/book-list-view.html'
             })
             .state('bookstore.detail', {
                 url: '/detail',
                 controller: 'bookStoreDetailController',
-                templateUrl: './partials/book-detail-view.html'
+                templateUrl: '../partials/book-detail-view.html'
             });
 
     }]);
