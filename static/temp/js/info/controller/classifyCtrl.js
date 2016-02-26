@@ -559,6 +559,19 @@ infoApp.controller('classifyCtrl',['$scope', '$http','$modal', '$state', 'utils'
 		$scope.itemChanged = function(){
 			flagSpeedTree = true;
 		};
+		$scope.$watch('bean.cmsTags', function (newVal) {
+			function toString(array) {
+				var _arr = [];
+				if (array instanceof Array) {
+					for (var k in array) {
+						_arr.push(array[k].name);
+					}
+				}
+				return _arr.join(',');
+			}
+
+			$scope.tig = toString(newVal);
+		}, true);
 		$scope.ok = function() {
 			if(flagSpeedTree){
 				$scope.classify.activeItemBean.path

@@ -51,11 +51,14 @@ productApp.config(['$stateProvider', '$urlRouterProvider',
 
 angular.module('productApp').directive('leftInformation',['$compile', function ($compile) {
 	return {
-		restrict: 'ACE',
+		restrict: 'A',
 		link: function (scope, element) {
 			var showInput = function showInput(){
-				element.find('button').hide();
-				$compile(element.find('.left-info').show())(scope);
+				if(element.find('.left-info').css('display')==='none') {
+					element.find('button').hide();
+					element.find('.left-info').show();
+					/*$compile(element.find('.left-info').show())(scope);*/
+				}
 			};
 
 			var inputNgModel = $(element.find('.form-control[ng-model],.form-control[data-ng-model]')[0]).data('$ngModelController');
@@ -66,7 +69,6 @@ angular.module('productApp').directive('leftInformation',['$compile', function (
 					showInput();
 				}
 				orginRender.apply(this, arguments);
-				return viewValue;
 			};
 			element.find('button').bind('click', function () {
 				showInput();

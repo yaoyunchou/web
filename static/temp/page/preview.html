@@ -63,7 +63,7 @@
 	                        <span class="err">*</span>模板名称
 	                    </label>
 	                    <div class="col-sm-5">
-	                        <input type="text" class="form-control" ng-model="name" name="tplTitle" ng-maxlength="64" required>
+	                        <input type="text" class="form-control" autocomplete="off" ng-model="name" name="tplTitle" data-nsw-max-length="64" required>
 	                        <div ng-show="formInfo.tplTitle.$dirty && formInfo.tplTitle.$invalid">
 	                            <span class="err" ng-show="formInfo.tplTitle.$error.required">请填写模板名称</span>
 	                            <span class="err" ng-show="!formInfo.tplTitle.$error.required && formInfo.tplTitle.$error">模板名称长度为0~64字符</span>

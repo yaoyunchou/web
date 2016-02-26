@@ -647,26 +647,8 @@ angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui
 
 			$scope.tagsData = {};
 			$scope.selectedTags = _.map(result || [], function(tag){
-				return {_id: tag.id};
+				return {id: tag.id, name: tag.name};
 			});
-
-			var getSelectedTags = function getSelectedTags(){
-				var selectedTags = [];
-				_.forEach($scope.items,function(module){
-					_.forEach(_.filter(module.tags,{isChecked:true}),function(tag){
-						selectedTags.push(tag);
-					});
-				});
-				return selectedTags;
-			};
-
-			var setSelectedTags = function setSelectedTags(selectedTags){
-				_.forEach($scope.items, function (module) {
-					_.forEach(module.tags, function (tag) {
-						tag.isChecked = !!_.find(selectedTags, {_id: tag._id});
-					});
-				});
-			};
 
 			//初始化查询标签列表。
 			function initTags() {
@@ -691,7 +673,6 @@ angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui
 							if ($scope.selectedModule && $scope.selectedModule.tags.length > 0) {
 								$scope.tags = $scope.selectedModule.tags;
 							}
-							setSelectedTags($scope.selectedTags);
 						} else {
 							platformModalSvc.showWarmingMessage('获取数据失败：' + data.data, '提示');
 						}
@@ -715,29 +696,29 @@ angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui
 				});
 
 			//选择标签。
-			$scope.checkedLabel = function ($event, data) {
-				if (!data.isChecked) {
-					data.isChecked = false;
-				}
-				data.isChecked = !data.isChecked;
-				var _o = {
-					id: data._id,
-					name: data.name
+			$scope.checkedLabel = function (id, name) {
+				var item = {
+					id: id,
+					name: name
 				};
-				if (data.isChecked && !_.has($scope.selectedTags, _o)) {
-					$scope.selectedTags.push(_o);
-				} else if (!data.isChecked && _.has($scope.selectedTags, _o)) {
-					_.remove($scope.selectedTags, _o);
+				if (!_.find($scope.selectedTags, item)) {
+					$scope.selectedTags.push(item);
+				} else{
+					_.remove($scope.selectedTags, item);
 				}
 			};
+
+			$scope.getTagIsSelected = function getTagIsSelected(id){
+				return _.find($scope.selectedTags, {id:id})?'c-selected':'';
+			}
 
 			//确定
 			$scope.ok = function () {
 				switch ($scope.activeTab) {
 					case 'list':
-						var result = _.map(getSelectedTags()||[],function(tag){
+						var result = _.map($scope.selectedTags||[],function(tag){
 							return {
-								id:tag._id,
+								id:tag.id,
 								name:tag.name
 							};
 						});
@@ -761,16 +742,15 @@ angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui
 							$scope.tab1.active = true;
 							moduleId = $scope.tagsData.ctgId;
 							var createdTagName = $scope.tagsData.name;
-							var selectedTags = getSelectedTags();
 							initTags().then(function(){
 								var created = _.find($scope.selectedModule.tags,{name:createdTagName});
-								selectedTags.push(created);
-								setSelectedTags(selectedTags);
+								$scope.selectedTags.push({id: created._id, name: created.name});
 							});
 							$scope.tagsData.name = '';
 							$scope.tagsData.url = '';
+							$scope.tagForm.form.$setPristine();
 						} else {
-							platformModalSvc.showWarmingMessage(data.data, '提示');
+							platformModalSvc.showWarmingTip(data.data);
 						}
 					}).error(function (data, status, headers, config) {
 						platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
@@ -855,7 +835,7 @@ angular.module('common', ['platform', 'ngLocale', 'ngSanitize', 'ui.router', 'ui
 						updateDisplay();
 					});
 
-					inputElement.on('change',function(){
+					inputElement.on('keyup',function(){
 						updateDisplay();
 					});
 					inputNgModel.$viewChangeListeners.push(updateDisplay);

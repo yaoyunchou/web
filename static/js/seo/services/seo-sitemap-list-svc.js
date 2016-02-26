@@ -9,6 +9,7 @@
 		var service = {},
 			listLoaded = new PlatformMessenger(),
 		//保存tab 列表
+			seach = "",
 			serviceList;
 
 		//获取tab list 数据
@@ -71,7 +72,9 @@
 
 		};
 		service.deletSingleOnlineSvc = function deletSingleOnlineSvc(item) {
+			platformModalSvc.showConfirmMessage("确认删除当前链接?", '网站操作信息提示').then(function () {
 			service.deletOnlineSvcFactory({"ids": item._id});
+			});
 
 		};
 		//编辑客服
@@ -89,13 +92,18 @@
 		};
 		//编辑客服信息
 		service.editOnlineSvc = function editOnlineSvc(item) {
+			var defer = $q.defer();
 			$http({
 				'method': 'POST',
 				'url': '/pccms/siteMap/updateLink/',
 				'data': item
-			}).then(function () {
-				service.getTabDataList();
+			}).then(function (response) {
+				defer.resolve(response.data)
+				if(response.data.isSuccess){
+					service.getTabDataList();
+				}
 			});
+			return defer.promise
 		};
 		//客服排序
 		service.sortItem = function sortItem(data) {
@@ -144,7 +152,9 @@
 
 				}
 			});
-			service.deletOnlineSvcFactory({"ids": strList});
+			platformModalSvc.showConfirmMessage("确认删除这些链接?", '网站操作信息提示').then(function () {
+				service.deletOnlineSvcFactory({"ids": strList});
+			});
 		};
 		//显示删除
 		service.ifShow = function ifShow(item) {
@@ -160,7 +170,10 @@
 					'url': '/pccms/siteMap/seachSiteMapListByLinkName?name=' + name,
 					'data': siteMapCatalogSvc.getSelectCatalog()
 				}).then(function (response) {
-					defer.resolve(response.data.data);
+					serviceList = response.data.data || [];
+					serviceList = _.sortBy(serviceList, 'orderBy');
+					defer.resolve(serviceList);
+					listLoaded.fire(serviceList);
 				}, function (response) {
 					platformModalSvc.showWarmingTip(response.data.data);
 				});
@@ -176,7 +189,24 @@
 		service.unregisterListLoaded = function unregisterListLoaded(handler) {
 			listLoaded.unregister(handler);
 		};
-		siteMapCatalogSvc.registerUpdatadone(service.getTabDataList);
+		service.getSeach = function getSeach() {
+			return seach || '';
+		};
+		//设置选中部门对象
+		service.setSeach = function setSeach(str) {
+			seach = str;
+		};
+		service.choose = function choose(){
+			if(seach == undefined || seach == ''){
+				service.getTabDataList();
+			}else{
+				service.searchLink(seach);
+			}
+		}
+
+			siteMapCatalogSvc.registerUpdatadone(service.choose);
+
+
 		return service;
 	}]);
 }(angular));

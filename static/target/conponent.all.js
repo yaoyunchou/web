@@ -19,7 +19,7 @@
 	exportObj.globals = {
 		basAppRoot: appRoot,
 		basAppRoute: appRoot + 'js/',
-		basImagePath:'http://192.168.4.160:8080/nswcms//',
+		basImagePath:'http://192.168.4.160:8080/nswcms/',
 		defaultImg:appRoot+ 'img/nsw.png',
 		debug: true,
 		spaMode: false
@@ -135,6 +135,12 @@
 			},
 			singleimage: {
 				template: 'singleimage',
+				key:'id',
+				display:'name',
+				size:5
+			},
+			adlib: {
+				template: 'adlib',
 				key:'id',
 				display:'name',
 				size:5
@@ -438,32 +444,36 @@
 					this.$close(success);
 				};
 				var instance = $modal.open(options);
-				var isOverflow = $('.c-main-box').height() > $(window).height();
+				var isOverflow = ($('[ng-controller="desktopMainCtrl"]')[0] || $(window)[0]).clientHeight > $(window).height();
+				var padding = $('html').css('padding-right');
 				instance.result.then(function () {
-					$('html').css('overflow-y', 'auto');
-					if (isOverflow && !options.isTip) {
-						$('.modal-open').css('margin-right', '0');
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
 					}
 				}, function () {
-					$('html').css('overflow-y', 'auto');
-					if (isOverflow && !options.isTip) {
-						$('.modal-open').css('margin-right', '0');
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
 					}
 				});
 
+				if (isOverflow) {
+					$('html').css('overflow-y', 'hidden');
+					$('html').css('padding-right', '17px');
+				}
 				setTimeout(function () {
+					if (isOverflow) {
+						$('.nsw.modal').css('padding-right', '17px');
+					}
 					if (!options.isTip) {
 						if (!options.disableDrag) {
 							$('.modal-dialog').draggable({
 								cancel: ".modal-body,.modal-footer"
 							});
 						}
-						if (isOverflow) {
-							$('.modal-open').css('margin-right', '16px');
-						}
-						$('html').css('overflow-y', 'hidden');
 					}
-				}, 500);
+				});
 				return defer.promise;
 			};
 
@@ -1315,352 +1325,6 @@
 		};
 	}]);
 }(angular));
-/*global angular*/
-(function (angular) {
-	"use strict";
-
-	var module = angular.module('platform');
-	module.directive('platformImageLib', ['platformImageLibSvc', function (platformImageLibSvc) {
-
-		return {
-			restrict: 'A',
-			scope: {
-				maxCount: '@',
-				multiple: '@'
-			},
-			require: 'ngModel',
-			link: function (scope, attr, element, ngModel) {
-				platformImageLibSvc.multiple = scope.multiple;
-				ngModel.$render = function $render() {
-					platformImageLibSvc.selectItems(ngModel.$viewValue);
-				};
-
-				scope.$on('selectedChanged', function (e, selectedItems) {
-					platformImageLibSvc.selectItems(selectedItems);
-					ngModel.$setViewValue(selectedItems);
-				});
-			},
-			controller: function ($scope) {
-				$scope.getImageLibSvc = function getImageLibSvc() {
-					return platformImageLibSvc;
-				};
-			}
-		};
-
-	}]);
-
-
-}(angular));
-/*global angular*/
-(function (angular) {
-	"use strict";
-
-	var module = angular.module('platform');
-	module.controller('platformImageLibSelectCtrl', ['$scope', function ($scope) {
-		var imageLibService = $scope.$parent.getImageLibSvc();
-		$scope.filter = '';
-		$scope.selectedImgList = imageLibService.getSelectedItems();
-
-		$scope.loadFilterlist = function loadFilterlist() {
-			imageLibService.loadItems($scope.pageSize, $scope.bigCurrentPage, $scope.filter);
-		};
-
-		$scope.loadFilterlist();
-	}]);
-}(angular));
-/*global angular*/
-(function (angular) {
-	"use strict";
-
-	var module = angular.module('platform');
-	module.controller('platformImageLibUploadCtrl', ['$scope', 'utils', 'platformModalSvc', function ($scope, utils,platformModalSvc) {
-
-		var imageLibService = $scope.$parent.getImageLibSvc();
-		var isOverflow = true;
-
-		var delFileExtension = function delFileExtension(str) {
-			var reg = /\.\w+$/;
-			return str.replace(reg, '');
-		};
-
-		var onBeforeFileQueued = function onBeforeFileQueued(sender) {
-			//验证可上传图片的张数
-			var len = sender.getFiles('queued').length;//查询上传队列中的文件数
-			if (len >= imageLibService.maxCount && isOverflow) {
-				isOverflow = false;
-				platformModalSvc.showWarmingMessage('只能上传' + imageLibService.maxCount + ' 张图片！！！','提示');
-				return false;
-			}
-		};
-
-		var onFileQueued = function onFileQueued(sender, file) {
-			sender.makeThumb(file, function (error, src) {
-				if (error) {
-					//不支持预览
-					return;
-				}
-				//加入上传队列
-				var id = file.id, img = {};
-				img.src = src;
-				img.name = delFileExtension(file.name);
-				img.state = '准备上传';
-				img.hasProgress = false;
-				img.progress = 0;
-				$scope.fileQueued[id] = img;
-				imageLibService.addCreatedItems(img);
-				//触发页面刷新
-				$scope.$apply();
-			}, 94, 79);
-		};
-
-		var onUploadStarted = function onUploadStarted(sender, file) {
-			var id = file.id;
-			sender.option('formData', {'zdyName': $scope.fileQueued[id].name});
-		};
-
-		var onUploadProgress = function onUploadProgress(sender, file, percentage) {
-			var id = file.id;
-			$scope.fileQueued[id].hasProgress = true;
-			$scope.fileQueued[id].progress = percentage;
-			//触发页面刷新
-			$scope.$digest();
-		};
-
-		var onUploadError = function onUploadError(sender, file) {
-			var id = file.id;
-			$scope.fileQueued[id].hasProgress = false;
-			$scope.fileQueued[id].state = '上传失败';
-			//触发页面刷新
-			$scope.$digest();
-		};
-
-		var onUploadSuccess = function onUploadSuccess(sender, file, res) {
-			var id = file.id;
-			$scope.fileQueued[id].hasProgress = false;
-			$scope.fileQueued[id].progress = 100;
-			$scope.fileQueued[id].state = '上传成功';
-			$scope.fileSuccessQueued.push(res.data);
-			//触发页面刷新
-			$scope.$digest();
-		};
-
-		var onUploadFinished = function onUploadFinished() {
-			$scope.$emit('close', $scope.fileSuccessQueued);
-		};
-
-		var onError = function onError(sender, res) {
-			if (res === 'Q_TYPE_DENIED') {
-				platformModalSvc.showWarmingMessage('图片类型不正确！！！','提示');
-			} else if (res === 'Q_EXCEED_SIZE_LIMIT') {
-				platformModalSvc.showWarmingMessage('图片总大小超出！！！','提示');
-			} else if (res === 'Q_EXCEED_NUM_LIMIT') {
-				platformModalSvc.showWarmingMessage('图片数量超出！！！','提示');
-			}
-		};
-
-		$scope.uploaderOptions = {
-			multiple: imageLibService.multiple,
-			beforeFileQueued: onBeforeFileQueued,
-			fileQueued: onFileQueued,
-			uploadStart: onUploadStarted,
-			uploadProgress: onUploadProgress,
-			uploadError: onUploadError,
-			uploadSuccess: onUploadSuccess,
-			uploadFinished: onUploadFinished,
-			error: onError
-		};
-	}]);
-}(angular));
-/*global angular, _*/
-(function (angular) {
-	"use strict";
-	angular.module('platform').directive('platformImageSlider', ['$timeout',
-		function ($timeout) {
-			return {
-				restrict: 'A',
-				scope: {
-					visualSize: '@',
-					maxSize: '@',
-					rows: '@',
-					enableView: '@',
-					enableSelect: '@',
-					enableDelete: '@',
-					onDeleted: '&',
-					onChecked: '&'
-				},
-				templateUrl: globals.basAppRoute + 'components/templates/platform-image-slider-dir.html',
-				require: 'ngModel',
-				link: function (scope, element, attrs, ngModel) {
-					var checkedItems = [];
-					scope.imageList = [];
-
-					scope.visualSize = scope.visualSize || 1;
-					scope.maxSize = scope.maxSize || 1;
-					scope.rows = scope.rows || 1;
-					scope.enableView = scope.enableView || true;
-					scope.enableSelect = scope.enableSelect || 1;
-					scope.enableDelete = scope.enableDelete || 1;
-
-					scope.onDeleted = scope.onDeleted || angular.noop;
-					scope.onSelect = scope.onSelect || angular.noop;
-
-					var sliderOptions = {
-						titCell: '.hd ul',
-						mainCell: '.bd ul',
-						vis: parseInt(scope.maxSize),
-						autoPlay: true,
-						autoPage: true,
-						effect: "left",
-						trigger: "click"
-					};
-
-					ngModel.$render = function $render() {
-						scope.imageList = ngModel.$viewValue;
-						$timeout(function () {
-							//call slider jquery plugin
-							$('.picScroll-left', element).slide(sliderOptions);
-						});
-					};
-					scope.deleteItem = function deleteItem(item) {
-						if (!scope.enableDelete) {
-							return;
-						}
-						_.remove(scope.imageList, {_id: item._id});
-						scope.onDeleted.apply(this, arguments);
-					};
-
-					scope.checkImage = function checkImage(image) {
-						if (!scope.enableSelect) {
-							return;
-						}
-						var isChecked = _.find(checkedItems, {_id: image._id});
-						if (isChecked) {
-							_.remove(checkedItems, {_id: image._id});
-						} else {
-							if (checkedItems.length === scope.maxSize) {
-
-							} else {
-								checkedItems.push(image);
-							}
-						}
-						isChecked = !isChecked;
-						scope.onChecked.call(this, image, isChecked);
-					};
-
-					scope.checkImageChecked = function checkImageChecked(image) {
-						return _.find(checkedItems, {_id: image._id});
-					};
-
-
-				}
-			};
-		}
-	]);
-}(angular));
-/*globals KindEditor, _, _toMap, _each, kindeditor_image*/
-(function (angular) {
-	"use strict";
-
-	angular.module('platform').directive('platformKindeditor', ['platformKindEditorDataSvc', function (editorService) {
-		return {
-			restrict: 'A',
-			scope: {},
-			require: 'ngModel',
-			template: '<div class="kind-editor"> ' +
-			'               <textarea style="visibility:hidden;"></textarea>' +
-			'               <div class="word-count" >' +
-			'                   <span class="err" data-ng-show="maxLengthError" style="text-align: left">录入字数不能起过<span data-ng-bind="options.maximumWords"></span>个字符</span> ' +
-			'                   <span data-ng-bind="wordCount" style="min-width: 200px;float: right; text-align: right"></span>' +
-			'               </div>' +
-			'           </div>',
-			link: function linker(scope, element, attr, ctrl) {
-				var editor = {}, text = element.find('textarea');
-				var _INPUT_KEY_MAP = KindEditor.toMap('8,9,13,32,46,48..57,59,61,65..90,106,109..111,188,190..192,219..222');
-				var _CURSORMOVE_KEY_MAP = KindEditor.toMap('33..40');
-				var _CHANGE_KEY_MAP = {};
-				KindEditor.each(_INPUT_KEY_MAP, function (key, val) {
-					_CHANGE_KEY_MAP[key] = val;
-				});
-				KindEditor.each(_CURSORMOVE_KEY_MAP, function (key, val) {
-					_CHANGE_KEY_MAP[key] = val;
-				});
-
-				scope.options = scope.$parent.$eval(attr.options) || {simpleMode: attr.isSimple !== 'false'};
-				scope.options.maximumWords = scope.options.maximumWords || parseInt(attr.kMaximumWords);
-				scope.name = 'keditor-' + editorService.getUUID();
-				var selector = 'textarea[name="' + scope.name + '"]';
-				text.attr('name', scope.name);
-				var options = angular.copy(scope.options);
-				element.width('100%');
-
-				if (options.simpleMode) {
-					options.items = editorService.simpleItems;
-					options.width = '90%';
-					options.height = ((options.height || 100) + 26) + 'px';
-				} else {
-					options.items = editorService.complexItems;
-					options.width = '100%';
-					options.height = ((options.height || 450) + 61) + 'px';
-				}
-
-				options = _.extend({}, {
-					resizeType: 1,
-					allowPreviewEmoticons: false,
-					allowImageUpload: false,
-					cssPath: globals.basAppRoute + 'components/content/css/platform.css',
-					colorTable: editorService.colorTable,
-					htmlTags: editorService.htmlTags,
-					layout: editorService.layout,
-					basePath: globals.basAppRoot + 'plugin/kindeditor/',
-					SimpleMode: false
-				}, options);
-
-
-				options.afterChange = function () {
-					if (scope.options.maximumWords) {
-						var strValue = this.text();
-						scope.maxLengthError = scope.options.maximumWords < strValue.length;
-						ctrl.$setValidity('nswmaxlength', !scope.maxLengthError);
-
-						scope.wordCount = '(' + this.count('text') + '/' + scope.options.maximumWords + ')';
-					} else {
-						scope.wordCount = '';
-					}
-
-					updateData();
-
-					if (!scope.$root.$$phase) {
-						scope.$apply();
-					}
-					return this;
-				};
-
-				scope.$evalAsync(function () {
-					editor = KindEditor.create(selector, options);
-					element.find('.word-count').width(options.width);
-					updateDisplay();
-				});
-
-				var updateDisplay = function updateDisplay() {
-					if (_.isEmpty(editor)) {
-						return;
-					}
-					editor.html(ctrl.$viewValue || '');
-				};
-
-				var updateData = function updateData() {
-					if (editor && editor.html) {
-						ctrl.$setViewValue(editor.html());
-					}
-				};
-
-				ctrl.$render = function $render() {
-					updateDisplay();
-				};
-			}
-		};
-	}]);
-}(angular));
 (function (angular) {
 	"use strict";
 
@@ -1801,286 +1465,106 @@
 		}
 	]);
 }(angular));
-/**globals
- */
+/*globals KindEditor, _, _toMap, _each, kindeditor_image*/
 (function (angular) {
 	"use strict";
-	var module = angular.module('platform');
-	module.directive("tagLibs",function() {
+
+	angular.module('platform').directive('platformKindeditor', ['platformKindEditorDataSvc', function (editorService) {
 		return {
 			restrict: 'A',
-			replace: true,
-			require:'ngModel',
-			templateUrl: globals.basAppRoute + 'components/templates/tag-lib/platform-tag-libs-dir.html',
-			scope: {
-				beanData: '=beanData',
-				ngMaxlength: '@ngMaxlength'
-			},
-			link:function(scope,attr,ngModel){
+			scope: {},
+			require: 'ngModel',
+			template: '<div class="kind-editor"> ' +
+			'               <textarea style="visibility:hidden;"></textarea>' +
+			'               <div class="word-count" >' +
+			'                   <span class="err" data-ng-show="maxLengthError" style="text-align: left">录入字数不能起过<span data-ng-bind="options.maximumWords"></span>个字符</span> ' +
+			'                   <span data-ng-bind="wordCount" style="min-width: 200px;float: right; text-align: right"></span>' +
+			'               </div>' +
+			'           </div>',
+			link: function linker(scope, element, attr, ctrl) {
+				var editor = {}, text = element.find('textarea');
+				var _INPUT_KEY_MAP = KindEditor.toMap('8,9,13,32,46,48..57,59,61,65..90,106,109..111,188,190..192,219..222');
+				var _CURSORMOVE_KEY_MAP = KindEditor.toMap('33..40');
+				var _CHANGE_KEY_MAP = {};
+				KindEditor.each(_INPUT_KEY_MAP, function (key, val) {
+					_CHANGE_KEY_MAP[key] = val;
+				});
+				KindEditor.each(_CURSORMOVE_KEY_MAP, function (key, val) {
+					_CHANGE_KEY_MAP[key] = val;
+				});
+
+				scope.options = scope.$parent.$eval(attr.options) || {simpleMode: attr.isSimple !== 'false'};
+				scope.options.maximumWords = scope.options.maximumWords || parseInt(attr.kMaximumWords);
+				scope.name = 'keditor-' + editorService.getUUID();
+				var selector = 'textarea[name="' + scope.name + '"]';
+				text.attr('name', scope.name);
+				var options = angular.copy(scope.options);
+				element.width('100%');
+
+				if (options.simpleMode) {
+					options.items = editorService.simpleItems;
+					options.width = '90%';
+					options.height = ((options.height || 100) + 26) + 'px';
+				} else {
+					options.items = editorService.complexItems;
+					options.width = '100%';
+					options.height = ((options.height || 450) + 61) + 'px';
+				}
+
+				options = _.extend({}, {
+					resizeType: 1,
+					allowPreviewEmoticons: false,
+					allowImageUpload: false,
+					cssPath: globals.basAppRoute + 'components/content/css/platform.css',
+					colorTable: editorService.colorTable,
+					htmlTags: editorService.htmlTags,
+					layout: editorService.layout,
+					basePath: globals.basAppRoot + 'plugin/kindeditor/',
+					SimpleMode: false
+				}, options);
+
+
+				options.afterChange = function () {
+					if (scope.options.maximumWords) {
+						var strValue = this.text();
+						scope.maxLengthError = scope.options.maximumWords < strValue.length;
+						ctrl.$setValidity('nswmaxlength', !scope.maxLengthError);
+
+						scope.wordCount = '(' + this.count('text') + '/' + scope.options.maximumWords + ')';
+					} else {
+						scope.wordCount = '';
+					}
+
+					updateData();
+
+					if (!scope.$root.$$phase) {
+						scope.$apply();
+					}
+					return this;
+				};
+
 				scope.$evalAsync(function () {
-					
-				})
-
-			}
-		};
-	});
-
-}(angular));
-/**
- * reg exp validator
- * Checking reg exp of string
- * useage
- * Validate url
- * <input type="text" nsw-regexp=''/>
- */
-(function (angular) {
-	"use strict";
-
-	angular.module('platform').directive("nswMaxLength",[function(){
-			return{
-				restrict:'A',
-				require:'?ngModel',
-				link:function(scope,element,attr,ctrl){
-					if(!ctrl){
-						return;
-					}
-					var validator = function (value){
-						value = value ||'';
-						var nswMaxLength = parseInt(attr.nswMaxLength)|| 0;
-						var totalCount =0;
-						for(var i=0; i<value.length; i++){
-							var c = value.charCodeAt(i);
-							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
-								totalCount++;
-							}
-							else{
-								totalCount+=2;
-							}
-						}
-						if(nswMaxLength===0||totalCount<=nswMaxLength){
-							ctrl.$setValidity('nswmaxlength',true);
-							return value;
-						}else{
-							ctrl.$setValidity('nswmaxlength',false);
-							return value;
-						}
-					};
-					ctrl.$formatters.push(validator);
-					ctrl.$parsers.unshift(validator);
-/*
-					var getContent = function getContent(){
-						if(element.text){
-							console.log(element.val());
-							return element.val();
-						}
-						return ctrl.$viewValue;
-					};*/
-					/*element.on('keyup',function(){
-						validator(getContent());
-					});*/
-					attr.$observe('nswmaxlength', function () {
-						validator(ctrl.$viewValue);
-					});
-				}
-			}
-
-	}]);
-}(angular));
-/**
- * reg exp validator
- * Checking reg exp of string
- * useage
- * Validate url
- * <input type="text" nsw-regexp=''/>
- */
-(function (angular) {
-	"use strict";
-
-	angular.module('platform').directive('maxWord', [function () {
-		return {
-			restrict: 'A',
-			require: '?ngModel',
-			link: function (scope, element, attr, ctrl) {
-				if (!ctrl) {
-					return;
-				}
-				var validator = function (value) {
-					var maxWord = parseInt(attr.maxWord) || 0;
-					var splitter =/[\s]+|[,，]+|[;]+|[|]+/; //line: ignore
-					var count = (value || '').split(splitter).length;
-					if (maxWord === 0 || count <= maxWord) {
-						ctrl.$setValidity('maxword', true);
-						return value;
-					} else {
-						ctrl.$setValidity('maxword', false);
-						return value;
-					}
-				};
-				ctrl.$formatters.push(validator);
-				ctrl.$parsers.unshift(validator);
-
-				attr.$observe('maxword', function () {
-					validator(ctrl.$viewValue);
+					editor = KindEditor.create(selector, options);
+					element.find('.word-count').width(options.width);
+					updateDisplay();
 				});
-			}
-		};
-	}])
-		.directive("nswMaxLength",[function(){
-			return{
-				restrict:'A',
-				require:'?ngModel',
-				link:function(scope,element,attr,ctrl){
-					if(!ctrl){
+
+				var updateDisplay = function updateDisplay() {
+					if (_.isEmpty(editor)) {
 						return;
 					}
-					var validator = function (value){
-						value = value ||'';
-						var nswMaxLength = parseInt(attr.nswMaxLength)|| 0;
-						var totalCount =0;
-						for(var i=0; i<value.length; i++){
-							var c = value.charCodeAt(i);
-							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
-								totalCount++;
-							}
-							else{
-								totalCount+=2;
-							}
-						}
-						if(nswMaxLength===0||totalCount<=nswMaxLength){
-							ctrl.$setValidity('nswmaxlength',true);
-							return value;
-						}else{
-							ctrl.$setValidity('nswmaxlength',false);
-							return value;
-						}
-					};
-					ctrl.$formatters.push(validator);
-					ctrl.$parsers.unshift(validator);
-/*
-					var getContent = function getContent(){
-						if(element.text){
-							console.log(element.val());
-							return element.val();
-						}
-						return ctrl.$viewValue;
-					};*/
-					/*element.on('keyup',function(){
-						validator(getContent());
-					});*/
-					attr.$observe('nswmaxlength', function () {
-						validator(ctrl.$viewValue);
-					});
-				}
-			}
+					editor.html(ctrl.$viewValue || '');
+				};
 
-	}]);
-}(angular));
-/**
- * reg exp validator
- * Checking reg exp of string
- * useage
- * Validate url
- * <input type="text" nsw-regexp=''/>
- */
-(function (angular) {
-	"use strict";
-
-	angular.module('platform').directive("nswMinLength",[function(){
-			return{
-				restrict:'A',
-				require:'?ngModel',
-				link:function(element,scope,attr,ctrl){
-					if(!ctrl){
-						return;
-					}
-					var truelength = 0;
-
-					var synchronize = function synchronize(){
-						if(attr.synchronize){
-							element.parent().sblings('.mess-zx').html(truelength?truelength:0);
-						}
-					};
-					ctrl.$render(function(){
-
-					})
-					var validator = function (value){
-						var nswMinLength = parseInt(attr.nswMinLength)|| 0;
-						var totalCount =0;
-						value = value ||'';
-						for(var i=0; i<value.length; i++){
-							var c = value.charCodeAt(i);
-							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
-								totalCount++;
-							}
-							else{
-								totalCount+=2;
-							}
-
-						}
-						truelength = totalCount;
-						if(nswMinLength===0||totalCount>=nswMinLength){
-							ctrl.$setValidity('nswminlength',true);
-							return value
-						}else{
-							ctrl.$setValidity('nswminlength',false);
-						}
-					};
-					ctrl.$formatters.push(validator);
-					ctrl.$parsers.unshift(validator);
-
-					attr.$observe('nswminlength', function () {
-						validator(ctrl.$viewValue);
-					});
-				}
-			}
-
-		}]);
-}(angular));
-/**
- * reg exp validator
- * Checking reg exp of string
- * useage
- * Validate url
- * <input type="text" nsw-regexp=''/>
- */
-(function (angular) {
-	"use strict";
-
-	angular.module('platform').directive('modelCompare', [function () {
-		return {
-			restrict: 'A',
-			require: '?ngModel',
-			link: function (scope, element, attr, ctrl) {
-				if (!ctrl) {
-					return;
-				}
-				var validator = function (value) {
-					var compareProp = attr.modelCompare;
-					var compare = scope.$eval(compareProp);
-
-					if (value === compare || !compare) {
-						ctrl.$setValidity('modelcompare', true);
-						return value;
-					} else {
-						ctrl.$setValidity('modelcompare', false);
-						return value;
+				var updateData = function updateData() {
+					if (editor && editor.html) {
+						ctrl.$setViewValue(editor.html());
 					}
 				};
 
-				ctrl.$formatters.push(validator);
-				ctrl.$parsers.unshift(validator);
-
-				var watcher = scope.$watch(attr.modelCompare, function () {
-					validator(ctrl.$viewValue);
-				});
-
-				attr.$observe('modelCompare', function () {
-					validator(ctrl.$viewValue);
-				});
-
-				scope.$on('$destroy', function () {
-					watcher();
-				});
+				ctrl.$render = function $render() {
+					updateDisplay();
+				};
 			}
 		};
 	}]);
@@ -2217,6 +1701,11 @@
 					scope.options.onSelectedChanged.apply(this, arguments);
 				};
 				scope.toggleLineEdit = function toggleLineEdit(item) {
+					if(scope.options.enableSpeedEdit){
+						scope.options.onSpeedEdit.call(this ,item);
+						return;
+					}
+
 					if (item !== scope.options.data.selectedItem) {
 						return;
 					}
@@ -2230,7 +1719,7 @@
 
 
 				scope.doSaveCreate = function doSaveCreate(item) {
-					if (!scope.options.formOptions.$invalid) {
+					if ( !scope.options.formOptions.$invalid) {
 						scope.options.onCreated(item);
 						scope.options.formOptions.setData({});
 					}
@@ -2354,6 +1843,195 @@
 }(angular));
 (function (angular) {
 	"use strict";
+	angular.module('platform').directive('nswImg', [function () {
+		return {
+			restrict: 'A',
+			scope:true,
+			template: '<div class="nsw-img-dir">' +
+						'           <i class="fa fa-times nsw-img-icon remove" ng-show="enableRemove" ng-click="_removeImg();"></i>' +
+						'           <i class="fa fa-eye nsw-img-icon preview" ng-show="enablePreview" ng-click="_imgPreview(url,$event)"></i>	' +
+						'           <a href="javascript:void(0);">' +
+						'                   <img nsw-src="{{src}}" data-ng-click="_selectImage()" class="img"></a>' +
+						'           <input type="text" placeholder="请写图片描述" class="form-control alt" autocomplete="off"  data-ng-readonly="enableEditAlt" ng-model="alt" data-ng-change="_altChanged(alt)" /></li>' +
+						'</div>',
+			link: function (scope, element, attrs) {
+				scope.enableRemove = !!attrs.nswImgRemove;
+				scope.enablePreview = attrs.enablePreview==='true';
+				scope.enableAlt = !!attrs.nswImgAlt;
+				scope.enableEditAlt = scope.enableAlt && attrs.enableEditAlt === 'true';
+
+				scope.alt = scope.$eval(attrs.nswImgAlt);
+				scope.src = scope.$eval(attrs.nswImgSrc);
+
+				attrs.$observe('nswImgAlt',function(val){
+					scope.alt = scope.$eval(attrs.nswImgAlt);
+				});
+				scope._altChanged = function altChanged(val){
+					_.set(scope, attrs.nswImgAlt, val);
+				};
+
+				attrs.$observe('nswImgSrc',function(val){
+					scope.src = scope.$eval(attrs.nswImgSrc);
+				});
+
+				scope._srcChanged = function srcChanged(val){
+					_.set(scope, attrs.nswImgSrc, val);
+				};
+
+				scope._removeImg = function removeImg(){
+					_.set(scope, attrs.nswImgSrc, null);
+					if(attrs.nswImgRemove){
+						scope.$eval(attrs.nswImgRemove);
+					}
+					scope.$emit('itemremove', scope.src);
+				};
+
+				scope._selectImage = function selectImage(){
+					if(attrs.enableSelectImg === 'true'){
+
+					}
+				};
+			}
+		}
+	}]);
+
+}(angular));
+(function (angular) {
+	"use strict";
+	angular.module('platform').directive('nswImgGroup', ['$timeout',function ($timeout) {
+		return {
+			restrict:'A',
+			template:'<span class = "glyphicon glyphicon-menu-left loopleft" ng-show = "imgs.length>maxItems"  ng-click = "back()"></span>' +
+			'               <div class="loopbox col-sm-11 nsw-img-group">' +
+			'                   <ul>' +
+			'                       <li ng-repeat = "(key,img) in imgs" class="img-container">' +
+			'                           <div nsw-img ng-if="showAlt" nsw-img-src="{{nswImgSrc}}" nsw-img-alt="{{nswImgAlt}}" nsw-img-remove="{{imgRemoveAttr}}"></div>' +
+			'                           <div nsw-img ng-if="!showAlt" nsw-img-src="{{nswImgSrc}}" nsw-img-remove="{{imgRemoveAttr}}"></div>' +
+			'                           <div data-ng-transclude></div>' +
+			'                       </li>' +
+			'                   </ul>' +
+			'               </div>' +
+			'         <span  class = "glyphicon glyphicon-menu-right loopright" ng-show = "imgs.length>maxItems"  ng-click = "mov()"></span>',
+			scope:true,
+			transclude:true,
+			require:'ngModel',
+			link:function(scope, element ,attrs, ctrl){
+				scope.enableSort = attrs.enableSort === 'true';
+				scope.maxItems = parseInt(attrs.maxItems||'1');
+				scope.showAlt = !!scope.nswImgAlt || attrs.showAlt === 'true';
+				scope.nswImgSrc = attrs.nswImgSrc||'img.url';
+				scope.nswImgAlt = attrs.nswImgAlt||'img.alt';
+				scope.imgRemoveAttr = attrs.nswImgRemove;
+
+				ctrl.$render = function $render(){
+					scope.imgs = ctrl.$viewValue||[];
+					var dragSource = null;
+
+					$timeout(function(){
+						$('li.img-container',element).draggable({
+							axis: "x",
+							appendTo: "body",
+							containment: "parent",
+							revert: "invalid",
+							helper: "clone",
+							create: function( event, ui ) {
+								$(this).css('list-style','none');
+							},
+							start:function(){
+								dragSource = $(this).scope().img;
+							},
+							stop:function(){
+								dragSource = null;
+							}
+						});
+
+						$("li.img-container", element).droppable({
+							accept: "li.img-container",
+							drop: function( event, ui ) {
+								var target = $(this).scope().img;
+								if(dragSource && target && dragSource!==target){
+									var srcIndex = _.findIndex(scope.imgs, dragSource);
+									_.remove(scope.imgs, dragSource);
+									var targetIndex = _.findIndex(scope.imgs, target);
+
+									if(srcIndex>targetIndex) {
+										var part1 = scope.imgs.slice(0, targetIndex);
+										var part2 = scope.imgs.slice(targetIndex);
+									}else{
+										var part1 = scope.imgs.slice(0, targetIndex+1);
+										var part2 = scope.imgs.slice(targetIndex+1);
+									}
+									part1.push(dragSource);
+
+
+									var concated = part1.concat(part2);
+									scope.imgs.length = 0;
+									_.forEach(concated,function(img){
+										scope.imgs.push(img);
+									});
+
+									/*var srcIndex =  _.findIndex(scope.imgs, dragSource);
+									if (targetIndex < srcIndex) {
+										for (var index = srcIndex; index > targetIndex; index--) {
+											scope.imgs[index] = scope.imgs[index - 1];
+										}
+										scope.imgs[index] = dragSource;
+									} else if (targetIndex > srcIndex) {
+										for (var index = srcIndex; index < targetIndex; index++) {
+											scope.imgs[index] = scope.imgs[index + 1];
+										}
+										scope.imgs[index] = dragSource;
+									}*/
+									scope.$digest();
+								}
+
+								$('.drop-active', element).removeClass('drop-active');
+							},
+							over:function(){
+								$('.nsw-img-dir', this).addClass('drop-active');
+							},
+							out:function(){
+								$('.nsw-img-dir',this).removeClass('drop-active');
+							}
+						});
+						$(".loopleft").droppable({
+							accept: "li.img-container",
+							over:function(){
+								scope.$apply(function(){
+									scope.back();
+								});
+							}
+						});
+						$(".loopright").droppable({
+							accept: "li.img-container",
+							over:function(){
+								scope.$apply(function(){
+									scope.mov();
+								});
+							}
+						});
+					});
+				};
+
+				scope.$on('itemremove', function(src){
+					if($(".loopbox ul", element).hasClass('mov') && scope.imgs.length%scope.maxItems===0){
+						scope.back();
+					}
+				});
+
+				scope.mov = function () {
+					$(".loopbox ul", element).addClass("mov").removeClass("back");
+				};
+				scope.back = function () {
+					$(".loopbox ul", element).addClass("back").removeClass("mov");
+				};
+			}
+		}
+	}]);
+
+}(angular));
+(function (angular) {
+	"use strict";
 
 	angular.module('platform').directive('nswSrc', [function () {
 		return {
@@ -2407,6 +2085,7 @@
 					if (ctrl.$viewValue) {
 						var width = parseInt(attrs.width) || 150;
 						var height = parseInt(attrs.height) || 150;
+						element.children().remove();
 						element.qrcode({text: ctrl.$viewValue, width: width, height: height});
 					}
 				};
@@ -2661,6 +2340,568 @@
  * Created by yaoyc on 2016/1/26.
  */
 
+/**globals
+ */
+(function (angular) {
+	"use strict";
+	var module = angular.module('platform');
+	module.directive("tagLibs",function() {
+		return {
+			restrict: 'A',
+			replace: true,
+			require:'ngModel',
+			templateUrl: globals.basAppRoute + 'components/templates/tag-lib/platform-tag-libs-dir.html',
+			scope: {
+				beanData: '=beanData',
+				ngMaxlength: '@ngMaxlength'
+			},
+			link:function(scope,attr,ngModel){
+				scope.$evalAsync(function () {
+					
+				})
+
+			}
+		};
+	});
+
+}(angular));
+/**
+ * reg exp validator
+ * Checking reg exp of string
+ * useage
+ * Validate url
+ * <input type="text" nsw-regexp=''/>
+ */
+(function (angular) {
+	"use strict";
+
+	angular.module('platform').directive("nswMaxLength",[function(){
+			return{
+				restrict:'A',
+				require:'?ngModel',
+				link:function(scope,element,attr,ctrl){
+					if(!ctrl){
+						return;
+					}
+					var validator = function (value){
+						value = value ||'';
+						var nswMaxLength = parseInt(attr.nswMaxLength)|| 0;
+						var totalCount =0;
+						for(var i=0; i<value.length; i++){
+							var c = value.charCodeAt(i);
+							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
+								totalCount++;
+							}
+							else{
+								totalCount+=2;
+							}
+						}
+						if(nswMaxLength===0||totalCount<=nswMaxLength){
+							ctrl.$setValidity('nswmaxlength',true);
+							return value;
+						}else{
+							ctrl.$setValidity('nswmaxlength',false);
+							return value;
+						}
+					};
+					ctrl.$formatters.push(validator);
+					ctrl.$parsers.unshift(validator);
+/*
+					var getContent = function getContent(){
+						if(element.text){
+							console.log(element.val());
+							return element.val();
+						}
+						return ctrl.$viewValue;
+					};*/
+					/*element.on('keyup',function(){
+						validator(getContent());
+					});*/
+					attr.$observe('nswmaxlength', function () {
+						validator(ctrl.$viewValue);
+					});
+				}
+			}
+
+	}]);
+}(angular));
+/**
+ * reg exp validator
+ * Checking reg exp of string
+ * useage
+ * Validate url
+ * <input type="text" nsw-regexp=''/>
+ */
+(function (angular) {
+	"use strict";
+
+	angular.module('platform').directive('maxWord', [function () {
+		return {
+			restrict: 'A',
+			require: '?ngModel',
+			link: function (scope, element, attr, ctrl) {
+				if (!ctrl) {
+					return;
+				}
+				var splitter =/[、]+|[\|\|]+|[\$]+|[\\]+|[\s]+|[,，]+|[;；]+|[|｜]+/; //line: ignore
+				var replaceChar =/[、]+|[\|\|]+|[\$]+|[\\]+|[\s]+|[,，]+|[;；]+|[|｜]+/g; //line: ignore
+
+				var validator = function (value) {
+					var maxWord = parseInt(attr.maxWord) || 0;
+					var count = (value || '').split(splitter).length;
+					if (maxWord === 0 || count <= maxWord) {
+						ctrl.$setValidity('maxword', true);
+						return value;
+					} else {
+						ctrl.$setValidity('maxword', false);
+						return value;
+					}
+				};
+				ctrl.$formatters.push(validator);
+				ctrl.$parsers.unshift(validator);
+
+				ctrl.$viewChangeListeners.push(function(){
+					var value = ctrl.$viewValue;
+					if(value) {
+						value = value.replace(replaceChar,',');
+						ctrl.$setViewValue(value);
+					}
+				});
+
+				attr.$observe('maxword', function () {
+					validator(ctrl.$viewValue);
+				});
+			}
+		};
+	}])
+		.directive("nswMaxLength",[function(){
+			return{
+				restrict:'A',
+				require:'?ngModel',
+				link:function(scope,element,attr,ctrl){
+					if(!ctrl){
+						return;
+					}
+					var validator = function (value){
+						value = value ||'';
+						var nswMaxLength = parseInt(attr.nswMaxLength)|| 0;
+						var totalCount =0;
+						for(var i=0; i<value.length; i++){
+							var c = value.charCodeAt(i);
+							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
+								totalCount++;
+							}
+							else{
+								totalCount+=2;
+							}
+						}
+						if(nswMaxLength===0||totalCount<=nswMaxLength){
+							ctrl.$setValidity('nswmaxlength',true);
+							return value;
+						}else{
+							ctrl.$setValidity('nswmaxlength',false);
+							return value;
+						}
+					};
+					ctrl.$formatters.push(validator);
+					ctrl.$parsers.unshift(validator);
+/*
+					var getContent = function getContent(){
+						if(element.text){
+							console.log(element.val());
+							return element.val();
+						}
+						return ctrl.$viewValue;
+					};*/
+					/*element.on('keyup',function(){
+						validator(getContent());
+					});*/
+					attr.$observe('nswmaxlength', function () {
+						validator(ctrl.$viewValue);
+					});
+				}
+			}
+
+	}]);
+}(angular));
+/**
+ * reg exp validator
+ * Checking reg exp of string
+ * useage
+ * Validate url
+ * <input type="text" nsw-regexp=''/>
+ */
+(function (angular) {
+	"use strict";
+
+	angular.module('platform').directive("nswMinLength",[function(){
+			return{
+				restrict:'A',
+				require:'?ngModel',
+				link:function(element,scope,attr,ctrl){
+					if(!ctrl){
+						return;
+					}
+					var truelength = 0;
+
+					var synchronize = function synchronize(){
+						if(attr.synchronize){
+							element.parent().sblings('.mess-zx').html(truelength?truelength:0);
+						}
+					};
+					ctrl.$render(function(){
+
+					})
+					var validator = function (value){
+						var nswMinLength = parseInt(attr.nswMinLength)|| 0;
+						var totalCount =0;
+						value = value ||'';
+						for(var i=0; i<value.length; i++){
+							var c = value.charCodeAt(i);
+							if ((c >= 0x0001 && c <= 0x007e) || (0xff60<=c && c<=0xff9f)){
+								totalCount++;
+							}
+							else{
+								totalCount+=2;
+							}
+
+						}
+						truelength = totalCount;
+						if(nswMinLength===0||totalCount>=nswMinLength){
+							ctrl.$setValidity('nswminlength',true);
+							return value
+						}else{
+							ctrl.$setValidity('nswminlength',false);
+						}
+					};
+					ctrl.$formatters.push(validator);
+					ctrl.$parsers.unshift(validator);
+
+					attr.$observe('nswminlength', function () {
+						validator(ctrl.$viewValue);
+					});
+				}
+			}
+
+		}]);
+}(angular));
+/**
+ * reg exp validator
+ * Checking reg exp of string
+ * useage
+ * Validate url
+ * <input type="text" nsw-regexp=''/>
+ */
+(function (angular) {
+	"use strict";
+
+	angular.module('platform').directive('modelCompare', [function () {
+		return {
+			restrict: 'A',
+			require: '?ngModel',
+			link: function (scope, element, attr, ctrl) {
+				if (!ctrl) {
+					return;
+				}
+				var validator = function (value) {
+					var compareProp = attr.modelCompare;
+					var compare = scope.$eval(compareProp);
+
+					if (value === compare || !compare) {
+						ctrl.$setValidity('modelcompare', true);
+						return value;
+					} else {
+						ctrl.$setValidity('modelcompare', false);
+						return value;
+					}
+				};
+
+				ctrl.$formatters.push(validator);
+				ctrl.$parsers.unshift(validator);
+
+				var watcher = scope.$watch(attr.modelCompare, function () {
+					validator(ctrl.$viewValue);
+				});
+
+				attr.$observe('modelCompare', function () {
+					validator(ctrl.$viewValue);
+				});
+
+				scope.$on('$destroy', function () {
+					watcher();
+				});
+			}
+		};
+	}]);
+}(angular));
+/*global angular*/
+(function (angular) {
+	"use strict";
+
+	var module = angular.module('platform');
+	module.directive('platformImageLib', ['platformImageLibSvc', function (platformImageLibSvc) {
+
+		return {
+			restrict: 'A',
+			scope: {
+				maxCount: '@',
+				multiple: '@'
+			},
+			require: 'ngModel',
+			link: function (scope, attr, element, ngModel) {
+				platformImageLibSvc.multiple = scope.multiple;
+				ngModel.$render = function $render() {
+					platformImageLibSvc.selectItems(ngModel.$viewValue);
+				};
+
+				scope.$on('selectedChanged', function (e, selectedItems) {
+					platformImageLibSvc.selectItems(selectedItems);
+					ngModel.$setViewValue(selectedItems);
+				});
+			},
+			controller: function ($scope) {
+				$scope.getImageLibSvc = function getImageLibSvc() {
+					return platformImageLibSvc;
+				};
+			}
+		};
+
+	}]);
+
+
+}(angular));
+/*global angular*/
+(function (angular) {
+	"use strict";
+
+	var module = angular.module('platform');
+	module.controller('platformImageLibSelectCtrl', ['$scope', function ($scope) {
+		var imageLibService = $scope.$parent.getImageLibSvc();
+		$scope.filter = '';
+		$scope.selectedImgList = imageLibService.getSelectedItems();
+
+		$scope.loadFilterlist = function loadFilterlist() {
+			imageLibService.loadItems($scope.pageSize, $scope.bigCurrentPage, $scope.filter);
+		};
+
+		$scope.loadFilterlist();
+	}]);
+}(angular));
+/*global angular*/
+(function (angular) {
+	"use strict";
+
+	var module = angular.module('platform');
+	module.controller('platformImageLibUploadCtrl', ['$scope', 'utils', 'platformModalSvc', function ($scope, utils,platformModalSvc) {
+
+		var imageLibService = $scope.$parent.getImageLibSvc();
+		var isOverflow = true;
+
+		var delFileExtension = function delFileExtension(str) {
+			var reg = /\.\w+$/;
+			return str.replace(reg, '');
+		};
+
+		var onBeforeFileQueued = function onBeforeFileQueued(sender) {
+			//验证可上传图片的张数
+			var len = sender.getFiles('queued').length;//查询上传队列中的文件数
+			if (len >= imageLibService.maxCount && isOverflow) {
+				isOverflow = false;
+				platformModalSvc.showWarmingMessage('只能上传' + imageLibService.maxCount + ' 张图片！！！','提示');
+				return false;
+			}
+		};
+
+		var onFileQueued = function onFileQueued(sender, file) {
+			sender.makeThumb(file, function (error, src) {
+				if (error) {
+					//不支持预览
+					return;
+				}
+				//加入上传队列
+				var id = file.id, img = {};
+				img.src = src;
+				img.name = delFileExtension(file.name);
+				img.state = '准备上传';
+				img.hasProgress = false;
+				img.progress = 0;
+				$scope.fileQueued[id] = img;
+				imageLibService.addCreatedItems(img);
+				//触发页面刷新
+				$scope.$apply();
+			}, 94, 79);
+		};
+
+		var onUploadStarted = function onUploadStarted(sender, file) {
+			var id = file.id;
+			sender.option('formData', {'zdyName': $scope.fileQueued[id].name});
+		};
+
+		var onUploadProgress = function onUploadProgress(sender, file, percentage) {
+			var id = file.id;
+			$scope.fileQueued[id].hasProgress = true;
+			$scope.fileQueued[id].progress = percentage;
+			//触发页面刷新
+			$scope.$digest();
+		};
+
+		var onUploadError = function onUploadError(sender, file) {
+			var id = file.id;
+			$scope.fileQueued[id].hasProgress = false;
+			$scope.fileQueued[id].state = '上传失败';
+			//触发页面刷新
+			$scope.$digest();
+		};
+
+		var onUploadSuccess = function onUploadSuccess(sender, file, res) {
+			var id = file.id;
+			$scope.fileQueued[id].hasProgress = false;
+			$scope.fileQueued[id].progress = 100;
+			$scope.fileQueued[id].state = '上传成功';
+			$scope.fileSuccessQueued.push(res.data);
+			//触发页面刷新
+			$scope.$digest();
+		};
+
+		var onUploadFinished = function onUploadFinished() {
+			$scope.$emit('close', $scope.fileSuccessQueued);
+		};
+
+		var onError = function onError(sender, res) {
+			if (res === 'Q_TYPE_DENIED') {
+				platformModalSvc.showWarmingMessage('图片类型不正确！！！','提示');
+			} else if (res === 'Q_EXCEED_SIZE_LIMIT') {
+				platformModalSvc.showWarmingMessage('图片总大小超出！！！','提示');
+			} else if (res === 'Q_EXCEED_NUM_LIMIT') {
+				platformModalSvc.showWarmingMessage('图片数量超出！！！','提示');
+			}
+		};
+
+		$scope.uploaderOptions = {
+			multiple: imageLibService.multiple,
+			beforeFileQueued: onBeforeFileQueued,
+			fileQueued: onFileQueued,
+			uploadStart: onUploadStarted,
+			uploadProgress: onUploadProgress,
+			uploadError: onUploadError,
+			uploadSuccess: onUploadSuccess,
+			uploadFinished: onUploadFinished,
+			error: onError
+		};
+	}]);
+}(angular));
+/*global angular, _*/
+(function (angular) {
+	"use strict";
+	angular.module('platform').directive('platformImageSlider', ['$timeout',
+		function ($timeout) {
+			return {
+				restrict: 'A',
+				scope: {
+					visualSize: '@',
+					maxSize: '@',
+					rows: '@',
+					enableView: '@',
+					enableSelect: '@',
+					enableDelete: '@',
+					onDeleted: '&',
+					onChecked: '&'
+				},
+				templateUrl: globals.basAppRoute + 'components/templates/platform-image-slider-dir.html',
+				require: 'ngModel',
+				link: function (scope, element, attrs, ngModel) {
+					var checkedItems = [];
+					scope.imageList = [];
+
+					scope.visualSize = scope.visualSize || 1;
+					scope.maxSize = scope.maxSize || 1;
+					scope.rows = scope.rows || 1;
+					scope.enableView = scope.enableView || true;
+					scope.enableSelect = scope.enableSelect || 1;
+					scope.enableDelete = scope.enableDelete || 1;
+
+					scope.onDeleted = scope.onDeleted || angular.noop;
+					scope.onSelect = scope.onSelect || angular.noop;
+
+					var sliderOptions = {
+						titCell: '.hd ul',
+						mainCell: '.bd ul',
+						vis: parseInt(scope.maxSize),
+						autoPlay: true,
+						autoPage: true,
+						effect: "left",
+						trigger: "click"
+					};
+
+					ngModel.$render = function $render() {
+						scope.imageList = ngModel.$viewValue;
+						$timeout(function () {
+							//call slider jquery plugin
+							$('.picScroll-left', element).slide(sliderOptions);
+						});
+					};
+					scope.deleteItem = function deleteItem(item) {
+						if (!scope.enableDelete) {
+							return;
+						}
+						_.remove(scope.imageList, {_id: item._id});
+						scope.onDeleted.apply(this, arguments);
+					};
+
+					scope.checkImage = function checkImage(image) {
+						if (!scope.enableSelect) {
+							return;
+						}
+						var isChecked = _.find(checkedItems, {_id: image._id});
+						if (isChecked) {
+							_.remove(checkedItems, {_id: image._id});
+						} else {
+							if (checkedItems.length === scope.maxSize) {
+
+							} else {
+								checkedItems.push(image);
+							}
+						}
+						isChecked = !isChecked;
+						scope.onChecked.call(this, image, isChecked);
+					};
+
+					scope.checkImageChecked = function checkImageChecked(image) {
+						return _.find(checkedItems, {_id: image._id});
+					};
+
+
+				}
+			};
+		}
+	]);
+}(angular));
+(function (angular) {
+	"use strict";
+
+	angular.module('platform').factory('adlibBuilderSvc',
+		['baseTemplateBuilder','validationBuilderSvc', 'validationTipBuilderSvc',
+			function (baseTemplateBuilder, validationBuilderSvc, validationTipBuilderSvc) {
+
+				var service = {}, baseBuilder = new baseTemplateBuilder();
+
+				service.init = function init(formOptions, editorOptions) {
+					baseBuilder.init(formOptions, editorOptions);
+					baseBuilder.getTemplate('adlib');
+
+					validationBuilderSvc.init(formOptions, editorOptions);
+					validationTipBuilderSvc.init(formOptions, editorOptions);
+					baseBuilder.addConfiguration(/%errors%/g, validationBuilderSvc.build());
+					baseBuilder.addConfiguration(/%validateTip%/g, validationTipBuilderSvc.build());
+					baseBuilder.addConfiguration(/%validators%/g, editorOptions.validateDirectives||'');
+				};
+
+				service.build = function () {
+					return baseBuilder.buildConfigurations();
+				};
+				return service;
+			}]);
+}(angular));
 /*globals _*/
 (function (angular) {
 	"use strict";
@@ -3282,6 +3523,7 @@
 											return RBR(K(doc.body));
 										}
 										html = "<p style='text-indent:2em;'>" + html.replace(/(<br[^>]*\/>)/ig, "</p><p style='text-indent:2em;'>") + "</p>";
+										html = html.replace(/<p style='text-indent:2em;'><\/p>/g,'');
 										child.html(html);
 										return true;
 									}

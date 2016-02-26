@@ -172,7 +172,7 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 		$http({
 			method: 'GET',
 			url: requestUrl,
-			params: {'pageSize': 20, 'tagIds': tagArr || '', 'isPubTpl': true}
+			params: {'pageSize': 1000, 'tagIds': tagArr || '', 'isPubTpl': true}
 		})
 			.success(function (data, status, headers, config) {
 				if (data.isSuccess) {
@@ -198,7 +198,7 @@ tplMarketApp.controller('tplMarketCtrl', ['$scope', '$http', '$state', '$statePa
 }]);
 
 //单页面预览
-tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$stateParams', 'platformTemplatePreviewSvc', function ($scope, $http, $state, $stateParams, previewSvc) {
+tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$stateParams', 'platformTemplatePreviewSvc','platformModalSvc', function ($scope, $http, $state, $stateParams, previewSvc,platformModalSvc) {
 	$scope.tplId = $stateParams.id;
 	//筛选类型
 	$scope.filterType = $stateParams.type;
@@ -347,7 +347,9 @@ tplMarketApp.controller('previewCtrl', ['$scope', '$http', '$state', '$statePara
 			url: '/pccms/tpl/page/copy/' + _tplId
 		}).success(function (data, status, headers, config) {
 			if (data.isSuccess) {
-				$state.go('tplMarket');
+				platformModalSvc.showSuccessTip(data.data)
+					$state.go('tplMarket');
+
 			} else {
 				platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
 			}

@@ -566,7 +566,19 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 			$scope.itemTreeChanged = function () {
 				flagSpeedTree = true;
 			};
+			$scope.$watch('editBean.cmsTags', function (newVal) {
+				function toString(array) {
+					var _arr = [];
+					if (array instanceof Array) {
+						for (var k in array) {
+							_arr.push(array[k].name);
+						}
+					}
+					return _arr.join(',');
+				}
 
+				$scope.tig = toString(newVal);
+			}, true);
 			$scope.ok = function () {
 				if (flagSpeedTree) {
 					$scope.editree.activeItem.path ?

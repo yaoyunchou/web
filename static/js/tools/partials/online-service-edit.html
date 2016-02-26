@@ -9,7 +9,7 @@
                 <span class="err mleft-10">*</span> 客服名称
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
+                <input type="text" autocomplete="off" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
                 <div ng-show="formOnlineService.name.$dirty && formOnlineService.name.$invalid">
                     <span class="err" ng-show="formOnlineService.name.$error.required"></span>
                     <span class="err"
@@ -50,7 +50,7 @@
                     <label class="radio-inline">
                         <input type="radio" name="radioChecked" data-ng-value = "'其他'" ng-model="editBean.serverType.name">其他</label>
                 </div>
-                <input type="text" class="form-control" ng-model="editBean.serverType.content" name="serverTypecontent" nsw-min-length="4" nsw-max-length="30" required>
+                <input type="text" class="form-control" autocomplete="off" ng-model="editBean.serverType.content" name="serverTypecontent" nsw-min-length="4" nsw-max-length="30" required>
                 <div >
                     <span class="err" ng-show="formOnlineService.serverTypecontent.$error.nswminlength||formOnlineService.serverTypecontent.$error.nswmaxlength">联系方式长度为4~30字符</span>
                 </div>
@@ -62,12 +62,12 @@
                 客服介绍
             </label>
             <div class="col-sm-8 padleft26" beyond max-count='32'>
-                <textarea class="form-control" rows="3" ng-model="editBean.desc" name="desc"  data-nsw-min-length="10" data-nsw-max-length="200"></textarea>
+                <textarea class="form-control" rows="3" ng-model="editBean.desc" name="desc"   data-nsw-max-length="200"></textarea>
                 <div >
-                    <span class="err" ng-show="formOnlineService.desc.$dirty&&(formOnlineService.desc.$error.nswminlength||formOnlineService.desc.$error.nswmaxlength)">客服介绍长度为10~200字符</span>
+                    <span class="err" ng-show="formOnlineService.desc.$dirty&&formOnlineService.desc.$error.nswmaxlength">客服介绍长度为0~200字符</span>
                 </div>
             </div>
-            <span class="mess-zx martop-5">10</span>/200字符
+            <span class="mess-zx martop-5">0</span>/200字符
 
         </div>
 
@@ -76,7 +76,7 @@
                 员工姓名
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
+                <input type="text" class="form-control" autocomplete="off" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
 
                 <div ng-show="formOnlineService.staffName.$dirty && formOnlineService.staffName.$invalid">
                     <span class="err"

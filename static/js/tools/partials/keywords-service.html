@@ -9,8 +9,8 @@
         <form class="form-inline add-keywords-info-form" name="formOnlineServiceName" >
             <div class="form-group" beyond max-count='32'>
                 <label  class="form-control-static">快速录入</label>
-                <input type="text" class="form-control"  placeholder="关键词名称" data-ng-model="keywordsSvcname" required>
-                <input type="text" class="form-control"  placeholder="超链接" data-ng-model="keywordsSvcurl" required>
+                <input type="text" class="form-control"  autocomplete="off" placeholder="关键词名称" data-ng-model="keywordsSvcname" required>
+                <input type="text" class="form-control"  autocomplete="off" placeholder="超链接" data-ng-model="keywordsSvcurl" required>
             </div>
             <button type="button" style="margin-top:4px;" class="btn btn-default borderorange no-radus-btn" data-ng-disabled="formOnlineServiceName.$invalid" data-ng-click="addKeyeordSrv()" >
                 <span class="newadd"></span> 添加
@@ -24,7 +24,7 @@
             </div>
             <form name="formKeyWords">
                 <div class="input-group col-sm-4">
-                    <input type="text" ng-model="filter"  data-nsw-enter="search(filter)" class="form-control" name="name" ng-model="name" placeholder="请输入关键词名称" data-nsw-max-length="64">
+                    <input type="text" ng-model="filter"  data-nsw-enter="search(filter)" class="form-control" name="name" autocomplete="off" ng-model="name" placeholder="请输入关键词名称" maxlength="64">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default padbottom5" ng-disabled="formKeyWords.name.$error.maxlength" ng-click="search(filter)"><span class="search"></span></button>
                     </span>

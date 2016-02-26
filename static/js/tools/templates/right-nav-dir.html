@@ -2,7 +2,7 @@
     <h2 data-ng-show="htmlData.showTitle" class="list-group-item h2" data-ng-bind="rightNavTitle"></h2>
     <ul class="list-group" data-ng-show="htmlData.showDataList">
         <li class="list-group-item"  data-ng-class="{'active':isCatalogSelected(item)}" data-ng-repeat="item in dataList | orderBy:'orderBy'">
-            <input type="text" class="ctgname" data-ng-class="{'white':item.whiteSpace}" ng-readonly="!item.whiteSpace"  ng-model="item.name" data-ng-click="gotoPage(item)" data-ng-bind="item.name">
+            <input type="text" class="ctgname" data-ng-class="{'white':item.whiteSpace}" ng-readonly="!item.whiteSpace"  autocomplete="off" ng-model="item.name" data-ng-click="gotoPage(item)" data-ng-bind="item.name">
             <a class="editbtn" title="快速编辑" ng-click="whiteFun(item)"><i class="fa fa-edit" ng-class="{true: 'fa fa-edit', false: 'glyphicon glyphicon-floppy-disk'}[!item.whiteSpace]"></i></a>
 
             <div class="btn-group fr deletbtn">
@@ -19,7 +19,7 @@
     </ul>
     <div class="submitbox" data-ng-show="htmlData.showAddBox">
         <div class="form-group col-sm-8">
-            <input type="text" class="form-control" placeholder="{{addPlaceholder}}" data-ng-model="FatherBean.name">
+            <input type="text" class="form-control" autocomplete="off" placeholder="{{addPlaceholder}}" data-ng-model="FatherBean.name">
         </div>
         <button type="button" class="col-sm-4 btn btn-default btn-hover" data-ng-click="FatherAdd()">
             <span class="addattr"></span>添加

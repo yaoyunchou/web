@@ -101,6 +101,7 @@
 	    display: block;
 	}
 	.titleTd{ display:inline-block; width:232px;}
+	.advance{position:relative;left:3px;top:1px;}
 </style>
 <div class="row">
 	<div class="col-md-12">
@@ -108,42 +109,37 @@
 	</div>
 </div>
 <form name="formList">
-<div class="row" beyond max-count = "64">
+<div class="row" beyond max-count="64">
 	<div class="col-xs-5">
 		<div class="input-group">
-			<input type="text" data-nsw-enter="searchInfoArticle()" class="form-control" ng-model="queryParams.title" placeholder="请输入关键字查询" maxlength="64">
+			<input type="text" data-nsw-enter="searchInfoArticle()" class="form-control" autocomplete="off" ng-model="queryParams.title" placeholder="请输入关键字查询" maxLength="64">
 	        <span class="input-group-btn">
-	            <button type="button" class="btn btn-default padbottom5" ng-click="searchInfoArticle()"><!-- <i class="fa fa-search"></i> --><span class="search"></span></button>
-                <!-- <button type="button" class="btn btn-default" ng-click="advancedBtn()">高级</button> -->
+	            <button type="button" class="btn btn-default padbottom5" ng-click="searchInfoArticle()"><span class="search"></span></button>
+                <button type="button" class="btn btn-default advance" ng-click="advancedBtn()">高级</button>
 	        </span>
 		</div>
 	</div>
-	<div class="col-xs-1" style="padding: 0; height: 30px; line-height: 32px;;">
-		<span class="mess-zx martop-5" >0</span>/64字符
-	</div>
-	<div class="col-xs-6 text-right">
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><span class="trash"></span>批量删除
-		</button>
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="classification()"><!-- <i class="fa fa-share-square-o"></i> -->
-			转移分类
-		</button>
+
+	<div class="col-xs-7 text-right">
 		<a href="javascript:void(0);" class="btn btn-default borderorange no-radus-btn btnh26" ng-click="goAdd()"><span class="newadd"></span> 新建</a>
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="reloadInfoArticle()"><!-- <i class="fa fa-refresh"></i> --> 刷新
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><span class="trash"></span>删除
+		</button>
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="classification()">
+			转移
 		</button>
 		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="check(dataList)"> 全选</button>
 		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="fanCheck(dataList)"> 反选</button>
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="advancedBtn()">高级</button>
 	</div>
 </div>
 </form>
 <div class="panel-body more-search" ng-show="advancedSearch">
 	<form class="form-inline"  name="formAdvance" beyond max-count = "64">
-		<div class="form-group">
+		<!-- <div class="form-group">
 			<label class="lighter-weight">标题名称</label>
 			<input type="text" ng-model="advanced.title" class="enterinput form-control" maxlength="64"/>
 			<span class="mess-zx martop-5" >0</span>/64字符
 		</div>
-		&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp; -->
 		<div class="form-group">
 			<label class="lighter-weight">所属分类</label>
 
@@ -265,7 +261,7 @@
 			</label>
 
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="editBean.title" name="title" ng-maxlength="64"
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.title" name="title" data-nsw-max-length="64"
 				       required>
 
 				<div ng-show="formSpeed.title.$dirty && formSpeed.title.$invalid">
@@ -274,19 +270,19 @@
 					      ng-show="!formSpeed.title.$error.required && formSpeed.title.$error">资讯标题长度为0~64字符</span>
 				</div>
 			</div>
-			<span class="mess-zx">0</span>/64字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label lighter-weight pt0">短标题名称</label>
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="editBean.shortTitle" name="shortTitle"
-				       ng-maxlength="30">
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.shortTitle" name="shortTitle"
+				       data-nsw-max-length="30">
 
 				<div ng-show="formSpeed.shortTitle.$dirty && formSpeed.shortTitle.$invalid">
 					<span class="err" ng-show="formSpeed.shortTitle.$error">短标题标题长度为0~30字符</span>
 				</div>
 			</div>
-			<span class="mess-zx">0/30字符</span>
+			<span class="tip-row-height"><span class="mess-zx">0/30字符</span></span>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-2 control-label lighter-weight pt0">所属分类</label>
@@ -303,8 +299,8 @@
 
 			<div class="col-sm-6">
 				<div class="input-group">
-					<input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
-					       ng-blur="verRepeat()" ng-maxlength="30" required>
+					<input type="text" class="form-control" autocomplete="off" ng-model="editBean.seo.staticPageName" name="staticPageName"
+					       ng-blur="verRepeat()" data-nsw-max-length="30" required>
 
 					<div class="input-group-addon">.html</div>
 				</div>
@@ -314,7 +310,7 @@
 					      ng-show="!formSpeed.staticPageName.$error.required && formSpeed.staticPageName.$error">网页访问地址长度为0~30字符</span>
 				</div>
 			</div>
-			<span class="mess-zx">0/30字符</span>
+			<span class="tip-row-height"><span class="mess-zx">0/30字符</span></span>
 		</div>
 
 		<div class="form-group" ng-show="!editBean.isLink">
@@ -323,7 +319,7 @@
 				<br>(Title)</label>
 
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" ng-maxlength="64"
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.seo.title" name="seoTitle" data-nsw-max-length="64"
 				       required>
 
 				<div ng-show="formSpeed.seoTitle.$dirty && formSpeed.seoTitle.$invalid">
@@ -331,7 +327,7 @@
 					<span class="err" ng-show="!formSpeed.seoTitle.$error.required && formSpeed.seoTitle.$error">网页标题长度为0~64字符</span>
 				</div>
 			</div>
-			<span class="mess-zx">0/64字符</span>
+			<span class="tip-row-height"><span class="mess-zx">0/64字符</span></span>
 		</div>
 
 		<div class="form-group" ng-show="!editBean.isLink">
@@ -341,15 +337,15 @@
 				<br>(Keywords)</label>
 
 			<div class="col-sm-6">
-				<input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword"
-				       ng-maxlength="100" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.seo.keyword" name="seoKeyword"
+				       data-nsw-max-length="100" required>
 
 				<div ng-show="formSpeed.seoKeyword.$dirty && formSpeed.seoKeyword.$invalid">
 					<span class="err" ng-show="formSpeed.seoKeyword.$error.required">请填写网页关键词</span>
 					<span class="err" ng-show="!formSpeed.seoKeyword.$error.required && formSpeed.seoKeyword.$error">网页关键词之间用顿号、空格、| 隔开，如abc、def、fdg</span>
 				</div>
 			</div>
-			<span class="mess-zx">0/100字符</span>
+			<span class="tip-row-height"><span class="mess-zx">0/100字符</span></span>
 		</div>
 
 		<div class="form-group" ng-show="!editBean.isLink">
@@ -360,7 +356,7 @@
 
 			<div class="col-sm-8">
 
-				<textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" ng-maxlength="150"
+				<textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" data-nsw-max-length="150"
 				          required></textarea>
 
 				<div ng-show="formSpeed.seoDesc.$dirty && formSpeed.seoDesc.$invalid">

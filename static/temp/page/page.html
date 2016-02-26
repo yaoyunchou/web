@@ -18,15 +18,15 @@
     		{{node.name}}
 		</span>
         <a ng-if="node.type == 'PAGETPL'" ng-show="node._id == nodeId && change">
-           <input type="text" style="width:20%;" ng-model="node.name" placeholder="请输入修改的页面名称..."/><button ng-click="nodeSave(node._id,node.name)">保存</button>
+           <input type="text" style="width:20%;" autocomplete="off" ng-model="node.name" placeholder="请输入修改的页面名称..." maxlength="32"/><button ng-click="nodeSave(node._id,node.name)">保存</button>
         </a>
-		<a class="pull-right btn btn-xs" data-nodrag  title="页面删除" ng-if="  !node.default  && node.type != 'PAGETYPE'" ng-click="deleteNode(node._id,node.type,this)">
+		<a class="pull-right btn btn-xs" data-nodrag  title="页面删除" ng-if="!node.default  && node.type!='PAGETYPE' && node.isvisiable!='0'" ng-click="deleteNode(node._id,node.type,this)">
 			<span class="glyphicon glyphicon-remove"></span>
 		</a>
     	<a class="pull-right btn btn-xs" data-nodrag ng-click="addSingle(this)" title="页面新增" ng-if="node.type == 'PAGETYPE' || node.type == 'PAGEMAIN'">
 			<span class="glyphicon glyphicon-plus"></span>
 		</a>
-	    <a class="pull-right btn btn-xs" data-nodrag ng-click="copyCreate(node)" title="复制新增" ng-if="node.type == 'PAGETPL'">
+	    <a class="pull-right btn btn-xs" data-nodrag ng-click="copyCreate(node)" title="复制新增" ng-if="node.type == 'PAGETPL' && node.isvisiable!='0'">
 		    <span class="glyphicon glyphicon-duplicate"></span>
 	    </a>
         <a class="pull-right btn btn-xs" data-nodrag  title="版块编辑" ng-if="node.type == 'PAGETPL'" ng-click="blkEdit(node._id)">
@@ -61,7 +61,7 @@
 	<form class="form-inline" style="text-align:center;clear:both;">
 	    <div class="form-group">
 	        <label for="inchannel">增加频道&nbsp;&nbsp;&nbsp;</label>
-	        <input type="text" class="form-control" id="inchannel" value="" placeholder="请输入新频道名称..." autocomplete="off"  ng-model="channelName">
+	        <input type="text" class="form-control" id="inchannel" value="" placeholder="请输入新频道名称..." autocomplete="off"  maxlength="32" ng-model="channelName">
 	    </div>
 	    <button type="submit" class="btn btn-default" ng-click="addChannel()">添加</button>
 	</form>

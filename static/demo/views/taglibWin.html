@@ -43,7 +43,7 @@
 					<label class="col-sm-2 control-label c-lwt"><span class="err">*</span>标签名称</label>
 					<div class="col-sm-6">		
 
-						<input type="text" class="form-control" ng-model="ctgs.name" name="name" ng-maxlength="32" required>
+						<input type="text" class="form-control" autocomplete="off" ng-model="ctgs.name" name="name" data-nsw-max-length="32" required>
 						
 						<div ng-show="form.name.$dirty && form.name.$invalid">
 							<span class="err" ng-show="form.name.$error.required">请填写标签名称</span>

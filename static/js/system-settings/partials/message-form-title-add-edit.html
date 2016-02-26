@@ -9,7 +9,7 @@
 				<span class="err mleft-10">*</span> 字段名称
 			</label>
 			<div class="col-sm-8 padleft26">
-				<input type="text" class="form-control" ng-model="editfieldBean.title" name="name" data-nsw-max-length="32" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editfieldBean.title" name="name" data-nsw-max-length="32" required>
 				<div ng-show="formFieldLable.name.$dirty && formFieldLable.name.$invalid">
 					<span class="err" ng-show="formFieldLable.name.$error.required"></span>
                     <span class="err"

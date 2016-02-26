@@ -18,15 +18,22 @@
 		display:inline-block;
 		margin: 0 auto;
 		vertical-align: middle;
-		height: 110px;
+		height: 100%;
 		line-height: 105px;
+	}
+	.ad-blank{
+	 	display: inline-block;
+	 	vertical-align: middle;
+	 	width:0;
+	 	height:100%;
 	}
 	.advImg{
 		vertical-align: middle;
-		max-height: 113px;
-		max-width: 100px;
+		max-height: 130px;
+		max-width: 170px;
 		border: 1px solid #dcdcdc;
 		padding:1px;
+		display:inline-block;
 	}
 
 	.btn-group button:hover .fa-edt {
@@ -34,6 +41,15 @@
 	}
 	.hide-if-no-paging{
 		background:#f6f6f6;
+	}
+	.adv-text{
+		word-wrap:break-word; 
+		word-break:break-all;
+	}
+	.advance{
+		position:relative;
+		left:3px;
+		top:1px;
 	}
 </style>
 <div class="row">
@@ -46,24 +62,24 @@
     <div class="col-xs-4">
         <form name="formAdvName">
             <div class="input-group">
-                <input type="text" data-nsw-enter="searchInfoAdv()" class="form-control" ng-model="name" placeholder="请输入广告名称" data-nsw-max-length="64">
+                <input type="text" data-nsw-enter="searchInfoAdv()" class="form-control" ng-model="name" autocomplete="off" placeholder="请输入广告名称" maxlength="64">
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default padbottom5"
-                            ng-disabled="!(formAdvName.$valid&&formAdvName.$dirty)" ng-click="searchInfoAdv()"><span
+                            ng-click="searchInfoAdv()"><span
 		                    class="search"></span></button>
+					<button type="button" class="btn btn-default advance" ng-click="advancedBtn()">高级</button>
                 </span>
 			</div>
 		</form>
 	</div>
-	<div class="col-xs-5">
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><span
-				class="trash"></span>批量删除
-		</button>
+	<div class="col-xs-5 col-xs-push-1" style="padding-left:48px;">
 		<a href="javascript:void(0);" class="btn btn-default borderorange no-radus-btn btnh26"
 		   data-ng-click="newAddAdv();"><span class="newadd"></span> 新建</a>
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><span
+				class="trash"></span>删除
+		</button>
 		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="checkAll()"> 全选</button>
 		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="inverse()"> 反选</button>
-		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="advancedBtn()">高级</button>
 	</div>
 </div>
 
@@ -71,17 +87,8 @@
 	<form class="form-inline">
 		<div class="form-group">
 			<label class="lighter-weight" style="font-weight:normal;">广告名称：</label>
-			<input type="text" class="form-control" ng-model="advFitlerOptions.name">
+			<input type="text" class="form-control" autocomplete="off" ng-model="advFitlerOptions.name" maxlength="64">
 		</div>
-		<!-- &nbsp;&nbsp;&nbsp;&nbsp;
-			<div class="form-group">
-				<label class="lighter-weight" style="font-weight:normal;">所属分类：</label>
-
-				<div class="form-control" style="border:none;width:200px; padding:0px;">
-					<nested-combo-box control-disabled="false" change-event="itemChanged()" collection="collectionAdvanced"
-					 ng-model="activeItemAdvanced"></nested-combo-box>
-				</div>
-			</div>-->
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="form-group">
 			<label class="lighter-weight" style="font-weight:normal;">广告类型：</label>
@@ -125,11 +132,12 @@
 					<div class="ad-img">
 						<img class="advImg" nsw-src="{{item.imgs[0].urlPc || item.imgs[0].urlPhone}}"
 						     ng-show="item.imgs[0].urlPc || item.imgs[0].urlPhone"/>
+						<span class="ad-blank"></span>
 					</div>
 					<div style="float:right;width:150px;">
-						<span style="display:block;"><label>广告名称：</label> <span ng-bind="item.name"></span></span>
-						<span style="display:block;"><label>分类名称：</label> <span ng-bind="item.ctgName"></span></span>
-						<span style="display:block;"><label>广告描述：</label> <sapn ng-bind="item.desc"></sapn></span>
+						<span style="display:block;"><label>广告名称：</label> <span ng-bind="item.name" class="adv-text"></span></span>
+						<span style="display:block;"><label>分类名称：</label> <span ng-bind="item.ctgName" class="adv-text"></span></span>
+						<span style="display:block;"><label>广告描述：</label> <sapn ng-bind="item.desc" class="adv-text"></sapn></span>
 					</div>
 				</td>
 				<td><i class="fa fa-circle-o" style="cursor:pointer;"

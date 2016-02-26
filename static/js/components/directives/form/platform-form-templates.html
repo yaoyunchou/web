@@ -89,7 +89,7 @@
 		       ng-model="%model%">%display%</label>
 </script>
 <script type="text/ng-template" id="form-checkbox.html">
-	<label class="radio-inline">
+	<label class="checkbox-inline">
 		<input type="checkbox" name="%name%" data-ng-value="'%key%'" ng-change="onChange(data, '%model%', '%id%')"
 		       ng-model="%model%">%display%</label>
 </script>
@@ -99,6 +99,14 @@
 		<img class="c-allthumbImage" nsw-src="{{%model%}}" ng-show="%model%">
 		<i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="!%model%"></i>
 		<h6 ng-show="!%model%" style="margin-bottom: 20px;">点击上传</h6>
+	</div>
+</script>
+
+<script type="text/ng-template" id="form-adlib.html">
+	<div class="%size%">
+		<div tool-ad-select class="nsw-form-input" ng-model="%model%"
+		     ng-change="onChange(data, '%model%', '%id%')">
+		</div>
 	</div>
 </script>
 

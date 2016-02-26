@@ -174,6 +174,9 @@ uploadApp.directive('fileuploader', ['$modal', 'platformModalSvc', function ($mo
 										platformModalSvc.showSuccessMessage(hint, '提示', true).then(function () {
 											$modalInstance.close();
 											window.location.href = globals.basAppRoot + "temp/page/index.html#/";
+										},function(){
+											$modalInstance.close();
+											window.location.href = globals.basAppRoot + "temp/page/index.html#/";
 										});
 									}
 								}

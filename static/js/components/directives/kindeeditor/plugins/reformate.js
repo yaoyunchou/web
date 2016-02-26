@@ -51,6 +51,7 @@
 											return RBR(K(doc.body));
 										}
 										html = "<p style='text-indent:2em;'>" + html.replace(/(<br[^>]*\/>)/ig, "</p><p style='text-indent:2em;'>") + "</p>";
+										html = html.replace(/<p style='text-indent:2em;'><\/p>/g,'');
 										child.html(html);
 										return true;
 									}

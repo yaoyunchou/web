@@ -87,10 +87,16 @@
 							<a class="prev" ng-show="fileQueuedlength>6"  ng-click='movLeft("up_ul")'></a>
 							<a class="next"  ng-show="fileQueuedlength>6"   ng-click='movRight("up_ul")'></a>
 							<div class="preview">
+								<!--<div  data-nsw-img-group data-ng-model="fileQueued" data-enable-sort="true" data-max-items="4"
+								      data-nsw-img-remove="removeQueuedImg(key)" data-nsw-img-alt="img.name" data-nsw-img-src="img.src">
+									<span class="c-ready-up" ng-hide="img.hasProgress">{{img.state}}</span>
+									<div class="progress progress-mini" ng-show="img.hasProgress"><div style="width:{{img.progress}}%;" class="progress-bar progress-bar-success"></div></div>
+								</div>-->
 								<ul class="c-img-list up_ul" index = "0">
 									<li ng-repeat="(key,item) in fileQueued">
 										<i class="fa fa-times" ng-click="removeQueuedImg(key);"></i>
-										<a href="javascript:void(0);"><img nsw-src="{{item.src}}"/></a>
+										<a href="javascript:void(0);">
+											<img nsw-src="{{item.src}}"/></a>
 										<span><input class="c-file-name" ng-model="item.name"/></span>
 										<span class="c-ready-up" ng-hide="item.hasProgress">{{item.state}}</span>
 										<div class="progress progress-mini" ng-show="item.hasProgress"><div style="width:{{item.progress}}%;" class="progress-bar progress-bar-success"></div></div>

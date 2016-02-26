@@ -17,6 +17,20 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         $scope.isLinkFlag = false;
 
         $scope.isThumbnail = false; //是否有缩略图。
+        
+        $scope.$watch('bean.cmsTags', function (newVal) {
+			function toString(array) {
+				var _arr = [];
+				if (array instanceof Array) {
+					for (var k in array) {
+						_arr.push(array[k].name);
+					}
+				}
+				return _arr.join(',');
+			}
+
+			$scope.tig = toString(newVal);
+		}, true);
 
 
         $scope.configDesc = {
@@ -62,9 +76,6 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                         if (data.data.imgSm.urlPc || data.data.imgSm.urlPhone) {
                             $scope.imageExist = true;
                             $scope.isThumbnail = true;
-                            $scope.img.thumbnail = [];
-                            $scope.img.thumbnail[0] = {};
-                            $scope.img.thumbnail[0].url = data.data.imgSm.url;
                         }
 
                         $scope.classify.activeItemBean = {
@@ -92,8 +103,6 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                             $scope.bean.data.ads = $scope.bean.data.ads || null;
                             setAdInfo();
                         }
-
-                        $scope.isThumbnail = !! $scope.bean.imgSm.urlPc;
                     } else {
                     	platformModalSvc.showWarmingMessage(data.data,'提示');
                     }
@@ -343,6 +352,7 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
                 'id': row._id,
                 'type': 'LIST'
             }
+            $scope.formInfo.$setDirty(true);
             setAdInfo();
         };
 
@@ -367,7 +377,19 @@ infoApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
         $scope.itemChanged = function(){
             flagSpeedTree = true;
         };
+        $scope.$watch('bean.cmsTags', function (newVal) {
+            function toString(array) {
+                var _arr = [];
+                if (array instanceof Array) {
+                    for (var k in array) {
+                        _arr.push(array[k].name);
+                    }
+                }
+                return _arr.join(',');
+            }
 
+            $scope.tig = toString(newVal);
+        }, true);
         //提交保存。
         $scope.saveBean = function () {
 

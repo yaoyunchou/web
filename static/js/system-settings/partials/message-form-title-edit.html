@@ -9,7 +9,7 @@
 				<span class="err mleft-10">*</span> 客服名称
 			</label>
 			<div class="col-sm-8 padleft26">
-				<input type="text" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
 				<div ng-show="formOnlineService.name.$dirty && formOnlineService.name.$invalid">
 					<span class="err" ng-show="formOnlineService.name.$error.required"></span>
                     <span class="err"
@@ -50,7 +50,7 @@
 					<label class="radio-inline">
 						<input type="radio" name="radioChecked" value="其他" ng-model="editBean.serverType.name">其他</label>
 				</div>
-				<input type="text" class="form-control" ng-model="editBean.serverType.content" name="name" data-nsw-max-length="32" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.serverType.content" name="name" data-nsw-max-length="32" required>
 			</div>
 			<span class="mess-zx martop-5">0</span>/100字符
 		</div>
@@ -70,7 +70,7 @@
 				员工姓名
 			</label>
 			<div class="col-sm-8 padleft26">
-				<input type="text" class="form-control" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
 
 				<div ng-show="formOnlineService.staffName.$dirty && formOnlineService.staffName.$invalid">
                     <span class="err"
@@ -85,7 +85,7 @@
 			</label>
 
 			<div class="col-sm-8 padleft26">
-				<input type="text" class="form-control" ng-model="editBean.staffPhone" name="staffPhone" data-nsw-max-length="11" >
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.staffPhone" name="staffPhone" data-nsw-max-length="11" >
 
 				<div ng-show="formOnlineService.staffPhone.$dirty && formOnlineService.staffPhone.$invalid">
 					<span class="err" ng-show="formOnlineService.staffPhone.$error.required"></span>

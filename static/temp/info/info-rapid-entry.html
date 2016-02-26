@@ -13,7 +13,7 @@
                 <span class="err">*</span> 分类名称
             </label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="beanEnter.name" name="name" ng-maxlength="64" required>
+                <input type="text" class="form-control" autocomplete="off" ng-model="beanEnter.name" name="name" data-nsw-max-length="64" required>
                 <div ng-show="formSpeedAdd.name.$dirty && formSpeedAdd.name.$invalid">
                     <span class="err" ng-show="formSpeedAdd.name.$error.required">分类名称</span>
                     <span class="err" ng-show="!formSpeedAdd.name.$error.required && formSpeedAdd.name.$error">分类名称长度为0~64字符</span>

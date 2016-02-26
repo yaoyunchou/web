@@ -73,6 +73,12 @@
 				key:'id',
 				display:'name',
 				size:5
+			},
+			adlib: {
+				template: 'adlib',
+				key:'id',
+				display:'name',
+				size:5
 			}
 		};
 

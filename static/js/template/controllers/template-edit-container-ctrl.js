@@ -14,9 +14,11 @@
 	};
 
 	var updateTemplate = function updateTemplate(selector, template) {
-		$(selector, window.formTemplate.document).replaceWith(template);
-		if ($(window.formTemplate).resize) {
-			$(window.formTemplate).resize();
+		var jq = window.formTemplate.$ || $;
+		jq(selector, window.formTemplate.document).replaceWith(template);
+		jq('body',window.formTemplate.document).html(jq('body',window.formTemplate.document).html());
+		if (jq(window.formTemplate).resize) {
+			jq(window.formTemplate).resize();
 		}
 	};
 
@@ -26,6 +28,7 @@
 	angular.module('pageEditApp').controller('pageEditContainerCtrl',
 		['$scope', '$state', 'platformModalSvc', 'templateEditDataSvc', 'desktopMainSvc',
 			function ($scope, $state, platformModalSvc, dataService, desktopMainSvc) {
+				var jq = window.formTemplate.$ || $;
 				$scope.sysBasePath = sysBasePath;
 				$scope.projPageData = projPageData;
 				var boxType = '';
@@ -50,16 +53,18 @@
 				$scope.isDesign = state==='edit';
 
 				var onEditClick = function onEditClick(){
-					$scope.$eval($(this).attr('ng-click'));
+					$scope.$eval(jq(this).attr('ng-click'));
 				};
 
 				var reloadWindow = function reloadWindow(){
+					jq = window.formTemplate.$ || $;
 					window.formTemplate.location.reload();
 					window.formTemplate.projPageData = null;
 					var timer = setInterval(function(){
 						if(window.formTemplate.projPageData){
 							clearInterval(timer);
-							$('.c-edit-toolbar.nsw',  window.formTemplate.document).css('display','none');
+							jq = window.formTemplate.$ || $;
+							jq('.c-edit-toolbar.nsw',  window.formTemplate.document).css('display','none');
 							$scope.projPageData = projPageData = window.formTemplate.projPageData;
 							$scope.sysBasePath = sysBasePath = window.formTemplate.sysBasePath;
 							dataService.init({
@@ -67,8 +72,28 @@
 								sysBasePath:sysBasePath
 							});
 
-							$(window.formTemplate.document).off('click','.blk-edit-btn',onEditClick);
-							$(window.formTemplate.document).on('click','.blk-edit-btn',onEditClick);
+							jq(window.formTemplate.document).find('head').append('<style>' +
+								'.tpl-blk {border: 1px solid #ff4242;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}' +
+								'.tpl-blk button.btn.btn-success.blk-edit-btn{' +
+								'width:65px;' +
+								'border: 2px solid transparent;' +
+								'border-color: #4cae4c;' +
+								'border-radius: 3px' +
+								'display: inline-block;' +
+								'vertical-align: middle;' +
+								'height:29px;' +
+								'position:absolute;' +
+								'padding:6px 12px;' +
+								'margin:0;' +
+								'top:0;' +
+								'right:0;' +
+								'z-index: 100;' +
+								'line-height:18px;' +
+								'cursor:pointer;' +
+								'background:url("'+globals.basAppRoute+'template/content/image/blk-edit-btn.png;") no-repeat center;' +
+								'}</style>');
+							jq(window.formTemplate.document).off('click','.blk-edit-btn',onEditClick);
+							jq(window.formTemplate.document).on('click','.blk-edit-btn',onEditClick);
 						}
 					},200);
 				};
@@ -76,10 +101,21 @@
 				if(pageId) {
 					if(state === 'preview') {
 						$scope.isPreview = true;
-						$scope.viewTemplate = $scope.templateUrl = '/pccms/' + previewTemplate.replace(/\{id}/g, pageId);
+						$scope.templateUrl = '/pccms/' + previewTemplate.replace(/\{id}/g, pageId);
+						$scope.viewTemplate = globals.basAppRoot + previewTemplate.replace(/\{id}/g, pageId);
 					}else{
-						$scope.viewTemplate = $scope.templateUrl = '/pccms/pageTpl/design/' + '/' + pageId + '/' + state + '?isPubTpl=' + isPubTpl;
+						$scope.templateUrl = '/pccms/pageTpl/design/' + '/' + pageId + '/' + state + '?isPubTpl=' + isPubTpl;
+						$scope.viewTemplate = globals.basAppRoot + '/pageTpl/design/' + '/' + pageId + '/view' + '?isPubTpl=' + isPubTpl;
 					}
+
+					dataService.getProjId().then(function(projectId){
+						if(!/\?/.test($scope.viewTemplate)){
+							$scope.viewTemplate += '?qrcode=qrcode&projId='+projectId;
+						}else {
+							$scope.viewTemplate += '&qrcode=qrcode&projId=' + projectId;
+						}
+					})
+
 					if(state==='edit') {
 						reloadWindow();
 					}
@@ -171,9 +207,9 @@
 				template.savePageDesign = $scope.savePageDesign = function () {
 					dataService.savePageDesign().then(function (message) {
 						reloadWindow();
-						platformModalSvc.showWarmingMessage(message, nsw.Constant.TIP);
+						platformModalSvc.showSuccessTip(message);
 					}, function (error) {
-						platformModalSvc.showWarmingMessage(error, nsw.Constant.TIP);
+						platformModalSvc.showWarmingTip(error);
 					});
 				};
 				$scope.backup = function(){
@@ -245,7 +281,7 @@
 				$scope.showPc = function showPc(){
 					boxType = 'pc';
 					$scope.showQrCode = false;
-					$(window.formTemplate).resize();
+					jq(window.formTemplate).resize();
 				};
 
 				$scope.showPad = function showPad(){
@@ -255,7 +291,7 @@
 				$scope.showPhone = function showPhone(){
 					boxType = 'phone';
 					$scope.showQrCode = true;
-					$(window.formTemplate).resize();
+					jq(window.formTemplate).resize();
 				};
 
 				$scope.getBoxStyle = function getBoxStyle(){

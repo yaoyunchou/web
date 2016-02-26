@@ -102,6 +102,11 @@
     .add-adv-imgs{
         margin-left:150px;margin-bottom:32px;
     }
+    .add-adv-btn:focus{
+	    color: #f08300;
+	    background-color: #fff;
+	    border-color: #f08300;
+	}
     .adv-js{
         margin-bottom:32px;clear:both;margin-left:168px;
     }
@@ -132,11 +137,11 @@
                             </label>
 
                             <div class="col-sm-5">
-                                <input type="text" class="form-control input-control" ng-pattern="/^[\u4e00-\u9fa5_a-zA-Z]+$/" data-nsw-max-length="20" ng-model="advList.name" autocomplete="off"
+                                <input type="text" class="form-control input-control" ng-pattern="/^[\u4e00-\u9fa5a-zA-Z0-9]+$/"  data-nsw-max-length="20" ng-model="advList.name" autocomplete="off"
                                        name="advName" data-nsw-max-length="20" required>
 
                                 <div ng-show="advertisingInfo.advName.$dirty && advertisingInfo.advName.$invalid">
-                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.pattern">请填写中英文</span>
+                                    <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.pattern">请填写中英文、数字</span>
                                     <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.required">请填写广告名称</span>
                                     <span class="nsw-form-error-message" ng-show="advertisingInfo.advName.$error.nswmaxlength">广告名称长度为0~20字符</span>
                                 </div>
@@ -233,8 +238,8 @@
                         </div>
                     </div>
 
-                    <div  ng-show="advList.type ==='imgs'" class="col-sm-6" class="add-adv-imgs" style="margin-left:152px;margin-bottom:32px;">
-                        <a href="javascript:void(0);" data-ng-click="addImage(advList)" class="btn btn-default borderorange no-radus-btn btnh26"><span class="newadd"></span> 添加</a>
+                    <div  ng-show="advList.type ==='imgs'" class="col-sm-10" class="add-adv-imgs" style="margin-left:152px;margin-bottom:32px;">
+                        <a href="javascript:void(0);" data-ng-click="addImage(advList)" class="btn borderorange no-radus-btn btnh26 add-adv-btn"><span class="newadd"></span> 添加</a>
                     </div>
 
                     <div ng-if="advList.type ==='js'" class="nsw-form adv-js">

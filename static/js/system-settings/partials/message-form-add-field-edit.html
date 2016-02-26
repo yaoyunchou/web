@@ -10,7 +10,7 @@
 			</label>
 
 			<div class="col-sm-8 padleft26">
-				<input type="text" class="form-control" ng-model="fieldBean.title" name="explainText"
+				<input type="text" class="form-control" autocomplete="off" ng-model="fieldBean.title" name="explainText"
 				       data-nsw-max-length="64" required>
 
 				<div ng-show="formField.explainText.$dirty">
@@ -103,7 +103,7 @@
 				</label>
 
 				<div class="col-sm-8 padleft26">
-					<input type="text" class="form-control" ng-model="fieldBean.regular" name="regular" data-nsw-max-length="100">
+					<input type="text" class="form-control" autocomplete="off" ng-model="fieldBean.regular" name="regular" data-nsw-max-length="100">
 					<div>
 						<span class="err" ng-show="formField.length.$dirty&&formField.regular.$error.nswmaxlength">自定义正则表达式长度为0~100字符</span>
 					</div>
@@ -116,7 +116,7 @@
 				</label>
 
 				<div class="col-sm-8 padleft26">
-					<input type="text" class="form-control" ng-model="fieldBean.initContent" name="initContent"
+					<input type="text" class="form-control" autocomplete="off" ng-model="fieldBean.initContent" name="initContent"
 					       data-nsw-max-length="100">
 
 					<div>
@@ -140,18 +140,18 @@
 						<span class="mess-zx mtop6">0</span>/150字符
 					</div>
 				</div>-->
-		<div class="form-group marbottom32" beyond max-count='150' data-ng-hide="fieldBean.intentionFormEcho">
+		<div class="form-group marbottom32" beyond max-count='300' data-ng-hide="fieldBean.intentionFormEcho">
 			<label class="col-sm-2 control-label lighter-weight pt0 padleft35">
 				录入框下面说明文档
 			</label>
 
 			<div class="col-sm-8 padleft26">
-					<textarea class="form-control" rows="3" ng-model="fieldBean.explainText" name="desc" data-nsw-max-length="150"></textarea>
+					<textarea class="form-control" rows="3" ng-model="fieldBean.explainText" name="desc" data-nsw-max-length="300"></textarea>
 
 				<div>
-					<span class="err" ng-show="formField.desc.$error.nswmaxlength">录入框下面说明文档长度为0~150字符</span>
+					<span class="err" ng-show="formField.desc.$error.nswmaxlength">录入框下面说明文档长度为0~300字符</span>
 				</div>
-				<span class="mess-zx mtop6">0</span>/150字符
+				<span class="mess-zx mtop6">0</span>/300字符
 			</div>
 		</div>
 
@@ -160,12 +160,12 @@
 				<div class="form-inline inline">
 					<div class="form-group">
 						<label for="exampleInputName2">选项名称</label>
-						<input type="text" data-ng-model="optionField.name" name="optionFieldName" class="form-control" id="exampleInputName2" data-nsw-max-length="32">
+						<input type="text" autocomplete="off" data-ng-model="optionField.name" name="optionFieldName" class="form-control" id="exampleInputName2" data-nsw-max-length="32">
 					</div>
 					<span class="err" ng-show="addFieldform.optionFieldName.$error.nswmaxlength">选项名称为0~32字符</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-group">
 						<label for="exampleInputEmail2">选择值</label>
-						<input type="text" data-ng-model="optionField.defaultValue" name="optionFieldDefaultValue" class="form-control"
+						<input type="text" autocomplete="off" data-ng-model="optionField.defaultValue" name="optionFieldDefaultValue" class="form-control"
 						       id="exampleInputEmail2" data-nsw-max-length="32">
 					</div>
 					<span class="err" ng-show="addFieldform.optionFieldDefaultValue.$error.nswmaxlength">选择值为0~32字符</span>
@@ -211,7 +211,7 @@
 					</td>
 					<td>
 						<div class="btn-group">
-							<button type="button" class="btn btn-default btn-sm" ng-click="deleteOptionField($index)">
+							<button type="button" class="btn btn-default btn-sm" ng-click="deleteOptionField($index,optionField)">
 								<span class="fa-delete"></span><span class="fa-delete-text">删除</span>
 							</button>
 						</div>

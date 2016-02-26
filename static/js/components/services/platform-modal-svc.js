@@ -34,32 +34,36 @@
 					this.$close(success);
 				};
 				var instance = $modal.open(options);
-				var isOverflow = $('.c-main-box').height() > $(window).height();
+				var isOverflow = ($('[ng-controller="desktopMainCtrl"]')[0] || $(window)[0]).clientHeight > $(window).height();
+				var padding = $('html').css('padding-right');
 				instance.result.then(function () {
-					$('html').css('overflow-y', 'auto');
-					if (isOverflow && !options.isTip) {
-						$('.modal-open').css('margin-right', '0');
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
 					}
 				}, function () {
-					$('html').css('overflow-y', 'auto');
-					if (isOverflow && !options.isTip) {
-						$('.modal-open').css('margin-right', '0');
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
 					}
 				});
 
+				if (isOverflow) {
+					$('html').css('overflow-y', 'hidden');
+					$('html').css('padding-right', '17px');
+				}
 				setTimeout(function () {
+					if (isOverflow) {
+						$('.nsw.modal').css('padding-right', '17px');
+					}
 					if (!options.isTip) {
 						if (!options.disableDrag) {
 							$('.modal-dialog').draggable({
 								cancel: ".modal-body,.modal-footer"
 							});
 						}
-						if (isOverflow) {
-							$('.modal-open').css('margin-right', '16px');
-						}
-						$('html').css('overflow-y', 'hidden');
 					}
-				}, 500);
+				});
 				return defer.promise;
 			};
 

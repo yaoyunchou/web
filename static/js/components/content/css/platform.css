@@ -262,4 +262,51 @@ span.ke-icon-spechars {
   background: #f07802;
   border-radius: 4px; }
 
+.nsw-img-dir {
+  border-color: #f08300;
+  margin-bottom: 0;
+  list-style: none;
+  float: left;
+  display: inline;
+  position: relative;
+  width: 120px;
+  margin: 0 8px 8px;
+  border: 1px solid #dcdcdc;
+  height: 120px;
+  cursor: pointer;
+  text-align: center;
+  background-color: white; }
+  .nsw-img-dir .img {
+    max-height: 99px;
+    margin: 0 auto;
+    width: auto;
+    max-width: 80px;
+    vertical-align: middle; }
+  .nsw-img-dir .alt {
+    text-align: left; }
+  .nsw-img-dir:hover i {
+    display: block; }
+  .nsw-img-dir .nsw-img-icon {
+    display: none;
+    position: absolute;
+    padding: 2px;
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8; }
+    .nsw-img-dir .nsw-img-icon.remove {
+      right: 0;
+      top: 0; }
+    .nsw-img-dir .nsw-img-icon.preview {
+      left: 0;
+      top: 60px; }
+
+.nsw-img-group {
+  height: 100%; }
+  .nsw-img-group .drop-active {
+    border-color: #ea8002; }
+
 /*# sourceMappingURL=platform.css.map */

@@ -199,13 +199,13 @@
 	color:#f08300;
 }
 .checkright{
-	background: url(../img/main_sprit1.png) no-repeat -150px -24px;
-	padding:0px 6px 0px 30px;
+	background: url(../img/main_sprit1.png) no-repeat -157px -24px;
+	padding:0px 6px 0px 22px;
     height:22px;
     margin-bottom:0px;
 }
 .checkcancel{
-	background: url(../img/main_sprit1.png) no-repeat -358px -612px;
+	background: url(../img/main_sprit1.png) no-repeat -367px -612px;
     padding:0px 6px 0px 30px;
     height:22px;
     margin-bottom:0px;
@@ -218,7 +218,7 @@
     margin-bottom:0px;
 }
 .btn-cancel:hover .checkcancel{
-    background: #fff url(../img/main_sprit1.png) no-repeat -397px -613px;
+    background: #fff url(../img/main_sprit1.png) no-repeat -406px -613px;
 }
 .btn-cancel:hover .checkcance{
 	background: url(../img/main_sprit1.png) no-repeat -404px -610px;
@@ -572,3 +572,12 @@
 	margin-bottom:20px;
 }
 .nsw-modal .button .btn{margin-bottom:0px;}
+.fa-arrow-down,.fa-arrow-up{
+	cursor:pointer;
+}
+.fa-circle,.fa-circle-o{
+	cursor:pointer;
+}
+input[type="radio"], input[type="checkbox"]{
+	cursor:pointer;
+}

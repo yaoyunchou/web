@@ -10,23 +10,13 @@
 				产品标题名称
 			</label>
 			<div class="col-sm-8">
-				<input type="text" class="form-control" ng-model="editBean.title" name="title" ng-maxlength="64" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.title" name="title" data-nsw-max-length="64" required>
 				<div ng-show="formSpeed.title.$dirty && formSpeed.title.$invalid">
-					<span class="err" ng-show="formSpeed.title.$error.required">产品标题名称</span>
+					<span class="err" ng-show="formSpeed.title.$error.required">请输入产品标题名称</span>
 					<span class="err" ng-show="!formSpeed.title.$error.required && formSpeed.title.$error">产品标题长度为0~64字符</span>
 				</div>
 			</div>
-			<span class="mess-zx mtop6">0</span>/64字符
-		</div>
-		<div class="form-group pad020"  beyond max-count='30'>
-			<label  class="col-sm-2 control-label lighter-weight pt0 mtop6">短标题名称</label>
-			<div class="col-sm-8">
-				<input type="text" class="form-control" ng-model="editBean.shortTitle" name="shortTitle" ng-maxlength="30">
-				<div ng-show="formSpeed.shortTitle.$dirty && formSpeed.shortTitle.$invalid">
-					<span class="err" ng-show="formSpeed.shortTitle.$error">短标题标题长度为0~30字符</span>
-				</div>
-			</div>
-			<span class="mess-zx mtop6">0</span>/30字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
 		</div>
 		<div class="form-group marbottom32" ng-if="isLinkFlag" beyond max-count='100'>
 			<label  class="col-sm-2 control-label lighter-weight padleft70">
@@ -40,9 +30,8 @@
 					<span class="err" ng-show="formSpeed.linkUrl.$error.nswmaxlength">网址长度为0~100字符</span>
 					<span class="err ng-hide" ng-show="formSpeed.linkUrl.$error.url">以http://开头，如http://www.nsw88.com</span>
 				</div>
-
 			</div>
-			<span class="mess-zx martop-5">0</span>/100字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
 		</div>
 		<div class="form-group pad020">
 			<label  class="col-sm-2 control-label lighter-weight pt0 mtop6">所属分类</label>
@@ -50,32 +39,17 @@
 				<nested-combo-box  control-disabled="false" collection="collectionEdit" ng-model="activeItemEdit" ></nested-combo-box>
 			</div>
 		</div>
-		<!--<div class="form-group pad020" ng-if = "editBean.isLink" beyond max-count="100">
-			<label  class="col-sm-2 control-label lighter-weight pt0">
-				<span class="err mtop6 mleft-10">*</span>
-				网址
-			</label>
-			<div class="col-sm-8">
-				<input type="text" name = "linkUrl" class="form-control" ng-model="editBean.linkUrl"  ng-maxlength="100" required>
-				<div ng-show="formSpeed.linkUrl.$dirty && formSpeed.linkUrl.$invalid">
-					<span class="err" ng-show="formSpeed.linkUrl.$error.required" >请填写网址</span>
-					<span class="err" ng-show="!formSpeed.linkUrl.$error.required && formSpeed.linkUrl.$error">网址长度为0~100字符</span>
-				</div>
-
-			</div>
-
-		</div>
--->
-
-
-
 		<div class="form-group pad020" beyond max-count='100' ng-if="!editBean.isLink">
 			<label  class="col-sm-2 control-label lighter-weight pt0 mtop6">关联标签</label>
 			<div class="col-sm-5">
-				<pre class="form-control">{{editBean.cmsTags|showCtgsName}}</pre>
+				<!--<pre class="form-control">{{bean.cmsTags|showCtgsName}}</pre>-->
+				<input type="text" name="contextual" class="form-control" autocomplete="off" ng-model="tig" data-nsw-max-length="100"  readonly data-max-word="5">
+				<div ng-show="formSpeed.contextual.$invalid">
+					<div class="err" ng-show="formSpeed.contextual.$error.nswmaxlength">关联标签为0~100字符</div>
+					<div class="err" ng-show="formSpeed.contextual.$error.maxword">关联标签使用逗号、空格或分隔符，并且不能超过5个关键字</div>
+				</div>
 			</div>
-			<span class="mess-zx martop-5">0</span>
-			/100字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
 			<button type="button" class="btn btn-default clean-btn no-radus-btn" data-module-id="{{state.moduleId}}" tag-lib result="bean.cmsTags" ng-model="editBean.cmsTags"><span class="sel-cmstags"></span><span>选择标签</span></button>
 		</div>
 		<div class="form-group pad020" ng-if = "!editBean.isLink" beyond max-count='30'>
@@ -85,8 +59,8 @@
 			</label>
 			<div class="col-sm-8">
 				<div class="input-group">
-					<input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
-					       ng-blur="verRepeat()" ng-maxlength="30" required>
+					<input type="text" class="form-control" autocomplete="off" ng-model="editBean.seo.staticPageName" name="staticPageName"
+					       ng-blur="verRepeat()" data-nsw-max-length="30" required>
 
 					<div class="input-group-addon">.html</div>
 				</div>
@@ -95,7 +69,7 @@
 					<span class="err" ng-show="!formSpeed.staticPageName.$error.required && formSpeed.staticPageName.$error">网页访问地址长度为0~30字符</span>
 				</div>
 			</div>
-			<span class="mess-zx mtop6">0</span>/30字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/30字符</span>
 		</div>
 
 		<div class="form-group pad020" ng-if = "!editBean.isLink" beyond max-count='64'>
@@ -104,13 +78,13 @@
 				网页标题
 				<br>(Title)</label>
 			<div class="col-sm-8">
-				<input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" ng-maxlength="64" required>
+				<input type="text" class="form-control" autocomplete="off" ng-model="editBean.seo.title" name="seoTitle" data-nsw-max-length="64" required>
 				<div ng-show="formSpeed.seoTitle.$dirty && formSpeed.seoTitle.$invalid">
 					<span class="err" ng-show="formSpeed.seoTitle.$error.required">请填写网页标题</span>
 					<span class="err" ng-show="!formSpeed.seoTitle.$error.required && formSpeed.seoTitle.$error">网页标题长度为0~64字符</span>
 				</div>
 			</div>
-			<span class="mess-zx mtop6">0</span>/64字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
 		</div>
 
 		<div class="form-group pad020" ng-if = "!editBean.isLink" beyond max-count='100'>
@@ -119,13 +93,14 @@
 				网页关键词
 				<br>(Keywords)</label>
 			<div class="col-sm-8">
-				<input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword" ng-maxlength="100" required>
+				<input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword" autocomplete="off" data-max-word="5" data-nsw-max-length="100" required>
 				<div ng-show="formSpeed.seoKeyword.$dirty && formSpeed.seoKeyword.$invalid">
 					<span class="err" ng-show="formSpeed.seoKeyword.$error.required">请填写网页关键词</span>
-					<span class="err" ng-show="!formSpeed.seoKeyword.$error.required && formSpeed.seoKeyword.$error">网页关键词之间用顿号、空格、| 隔开，如abc、def、fdg</span>
+					<span class="err" ng-show="formSpeed.seoKeyword.$error.maxword">关键字使用逗号、空格和分隔符，并不能超过5个关键字</span>
+					<span class="err" ng-show="formSpeed.seoKeyword.$error">网页关键词长度为0~100字符</span>
 				</div>
 			</div>
-			<span class="mess-zx mtop6">0</span>/100字符
+			<span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
 		</div>
 
 		<div class="form-group pad020" ng-if = "!editBean.isLink" beyond max-count='150'>
@@ -134,13 +109,13 @@
 				网页描述
 				<br>(Description)</label>
 			<div class="col-sm-8">
-				<textarea class="form-control minheight100" rows="3" ng-model="editBean.seo.desc" name="seoDesc" ng-maxlength="150" required></textarea>
+				<textarea class="form-control minheight100" rows="3" ng-model="editBean.seo.desc" name="seoDesc" data-nsw-max-length="150" required></textarea>
 				<div ng-show="formSpeed.seoDesc.$dirty && formSpeed.seoDesc.$invalid">
 					<span class="err" ng-show="formSpeed.seoDesc.$error.required">请填写网页描述</span>
 					<span class="err" ng-show="!formSpeed.seoDesc.$error.required && formSpeed.seoDesc.$error">网页描述长度为0~150字符</span>
 				</div>
-				<span class="mess-zx mtop6">0</span>/150字符
 			</div>
+			<span class="desc"><span class="mess-zx">0</span>/150字符</span>
 		</div>
 	</div>
 	<div class="modal-footer text-align-left">

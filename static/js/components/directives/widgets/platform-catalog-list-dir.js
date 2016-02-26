@@ -58,6 +58,11 @@
 					scope.options.onSelectedChanged.apply(this, arguments);
 				};
 				scope.toggleLineEdit = function toggleLineEdit(item) {
+					if(scope.options.enableSpeedEdit){
+						scope.options.onSpeedEdit.call(this ,item);
+						return;
+					}
+
 					if (item !== scope.options.data.selectedItem) {
 						return;
 					}
@@ -71,7 +76,7 @@
 
 
 				scope.doSaveCreate = function doSaveCreate(item) {
-					if (!scope.options.formOptions.$invalid) {
+					if ( !scope.options.formOptions.$invalid) {
 						scope.options.onCreated(item);
 						scope.options.formOptions.setData({});
 					}
