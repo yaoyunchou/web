@@ -12,6 +12,7 @@
 					if (ctrl.$viewValue) {
 						var width = parseInt(attrs.width) || 150;
 						var height = parseInt(attrs.height) || 150;
+						element.children().remove();
 						element.qrcode({text: ctrl.$viewValue, width: width, height: height});
 					}
 				};

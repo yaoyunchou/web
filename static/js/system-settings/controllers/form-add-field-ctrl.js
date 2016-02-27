@@ -50,7 +50,8 @@
 		};
 		//多选的optionField 添加
 		$scope.addOptionField = function addOptionField(){
-			if($scope.optionField.name){
+			if($scope.optionField.name&&$scope.optionField.defaultValue){
+
 				if($scope.fieldBean.data<1){
 					$scope.optionField.orderBy = 1;
 					//默认第一个添加的为选中
@@ -58,13 +59,33 @@
 					$scope.fieldBean.data.push($scope.optionField);
 					$scope.optionField = {};
 				}else{
-					$scope.optionField.isDefault=false;
-					var current = _.maxBy($scope.fieldBean.data,'orderBy').orderBy;
-					$scope.optionField.orderBy =current + 1;
-					$scope.fieldBean.data.push($scope.optionField);
-					$scope.fieldBean.data = _.sortBy($scope.fieldBean.data,'orderBy');
-					$scope.optionField = {};
+					var flog = true;
+					for(var i =0; i<$scope.fieldBean.data.length;i++){
+						if($scope.fieldBean.data[i].name == $scope.optionField.name ){
+							platformModalSvc.showWarmingTip("选项名已存在！");
+							return  flog = false;
+							break;
+						}
+						if ($scope.fieldBean.data[i].defaultValue == $scope.optionField.defaultValue){
+							platformModalSvc.showWarmingTip("选项值已存在！");
+							return  flog = false;
+							break;
+						}
+					}
+					if(flog){
+						$scope.optionField.isDefault=false;
+						var current = _.maxBy($scope.fieldBean.data,'orderBy').orderBy;
+						$scope.optionField.orderBy =current + 1;
+						$scope.fieldBean.data.push($scope.optionField);
+						$scope.fieldBean.data = _.sortBy($scope.fieldBean.data,'orderBy');
+						$scope.optionField = {};
+					}
+
 				}
+			}else if(!$scope.optionField.name){
+				platformModalSvc.showWarmingTip("选项名不能为空！");
+			}else{
+				platformModalSvc.showWarmingTip("选项值不能为空！");
 			}
 		};
 
@@ -116,9 +137,14 @@
 		};
 
 		//删除optionFiled
-		$scope.deleteOptionField = function deleteOptionField(index){
+		$scope.deleteOptionField = function deleteOptionField(index,item){
 			platformModalSvc.showConfirmMessage('确定要删除当前选项吗?','网站操作信息提示').then(function(){
-				$scope.fieldBean.data.splice(index,1);
+				if(item.isDefault){
+					$scope.fieldBean.data.splice(index,1);
+					$scope.fieldBean.data[0].isDefault = true;
+				}else{
+					$scope.fieldBean.data.splice(index,1);
+				}
 			})
 
 		};

@@ -19,7 +19,7 @@
     .dialog-titlebar { padding: 0 10px 0 20px;height: 44px;background: #f5f5f5;}
     .dialog-title {float: left;font: 14px/44px "Microsoft YaHei";color: #f08300;}
     .close-btn{float: right;margin-top: 14px;}
-    .clean-btn{margin: 0px 0px 0px 18px;width: 82px;}
+    .clean-btn{margin: 0px 0px 0px 18px; width:94px;}
     .border-slt{border: 1px solid #ddd;}
     .pr{position: relative;}
     .tab-pane{border: 1px solid #ddd;border-top: none;}
@@ -38,7 +38,7 @@
     .loopright,.loopleft{ float: left; margin-top: 50px; font-size: 20px; color: #f08300;}
 
 
-     .tablist{ width: 45%;   margin: 20px 1% 20px 3%; float: left; }
+     .tablist{ width: 38%;   margin: 20px 1% 20px 3%; float: left; }
 
     .tablistbody{ padding: 0 !important; height: 196px; overflow-y:auto;}
     .tablistbody .list-group-item{ border:0; border-bottom: 1px solid #ddd; margin:0; cursor: pointer;}
@@ -59,16 +59,28 @@
     .xqbox .edui-editor{  border:none; border-radius: 0px;}
     .xqbox li{ list-style: none; cursor: pointer; border-right:1px solid #CCCCCC;}
     .xqnva{ display:block; width: 100%; height: 28px; line-height: 28px; margin:0; padding: 0;}
-    .xqnva  .delete{
+    .xqnva li{ position: relative; padding-right: 20px;}
+    .xqnva li .delete{
         background: url("../../img/main_sprit1.png") no-repeat;
-        background-position: -120px -759px;
-        margin-top: 6px;
-        margin-left: 5px;
-        display: block;
         float: right;
-        width: 7px;
-        height: 7px;
+        background-position: -134px -759px;
+       position:absolute;
+        display: none;
+        top:5px;
+        right:5px;
+        width: 9px;
+        height: 9px;
     }
+    .xqnva li:hover .delete{
+        display: block;
+    }
+    .xqnva li .edit{
+        top:16px;
+        right:5px;
+        background-position: -151px -759px;
+    }
+
+
     .xqnva .glyphicon-plus-sign{ float: right; font-size: 17px;margin: 5px 5px 0 0; cursor: pointer;}
     .xqnva li.on{ background: #cccccc;}
     .productclassify .angular-ui-tree-handle:hover {
@@ -80,6 +92,9 @@
         border: none;
         background: none;
         color: none;
+    }
+    .guanlian{
+        padding-left: 150px;
     }
     .productclassify .angular-ui-tree-handle {
         cursor: default;
@@ -127,6 +142,13 @@
     .extCtgPor .nsw-form-input[type='text']{
         margin-left:15px;;
     }
+    .extCtgPor>div div>label,.extCtgPor select{
+        margin-left:15px;
+    }
+	.desc{
+		height:75px;
+		line-height:75px;
+	}
 </style>
     <div class="row">
         <div class="col-md-12">
@@ -145,14 +167,14 @@
                                                                                                 标题名称
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control {{titlelostflag? 'ng-dirty ng-invalid ng-invalid-required':null}}" ng-model="bean.title"  autocomplete="off" ng-blur="setNetAddress();" name="title" ng-maxlength="64" required>
+                                <input type="text" class="form-control {{titlelostflag? 'ng-dirty ng-invalid ng-invalid-required':null}}" ng-model="bean.title"  autocomplete="off" ng-blur="setNetAddress();" name="title" data-nsw-max-length='64'  required>
                                 <div ng-show="formproduct.title.$dirty && formproduct.title.$invalid||titlelostflag">
                                     <span class="err" ng-show="formproduct.title.$error.required||titlelostflag" >请填写产品标题</span>
                                     <span class="err" ng-show="!formproduct.title.$error.required && formproduct.title.$error">标题名称长度为0~64字符</span>
                                 </div>
                             </div>
                             
-                                <span class="mess-zx martop-5">0</span>/64字符
+							<span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
                           </div>                                                                        
                     </div>
 
@@ -162,7 +184,7 @@
                          </button>
                          <span  class="left-info left-info-st" beyond max-count='30' >
                                     <span>短标题名称</span>
-                                    <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.shortTitle" name="shortTitle" ng-maxlength="30">
+                                    <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.shortTitle" name="shortTitle" data-nsw-max-length="30">
                                     <span class="mess-zx">0</span>/30字符
                                     <div ng-show="formproduct.shortTitle.$dirty && formproduct.shortTitle.$invalid" class="left-info-err">
                                         <span class="err" ng-show="formproduct.shortTitle.$error" style="margin-top: 12px;display: inline-block;">短标题长度为0~30字符</span>
@@ -197,14 +219,12 @@
                             </div>                    
                          </div>                        
                         <button type="button" class="btn btn-default btn-hover no-radus-btn" ng-click="addCategory()">
-                            <span class="addattra"></span>关联分类
+                            <span class="{{isHx?'addattraon':'addattra'}}"></span>关联分类
                         </button>     
                         <div class="col-sm-12  guanlian {{isHx?'show':'hidden'}}">
                               <script type="text/ng-template" id="nodes_renderer.html">
                                     <div ui-tree-handle data-nodrag  ng-click= "movClass(node)" class="tree-node tree-node-content">
-                                       
                                         {{node.name}}
-                                    
                                     </div>
                                     <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
                                         <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" ></li>
@@ -249,10 +269,10 @@
                                 <div class="col-sm-8">
                                     <div class="form-group-row" data-ng-repeat="item in bean.extPro">
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control" data-ng-model="item.label"  placeholder="属性名">
+                                            <input type="text" class="form-control" autocomplete="off" data-ng-model="item.label"  placeholder="属性名">
                                         </div>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" data-ng-model="item.value" placeholder="属性值">
+                                            <input type="text" class="form-control" autocomplete="off" data-ng-model="item.value" placeholder="属性值">
                                         </div>
                                     </div>
                                     <button  type="button" data-ng-click="addextPro()" class="btn btn-default btn-hover no-radus-btn">
@@ -281,20 +301,26 @@
                         </div>
 
                     </div>
-                    <span class="mess-zx martop-5">0</span>/100字符
+                    <span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
                 </div>
                    
                     <div class="form-group marbottom32" beyond max-count='100' ng-ig="!isLinkFlag">
                         <label  class="col-sm-2 control-label lighter-weight padleft70">                            
                                                                                    关联标签
                         </label>
-                       <div class="col-sm-5">                           
-                            <pre class="form-control" style="height:28px;">{{bean.cmsTags|showCtgsName}}</pre>                   
-                        </div>                      
+                        <div class="col-sm-5">
+                            <!--<pre class="form-control">{{bean.cmsTags|showCtgsName}}</pre>-->
+                            <input type="text" name="contextual" class="form-control" autocomplete="off" ng-model="tig" data-nsw-max-length="100"  readonly data-max-word="5">
+                            <div ng-show="formproduct.contextual.$invalid">
+                                <div class="err" ng-show="formproduct.contextual.$error.nswmaxlength">关联标签为0~100字符</div>
+                                <div class="err" ng-show="formproduct.contextual.$error.maxword">关联标签使用逗号、空格或分隔符，并且不能超过5个关键字</div>
+                            </div>
+                        </div>
+                        <span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
                         <button type="button" class="btn btn-default clean-btn no-radus-btn"  style="width:110px;" data-module-id="{{state.moduleId}}" tag-lib result="bean.cmsTags" ng-model="bean.cmsTags">
                             <span class="sel-cmstags"></span>选择标签
                         </button>
-                    </div>                    
+                    </div>
                 
                     <div class="form-group marbottom32">  
                         <label  class="col-sm-2 control-label lighter-weight padleft70">                            
@@ -307,19 +333,14 @@
                                     <h6 class="marbottom20">点击上传</h6>
                                 </div>                              
                             </a>
-                        </div>  
+                        </div>
+
+
 
                         <div class="col-sm-8"  ng-show = "bean.imgs.length">
-                            <span class = "glyphicon glyphicon-menu-left loopleft" ng-show = "bean.imgs.length>4"  ng-click = "back()"></span>
-                            <div class="loopbox col-sm-11">
-                               <ul>
-                                    <li  ng-repeat = "img in bean.imgs">
-                                     <img class="hw128" nsw-src="{{img.url}}" >
-                                     <input type="text" placeholder="请写图片描述" class="form-control" autocomplete="off" ng-model="img.alt">
-                                    </li>
-                               </ul>
+                            <div  data-nsw-img-group data-ng-model="bean.imgs" data-enable-sort="true" data-max-items="4"
+                                    data-nsw-img-remove="removeImg(img)" data-show-alt="true">
                             </div>
-                            <span  class = "glyphicon glyphicon-menu-right loopright" ng-show = "bean.imgs.length>4"  ng-click = "mov()"></span>
                         </div>
                     </div>
                 <div class="form-group marbottom32" ng-show="!isLinkFlag">
@@ -327,7 +348,7 @@
                         简要描述
                     </label>
                     <div class="col-sm-9" style="z-index: 1;">
-                        <div platform-kindeditor k-maximum-words="20000"  data-ng-model="bean.content"></div>
+                        <div platform-kindeditor k-maximum-words="20000" data-ng-model="bean.content"></div>
                     </div>
                 </div>
                 <div class="form-group marbottom32" ng-show="!isLinkFlag">
@@ -337,7 +358,7 @@
                         <div class="col-sm-9 xqbox" style="z-index: 1;">
                           <ul class = "xqnva">
                             <!-- {{bean}} -->
-                              <li ng-repeat = "xnav in bean.tabContents" ng-class=" xnav.checked ? 'on':''" ng-click = "goChange(xnav,$index)">{{xnav.name}} <span ng-if="$index!=0" class="delete" ng-click = "deltXqList($index)"></span></li>
+                              <li ng-repeat = "xnav in bean.tabContents" ng-class=" xnav.checked ? 'on':''" ng-click = "goChange(xnav,$index)">{{xnav.name}} <span ng-if="$index!=0" class="delete" ng-click = "deltXqList($index)"></span> <span ng-if="$index!=0" class="delete edit" ng-click = "editName(xnav)"></span></li>
 
                               <span  class="glyphicon glyphicon-plus-sign" ng-click = "addXq()"></span> 
 
@@ -395,7 +416,7 @@
                              <div class="input-group">
                                  <input type="text" class="form-control" autocomplete="off"
                                         ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName"
-                                        ng-maxlength="30" required>
+                                        data-nsw-max-length="30" required>
 
                                  <div class="input-group-addon">.html</div>
                              </div>
@@ -404,7 +425,7 @@
                                 <span class="err" ng-show="!formproduct.staticPageName.$error.required && formproduct.staticPageName.$error">网页访问地址名称长度为0~30字符</span>
                             </div>
                         </div>
-                        <span class="mess-zx martop-5">0</span>/30字符
+                        <span class="tip-row-height"><span class="mess-zx">0</span>/30字符</span>
                     </div>
 
                     <div class="form-group marbottom32" beyond max-count='64'>
@@ -412,25 +433,25 @@
                             网页标题
                             <br>(Title)</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.title" name="aSeoTitle" ng-maxlength="64">
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.title" name="aSeoTitle" data-nsw-max-length="64">
                             <div ng-show="formproduct.aSeoTitle.$dirty && formproduct.aSeoTitle.$invalid">                              
                                 <span class="err" ng-show="formproduct.aSeoTitle.$error">网页标题长度为0~64字符</span>
                             </div>
                         </div>
-                        <span class="mess-zx martop-5">0</span>/64字符
+                        <span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
                     </div>
                     <div class="form-group marbottom32" beyond max-count='100'>
                         <label  class="col-sm-2 control-label lighter-weight padleft70">                            
                             网页关键词
                             <br>(Keywords)</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.keyword" name="aSeoKeyword" data-max-word="5" ng-maxlength="100">
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.keyword" name="aSeoKeyword" data-max-word="5" data-nsw-max-length="100">
                             <div ng-show="formproduct.aSeoKeyword.$dirty && formproduct.aSeoKeyword.$invalid">
-                                <div class="err" ng-show="formproduct.aSeoKeyword.$error.maxlength">网页关键词长度为0~100字符</div>
+                                <div class="err" ng-show="formproduct.aSeoKeyword.$error.nswmaxlength">网页关键词长度为0~100字符</div>
                                 <div class="err" ng-show="formproduct.aSeoKeyword.$error.maxword">关键字使用逗号、空格和分隔符，并不能超过5个关键字</div>
                             </div>
                         </div>
-                        <span class="mess-zx martop-5">0</span>/100字符
+                        <span class="tip-row-height"><span class="mess-zx">0</span>/100字符</span>
                     </div>
                     <div class="form-group marbottom32" beyond max-count='150'>
                         <label  class="col-sm-2 control-label lighter-weight padleft70">                           
@@ -438,12 +459,12 @@
                             <br>(Description)</label>
                         <div class="col-sm-8 " style="z-index: 1;">                             
                             <!-- <div ueditor ng-model="bean.seo.desc" config="configSeoDesc"></div>  --> 
-                            <textarea class="form-control ng-pristine " rows="3" ng-model="bean.seo.desc"  ng-maxlength="150" name="describe" ></textarea>
+                            <textarea class="form-control ng-pristine " rows="3" ng-model="bean.seo.desc"  data-nsw-max-length="150" name="describe" ></textarea>
                             <div ng-show="formproduct.describe.$dirty && formproduct.describe.$invalid">
-                                <div class="err" ng-show="formproduct.describe.$error.maxlength">网页关键词长度为0~150字符</div>
+                                <div class="err" ng-show="formproduct.describe.$error">网页关键词长度为0~150字符</div>
                             </div>
                         </div>
-                        <span class="mess-zx martop-5">0</span>/150字符
+                        <span class="desc"><span class="mess-zx">0</span>/150字符</span>
                     </div> 
                     <div style="clear:both;" class="marbottom100"></div>              
             </tab>    
@@ -465,7 +486,7 @@
                 <div class="pr marbottom32" left-information ng-show = "bean.isEnableThirdPartyMall">
                         <div class="form-group" beyond max-count='50'>
                             <label  class="col-sm-2 control-label lighter-weight padleft70">                                
-                                第三方商城地址
+                                第三方商城商品网址
                             </label>
                             <div class="col-sm-5">
                                 <input type="text" class="form-control" autocomplete="off" ng-model="bean.thirdPartyMallUrl" name="thirdPartyMallUrl">
@@ -516,7 +537,7 @@
                     </div>
                 </div>
                  <div class="form-group marbottom32">
-                     <label  class="col-sm-2 control-label lighter-weight padleft70">显示当前产品</label>
+                     <label  class="col-sm-2 control-label lighter-weight padleft70">显示</label>
                      <div class="col-sm-8">
                          <label class="radio-inline">
                              <input type="radio" name="radioChecked" data-ng-value="true" ng-model="bean.isDisplay">显示</label>
@@ -562,13 +583,13 @@
                             分类名称
                             </label>
                         <div class="col-sm-6">
-                            <input class="form-control" autocomplete="off" ng-model="cTitle" name="cTitle"  ng-maxlength="64" required>
+                            <input class="form-control" autocomplete="off" ng-model="cTitle" name="cTitle"  data-nsw-max-length="64" required>
                             <div ng-show="formAddCategory.cTitle.$dirty && formAddCategory.cTitle.$invalid">
                                 <span class="err" ng-show="formAddCategory.cTitle.$error.required">请填写分类名称</span>
                                 <span class="err" ng-show="!formAddCategory.cTitle.$error.required && formAddCategory.cTitle.$error">分类名称长度为0~64字符</span>
                             </div>                             
                         </div>
-                         <span class="mess-zx martop-5">0</span>/64字符
+                         <span class="tip-row-height"><span class="mess-zx">0</span>/64字符</span>
                     </div>                    
                     <div class="form-group">
                         <label  class="col-sm-3 control-label lighter-weight pt0">

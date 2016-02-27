@@ -40,6 +40,20 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			$scope.infoOther = true;
 
 			$scope.img.productlist = [];
+			
+			$scope.$watch('bean.cmsTags', function (newVal) {
+				function toString(array) {
+					var _arr = [];
+					if (array instanceof Array) {
+						for (var k in array) {
+							_arr.push(array[k].name);
+						}
+					}
+					return _arr.join(',');
+				}
+
+				$scope.tig = toString(newVal);
+			}, true);
 
 			//$scope.init();
 			//加载下拉树。
@@ -56,7 +70,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 								name: data.data[0].name
 							}
 						}
-
 					} else {
 						console.log('操作失败。' + data.data);
 					}
@@ -76,15 +89,24 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				.error(function() {
 					console.log('系统异常或网络不给力！');
 				});
-
+				//加载分类
+			    $http.get('/pccms/productCtg/tree/all')
+					.success(function (data, status, headers, config) {
+						if (data.isSuccess) {
+							$scope.productClassList = data.data;
+						} else {
+							console.log('操作失败。' + data.data);
+						}
+					})
+					.error(function (data, status, headers, config) {
+						console.log('系统异常或网络不给力！');
+					});
 			//修改就去加载表单数据。
 			if ($stateParams.id) {
 				$scope.findId = true;
-				$scope.isHx = true;
 				//console.log($stateParams.isLink);
 				//if($stateParams.isLink) $scope.hasLink();
 				if ($stateParams.isLink === 'true') {
-
 					$scope.hasLink();
 				}
 				$scope.beanStatus = $stateParams.name + '修改';
@@ -110,7 +132,43 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 								};
 							} catch (e) {
 							}
-							$scope.formOptions.setData(data.data.extCtgPro);
+							if(_.has(data.data,"ctgs")&&data.data.ctgs.length>1){
+								$scope.isHx = true;
+							}
+							var toExtCtgPro = function  toExtCtgPro(data){
+								var newdata = {};
+								var newdatastr = '{';
+								for(var i = 0;i< data.length;i++){
+									if(_.isObject(data[i].selectedValue )){
+										var strObj = '"'+data[i].name+'":{';
+										for(j in data[i].selectedValue){
+											if(j == (data[i].selectedValue.length-1)){
+												strObj +='"'+ data[i].selectedValue[j]+'":true}';
+											}else{
+												strObj += '"'+data[i].selectedValue[j]+'":true,';
+											}
+										}
+									}else{
+										var strObj = '"'+data[i].name+'":"'+data[i].selectedName+'"';
+									}
+									if(data.length ==0){
+										newdatastr += '}'
+									}
+									else if(i== (data.length-1)){
+										newdatastr += strObj+'}'
+									}else{
+										newdatastr += strObj+','
+									}
+								};
+								newdata = JSON.parse(newdatastr);
+								return newdata;
+							};
+							if(data.data.extCtgPro.length>0){
+								$scope.formOptions.setData(toExtCtgPro(data.data.extCtgPro));
+							}else{
+								$scope.formOptions.setData({});
+							}
+
 							builderows();
 							try {
 								$scope.bean.tabContents[0].checked = true;
@@ -122,9 +180,8 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 									};
 								}
 							} catch (e) {
-
 							}
-							$scope.addCategory();
+							//$scope.addCategory();
 						} else {
 							console.log('操作失败。' + data.data);
 						}
@@ -151,7 +208,7 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				$scope.bean.extPro = [];
 			}
 			if (!$scope.bean.extPro.length) {
-				$scope.bean.extPro = [{"orderBy": 1,}, {"orderBy": 2}];
+				$scope.bean.extPro = [{"orderBy": 1}, {"orderBy": 2}];
 			}
 			builderows();
 		};
@@ -213,13 +270,11 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 					'id': id
 				}
 			}).success(function (data, status, headers, config) {
-
 				if (data.isSuccess) {
 					$scope.bean.seo.staticPageName = data.data;
 				} else {
 					platformModalSvc.showWarmingMessage(data.data, '提示');
 				}
-
 			}).error(function (data, status, headers, config) {
 				console.log('系统异常或网络不给力！');
 			});
@@ -250,7 +305,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 								//$scope.bean.seo = {};
 								$scope.bean.seo.staticPageName = data.data;
 							}
-
 						}
 					} else {
 						console.log('操作失败。' + data.data);
@@ -261,7 +315,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 
 			}
 		};
-
 		$scope.keyWordErr = false;
 		$scope.keyWordInvalid = false;
 		$scope.$watch('bean.seo.keyword', function (newOptions, oldOptions) {
@@ -347,18 +400,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 				$(".addattra").addClass("addattraon").removeClass("addattra");
 				//加载下拉树。
 				$scope.classify.ksActiveItemBean = {};
-
-				$http.get('/pccms/productCtg/tree/all')
-					.success(function (data, status, headers, config) {
-						if (data.isSuccess) {
-							$scope.productClassList = data.data;
-						} else {
-							console.log('操作失败。' + data.data);
-						}
-					})
-					.error(function (data, status, headers, config) {
-						console.log('系统异常或网络不给力！');
-					});
 			} else {
 				$(".addattraon").addClass("addattra").removeClass("addattraon");
 				$(".guanlian").removeClass("show").addClass("hidden");
@@ -373,7 +414,6 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			$scope.classify.ksActiveItemBean.path + $scope.classify.ksActiveItemBean._id + ',' :
 			',' + $scope.classify.ksActiveItemBean._id + ',';
 			obj.moduleId = $stateParams.moduleId;
-
 			$http.post('/pccms/proj/infoCtg', obj)
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
@@ -515,48 +555,38 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 			}).then(function (response) {
 				$scope.rows = [];
 				$scope.formOptions.lookups = {};
+				response.data.data = _.sortBy(response.data.data,"orderBy");
+
 				for(var i=0;i<response.data.data.length;i++){
-					var item ={model: 'file'+response.data.data[i].orderBy};
-					_.forEach(response.data.data[i],function(valuse,key){
-						if(response.data.data[i].formType=='select'){
-							switch (key){
-								case  'title':item.label=valuse; break;
-								case 'formType':item.domain = valuse; break;
-								case 'optionFields':
-									if(valuse){
+					var item ={model:response.data.data[i].fieldName,size:5};
+					var emp = response.data.data[i];
+					item.label=emp.title;
+					item.domain = emp.formType;
+						if(emp.formType=='select'){
+									if(emp.data){
 										item.key = 'defaultValue';
 										item.display= 'name';
 										item.lookup = item.model;
-										$scope.formOptions.lookups[item.model]=valuse;
+										//$scope.data.lookups=[];
+										$scope.formOptions.lookups[item.model]=emp.data;
 									}
-									break;
-							}
-						}else{
-							switch (key){
-								case  'title':item.label=valuse; break;
-								case 'formType':item.domain = valuse; break;
-								case 'optionFields':
-									if(valuse){
+						} else if(emp.formType=='text'){
+						}else {
+									if(emp.data){
 										item.key = 'defaultValue';
 										item.display= 'name';
-										if(response.data.data[i].formType=='checkbox'){
-											item.options= _.map(valuse,function(value){
+										if(emp.formType=='checkbox'){
+											item.options= _.map(emp.data,function(value){
 												value.model = value.defaultValue;
 												value.parent = item.model;
 												return value;
 											});
 										}else{
-											item.options=valuse;
+											item.options=emp.data;
 										}
 									}
-									break;
-							}
 						}
-
-					});
-
 					$scope.rows.push(item);
-
 				}
 
 			/*$scope.formOptions.lookups = {
@@ -570,6 +600,19 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 
 			});
 	     };
+		$scope.$watch('bean.cmsTags', function (newVal) {
+			function toString(array) {
+				var _arr = [];
+				if (array instanceof Array) {
+					for (var k in array) {
+						_arr.push(array[k].name);
+					}
+				}
+				return _arr.join(',');
+			}
+
+			$scope.tig = toString(newVal);
+		}, true);
 	    $rootScope.xqindex = 0;
 
 
@@ -584,27 +627,46 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 	    	}
 
 	    };
-	    $rootScope.addXqList = function (i) {
+	    $scope.addXqList = function (i) {
 			$scope.bean.tabContents.push(i);
 	    };
 	    $scope.deltXqList = function (i) {
 			$scope.bean.tabContents.splice(i,1);
 	    };
+		$scope.editName = function editName(item){
+			//var x = $scope.bean.tabContents[index];
+			platformModalSvc.showModal({
+				templateUrl: 'addXq.html',
+				controller: 'addXqCtrl',
+				backdrop: 'static',
+				size: 'md',
+				options:{
+					data:angular.copy(item.name)
+				}
+			}).then(function(data){
+				item.name = data;
+			});
+		}
 	     //打开增加详情
 	    $scope.addXq = function () {
 		    if($scope.bean.tabContents.length>=5){
 			    platformModalSvc.showWarmingMessage('最多添加5条标签！','提示');
 		    }else{
-			    $modal.open({
+			    platformModalSvc.showModal({
 				    templateUrl: 'addXq.html',
 				    controller: 'addXqCtrl',
 				    backdrop: 'static',
 				    size: 'md'
+			    }).then(function(data){
+				    $scope.addXqList(data);
 			    });
 		    }
 	    };
 
 
+		$scope.removeImg = function removeImg(img){
+			_.remove($scope.bean.imgs, img);
+		};
 		/*添加属性
 		* a.初始化产品扩展属性的结构
 		* b.进行相关的逻辑处理
@@ -614,19 +676,17 @@ productApp.controller('editCtrl', ['$scope', '$http', '$state', '$stateParams', 
 	}
 ])
 
-.controller('addXqCtrl', ['$scope', '$modalInstance','$http','$state','utils','$rootScope', function($scope,$modalInstance,$http,$state,utils,$rootScope) {
+.controller('addXqCtrl', ['$scope', function($scope) {
+		if(_.has($scope.modalOptions,"data")){
+			$scope.name = $scope.modalOptions.data;
+		}
+		$scope.adddatafun = function () {
+			if (_.has($scope.modalOptions, "data")) {
+				$scope.closeModal(true, $scope.name);
+			} else {
+				$scope.closeModal(true, {"name": $scope.name, "value": ''});
+			}
 
-	$scope.ok = function() {
-
-		$modalInstance.close();
-	};
-	$scope.cancel = function() {
-		$modalInstance.dismiss();
-	};
-	$scope.adddatafun = function () {
-		var i ={"name":$scope.name,"value":''};
-			$rootScope.addXqList(i);
-			$scope.ok ();
-	};
+		}
 
 }]);

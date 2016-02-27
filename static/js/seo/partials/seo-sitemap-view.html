@@ -12,16 +12,15 @@
                     <p class="form-control-static">链接快速录入</p>
                 </div>
                 <div class="form-group " beyond max-count='32'>
-                    <input type="text" name="linkName" class="form-control" placeholder="请填写链接名称"
+                    <input type="text" name="linkName" class="form-control" autocomplete="off" placeholder="请填写链接名称"
                            data-ng-model="link.name"
                            data-nsw-max-length="32" required>
                     <span class="mess-zx martop-5">0</span>/32字符
                 </div>
                 <div class="form-group"  beyond max-count='32'>
-                    <input type="url" name="linkUrl" class="form-control" placeholder="请填超链接"
+                    <input type="text" name="linkUrl" class="form-control" autocomplete="off" placeholder="请填超链接"
                            data-ng-model="link.url"
                            data-nsw-max-length="32" required>
-                    <span ng-show = "formOnlineServiceName.linkUrl.$invalid" class="martop-5 err">以http://开头</span>
                 </div>
                 <button type="button" class=" btn addbtn" data-ng-disabled="formOnlineServiceName.$invalid"
                         data-ng-click="addLink()">
@@ -48,7 +47,7 @@
         <div class="col-xs-4">
             <div class="input-group">
                 <input type="text" value="" name="search" data-nsw-enter="searchLink()" class="form-control"
-                       maxlength="64" ng-model="queryName" placeholder="请输入关键字查询"/>
+                       maxlength="64" ng-model="queryName" autocomplete="off" placeholder="请输入关键字查询"/>
                  <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="background:#f5f5f5;padding-bottom:5px;"
                             ng-click="searchLink()"><span class="search"></span></button>

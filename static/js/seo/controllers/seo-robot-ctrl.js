@@ -19,7 +19,7 @@
 				}else{
 					$scope.isShowPreview = false;
 				}
-				platformModalSvc.showSuccessTip(data,'提示');
+				platformModalSvc.showSuccessTip(data);
 			});
 		};
 		$scope.robotHelp = function robotHelp(){

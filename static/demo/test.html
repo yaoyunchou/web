@@ -219,7 +219,7 @@
 		if(checkAll()){
 			var dt = $("#orderForm").serializeObject();
 			$.ajax({
-				'url': 'http://192.168.4.159:8082/vcenter/intentionalOrder/add?json=' + JSON.stringify(dt),
+				'url': 'http://center.nsw99.com/center/intentionalOrder/add?json=' + JSON.stringify(dt),
 				'type': 'post',
 				'dataType': 'jsonp',
 				'jsonpCallback': 'callback',

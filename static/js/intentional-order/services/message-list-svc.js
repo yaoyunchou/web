@@ -133,7 +133,6 @@
 		//编辑客服信息
 		service.editOrdereSvc = function editOrdereSvc(item) {
 			var newitem = _.omit(item, ['_id']);
-			console.log(newitem);
 			/*item = _.slice(item,1);
 			console.log(item);*/
 			$http({
@@ -176,12 +175,16 @@
 
 				}
 			});
-			if(strList!==''){
-				service.deletOnlineSvcFactory({"intentionalOrderIds": strList}).then(function(data){
-					if(data.isSuccess){
-						platformModalSvc.showWarmingTip(data.data);
+			if(strList!=='') {
+				platformModalSvc.showWarmingMessage('确认要删除这些留言信息到回收站吗?', '网站操作信息提示').then(function(){
+				service.deletOnlineSvcFactory({"intentionalOrderIds": strList}).then(function (data) {
+					if (data.isSuccess) {
+						platformModalSvc.showSuccessTip(data.data);
+					}else{
+						platformModalSvc.showWarmingTip(data.data)
 					}
 				})
+			   });
 			}
 			;
 		};

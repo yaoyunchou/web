@@ -121,36 +121,26 @@ pageApp.controller('pageCtrl', ['$scope','$http','$state','utils','platformModal
 					$http({
 						method: 'DELETE',
 						url: '/pccms/proj/projPageTplPack/pageTpl/'+nodeId,
-					})
-						.success(function(data, status, headers, config) {
-							if(data.isSuccess){
-								loadTree();
-								//element.remove();
-							}else{
-								platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-							}
-						})
-						.error(function(data, status, headers, config) {
-							platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-						});
+					}).then(function(data) {
+						if(data.data.isSuccess){
+							loadTree();
+						}else{
+							platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+						}
+					});
 				}
 
 				if(type == 'CHANNEL' || type == 'PAGEMAIN'){
 					$http({
 						method: 'DELETE',
 						url: '/pccms/module/extend/'+nodeId,
-					})
-						.success(function(data, status, headers, config) {
-							if(data.isSuccess){
-								loadTree();
-								//element.remove();
-							}else{
-								platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-							}
-						})
-						.error(function(data, status, headers, config) {
-							platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-						});
+					}).then(function(data) {
+						if(data.data.isSuccess){
+							loadTree();
+						}else{
+							platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
+						}
+					});
 				}
 			});
 		}
@@ -187,20 +177,27 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 			$state.go('page');
 		};
 		$scope.mask = false;
-		//加载标签列表
-		$http.get('/pccms/tpl/loadTplTag').success(function(data, status, headers, config) {
-			if(data.isSuccess){
-				$scope.tagList = data.data;
-				initTagState();
-				//加载初始筛选列表
-				filterTplList($http, $scope.selectList.join(","));
-			}else{
-				platformModalSvc.showWarmingMessage(nsw.Constant.TAGFAILURE,nsw.Constant.TIP);
-			}
-		})
-			.error(function(data, status, headers, config) {
-				platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
+
+		var loadPages = function loadPages(){
+			//加载标签列表
+			$http.get('/pccms/tpl/loadTplTag').success(function (data, status, headers, config) {
+				if (data.isSuccess) {
+					$scope.tagList = data.data;
+					initTagState();
+					//加载初始筛选列表
+					filterTplList($http, $scope.selectList.join(","));
+				} else {
+					platformModalSvc.showWarmingMessage(nsw.Constant.TAGFAILURE, nsw.Constant.TIP);
+				}
+			}).error(function (data, status, headers, config) {
+				platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK, nsw.Constant.TIP);
 			});
+		}
+
+		desktopMainSvc.getProjectType().then(function(projectType){
+			$scope.num = $scope.projectType = projectType;
+			loadPages();
+		});
 
 		//标签选择事件
 		$scope.selectTag = function(tag, tags){
@@ -228,7 +225,7 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 				size: 'lg',
 				userTemplate:true,
 				options:{
-					tag: $scope.selectList.join(",")
+					tag: $scope.projectType +','+ $scope.selectList.join(",")
 				}
 			}).then(function(data){
 				filterTplList($http, $scope.selectList.join(","));
@@ -287,7 +284,7 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 					}else{
 						dataTip = '';
 					}
-					platformModalSvc.showConfirmMessage(dataTip + '确认使用吗？',nsw.Constant.TIP,true).then(function(){
+					platformModalSvc.showConfirmMessage('确认使用吗？',nsw.Constant.TIP,true).then(function(){
 						$http.post('/pccms/proj/projPageTplPack/pageTpl', dat).then(function(data) {
 							if(data.data.isSuccess){
 								$state.go('page');
@@ -350,7 +347,7 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 			$http({
 				method: 'GET',
 				url: requestUrl,
-				params: {'pageSize': 20, 'tagIds': tagArr}
+				params: {'pageSize': 1000, 'tagIds': tagArr}
 			})
 				.success(function(data, status, headers, config) {
 					if(data.isSuccess){
@@ -441,10 +438,6 @@ pageApp.controller('filterCtrl', ['$scope', '$state', '$stateParams', '$http','u
 			obj.content = $scope.content;
 			obj.designIdea = $scope.designIdea;
 			obj.isPubTpl = true;
-			if($scope.res) obj.imgSm = $scope.res[0].url || '';
-			if($scope.res1) obj.imgMd = $scope.res1[0].url || '';
-			if($scope.res2)obj.imgLg = $scope.res2[0].url || '';
-			if($scope.res3)obj.imgFr = $scope.res3[0].url || '';
 			
 			$http({
 				method: 'POST',
@@ -518,27 +511,7 @@ pageApp.controller('previewCtrl', ['$scope','$http','$state','$stateParams','uti
 		//右侧菜单单页面确认使用
 		$scope.clickConfirUse = function(singleTplId){
 			$scope.frmchat = $scope.desket = $scope.design = $scope.source = $scope.tpldes = false;
-			$scope.used = true;
-			/*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.CONFIRMUSE,function(){
-			 var data = {"tplId":singleTplId , "nodeId":$stateParams.node, "style":$stateParams.style};
-			 $http({
-			 method: 'POST',
-			 url: '/pccms/proj/projPageTplPack/pageTpl',
-			 data: data
-			 })
-			 .success(function(data, status, headers, config) {
-			 if(data.isSuccess){
-			 $state.go('page');
-			 }else{
-			 platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-			 }
-			 })
-			 .error(function(data, status, headers, config) {
-			 platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-			 });
-			 },function(){
-			 return;
-			 },'sm');*/
+			$scope.used = true;	
 			platformModalSvc.showWarmingMessage(nsw.Constant.CONFIRMUSE,nsw.Constant.TIP,true).then(function(){
 				var data = {"tplId":singleTplId , "nodeId":$stateParams.node, "style":$stateParams.style};
 				$http({
@@ -673,21 +646,6 @@ pageApp.controller('previewPackCtrl', ['$scope','$http','$state','$stateParams',
 
 	//在套装树结构页面中，点击确认使用
 	$scope.packUsed = function(packId){
-		/*utils.confirmBox(nsw.Constant.TIP, nsw.Constant.REPLACEOLD,function(){
-		 var data = {"packId": packId};
-		 $http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {
-		 if(data.isSuccess){
-		 $state.go('page');
-		 }else{
-		 platformModalSvc.showWarmingMessage(nsw.Constant.OPERATION,nsw.Constant.TIP);
-		 }
-		 })
-		 .error(function(data, status, headers, config) {
-		 platformModalSvc.showWarmingMessage(nsw.Constant.NETWORK,nsw.Constant.TIP);
-		 });
-		 },function(){
-		 return;
-		 },'md');*/
 		platformModalSvc.showWarmingMessage(nsw.Constant.REPLACEOLD,nsw.Constant.TIP,true).then(function(){
 			var data = {"packId": packId};
 			$http.post('/pccms/proj/projPageTplPack/',data).success(function(data, status, headers, config) {

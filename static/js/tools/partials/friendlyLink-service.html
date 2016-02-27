@@ -10,8 +10,8 @@
         <form class="form-inline friendlyLink-form" name="formOnlineServiceName">
             <div class="form-group" beyond max-count='32'>
                 <label  class="form-control-static">链接快速录入</label>
-                <input type="text" class="form-control"  placeholder="网站名称" data-ng-model="name" required>
-                <input type="text" class="form-control"  placeholder=""  data-ng-model="url" required>
+                <input type="text" class="form-control"  placeholder="网站名称" autocomplete="off" data-ng-model="name" required>
+                <input type="text" class="form-control"  placeholder="网址"  autocomplete="off" data-ng-model="url" required>
             </div>
             <button type="button add-friendlyLink-btn" style="margin-top:4px;" class="btn btn-default borderorange no-radus-btn" data-ng-disabled="formOnlineServiceName.$invalid" data-ng-click="addKeyeordSrv()" >
                 <span class="newadd"></span> 添加
@@ -25,7 +25,7 @@
             </div>
             <form name="formWebName">
                 <div class="input-group col-sm-4">
-                    <input type="text" ng-model="filter" name='name' data-nsw-enter="search(filter)"  data-nsw-enter="search(filter)" class="form-control" ng-model="name" placeholder="请输入网站名称" data-nsw-max-length="64">
+                    <input type="text" ng-model="filter" name='name' data-nsw-enter="search(filter)"  data-nsw-enter="search(filter)" class="form-control" autocomplete="off" ng-model="name" placeholder="请输入网站名称" maxlength="64">
 
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-default padbottom5" ng-disabled="formWebName.name.$error.maxlength" ng-click="search(filter)"><span class="search"></span></button>

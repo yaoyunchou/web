@@ -1,11 +1,25 @@
 <style>
-    .c-smylImage {max-width: 200px;max-height: 96px;min-height:96px;} /* for Firefox & IE7 */
-	* html .c-smylImage { /* for IE6 */
+	.c-smylImage {
+		max-width: 200px;
+		max-height: 96px;
+		min-height: 96px;
+	}
+
+	/* for Firefox & IE7 */
+	* html .c-smylImage {
+		/* for IE6 */
 		width: expression(this.width > 200 && this.width > this.height ? 96: auto);
 		height: expression(this.height > 96 ? 96 : auto);
 	}
-	.c-allthumbImage {max-width: 100px;max-height: 120px;} /* for Firefox & IE7 */
-	* html .c-allthumbImage { /* for IE6 */
+
+	.c-allthumbImage {
+		max-width: 100px;
+		max-height: 120px;
+	}
+
+	/* for Firefox & IE7 */
+	* html .c-allthumbImage {
+		/* for IE6 */
 		width: expression(this.width > 100 && this.width > this.height ? 100 : auto);
 		height: expression(this.height > 120 ? 120 : auto);
 	}
@@ -28,67 +42,72 @@
 	</div>
 	<div class="col-md-12">
 		<table class="table table-bordered c-tag-table">
-	        <tr>
-	            <td class="tag-label"></td>
-	            <td>
-	            	<div class="radio">
-				        <label>
-				            <input type="radio"  value="single" ng-click="filType('single')"  name="tagType" checked/> 单页
-				        </label>
-				        <label>
-				            <input type="radio"  value="pack" ng-click="filType('pack')"  name="tagType"/> 套装
-				        </label>
-				        <button type="button" style="float:right;" class="btn btn-success"  ng-click="addTpl();"> 新增模板</button>
-				    </div>
+			<tr>
+				<td class="tag-label"></td>
+				<td>
+					<div class="radio">
+						<label>
+							<input type="radio" value="single" ng-click="filType('single')" name="tagType" checked/> 单页
+						</label>
+						<label>
+							<input type="radio" value="pack" ng-click="filType('pack')" name="tagType"/> 套装
+						</label>
+						<button type="button" style="float:right;" class="btn btn-success" ng-click="addTpl();"> 新增模板
+						</button>
+					</div>
 				</td>
-	        </tr>
-	        
-	        
-	        
-	        <tr>
-	            <td class="tag-label">网站类别：</td>
-	            <td class="tag-items">
-	            	<ul>
-	            		<li class="disabled" ng-class="{true:'selected'}[isSelcted4]">
-	            		   PC网站 
-	            	    </li>            	    
-	            	    <li class="disabled" ng-class="{true:'selected'}[isSelcted5]">
-	            		       手机网站
-	            	    </li>
-	            	    <li class="disabled" ng-class="{true:'selected'}[isSelcted9]">
-	            		      响应式网站
-	            	    </li>
-	            	</ul>
+			</tr>
+
+
+			<tr>
+				<td class="tag-label">网站类别：</td>
+				<td class="tag-items">
+					<ul>
+						<li class="disabled" ng-class="{true:'selected'}[isSelcted4]">
+							PC网站
+						</li>
+						<li class="disabled" ng-class="{true:'selected'}[isSelcted5]">
+							手机网站
+						</li>
+						<li class="disabled" ng-class="{true:'selected'}[isSelcted9]">
+							响应式网站
+						</li>
+					</ul>
 				</td>
-	        </tr>
-	        
-	        
-	        <tr ng-repeat="tag in tagList">
-	            <td class="tag-label">{{tag.value}}：</td>
-	            <td class="tag-items">
-	            	<ul>
-	            		<li ng-class="{selected:item.selected, disabled:tag.isDisabled}" ng-repeat="item in tag.children" ng-click="selectTag(item,tag)">
-	            			<i class="fa fa-square" ng-if="item.type == 'COLOR'" style="border:1px solid #ccc;background-color:{{item.value}};color:{{item.value}}"></i>
-	            			{{item.type == 'COLOR' ? item.name : item.value}}
-	            	    </li>
-	            	</ul>
+			</tr>
+
+
+			<tr ng-repeat="tag in tagList">
+				<td class="tag-label">{{tag.value}}：</td>
+				<td class="tag-items">
+					<ul>
+						<li ng-class="{selected:item.selected, disabled:tag.isDisabled}"
+						    ng-repeat="item in tag.children" ng-click="selectTag(item,tag)">
+							<i class="fa fa-square" ng-if="item.type == 'COLOR'"
+							   style="border:1px solid #ccc;background-color:{{item.value}};color:{{item.value}}"></i>
+							{{item.type == 'COLOR' ? item.name : item.value}}
+						</li>
+					</ul>
 				</td>
-	        </tr>
-	    </table>
+			</tr>
+		</table>
 	</div>
 	<div class="col-md-12">
 		<ul class="c-list-col c-list-col4 c-tpl-list">
 			<li ng-repeat="item in filterData.list">
 				<div class="item">
-				    <div style="text-align:center;">
-						<img class="c-smylImage" nsw-src="{{item.imgSm}}" />
+					<div style="text-align:center;">
+						<img class="c-smylImage" nsw-src="{{item.imgSm}}"/>
+
 						<div class="desc">网页特点：{{item.style}}</div>
 						<div class="desc">适合行业：{{item.industry}}</div>
 						<div class="desc">模板名称：{{item.name}}</div>
 					</div>
 					<div class="desc action-btn">
-						<a ng-if="filterType == 'single'" class="btn btn-success" ng-click="preSinglePag(item._id)">预览</a>
-						<a ng-if="filterType == 'pack'" class="btn btn-success" ng-click="previewPackPag(item._id)">预览</a>
+						<a ng-if="filterType == 'single'" class="btn btn-success"
+						   ng-click="preSinglePag(item._id)">预览</a>
+						<a ng-if="filterType == 'pack'" class="btn btn-success"
+						   ng-click="previewPackPag(item._id)">预览</a>
 						<a ng-if="filterType == 'single'" class="btn btn-success" ng-click="singleTplRemove(item._id)">删除模版</a>
 					</div>
 				</div>

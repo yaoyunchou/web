@@ -25,7 +25,7 @@
 
                     <div ng-show="seoFromSpeedEdit.title.$dirty && seoFromSpeedEdit.title.$invalid">
                         <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.title.$error.required">请填写网站默认标题</span>
-                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.title.$error.maxlength">网站默认标题长度为0~64字符</span>
+                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.title.$error.nswmaxlength">网站默认标题长度为0~64字符</span>
                     </div>
                 </div>
                 <span class="nsw-form-validate-tip mess-zx">0</span>/64字符
@@ -43,7 +43,7 @@
                            name="keyword" data-nsw-max-length="100" required>
                     <div ng-show="seoFromSpeedEdit.keyword.$dirty && seoFromSpeedEdit.keyword.$invalid">
                         <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.keyword.$error.required">请填写网页关键词</span>
-                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.keyword.$error.maxlength">网页关键词长度为0~100字符</span>
+                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.keyword.$error.nswmaxlength">网页关键词长度为0~100字符</span>
                     </div>
                 </div>
                 <span class="nsw-form-validate-tip mess-zx">0</span>/100字符
@@ -60,7 +60,7 @@
                                       name="description" data-nsw-max-length="150" required />
                     <div ng-show="seoFromSpeedEdit.description.$dirty && seoFromSpeedEdit.description.$invalid">
                         <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.description.$error.required">请填写网页描述</span>
-                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.description.$error.maxlength">网页描述长度为0~150字符</span>
+                        <span class="nsw-form-error-message" ng-show="seoFromSpeedEdit.description.$error.nswmaxlength">网页描述长度为0~150字符</span>
                     </div>
                 </div>
                 <span class="nsw-form-textarea-validate-tip mess-zx">0</span>/150字符

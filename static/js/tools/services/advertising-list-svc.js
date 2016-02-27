@@ -61,14 +61,11 @@
 
 			service.getAdvertisingById = function getAdvertisingById(id){
 				return $http({
-					method: 'PUT',
-					url:globals.basAppRoot +'/advertisementList',
-					data: {
-						_id:id
-					}
+					method: 'GET',
+					url:globals.basAppRoot +'advertisement/'+id
 				}).then(function(res){
-					if (res.data.isSuccess && res.data && res.data.data && res.data.data.list) {
-						return res.data.data.list[0]||{};
+					if (res.data.isSuccess) {
+						return res.data.data||{};
 					}else{
 						platformModalSvc.showErrorMessage(res.data);
 					}

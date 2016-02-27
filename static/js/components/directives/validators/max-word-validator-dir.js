@@ -16,9 +16,11 @@
 				if (!ctrl) {
 					return;
 				}
+				var splitter =/[、]+|[\|\|]+|[\$]+|[\\]+|[\s]+|[,，]+|[;；]+|[|｜]+/; //line: ignore
+				var replaceChar =/[、]+|[\|\|]+|[\$]+|[\\]+|[\s]+|[,，]+|[;；]+|[|｜]+/g; //line: ignore
+
 				var validator = function (value) {
 					var maxWord = parseInt(attr.maxWord) || 0;
-					var splitter =/[\s]+|[,，]+|[;]+|[|]+/; //line: ignore
 					var count = (value || '').split(splitter).length;
 					if (maxWord === 0 || count <= maxWord) {
 						ctrl.$setValidity('maxword', true);
@@ -30,6 +32,14 @@
 				};
 				ctrl.$formatters.push(validator);
 				ctrl.$parsers.unshift(validator);
+
+				ctrl.$viewChangeListeners.push(function(){
+					var value = ctrl.$viewValue;
+					if(value) {
+						value = value.replace(replaceChar,',');
+						ctrl.$setViewValue(value);
+					}
+				});
 
 				attr.$observe('maxword', function () {
 					validator(ctrl.$viewValue);

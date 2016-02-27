@@ -151,7 +151,7 @@ productApp.controller('listCtrl', ['$scope', '$http', '$state', 'utils', '$state
 			;
 
 			if ($scope.newDataList.length > 0) {
-				$modal.open({
+				platformModalSvc.showModal({
 					backdrop: 'static',
 					templateUrl: '/pccms/temp/product/product-transfer-classification.html',
 					controller: 'productTransferClassifyCtrl',
@@ -459,7 +459,19 @@ productApp.controller('listCtrl', ['$scope', '$http', '$state', 'utils', '$state
 				}).error(function (data, status, headers, config) {
 					console.log('系统异常或网络不给力！');
 				});
+			$scope.$watch('editBean.cmsTags', function (newVal) {
+				function toString(array) {
+					var _arr = [];
+					if (array instanceof Array) {
+						for (var k in array) {
+							_arr.push(array[k].name);
+						}
+					}
+					return _arr.join(',');
+				}
 
+				$scope.tig = toString(newVal);
+			}, true);
 			$scope.ok = function () {
 
 				$scope.editBean.ctgs[0].id = $scope.activeItemEdit._id;

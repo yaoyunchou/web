@@ -97,7 +97,6 @@
 		//删除field方法
 		service.deletOnlineSvcFactory = function deletOnlineSvcFactory(data) {
 			data.formId = messageCatalogSvc.getSelectCatalog()._id;
-			platformModalSvc.showConfirmMessage('你确定要删除这些字段信息吗?','网站操作信息提示').then(function(){
 				$http({
 					method: 'DELETE',
 					url: globals.basAppRoot + '/orderForm/deleteField',
@@ -106,13 +105,12 @@
 					platformModalSvc.showSuccessTip(response.data.msg);
 					service.getTabDataList();
 				});
-			});
-
-
 		};
 		//将需要删除的客服id 组成数组
 		service.deletSingleFieldSvc = function deletSingleFieldSvc(item) {
-			service.deletOnlineSvcFactory({"fieldIds": item._id});
+			platformModalSvc.showConfirmMessage('你确定要删除这个字段信息吗?','网站操作信息提示').then(function() {
+				service.deletOnlineSvcFactory({"fieldIds": item._id});
+			});
 
 		};
 		//编辑客服
@@ -224,7 +222,9 @@
 
 				}
 			});
-			service.deletOnlineSvcFactory({"fieldIds": strList});
+			platformModalSvc.showConfirmMessage('你确定要删除这些字段信息吗?','网站操作信息提示').then(function() {
+				service.deletOnlineSvcFactory({"fieldIds": strList});
+			});
 		};
 		//搜索
 		service.searchLink = function searchLink(name) {

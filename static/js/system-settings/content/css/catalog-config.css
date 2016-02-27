@@ -117,6 +117,9 @@ tr:hover .editbtn {
   .contact .submit-but {
     margin-left: 45%;
     float: left; }
+  .contact .err {
+    margin-left: -10px;
+    margin-right: 5px; }
 
 .formField .text-more {
   float: right;

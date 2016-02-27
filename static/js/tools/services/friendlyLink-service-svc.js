@@ -40,14 +40,21 @@
 
 			//编辑友情链接
 			service.friendlyLinkSave = function friendlyLinkSave(item) {
+				var defer = $q.defer(), friendlyLinkData;
 				var data = {'name': item.name, 'url': item.url};
 				$http({
 					'method': 'PUT',
 					'url': '/pccms/friendlyLink/edit/' + item._id,
 					'data': data
 				}).then(function (res) {
-					service.getDataList();
+					if(res.data.isSuccess){
+						friendlyLinkData = service.getDataList();
+					}else{
+						friendlyLinkData = res.data;
+					}
+					defer.resolve(res.data);					
 				});
+				return defer.promise;
 			};
 
 			service.remove = function remove(data) {
@@ -57,12 +64,12 @@
 				} else {
 					ids = _.map(_.filter(serviceList.list, {isChecked: true}), '_id');
 				}
-				var param = {ids: ids.join(','), objName: 'FriendlyLink'};
+				var param = {ids: ids.join(',')};
 				if(ids.length>0){
-					platformModalSvc.showConfirmMessage('确定删除到回收站吗？','提示',true).then(function(){
+					platformModalSvc.showConfirmMessage('您是否确认删除该友情链接？','提示',true).then(function(){
 						$http({
 							method: 'POST',
-							url: globals.basAppRoot + '/recycleBin/addItem',
+							url: globals.basAppRoot + '/friendlyLink/delete',
 							data: param
 						}).then(function (response) {
 							platformModalSvc.showSuccessTip(response.data.data);
@@ -131,9 +138,14 @@
 			//显示
 			service.ifShow = function ifShow(item) {
 				item.isDisplay = !item.isDisplay;
-				service.save(item);
-			};
-
+				$http({
+					method: 'PUT',
+					url:globals.basAppRoot +'friendlyLink/updStatus/'+item._id,
+					data: item
+				}).then(function (response) {
+					service.getDataList();
+				});
+			};			
 
 			return service;
 		}]);

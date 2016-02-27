@@ -183,7 +183,7 @@ expandApp.controller('channelCtrl', ['$scope', '$rootScope', '$http', '$state', 
 	.controller('addChannelmodalBoxCtrl', ['$scope', 'platformModalSvc', '$http', '$state', 'utils', function ($scope, platformModalSvc, $http, $state, utils) {
 
 		$scope.modal = {
-			title: $scope.modalOptions.type === 'edit' ? '编辑内容模块' : '添加内容模块'
+			title: $scope.modalOptions.type === 'edit' ? '模板内容编辑' : '添加内容模块'
 		};
 
 		if ($scope.modalOptions.type === 'edit') {

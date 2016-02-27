@@ -16,6 +16,9 @@
     .progress-cen{text-align:center;margin-top:40px;position:relative;z-index:2}
     .progress-text{position:absolute;left:0%;width:100%;text-align:center;top:0px;}
 	.progress-mask{position:fixed;top:0;left:0;width:100%;height:100%;background:#ccc;filter:alpha(opacity=1);opacity:0.01;z-index:1;}
+	.publish-suctip-btn{background: #f08300;border: 1px solid #f08300;color: #fff;}
+	.publish-suctip-label{background: #f08300 url(../../img/main_sprit1.png) no-repeat -316px -199px;padding: 0px 6px 0px 30px;height: 22px;margin-bottom: 0px;}
+	.publish-suctip-btntext{color:#fff;}
 </style>
 
 	<div class="row">
@@ -29,7 +32,7 @@
 	    <div class="panel-body">
 		    <div class="col-md-3 c-channel">
 		        <span class="c-channel-bg"></span>
-		        <span class="c-channel-text" style="text-align:center;" ng-show="publishTime === undefined? false:publishTime">上次发布时间：<span ng-bind="publishTime"></span></span>
+		        <span class="c-channel-text" style="text-align:center;">上次发布时间：<span ng-bind="publishTime"></span></span>
 		        <button class="btn btn-default c-channel-btn" type="button" ng-disabled="publishBtn" ng-click="publishAll();">一键发布</button>
 		    </div>
 	        <div class="progress-cen" ng-show="progress" style="position:relative;">

@@ -6,7 +6,7 @@
 </div>
 <div class="row">
 	<div class="contact">
-		<h4>欢迎登陆<span class="company" ng-bind="contactInfo.fullCustomerName"></span>网站后台</h4>
+		<br/><br/>
 		<form class="form-horizontal form-validation" name="personalInfo" ng-show="contactInfo.sysType ==4 || contactInfo.sysType ==9">
 			<div class="pcbox" >
 				<div class="form-group marbottom32" beyond max-count='100'>
@@ -16,7 +16,7 @@
 
 					<div class="col-sm-5 ">
 						<input class=" form-control" data-nsw-min-length="8" data-nsw-max-length="100" name="fullCustomerName"
-						       type="text" ng-model="contactInfo.fullCustomerName" required/>
+						       type="text" autocomplete="off" ng-model="contactInfo.fullCustomerName" required/>
 
 						<div ng-show="personalInfo.fullCustomerName.$dirty">
 							<span class="err" ng-show="personalInfo.fullCustomerName.$error.required">公司名称不能为空！</span>
@@ -33,12 +33,12 @@
 
 					<div class="col-sm-5 ">
 						<input class="form-control" data-nsw-min-length="4" data-nsw-max-length="50" type="text"
-						       name="shortCustomerName" ng-model="contactInfo.shortCustomerName" required/>
+						       name="shortCustomerName" autocomplete="off" ng-model="contactInfo.shortCustomerName" required/>
 
 						<div>
-							<span class="err" ng-show="personalInfo.shortCustomerName.$error.required">公司简介不能为空.！</span>
+							<span class="err" ng-show="personalInfo.shortCustomerName.$error.required">公司简称不能为空.！</span>
 							<span class="err"
-							      ng-show="personalInfo.shortCustomerName.$error.nswminlength|| personalInfo.shortCustomerName.$error.nswmaxlength">公司名称长度为4~50字符！</span>
+							      ng-show="personalInfo.shortCustomerName.$error.nswminlength|| personalInfo.shortCustomerName.$error.nswmaxlength">公司简称长度为4~50字符！</span>
 						</div>
 					</div>
 					<span class="mess-zx mtop6">0</span>/50字符
@@ -50,7 +50,7 @@
 
 					<div class="col-sm-5 ">
 						<input class="form-control" data-nsw-max-length="100" name="address" type="text"
-						       ng-model="contactInfo.address"/>
+						       ng-model="contactInfo.address" autocomplete="off"/>
 
 						<div>
 							<span class="err"
@@ -66,7 +66,7 @@
 
 					<div class="col-sm-5 ">
 						<input class="form-control" ng-pattern='/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/'
-						       name="fax" type="text" ng-model="contactInfo.fax"/>
+						       name="fax" type="text" ng-model="contactInfo.fax" autocomplete="off"/>
 
 						<div>
 							<span class="err" ng-show=" personalInfo.fax.$error.pattern">请填写正确的传真号码！</span>
@@ -80,11 +80,12 @@
 					</label>
 
 					<div class="col-sm-5 ">
-						<input class="form-control" ng-pattern="/(^400-[016789]\d{2}-\d{4})|((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/" name="phone400" type="text"
-						       ng-model="contactInfo.phone400"/>
+						<input class="form-control" autocomplete="off" ng-pattern="/(^400-[016789]\d{2}-\d{4})|((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/" name="phone400" type="text"
+						       ng-model="contactInfo.phone400" data-nsw-max-length="100"/>
 
 						<div>
 							<span class="err" ng-show="personalInfo.phone400.$error.pattern">请填入正确的销售热线！</span>
+							<span class="err" ng-show="personalInfo.phone400.$error.nswmaxlength">销售热线不超过100字符</span>
 						</div>
 					</div>
 					<span class="mess-zx mtop6">0</span>/100字符
@@ -95,7 +96,7 @@
 					</label>
 
 					<div class="col-sm-5 ">
-						<input class="form-control" data-nsw-max-length="100" name="formalDomain" type="text"
+						<input class="form-control" autocomplete="off" data-nsw-max-length="100" name="formalDomain" type="text"
 						       ng-model="contactInfo.formalDomain" required/>
 
 						<div>
@@ -109,7 +110,7 @@
 					</label>
 
 					<div class="col-sm-5 ">
-						<input class="form-control" data-nsw-max-length="50" type="text" name="fileNumber"
+						<input class="form-control" autocomplete="off" data-nsw-max-length="50" type="text" name="fileNumber"
 						       ng-model="contactInfo.fileNumber"/>
 
 						<div>
@@ -125,7 +126,7 @@
 					</label>
 
 					<div class="col-sm-5 ">
-						<input class="form-control" data-nsw-min-length="4" data-nsw-max-length="50" type="text" name="contactName"
+						<input class="form-control" autocomplete="off" data-nsw-min-length="4" data-nsw-max-length="50" type="text" name="contactName"
 						       ng-model="contactInfo.contactName" required/>
 
 						<div>
@@ -143,7 +144,7 @@
 
 					<div class="col-sm-5 ">
 						<input class="form-control" ng-pattern="/^1[3|4|5|8][0-9]\d{4,8}$/" type="text"
-						       name="contactPhoneNumber" ng-model="contactInfo.contactPhoneNumber"/>
+						       name="contactPhoneNumber" autocomplete="off" ng-model="contactInfo.contactPhoneNumber"/>
 
 						<div>
 							<span class="err"
@@ -177,7 +178,7 @@
 					<div class="col-sm-5 ">
 						<input class=" form-control"
 						       ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/"
-						       name="contactEmail" type="text" ng-model="contactInfo.contactEmail"/>
+						       name="contactEmail" type="text" autocomplete="off" ng-model="contactInfo.contactEmail"/>
 
 						<div ng-show="personalInfo.contactEmail.$dirty">
 							<span class="err" ng-show="personalInfo.contactEmail.$error.pattern">请填入正确的电子邮件！</span>
@@ -191,7 +192,7 @@
 
 					<div class="col-sm-5 ">
 						<input class=" form-control" ng-pattern="/^\d{5,10}$/" name="qq" type="text"
-						       ng-model="contactInfo.qq"/>
+						       autocomplete="off" ng-model="contactInfo.qq"/>
 
 						<div ng-show="personalInfo.qq.$dirty">
 							<span class="err" ng-show="personalInfo.qq.$error.pattern">请填入正确的QQ号码！</span>
@@ -199,7 +200,7 @@
 					</div>
 				</div>
 				<div class="form-group pt20">
-					<label class="col-sm-2 control-label lighter-weight padleft70">网站Logo</label>
+					<label class="col-sm-2 control-label lighter-weight padleft35">网站Logo</label>
 
 					<div class="col-sm-2 ">
 						<a href="javascript:void(0)">
@@ -235,7 +236,7 @@
 					</div>
 				</div>
 				<div class="form-group pt20">
-					<label class="col-sm-2 control-label lighter-weight padleft70">网站Icon</label>
+					<label class="col-sm-2 control-label lighter-weight padleft35">网站Icon</label>
 
 					<div class="col-sm-2 ">
 						<a href="javascript:void(0)">
@@ -252,7 +253,7 @@
 				</div>
 				<div class="form-group ">
 					<div class="col-sm-offset-2 col-sm-2 ">
-						<button type="submit" data-ng-disabled="personalInfo.$invalid" class="btn btn-warning btn-color " data-ng-click="contactInfoSave();"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+						<button type="submit" data-ng-disabled="personalInfo.$invalid||personalInfo.$pristine" class="btn btn-warning btn-color " data-ng-click="contactInfoSave();"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
 					</div>
 
 				</div>
@@ -269,7 +270,7 @@
 
 				<div class="col-sm-5 ">
 					<input class=" form-control" data-nsw-min-length="8" data-nsw-max-length="100" name="fullCustomerName"
-					       type="text" ng-model="contactInfo.fullCustomerName" required/>
+					       type="text" autocomplete="off" ng-model="contactInfo.fullCustomerName" required/>
 
 					<div ng-show="personalInfophone.fullCustomerName.$dirty">
 						<span class="err" ng-show="personalInfophone.fullCustomerName.$error.required">公司名称不能为空！</span>
@@ -286,12 +287,12 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" data-nsw-min-length="4" data-nsw-max-length="50" type="text"
-					       name="shortCustomerName" ng-model="contactInfo.shortCustomerName" required/>
+					       name="shortCustomerName" autocomplete="off" ng-model="contactInfo.shortCustomerName" required/>
 
 					<div>
-						<span class="err" ng-show="personalInfophone.shortCustomerName.$error.required">公司简介不能为空.！</span>
+						<span class="err" ng-show="personalInfophone.shortCustomerName.$error.required">公司简称不能为空.！</span>
 							<span class="err"
-							      ng-show="personalInfophone.shortCustomerName.$error.nswminlength|| personalInfophone.shortCustomerName.$error.nswmaxlength">公司名称长度为4~50字符！</span>
+							      ng-show="personalInfophone.shortCustomerName.$error.nswminlength|| personalInfophone.shortCustomerName.$error.nswmaxlength">公司简称长度为4~50字符！</span>
 					</div>
 				</div>
 				<span class="mess-zx mtop6">0</span>/50字符
@@ -303,7 +304,7 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" data-nsw-max-length="100" name="address" type="text"
-					       ng-model="contactInfo.address"/>
+					       autocomplete="off" ng-model="contactInfo.address"/>
 
 					<div>
 							<span class="err"
@@ -319,7 +320,7 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" ng-pattern='/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/'
-					       name="fax" type="text" ng-model="contactInfo.fax" />
+					       name="fax" type="text" autocomplete="off" ng-model="contactInfo.fax" />
 
 					<div>
 						<span class="err" ng-show=" personalInfophone.fax.$error.pattern">请填写正确的传真号码！</span>
@@ -334,10 +335,11 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" ng-pattern="/(^400-[016789]\d{2}-\d{4})|((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/" name="phone400" type="text"
-					       ng-model="contactInfo.phone400"/>
+					       autocomplete="off" ng-model="contactInfo.phone400" data-nsw-max-length="100"/>
 
 					<div>
 						<span class="err" ng-show="personalInfophone.phone400.$error.pattern">请填入正确的销售热线！</span>
+						<span class="err" ng-show="personalInfophone.phone400.$error.nswmaxlength">销售热线不超过100字符</span>
 					</div>
 				</div>
 				<span class="mess-zx mtop6">0</span>/100字符
@@ -349,7 +351,7 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" data-nsw-max-length="100" name="formalDomain" type="text"
-					       ng-model="contactInfo.formalDomain" />
+					       autocomplete="off" ng-model="contactInfo.formalDomain" />
 
 					<div>
 						<span class="err" ng-show="personalInfophone.formalDomain.$error.pattern">请填入正确的域名！</span>
@@ -362,7 +364,7 @@
 				</label>
 
 				<div class="col-sm-5 ">
-					<input class="form-control" data-nsw-max-length="50" type="text" name="fileNumber"
+					<input class="form-control" data-nsw-max-length="50" type="text" autocomplete="off" name="fileNumber"
 					       ng-model="contactInfo.fileNumber"/>
 
 					<div>
@@ -378,7 +380,7 @@
 				</label>
 
 				<div class="col-sm-5 ">
-					<input class="form-control" data-nsw-min-length="4" data-nsw-max-length="50" type="text" name="contactName"
+					<input class="form-control" data-nsw-min-length="4" data-nsw-max-length="50" type="text" autocomplete="off" name="contactName"
 					       ng-model="contactInfo.contactName" required/>
 
 					<div>
@@ -395,7 +397,7 @@
 				</label>
 
 				<div class="col-sm-5 ">
-					<input class="form-control" ng-pattern="/^1[3|4|5|8][0-9]\d{4,8}$/" type="text"
+					<input class="form-control" ng-pattern="/^1[3|4|5|8][0-9]\d{4,8}$/" type="text" autocomplete="off"
 					       name="contactPhoneNumber" ng-model="contactInfo.contactPhoneNumber"/>
 
 					<div>
@@ -429,7 +431,7 @@
 				<div class="col-sm-5 ">
 					<input class=" form-control"
 					       ng-pattern="/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/"
-					       name="contactEmail" type="text" ng-model="contactInfo.contactEmail"/>
+					       name="contactEmail" type="text" autocomplete="off" ng-model="contactInfo.contactEmail"/>
 
 					<div ng-show="personalInfophone.contactEmail.$dirty">
 						<span class="err" ng-show="personalInfophone.contactEmail.$error.pattern">请填入正确的电子邮件！</span>
@@ -443,7 +445,7 @@
 
 				<div class="col-sm-5 ">
 					<input class=" form-control" ng-pattern="/^\d{5,10}$/" name="qq" type="text"
-					       ng-model="contactInfo.qq"/>
+					       autocomplete="off" ng-model="contactInfo.qq"/>
 
 					<div ng-show="personalInfophone.qq.$dirty">
 						<span class="err" ng-show="personalInfophone.qq.$error.pattern">请填入正确的QQ号码！</span>
@@ -451,7 +453,7 @@
 				</div>
 			</div>
 			<div class="form-group pt20">
-				<label class="col-sm-2 control-label lighter-weight padleft70">网站Logo</label>
+				<label class="col-sm-2 control-label lighter-weight padleft35">网站Logo</label>
 
 				<div class="col-sm-2 ">
 					<a href="javascript:void(0)">
@@ -487,7 +489,7 @@
 				</div>
 			</div>
 			<div class="form-group pt20">
-				<label class="col-sm-2 control-label lighter-weight padleft70">网站Icon</label>
+				<label class="col-sm-2 control-label lighter-weight padleft35">网站Icon</label>
 
 				<div class="col-sm-2 ">
 					<a href="javascript:void(0)">
@@ -511,7 +513,7 @@
 				</label>
 
 				<div class="col-sm-5 ">
-					<input class=" form-control" name="sinamicroblog" type="text" ng-model="contactInfo.sinamicroblog"/>
+					<input class=" form-control" name="sinamicroblog" type="text" autocomplete="off" ng-model="contactInfo.sinamicroblog"/>
 				</div>
 			</div>
 
@@ -521,8 +523,8 @@
 				</label>
 
 				<div class="col-sm-5 ">
-					<label class="col-sm-3 control-label lighter-weight">经度 ：</label><div class="col-sm-8"><input class=" form-control" name="longitude" type="text" ng-model="contactInfo.longitude"/></div>
-					<label  class="col-sm-3 control-label lighter-weight">纬度 ：</label><div class="col-sm-8"><input class=" form-control" name="latitude" type="text" ng-model="contactInfo.latitude"/></div>
+					<label class="col-sm-3 control-label lighter-weight">经度 ：</label><div class="col-sm-8"><input class=" form-control" name="longitude" type="text" autocomplete="off" ng-model="contactInfo.longitude"/></div>
+					<label  class="col-sm-3 control-label lighter-weight">纬度 ：</label><div class="col-sm-8"><input class=" form-control" name="latitude" type="text" autocomplete="off" ng-model="contactInfo.latitude"/></div>
 				</div>
 			</div>
 			<div class="form-group marbottom32" beyond max-count='50'>
@@ -532,7 +534,7 @@
 
 				<div class="col-sm-5 ">
 					<input class="form-control" ng-pattern="/^1[3|4|5|8][0-9]\d{4,8}$/" type="text"
-					       name="default_message_num" ng-model="contactInfo.default_message_num"/>
+					       name="default_message_num" autocomplete="off" ng-model="contactInfo.default_message_num"/>
 
 					<div>
 							<span class="err"
@@ -544,7 +546,7 @@
 			</div>
 			<div class="form-group ">
 				<div class="col-sm-offset-2 col-sm-2 ">
-					<button type="submit" data-ng-disabled="personalInfophone.$invalid" class="btn btn-warning btn-color " data-ng-click="contactInfoSave();"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+					<button type="submit" data-ng-disabled="personalInfophone.$invalid&&personalInfophone.$pristine" class="btn btn-warning btn-color " data-ng-click="contactInfoSave();"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
 				</div>
 
 			</div>

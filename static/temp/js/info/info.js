@@ -109,7 +109,7 @@ angular.module('infoApp').directive('leftInformation',['$compile', function($com
 		link: function (scope, element) {
 			var showInput = function showInput(){
 				element.find('button').hide();
-				$compile(element.find('.left-info').show())(scope);
+				element.find('.left-info').show();
 			};
 
 			var inputNgModel = $(element.find('.form-control[ng-model],.form-control[data-ng-model]')[0]).data('$ngModelController');

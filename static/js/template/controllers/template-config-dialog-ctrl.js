@@ -48,6 +48,7 @@
 			};
 
 			var createDsFormOptions = function createDsFormOptions() {
+				$scope.setting.tplDs = !$scope.setting.tplDs ?[]:$scope.setting.tplDs;
 				var rows = [], lookups = {};
 				rows = _.map($scope.setting.tplDs.comp, function (item) {
 					return {
@@ -176,7 +177,7 @@
 					hasLabel: true,
 					hasValidateTip: true,
 					required: false,
-					data: $scope.setting.projBlkTpl.tplDs[0]
+					data: $scope.setting.projBlkTpl.tplDs[0]||{}
 				};
 				updateDataSource(-1);
 			};

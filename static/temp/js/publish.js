@@ -11,8 +11,10 @@ publishApp.controller('publishCtrl', ['$scope', '$http','$q', '$state', 'utils',
 			method: 'GET',
 			url: '/pccms/publish/publishTime'//获取上次更新时间
 		}).then(function(data) {
-			if(data.data.data){
+			if(data.data.data && data.data.data!='null'){
 				$scope.publishTime = data.data.data;
+			}else{
+				$scope.publishTime = '无'
 			}
 		});
 	};
@@ -112,6 +114,8 @@ publishApp.controller('publishCtrl', ['$scope', '$http','$q', '$state', 'utils',
 			platformModalSvc.showSuccessTip('上传完成!');
 		});
 	};
+	
+	
 }]).controller('publishSuccessTipCtrl', ['$scope','platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
 	function ($scope, platformModalSvc, $modalInstance, $http, utils, $animate, $state, $stateParams){
 	$http({
@@ -125,6 +129,8 @@ publishApp.controller('publishCtrl', ['$scope', '$http','$q', '$state', 'utils',
 	$scope.cancelTpl = function(){//取消
 		$scope.closeModal(true, $scope.datalist);//弹框隐藏
 	};
+	
+
 }]);
 
 //回收站，路由配置

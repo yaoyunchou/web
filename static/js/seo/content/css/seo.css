@@ -54,8 +54,8 @@
     top: -63px;
 }
 
-.nsw-form-textarea:focus {
-    height: 68px;
+.nsw-form-textarea{
+    line-height: 29px;
 }
 
 .nsw-form-textarea-validate-tip {

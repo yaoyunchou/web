@@ -307,7 +307,7 @@
 			</label>
 
 			<div class="col-sm-5">
-				<input type="text" class="form-control" ng-model="editBean.title" name="title" ng-maxlength="64"
+				<input type="text" class="form-control" ng-model="editBean.title" name="title" data-nsw-max-length="64"
 				       required>
 
 				<div ng-show="formSpeed.title.$dirty && formSpeed.title.$invalid">
@@ -323,7 +323,7 @@
 
 			<div class="col-sm-5">
 				<input type="text" class="form-control" ng-model="editBean.shortTitle" name="shortTitle"
-				       ng-maxlength="30">
+				       data-nsw-max-length="30">
 
 				<div ng-show="formSpeed.shortTitle.$dirty && formSpeed.shortTitle.$invalid">
 					<span class="err" ng-show="formSpeed.shortTitle.$error">短标题标题长度为0~30字符</span>
@@ -346,7 +346,7 @@
 
 			<div class="col-sm-5">
 				<input type="text" class="form-control" ng-model="editBean.seo.staticPageName" name="staticPageName"
-				       ng-blur="verRepeat()" ng-maxlength="30" required>
+				       ng-blur="verRepeat()" data-nsw-max-length="30" required>
 
 				<div ng-show="formSpeed.staticPageName.$dirty && formSpeed.staticPageName.$invalid">
 					<span class="err" ng-show="formSpeed.staticPageName.$error.required">请填写网页访问地址</span>
@@ -363,7 +363,7 @@
 				<br>(Title)</label>
 
 			<div class="col-sm-5">
-				<input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" ng-maxlength="64"
+				<input type="text" class="form-control" ng-model="editBean.seo.title" name="seoTitle" data-nsw-max-length="64"
 				       required>
 
 				<div ng-show="formSpeed.seoTitle.$dirty && formSpeed.seoTitle.$invalid">
@@ -382,7 +382,7 @@
 
 			<div class="col-sm-5">
 				<input type="text" class="form-control" ng-model="editBean.seo.keyword" name="seoKeyword"
-				       ng-maxlength="100" required>
+				       data-nsw-max-length="100" required>
 
 				<div ng-show="formSpeed.seoKeyword.$dirty && formSpeed.seoKeyword.$invalid">
 					<span class="err" ng-show="formSpeed.seoKeyword.$error.required">请填写网页关键词</span>
@@ -400,7 +400,7 @@
 
 			<div class="col-sm-8">
 
-				<textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" ng-maxlength="150"
+				<textarea class="form-control" rows="3" ng-model="editBean.seo.desc" name="seoDesc" data-nsw-max-length="150"
 				          required></textarea>
 
 				<div ng-show="formSpeed.seoDesc.$dirty && formSpeed.seoDesc.$invalid">

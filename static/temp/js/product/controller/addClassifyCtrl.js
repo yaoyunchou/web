@@ -5,7 +5,6 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 		$scope.moduleId = $stateParams.moduleId;
 		$scope.bean = {};
 		$scope.bean.optionFields =[];
-
 		$scope.state = {};
 		$scope.bean.seo = {};
 		$scope.bean.imgSm = {};
@@ -91,15 +90,12 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
 						$scope.bean = data.data;
-
+						$scope.bean.deleteArr =[];
 						//图片。
 						$scope.img = {};
 						if (data.data.imgSm.urlPc || data.data.imgSm.urlPhone) {
 							$scope.imageExist = true;
 							$scope.isThumbnail = true;
-							$scope.img.thumbnail = [];
-							$scope.img.thumbnail[0] = {};
-							$scope.img.thumbnail[0].url = data.data.imgSm.url;
 						}
 
 						$scope.classify.activeItemBean = {
@@ -121,24 +117,24 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 							$scope.bean.data = $scope.bean.data || {};
 							$scope.bean.data.ads = $scope.bean.data.ads || null;
 						}
-						$scope.isThumbnail = !! $scope.bean.imgSm.url;
 						setAdInfo();
+						$http({
+							'method': 'GET',
+							'url': '/pccms/orderForm/getFields',
+							'params': {'formId': $stateParams.id}
+						}).then(function (response) {
+							if(_.isObject(response.data.data)){
+								$scope.bean.optionFields  = _.sortBy( response.data.data,"orderBy");
+							}
+						}, function (response) {
+
+						});
 					} else {
 						platformModalSvc.showWarmingMessage(data.data, '提示');
 					}
 				}).error(function (data, status, headers, config) {
 					platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
 				});
-			$http({
-				'method': 'GET',
-				'url': '/pccms/orderForm/getFields',
-				'params': {'formId': $stateParams.id}
-			}).then(function (response) {
-				$scope.bean.optionFields  = response.data.data;
-				//$scope.formOptions = angular.copy($scope.formOptions);
-		}, function (response) {
-
-			});
 
 		}
 		else {
@@ -338,6 +334,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				'id': row._id,
 				'type': 'LIST'
 			};
+			$scope.formInfo.$setDirty(true);
 			setAdInfo();
 		};
 
@@ -458,21 +455,37 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 					adddata:angular.copy(type)
 				}
 			}).then(function(e){
-				type = e;
+				if(_.has(e,"_id")){
+					type.changed = true;
+				}
+				if(e.formType ==="text"){
+					e.data = [];
+				}
+				type.title = e.title;
+				type.data = e.data;
+				type.formType = e.formType
 			});
 		};
 		/********其他属性  新建end**************/
 		$scope.interchange = function interchange(item1,item2){
 			var order =item1.orderBy;
+
 			item1.orderBy =item2.orderBy;
 			item2.orderBy =order;
+			item1.changed = true;
+			item2.changed = true;
 			$scope.bean.optionFields = _.sortBy($scope.bean.optionFields,'orderBy');
 		};
-
 		//删除数据
+
 		$scope.deletOtherType = function (index,file) {
-			$scope.bean.optionFields.splice(index,1);
-			if($stateParams.id){
+			if(_.has(file,"_id")){
+				file.deleted = true;
+				$scope.bean.deleteArr.push(file);
+			}else{
+				$scope.bean.optionFields.splice(index,1);
+			}
+		/*	if($stateParams.id){
 				$http({
 					method: 'DELETE',
 					url: globals.basAppRoot + '/orderForm/deleteField',
@@ -480,9 +493,9 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				}).then(function (response) {
 
 				});
-			}
+			}*/
 
-		}
+		};
 		$scope.saveOptions = function saveOptions(){
 			for(item in $scope.bean.optionFields){
 				console.log(item);
@@ -497,15 +510,6 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 
 			//$scope.optionFields.
 		};
-
-
-		//修改数据
-		$rootScope.tochange = function (ele) {
-			$scope.mylist.splice(index, 1);
-			$scope.lists.splice(index, 1);
-			$rootScope.long--;
-		};
-		
 		desktopMainSvc.getProjectType().then(function(){
 			var isPhone = desktopMainSvc.isPoneProject();
 			var isPc = desktopMainSvc.isPcProject();
@@ -532,21 +536,41 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 			return str;
 		}
 	})
+	.filter("isDelete",function(){
+		return function (array) {
+			if(_.isArray(array)){
+				for(var i = 0; i<array.length;i++){
+					if(_.has(array[i],"deleted")){
+						array.splice(i,1);
+					}
+				}
+			}
+			return array;
+		}
+	})
 
 //相同属性添加
 	.controller('addOtherTypeCtrl', ['utils', '$scope', '$modalInstance', '$rootScope', function (utils, $scope, $modalInstance, $rootScope) {
 		if(_.has($scope.modalOptions,'adddata')){
+			$scope.UI ={"text":false,"radio":false,"checkbox":false,"select":false};
+			switch ($scope.modalOptions.adddata.formType){
+				case "text":$scope.UI.text = true; break;
+				case "radio":$scope.UI.radio = true; break;
+				case "checkbox":$scope.UI.checkbox = true; break;
+				case "select":$scope.UI.select = true; break;
+			}
 			$scope.adddata = $scope.modalOptions.adddata;
-			var index = $scope.adddata.optionFields.length;
+			var index = $scope.adddata.data.length;
 			$scope.inputlist=[];
-			for(var i=0;i<$scope.adddata.optionFields.length;i++){
-				$scope.inputlist.push({"num": i+1,'sx':$scope.adddata.optionFields[i].name});
+			for(var i=0;i<$scope.adddata.data.length;i++){
+				$scope.inputlist.push({"num": i+1,"sx":$scope.adddata.data[i].name,"id":$scope.adddata.data[i].id,"orderBy":$scope.adddata.data[i].orderBy});
 			}
 
 		}else{
+			$scope.UI ={"text":true,"radio":true,"checkbox":true,"select":true};
 			$scope.adddata= {};
 			$scope.adddata.formType = 'text';
-			$scope.adddata.optionFields=[];
+			$scope.adddata.data=[];
 			var index = 5;
 			$scope.inputlist = [{"num": "1"}, {"num": "2"}, {"num": "3"}, {"num": "4"}, {"num": "5"}];
 		}
@@ -573,7 +597,7 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				$(".textbox,.smwd").hide();
 				$(".dtbox").show();
 			}
-		}
+		};
 
 		//显示input  还是textarea
 		var flag = true;
@@ -603,33 +627,41 @@ productApp.controller('addClassifyCtrl', ['$scope', '$http', '$state', 'utils', 
 				if(_.isArray($scope.modalOptions.data)&&$scope.modalOptions.data.length<1){
 					$scope.adddata.orderBy = 1;
 					current = 0;
+					$scope.adddata.fieldName = 'file'+(current+1);
 				}else{
 					 current = _.maxBy($scope.modalOptions.data,'orderBy').orderBy;
 					$scope.adddata.orderBy =current + 1;
+					$scope.adddata.fieldName = 'file'+(current+1);
 				}
 			}
 
 			if($scope.adddata.formType!='text'){
 				for(var i = 0;i<$scope.inputlist.length;i++){
 					var current;
-					if($scope.adddata.optionFields.length<1){
+					if($scope.adddata.data.length<1){
 						current = 0;
 					}else {
-						current = _.maxBy($scope.adddata.optionFields, 'orderBy').orderBy;
+						current = _.maxBy($scope.adddata.data, 'orderBy').orderBy;
 					}
-					$scope.adddata.optionFields[i] = {"name":$scope.inputlist[i].sx ,"defaultValue":'file'+(current+1),"orderBy":current+1}
+					if(_.has($scope.inputlist[i],"id")){
+						$scope.adddata.data[i].name = $scope.inputlist[i].sx;
+					}else{
+						$scope.adddata.data[i] = {"name":$scope.inputlist[i].sx ,"defaultValue":'optionKey'+(current+1),"orderBy":current+1}
+					}
+
 				}
 			}
 
-			for(var i =0; i<$scope.adddata.optionFields.length;i++){
-				if(_.has($scope.adddata.optionFields[i],'name')){
-					if(!$scope.adddata.optionFields[i].name||$scope.adddata.optionFields[i].name=='undefined'){
-						$scope.adddata.optionFields.splice(i,1);
+			for(var i =$scope.adddata.data.length-1; i>=0;i--){
+				if(_.has($scope.adddata.data[i],'name')){
+					if(!$scope.adddata.data[i].name||$scope.adddata.data[i].name=='undefined'){
+						$scope.adddata.data.splice(i,1);
 					}
 				}else{
-					scope.adddata.optionFields.splice(i,1);
+					scope.adddata.data.splice(i,1);
 				}
 			}
+
 
 			$scope.closeModal(true,$scope.adddata);
 		}

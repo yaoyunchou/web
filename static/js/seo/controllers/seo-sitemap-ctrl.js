@@ -85,13 +85,16 @@
 				$scope.link = {};
 				$scope.formOnlineServiceName.$setPristine(true);
 			};
+			$scope.$watch('queryName', function (newOptions, oldOptions) {
+				siteMapListSvc.setSeach(newOptions);
+			}, true);
 			$scope.catalogListOptions = {
 				caption: '网站地图频道管理',
 				onSelectedChanged: siteMapCatalogSvc.setSelectCatalog,
 				onSorted: siteMapCatalogSvc.switchSortIndex,
 				onDeleted: siteMapCatalogSvc.deletCatalog,
 				onCreated: siteMapCatalogSvc.addDept,
-				onLineEdited:siteMapCatalogSvc.updataDept,
+				onSpeedEdit:siteMapCatalogSvc.updataDeptModel,
 				data: {
 					dataList: $scope.dataList,
 					displayField: 'name',
@@ -113,10 +116,11 @@
 						model: 'name'
 					},{
 						label: '链接URL',
-						domain: 'url',
+						domain: 'text',
 						placeholder:'请填写频道对应网址',
-						maxLength: 18,
+						maxLength: 100,
 						size: 12,
+						required: true,
 						model: 'url'/*,
 						validates:[{
 							directive:'ng-pattern="/^http://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?/"',

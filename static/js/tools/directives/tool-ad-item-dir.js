@@ -47,8 +47,8 @@
 
 				ctrl.$render = function render() {
 					resize(scope.config);
-					scope.config = ctrl.$viewValue;
-					img = (ctrl.$viewValue.imgs || [])[0]||{};
+					scope.config = ctrl.$viewValue||{};
+					img = (scope.config.imgs || [])[0]||{};
 					updateDisplay();
 				};
 
@@ -65,6 +65,7 @@
 						scope.config.adId = data._id;
 						scope.config.name = data.name;
 						img = (data.imgs || [])[0]||{};
+						ctrl.$setViewValue(scope.config);
 						updateDisplay();
 					});
 				};

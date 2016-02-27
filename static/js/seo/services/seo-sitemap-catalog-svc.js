@@ -23,7 +23,7 @@
 				'url': '/pccms/siteMap/getIsFirstInMap'
 			}).then(function (response) {
 				if(response.data==='true'){
-					platformModalSvc.showConfirmMessage('是否要初始化html网站地图?','提示').then(function(data){
+					platformModalSvc.showConfirmMessage('是否要初始化html网站地图?','提示').then(function(){
 						defer.resolve(true);
 					},function(){
 						defer.resolve(false);
@@ -59,20 +59,33 @@
 			return defer.promise;
 		};
 		//修改右侧部门
-		service.updataDept = function updataDept(data) {
+		service.updataDeptModel = function updataDept(data) {
+			var defer = $q.defer();
+			var ctg = angular.copy(data);
+			platformModalSvc.showModal({
+				backdrop: 'static',
+				templateUrl: globals.basAppRoot + 'js/seo/partials/seo-link-edit.html',
+				controller: 'siteMapItemEditCtrl',
+				size: 'lg',
+				userTemplate: true,
+				options: {
+					ctg: ctg
+				}
+			}).then(function(){
+				angular.extend(data, ctg);
+			});
+			return defer.promise;
+		};
+		//更新数据
+		service.updataDept = function updataDept(data){
 			var defer = $q.defer();
 			$http({
 				'method': 'POST',
 				'url': '/pccms/siteMap/updateLinkType',
 				'data': data
 			}).then(function (response) {
-				if (response.data.isSuccess) {
-					// deptList.push(response.data.data);
-					defer.resolve(deptList);
-					//service.getCtgDetpList(true);
-					platformModalSvc.showSuccessTip("更新成功!");
-				}
-
+				defer.resolve(response.data);
+				service.getCtgDetpList(true);
 			}, function (response) {
 				platformModalSvc.showWarmingTip(response.data.data);
 			});

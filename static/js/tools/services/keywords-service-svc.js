@@ -58,14 +58,21 @@
 
 			//编辑关键词信息
 			service.editKeyWords = function editKeyWords(item) {
+				var defer = $q.defer(), keyWordsData;
 				var keywordsList, data = {'name': item.name, 'url': item.url};
 				$http({
 					'method': 'PUT',
 					'url': '/pccms/keyword/edit/' + item._id,
 					'data': data
-				}).then(function (res) {
-					service.getDataList();
+				}).then(function (res) {				
+					if(res.data.isSuccess){
+						keyWordsData = service.getDataList();
+					}else{
+						keyWordsData = res.data;
+					}
+					defer.resolve(res.data);
 				});
+				return defer.promise;
 			};
 
 			//删除

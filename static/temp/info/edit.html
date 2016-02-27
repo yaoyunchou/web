@@ -48,7 +48,7 @@
                                 标题名称
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control {{titlelostflag? 'ng-dirty ng-invalid ng-invalid-required':null}}" ng-model="bean.title" autocomplete="off" ng-blur="setNetAddress();" name="title" ng-maxlength="64" required>
+                                <input type="text" class="form-control {{titlelostflag? 'ng-dirty ng-invalid ng-invalid-required':null}}" ng-model="bean.title" autocomplete="off" ng-blur="setNetAddress();" name="title" data-nsw-max-length="64" required>
                                 <div ng-show="formInfo.title.$dirty && formInfo.title.$invalid||titlelostflag">
                                     <span class="err" ng-show="formInfo.title.$error.required||titlelostflag" >请填写资讯标题</span>
                                     <span class="err" ng-show="!formInfo.title.$error.required && formInfo.title.$error">资讯标题长度为0~64字符</span>
@@ -63,7 +63,7 @@
                              <button type="button" class="btn btn-default btn-hover" style="position: absolute;top: 76px;right: 160px;"> <i class="glyphicon glyphicon-plus-sign" style="padding: 0 4px;"></i>添加短标题</button>
                          <span  class="left-info left-info-st" beyond max-count='30'>
                                     <span>短标题名称</span>
-                                    <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.shortTitle" name="shortTitle" ng-maxlength="30">
+                                    <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.shortTitle" name="shortTitle" data-nsw-max-length="30">
                                     <span class="mess-zx">0</span>/30字符
                                     <div ng-show="formInfo.shortTitle.$dirty && formInfo.shortTitle.$invalid" class="left-info-err">
                                         <span class="err" ng-show="formInfo.shortTitle.$error" style="margin-top: 6px;display: inline-block;">短标题长度为0~30字符</span>
@@ -211,7 +211,7 @@
                             网页访问地址
                         </label>
                          <div class="col-sm-5">
-                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName"  ng-maxlength="30" required>
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName"  data-nsw-max-length="30" required>
                             <div ng-show="formInfo.staticPageName.$dirty && formInfo.staticPageName.$invalid">
                                 <span class="err" ng-show="formInfo.staticPageName.$error.required">请填写网页访问地址名称</span>
                                 <span class="err" ng-show="!formInfo.staticPageName.$error.required && formInfo.staticPageName.$error">网页访问地址名称长度为0~30字符</span>
@@ -225,7 +225,7 @@
                             网页标题
                             <br>(Title)</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.title" name="aSeoTitle" ng-maxlength="64">
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.title" name="aSeoTitle" data-nsw-max-length="64">
                             <div ng-show="formInfo.aSeoTitle.$dirty && formInfo.aSeoTitle.$invalid">                              
                                 <span class="err" ng-show="formInfo.aSeoTitle.$error">网页标题长度为0~64字符</span>
                             </div>
@@ -237,7 +237,7 @@
                             网页关键词
                             <br>(Keywords)</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.keyword" name="aSeoKeyword" ng-maxlength="100">
+                            <input type="text" class="form-control" autocomplete="off" ng-model="bean.seo.keyword" name="aSeoKeyword" data-nsw-max-length="100">
                             <div ng-show="formInfo.aSeoKeyword.$dirty && formInfo.aSeoKeyword.$invalid">                                
                                 <span class="err" ng-show="formInfo.aSeoKeyword.$error">网页关键词长度为0~100字符</span>
                             </div>
@@ -251,7 +251,7 @@
                             <br>(Description)</label>
                         <div class="col-sm-8" style="z-index: 1;">                             
                             <!-- <div ueditor ng-model="bean.seo.desc" config="configSeoDesc"></div>  --> 
-                            <textarea class="form-control" rows="3" ng-model="bean.seo.desc"  ng-maxlength="150" required></textarea>                        
+                            <textarea class="form-control" rows="3" ng-model="bean.seo.desc"  data-nsw-max-length="150" required></textarea>
                         </div>                        
                     </div> 
                     <div style="clear:both;"></div>              
@@ -274,7 +274,7 @@
                                 作者
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.author" name="author" ng-maxlength="50">
+                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.author" name="author" data-nsw-max-length="50">
                                 <div ng-show="formInfo.author.$dirty && formInfo.author.$invalid">                               
                                     <span class="err" ng-show="formInfo.author.$error">作者字符长度为0~50字符</span>
                                 </div>
@@ -288,7 +288,7 @@
                         </div>
                         <span  class="left-info" beyond max-count='200' style="display:none;">
                             <span>作者官网</span>
-                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.authorLink" name="authorLink" ng-maxlength="200">
+                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.authorLink" name="authorLink" data-nsw-max-length="200">
                             <span class="mess-zx">0</span>/200字符
                             <div ng-show="formInfo.authorLink.$dirty && formInfo.authorLink.$invalid" class="left-info-err">
                                 <span class="err" ng-show="formInfo.authorLink.$error" style="margin-top: 6px;display: inline-block;">作者官网长度为0~200字符</span>
@@ -302,7 +302,7 @@
                                 编辑
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.editor" name="editor" ng-maxlength="50">
+                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.editor" name="editor" data-nsw-max-length="50">
                                 <div ng-show="formInfo.editor.$dirty && formInfo.editor.$invalid">                               
                                     <span class="err" ng-show="formInfo.editor.$error">作者字符长度为0~50字符</span>
                                 </div>
@@ -316,7 +316,7 @@
                         </div>
                         <span  class="left-info" beyond max-count='200' style="display:none;">
                             <span>编辑官网</span>
-                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.editorLink" name="editorLink" ng-maxlength="200">
+                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.editorLink" name="editorLink" data-nsw-max-length="200">
                             <span class="mess-zx">0</span>/200字符
                             <div ng-show="formInfo.editorLink.$dirty && formInfo.editorLink.$invalid" class="left-info-err">
                                 <span class="err" ng-show="formInfo.editorLink.$error" style="margin-top: 6px;display: inline-block;">编辑官网长度为0~200字符</span>
@@ -329,7 +329,7 @@
                                 来源
                             </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.src" name="src" ng-maxlength="50">
+                                <input type="text" class="form-control" autocomplete="off" ng-model="bean.src" name="src" data-nsw-max-length="50">
                                 <div ng-show="formInfo.src.$dirty && formInfo.src.$invalid">                               
                                     <span class="err" ng-show="formInfo.src.$error">作者字符长度为0~50字符</span>
                                 </div>
@@ -343,7 +343,7 @@
                         </div>
                         <span  class="left-info" beyond max-count='200' style="display:none;">
                             <span>来源官网</span>
-                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.srcLink" name="srcLink" ng-maxlength="200">
+                            <input type="text" class="form-control left-info-input" autocomplete="off" ng-model="bean.srcLink" name="srcLink" data-nsw-max-length="200">
                             <span class="mess-zx">0</span>/200字符
                             <div ng-show="formInfo.srcLink.$dirty && formInfo.srcLink.$invalid" class="left-info-err">
                                 <span class="err" ng-show="formInfo.srcLink.$error" style="margin-top: 6px;display: inline-block;">来源官网长度为0~200字符</span>
@@ -410,7 +410,7 @@
                             分类名称
                             </label>
                         <div class="col-sm-6">
-                            <input class="form-control" autocomplete="off" ng-model="cTitle" name="cTitle"  ng-maxlength="64" required>
+                            <input class="form-control" autocomplete="off" ng-model="cTitle" name="cTitle"  data-nsw-max-length="64" required>
                             <div ng-show="formAddCategory.cTitle.$dirty && formAddCategory.cTitle.$invalid">
                                 <span class="err" ng-show="formAddCategory.cTitle.$error.required">请填写分类名称</span>
                                 <span class="err" ng-show="!formAddCategory.cTitle.$error.required && formAddCategory.cTitle.$error">分类名称长度为0~64字符</span>

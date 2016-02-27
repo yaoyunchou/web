@@ -73,9 +73,11 @@
 				defer = $q.defer();
 			$http.get(apiUrl).then(function (res) {
 				selectedSetting = res.data.data;
-				selectedSetting.conf = selectedSetting.conf || {};
+				selectedSetting.conf = (selectedSetting || {}).conf || {};
+
 
 				if (selectedSetting.projBlkTpl) {
+					selectedSetting.projBlkTpl.tplDs = selectedSetting.projBlkTpl.tplDs||[{}];
 					selectedSetting.projBlkTpl.ctgId = service.getSelectedCtg(selectedSetting.moduleCtgs, selectedSetting.projBlkTpl.ctgId) || {};
 					angular.forEach(selectedSetting.projBlkTpl.confData, function (conf) {
 						selectedSetting.conf[conf.name] = conf.value;
@@ -178,8 +180,8 @@
 				if (res.data.isSuccess) {
 					blkTypeList = res.data.data || {};
 					blkTypeList = _.map(blkTypeList, function (blkType) {
-						if (blkType.img) {
-							blkType.img.url = globals.basImagePath + '/' + blkType.img.url;
+						if (blkType.imgUrl) {
+							blkType.imgUrl = globals.basImagePath + '/' + blkType.imgUrl;	
 						}
 						return blkType;
 					});
@@ -270,6 +272,17 @@
 				defer.resolve(tplRemove);
 			});
 			return defer.promise;
+		};
+
+		service.getProjId = function getProjId(){
+			return $http.get(globals.basAppRoot + 'user/getProjId').then(function(res){
+				if(res.data.isSuccess) {
+					return res.data.data || '';
+				}
+				return '';
+			},function(error){
+				console.warn(error);
+			});
 		};
 		return service;
 	}]);
