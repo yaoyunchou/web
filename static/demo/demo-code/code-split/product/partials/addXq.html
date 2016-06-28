@@ -9,7 +9,7 @@
 		<div class="form-group" tongbu max-count='20'>
 			<label class="col-sm-2 control-label">标签名录入</label>
 			<div class="col-sm-8">
-				<input type="text" name="zdname" class="form-control " ng-model="name" ng-maxlength="20" required>
+				<input type="text" name="zdname" class="form-control " ng-model="name" data-nsw-max-length="20" required>
 				<div ng-show="addxq.zdname.$dirty && addxq.zdname.$invalid||titlelostflag">
 					<span class="err" ng-show="addxq.zdname.$error.required||titlelostflag">请填写字段长度</span>
 					<span class="err" ng-show="!addxq.zdname.$error.required && addxq.zdname.$error">字段长度为0~20字符</span>

@@ -1,0 +1,42 @@
+
+	<div class="modal-header">
+		<h4 class="modal-title">友情链接快速编辑</h4>
+		<a class="diaremove" ng-click="$close()"></a>
+	</div>
+
+	<div class="modal-body friendlyLink-body">
+		<form class="form-horizontal form-validation" name="friendlyLinkInfo" novalidate>
+			<div class="form-group" beyond max-count='32'>
+				<label  class="col-sm-3 control-label friendlyLink-label">
+					<span class="err">*</span>
+					友情链接名称：</label>
+				<div class="col-sm-7">
+					<input type="text" class="form-control" autocomplete="off" ng-model="friendlyLink.name" name="name" data-nsw-max-length="32" required>
+					<div ng-show="friendlyLinkInfo.name.$dirty && friendlyLinkInfo.name.$invalid">
+						<span class="err" ng-show="friendlyLinkInfo.name.$error.required">请填写友情链接名称</span>
+						<span class="err" ng-show="friendlyLinkInfo.name.$error.nswmaxlength">友情链接名称长度不能大于32</span>
+					</div>
+				</div>
+				<span class="mess-zx">0</span>/32字符
+			</div>
+			<div class="form-group"  beyond max-count='30'>
+				<label  class="col-sm-3 control-label friendlyLink-label">
+					<span class="err">*</span>
+					超链接网址：</label>
+				<div class="col-sm-7">
+					<input type="text" class="form-control" autocomplete="off" ng-pattern=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ ng-model="friendlyLink.url" name="link" data-nsw-min-length="4" data-nsw-max-length="30" required>
+					<div ng-show="friendlyLinkInfo.link.$dirty && friendlyLinkInfo.link.$invalid">
+						<span class="err" ng-show="friendlyLinkInfo.link.$error.pattern">输入的超链接网址不合法</span>
+						<span class="err" ng-show="friendlyLinkInfo.link.$error.nswminlength">超链接网址长度不能小于4</span>
+						<span class="err" ng-show="friendlyLinkInfo.link.$error.nswmaxlength">超链接网址长度不能大于30</span>
+					</div>
+				</div>
+				<span class="mess-zx">4</span>/30字符
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer text-align-left friendlyLink-footer">
+		<button type="submit" ng-disabled="!(friendlyLinkInfo.$valid&&friendlyLinkInfo.$dirty)" class="btn btn-warning btn-color"  ng-click="friendlyLinkSave()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+		<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+	</div>

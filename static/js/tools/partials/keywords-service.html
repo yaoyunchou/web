@@ -1,0 +1,107 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <div platform-bread-nav="breadNavs"/>
+    </div>
+</div>
+<div class="row add-keywords-info-row">
+    <div class="col-md-12">
+        <form class="form-inline add-keywords-info-form" name="formOnlineServiceName" >
+            <div class="form-group" beyond max-count='32'>
+                <label  class="form-control-static">快速录入</label>
+                <input type="text" class="form-control"  autocomplete="off" placeholder="关键词名称" data-ng-model="keywordsSvcname" required>
+                <input type="text" class="form-control"  autocomplete="off" placeholder="超链接" data-ng-model="keywordsSvcurl" required>
+            </div>
+            <button type="button" style="margin-top:4px;" class="btn btn-default borderorange no-radus-btn" data-ng-disabled="formOnlineServiceName.$invalid" data-ng-click="addKeyeordSrv()" >
+                <span class="newadd"></span> 添加
+            </button>
+        </form>
+        <div class="form-group">
+            <div class="col-sm-8">
+                <button type="button" class="btn btn-default no-radus-btn btnh26 keywords-checkAll-btn" ng-click="checkAll(true)"> 全选</button>
+                <button type="button" class="btn btn-default no-radus-btn btnh26 keywords-btn" ng-click="checkAll(false)"> 反选</button>
+                <button type="button" class="btn btn-default no-radus-btn btnh26 keywords-btn" ng-click="batchDelete()"><span class="trash"></span>批量删除</button>
+            </div>
+            <form name="formKeyWords">
+                <div class="input-group col-sm-4">
+                    <input type="text" ng-model="filter"  data-nsw-enter="search(filter)" class="form-control" name="name" autocomplete="off" ng-model="name" placeholder="请输入关键词名称" maxlength="64">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default padbottom5" ng-disabled="formKeyWords.name.$error.maxlength" ng-click="search(filter)"><span class="search"></span></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row c-row">
+    <div class="col-xs-9">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" ng-model="isCheckAll" ng-change="checkAll(isCheckAll)"/></th>
+                <th>序号</th>
+                <th>关键词名称</th>
+                <th>超链接</th>
+                <th>所属分类</th>
+                <th>排序</th>
+                <th>显示</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in tabDataList.list | orderBy:'orderBy'">
+                <td><input type="checkbox" ng-model="item.isChecked" ng-click="checkItem(item)"/></td>
+                <td style="position:relative;">
+                    <div class="titleTd c-wrap">
+                       <span ng-show="$index<9">0</span>{{$index+1}}
+                    </div>
+                </td>
+                <td width="15%">
+                    <span data-ng-bind="item.name"></span>
+                    <a class="editbtn" title="快速编辑" ng-click="editOnlineSvcModal(item)"><i class="fa fa-edit"></i></a>
+                </td>
+                <td >
+                 <a href="{{item.url}}" target="_blank">{{item.url}}</a>
+                </td>
+                <td>
+                    {{ item.ctgName }}
+                </td>
+                <td>
+                    <span>
+			    		<i ng-hide="$first" class="fa fa-arrow-up" ng-click="interchange(item,tabDataList.list[$index-1])" ></i>
+			    		<i ng-hide="$last" class="fa fa-arrow-down" ng-click="interchange(item,tabDataList.list[$index+1])" ></i>
+                    </span>		    		  
+                </td>
+                <td><i class="fa fa-circle-o"
+                       ng-class="{true: 'fa-circle text-success', false: 'fa-circle-o'}[item.isDisplay]"
+                       ng-click="ifShow(item)"></i></td>
+                <td>{{item.createdTime}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="remove(item)">
+                            <span class="fa-delete"></span><span class="fa-delete-text">  删除</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <!--分页条-->
+            <tfoot class="hide-if-no-paging" style="background:#f6f6f6;">
+                <tr class="c-channel-tfoot">
+                    <td colspan="10" class="text-center" style="width:100%;">
+                        <uib-pagination total-items="totalItems" ng-model="currentPage" items-Per-Page="pageSize"
+                                        max-size="maxSize" class="pagination-sm m-t-none m-b" boundary-links="true"
+                                        rotate="false" ng-change="pageChanged()" previous-text="上一页" next-text="下一页"
+                                        first-text="首页" last-text="末页"></uib-pagination>
+                    </td>
+                </tr>
+            </tfoot>
+            <!--分页条end-->
+        </table>
+    </div>
+    <div class="col-xs-3">
+        <div data-platform-catalog-list data-options="catalogListOptions"></div>
+    </div>
+</div>

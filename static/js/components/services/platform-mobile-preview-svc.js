@@ -2,18 +2,15 @@
 (function (angular) {
 	"use strict";
 	var module = angular.module('platform');
-	module.factory('mobilePreviewSvc', ['$http', '$q', 'platformModalSvc', function (/*$http, $q, platformModalSvc*/) {
+	module.factory('mobilePreviewSvc', [function () {
 		var service = {};
-		service.mobilePreview = function mobilePreview(content) {
-			/*platformModalSvc.showModal({
-				templateUrl: globals.basAppRoot + 'js/components/templates/platform-mobile-preview.html',
-				size: 'sm',
-				options: {
-					content: content
-				}
-			});*/
-
-			window.open(globals.basAppRoot+'js/template/index.html#/template-setting?uri='+encodeURIComponent(content));
+		service.mobilePreview = function mobilePreview(pageid,state,isPubTpl) {
+			state = state ||'view';
+			isPubTpl = _.isUndefined(isPubTpl)?true:isPubTpl;
+			window.open(globals.basAppRoot+'js/template/index.html#/template-setting?' +
+				'pageid='+pageid+
+				'&state='+state+
+				'&isPubTpl='+isPubTpl);
 		};
 		return service;
 	}]);

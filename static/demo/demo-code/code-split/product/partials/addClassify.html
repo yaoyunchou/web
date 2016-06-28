@@ -56,7 +56,7 @@
                             分类名称
                         </label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" ng-model="bean.name"  ng-blur="setNetAddress()" name="name"   ng-maxlength="64" required>
+                            <input type="text" class="form-control" ng-model="bean.name"  ng-blur="setNetAddress()" name="name"   data-nsw-max-length="64" required>
                             <div ng-show="formInfo.name.$dirty && formInfo.name.$invalid">
                                 <span class="err" ng-show="formInfo.name.$error.required" >请填写分类名称</span>
                                 <span class="err" ng-show="!formInfo.name.$error.required && formInfo.name.$error">分类名称长度为0~64字符</span>
@@ -118,7 +118,7 @@
             </div>
             <div ng-show="!isLinkFlag">
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label lighter-weight">是否上传板块名称图标</label>
+                    <label  class="col-sm-2 control-label lighter-weight">是否上传版块名称图标</label>
                     <div class="col-sm-8"> 
                         <label class="radio-inline">
                             <input type="radio" name="radioCheckedImg"  ng-click="hasNotThumbnail()" ng-checked="!imageExist">否
@@ -205,7 +205,7 @@
                     网页访问地址
                 </label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName" ng-maxlength="30" required>
+                    <input type="text" class="form-control" ng-model="bean.seo.staticPageName" ng-blur="verRepeat()" name="staticPageName" data-nsw-max-length="30" required>
                     <div ng-show="formInfo.staticPageName.$dirty && formInfo.staticPageName.$invalid">
                         <span class="err" ng-show="formInfo.staticPageName.$error.required">请填写静态页名称</span>
                         <span class="err" ng-show="!formInfo.staticPageName.$error.required && formInfo.staticPageName.$error">静态页名称长度为0~30字符</span>
@@ -220,7 +220,7 @@
                     网页标题
                     <br>(Title)</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.title" name="aSeoTitle" ng-maxlength="64">
+                    <input type="text" class="form-control" ng-model="bean.seo.title" name="aSeoTitle" data-nsw-max-length="64">
                     <div ng-show="formInfo.aSeoTitle.$dirty && formInfo.aSeoTitle.$invalid">
                         <span class="err" ng-show="formInfo.aSeoTitle.$error">网页标题长度为0~64字符</span>
                     </div>
@@ -233,7 +233,7 @@
                     网页关键词
                     <br>(Keywords)</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" ng-model="bean.seo.keyword" name="aSeoKeyword" ng-maxlength="100">
+                    <input type="text" class="form-control" ng-model="bean.seo.keyword" name="aSeoKeyword" data-nsw-max-length="100">
                     <div ng-show="formInfo.aSeoKeyword.$dirty && formInfo.aSeoKeyword.$invalid">
                         <span class="err" ng-show="formInfo.aSeoKeyword.$error">网页关键词长度为0~100字符</span>
                     </div>
@@ -248,7 +248,7 @@
                     <br>(Description)</label>
                 <div class="col-sm-8" style="z-index: 1;">
                    <!--  <div ueditor ng-model="bean.seo.desc" config="configSeoDesc"></div> -->
-                   <textarea class="form-control" rows="3" ng-model="bean.seo.desc"  ng-maxlength="150"></textarea>
+                   <textarea class="form-control" rows="3" ng-model="bean.seo.desc"  data-nsw-max-length="150"></textarea>
                 </div>
             </div>
             <div style="clear:both;"></div> 

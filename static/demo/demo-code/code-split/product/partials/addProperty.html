@@ -6,7 +6,7 @@
 		<div class="form-group" tongbu  max-count='20'  style="height:29px;margin-bottom:32px;">
 			<label class="col-sm-2 control-label" style="font-weight:normal;padding-left:34px;">字段名称</label>
 			<div class="col-sm-8">
-				<input type="text" name = "zdname" class="form-control " ng-model="adddata.name" ng-maxlength="20" required  > 
+				<input type="text" name = "zdname" class="form-control " ng-model="adddata.name" data-nsw-max-length="20" required  >
 				 <div ng-show="addothertype.zdname.$dirty && addothertype.zdname.$invalid||titlelostflag">
                        <span class="err" ng-show="addothertype.zdname.$error.required||titlelostflag" >请填写字段长度</span>
                        <span class="err" ng-show="!addothertype.zdname.$error.required && addothertype.zdname.$error">字段长度为0~20字符</span>
@@ -57,7 +57,7 @@
             <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">录入框旁边说明文本</label>
             <div class="col-sm-8">
                <div class = "textbox">
-                 <textarea class="form-control areat"  rows='6' ng-model="zdcdbg" name = 'smwb' ng-maxlength="50" required ></textarea>
+                 <textarea class="form-control areat"  rows='6' ng-model="zdcdbg" name = 'smwb' data-nsw-max-length="50" required ></textarea>
                   <div ng-show="addothertype.smwb.$dirty && addothertype.smwb.$invalid||titlelostflag">
                        <span class="err" ng-show="addothertype.smwb.$error.required||titlelostflag" >请填写录入框旁边说明文本</span>
                        <span class="err" ng-show="!addothertype.smwb.$error.required && addothertype.smwb.$error">录入框旁边说明文本为0~50字符</span>

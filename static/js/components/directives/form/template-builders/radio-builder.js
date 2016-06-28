@@ -5,20 +5,29 @@
 		['baseTemplateBuilder',
 			function (baseTemplateBuilder) {
 
-				var service = {}, radioTemplate = baseTemplateBuilder.getTemplate('radio');
-				baseTemplateBuilder.getTemplate('radioGroup');
-				service.init = baseTemplateBuilder.init;
+				var service = {}, baseBuilder = new baseTemplateBuilder();
 
-				service.build = function () {
+				service.init = function init(formOptions, editorOptions){
+					baseBuilder.init(formOptions, editorOptions);
+
+					var radioTemplate = baseBuilder.getTemplate('radio', true);
+					baseBuilder.getTemplate('radioGroup');
+
 					var optionTemplates = [];
-					_.forEach(baseTemplateBuilder.editor.options, function (option) {
+					_.forEach(baseBuilder.editor.options, function (option) {
 						var template = radioTemplate
-							.replace(/%value%/g, option.value)
-							.replace(/%label%/g, option.label);
+							.replace(/%checked%/g, !!option.checked)
+							.replace(/%key%/g, option[baseBuilder.editor.key])
+							.replace(/%display%/g, option[baseBuilder.editor.display]);
 						optionTemplates.push(template);
 					});
-					baseTemplateBuilder.addConfiguration(/%content%/g, optionTemplates.join('\r\n'));
-					return baseTemplateBuilder.buildConfigurations();
+					baseBuilder.addConfiguration(/%content%/g, optionTemplates.join('\r\n'));
+
+				};
+
+				service.build = function () {
+
+					return baseBuilder.buildConfigurations();
 				};
 				return service;
 			}]);

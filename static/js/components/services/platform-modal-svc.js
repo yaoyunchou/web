@@ -30,12 +30,40 @@
 					} else {
 						defer.reject(args);
 					}
+
 					this.$close(success);
 				};
-				$modal.open(options);
-				setTimeout(function(){
-					$('.modal-dialog').draggable();
-				},500);
+				var instance = $modal.open(options);
+				var isOverflow = ($('[ng-controller="desktopMainCtrl"]')[0] || $(window)[0]).clientHeight > $(window).height();
+				var padding = $('html').css('padding-right');
+				instance.result.then(function () {
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
+					}
+				}, function () {
+					if(isOverflow){
+						$('html').css('padding-right', padding);
+						$('html').css('overflow-y', 'auto');
+					}
+				});
+
+				if (isOverflow) {
+					$('html').css('overflow-y', 'hidden');
+					$('html').css('padding-right', '17px');
+				}
+				setTimeout(function () {
+					if (isOverflow) {
+						$('.nsw.modal').css('padding-right', '17px');
+					}
+					if (!options.isTip) {
+						if (!options.disableDrag) {
+							$('.modal-dialog').draggable({
+								cancel: ".modal-body,.modal-footer"
+							});
+						}
+					}
+				});
 				return defer.promise;
 			};
 
@@ -57,9 +85,9 @@
 					size = 300;
 				}
 				/*if (!options.userTemplate) {
-					options.template = '<div data-platform-modal data-nsw-title="' + options.title + '" data-nsw-size=' + size + ' data-nsw-view="' + options.templateUrl + '"></div>';
-					options.templateUrl = null;//globals.basAppRoot + 'demo/views/ace-editor.html';
-				}*/
+				 options.template = '<div data-platform-modal data-nsw-title="' + options.title + '" data-nsw-size=' + size + ' data-nsw-view="' + options.templateUrl + '"></div>';
+				 options.templateUrl = null;//globals.basAppRoot + 'demo/views/ace-editor.html';
+				 }*/
 			};
 
 			service.showErrorMessage = function showErrorMessage(message, title) {
@@ -95,7 +123,7 @@
 				};
 				return service.showModal(options);
 			};
-			
+
 			service.showConfirmMessage = function showConfirmMessage(message, title) {
 				var options = {
 					size: 'sm',
@@ -104,7 +132,7 @@
 						title: title,
 						message: message,
 						commitIcon: 'checkforward',
-						cancelIcon:  'checkcance',
+						cancelIcon: 'checkcance',
 						commitText: '确 定',
 						cancelText: '取 消',
 						type: 'confirm'
@@ -131,11 +159,30 @@
 				return service.showModal(options);
 			};
 
+			service.showConfirmVCMessage = function showConfirmVCMessage(message, title) {
+				var options = {
+					size: 'sm',
+					userTemplate: true,
+					options: {
+						title: title,
+						message: message,
+						commitIcon: 'checkforward',
+						cancelIcon: 'checkcance',
+						commitText: '确 定',
+						cancelText: '取 消',
+						type: 'confirm'
+					},
+					templateUrl: globals.basAppRoute + 'components/templates/modals/platform-modal-confirm-vc-message.html'
+				};
+				return service.showModal(options);
+			};
+
 			service.showWarmingTip = function showWarmingTip(message) {
 				var options = {
 					size: 'xs',
 					backdrop: false,
 					userTemplate: true,
+					isTip: true,
 					options: {
 						message: message,
 						type: 'warming'
@@ -150,6 +197,7 @@
 					size: 'xs',
 					backdrop: false,
 					userTemplate: true,
+					isTip: true,
 					options: {
 						message: message,
 						type: 'success'
@@ -164,6 +212,7 @@
 					size: 'xs',
 					backdrop: false,
 					userTemplate: true,
+					isTip: true,
 					options: {
 						message: message,
 						type: 'loading'
@@ -189,10 +238,17 @@
 
 	angular.module("template/modal/window.html", []).run(["$templateCache", function ($templateCache) {
 		$templateCache.put("template/modal/window.html",
-			"<div tabindex=\"-1\" role=\"dialog\" class=\"nsw modal fade\" ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\">\n" +
+			"<div tabindex=\"-1\" role=\"dialog\" class=\"nsw modal fade\" ng-class=\"{in: animate}\" style=\"display: block;	position: fixed\" ng-style=\"{'z-index': 811214 + index*10, display: 'block'}\">\n" +
 			"    <div class=\"nsw modal-dialog nsw-modal-dialog\" ng-class=\"{'nsw-modal-sm': size == 'sm', 'nsw-modal-md': size == 'md','nsw-modal-lg': size == 'lg','nsw-modal-xs': size == 'xs'}\">" +
 			"       <div class=\"modal-content\" modal-transclude></div>" +
 			"   </div>\n" +
 			"</div>");
+
+		$templateCache.put("template/modal/backdrop.html",
+			"<div style=\"display: block;width: 1388px;height: 1419px;position: absolute;left: 0px;top: 0px;\" class=\"modal-backdrop fade {{ backdropClass }}\"\n" +
+			"     ng-class=\"{in: animate}\"\n" +
+			"     ng-style=\"{'z-index': 811213 + (index && 1 || 0) + index*10}\"\n" +
+			"></div>\n" +
+			"");
 	}]);
 }(angular));

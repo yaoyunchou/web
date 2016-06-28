@@ -1,7 +1,6 @@
 /*global angular, _*/
 (function (angular) {
 	"use strict";
-	angular.module('platform', []);
 	angular.module('platform').directive('platformImageSlider', ['$timeout',
 		function ($timeout) {
 			return {

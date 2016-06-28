@@ -1,0 +1,27 @@
+<div class="modal-header">
+	<h4 class="modal-title">留言代码获取</h4>
+	<a class="diaremove" ng-click="$close()"></a>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal form-validation" name="formFieldLable" novalidate>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				 当前留言名称：
+			</label>
+			<div class="col-sm-8 padleft26">
+				<input type="text" class="form-control" autocomplete="off" ng-model="bean.name" name="name" data-ng-readonly="true" >
+			</div>
+		</div>
+		<div class="form-group marbottom32" beyond max-count='32'>
+			<label class="col-sm-2 control-label lighter-weight padleft35">
+				javascript代码：
+			</label>
+			<div class="col-sm-8 padleft26">
+				<textarea class="form-control" rows="3" ng-model="editfieldBean.explainText" name="seoDesc" data-nsw-max-length="150" required></textarea>
+				<br/>
+				<button type="submit" class="btn btn-warning"
+				       ng-click="updata()"><span class="">拷&nbsp;贝</span></button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,21 +1,14 @@
+@charset "UTF-8";
 .fl {
   float: left; }
 
 .fr {
   float: right; }
 
-.clean-margin-padding {
-  margin: 0;
-  padding: 0; }
-
-tr .editbtn {
-  display: none; }
-tr:hover .editbtn {
-  display: inline-block; }
-
 .tool-nav {
   border: 1px solid #ddd;
-  overflow: hidden; }
+  overflow: hidden;
+  padding-bottom: 10px; }
   .tool-nav .list-group-item {
     border: none;
     background-color: #FFFFFF;
@@ -54,8 +47,19 @@ tr:hover .editbtn {
   .tool-nav .submitbox {
     padding: 0 10px; }
 
-.titleTd {
-  width: 80px; }
+tr .editbtn {
+  border-radius: 3px;
+  cursor: pointer;
+  display: none; }
+tr:hover .editbtn {
+  display: inline-block; }
+
+/*对表单的验证框样式定义*/
+.form-control.ng-dirty.ng-invalid {
+  border-color: #f44336; }
+
+.form-control.ng-dirty.ng-valid, .form-validation .form-control.ng-dirty.ng-valid:focus {
+  border-color: #4caf50; }
 
 .onlineservice .addbtn {
   border-color: #f08300;
@@ -63,5 +67,12 @@ tr:hover .editbtn {
   color: #f08300; }
   .onlineservice .addbtn .addattr {
     background-position: -365px -283px; }
+
+/*对表单的验证框样式定义*/
+.form-control.ng-dirty.ng-invalid {
+  border-color: #f44336; }
+
+.form-control.ng-dirty.ng-valid, .form-validation .form-control.ng-dirty.ng-valid:focus {
+  border-color: #4caf50; }
 
 /*# sourceMappingURL=online-service.css.map */

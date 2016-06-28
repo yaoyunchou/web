@@ -3,7 +3,7 @@
  */
 (function (angular) {
 	"use strict";
-	var seoApp = angular.module('seoApp',['toolApp','platform','common','ui.router','ui.bootstrap','ngStorage']);
+	var seoApp = angular.module('seoApp',['platform','common','ui.router','ui.bootstrap','ngStorage']);
 	seoApp.config(['$stateProvider', '$urlRouterProvider',
 		function ($stateProvider, $urlRouterProvider) {
 			$urlRouterProvider.otherwise('/default-seo');
@@ -27,6 +27,12 @@
 				url:'/sitemap',
 				templateUrl:'partials/seo-sitemap-view.html',
 				controller:'siteMapCtrl'
+			}).state('err',{
+				url:'/err',
+				templateUrl:'partials/err.html'
+			}).state('map',{
+				url:'/map',
+				templateUrl:'partials/seo-map-view.html'
 			});
 		}
 	]);

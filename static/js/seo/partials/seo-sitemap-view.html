@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="content/css/seo.css">
+<link rel="stylesheet" type="text/css" href="content/css/web-map.css">
 <div class="row">
     <div class="col-md-12">
         <div platform-bread-nav="breadNavs"/>
@@ -6,33 +6,32 @@
 </div>
 <div class="row c-row ">
     <form class="form-inline " name="formOnlineServiceName" style="overflow:hidden;">
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <div>
                 <div class="form-group">
                     <p class="form-control-static">链接快速录入</p>
                 </div>
                 <div class="form-group " beyond max-count='32'>
-                    <input type="text" name="linkName" class="form-control" placeholder="请填写链接名称"
+                    <input type="text" name="linkName" class="form-control" autocomplete="off" placeholder="请填写链接名称"
                            data-ng-model="link.name"
-                           ng-maxlength="32" required>
+                           data-nsw-max-length="32" required>
                     <span class="mess-zx martop-5">0</span>/32字符
                 </div>
                 <div class="form-group"  beyond max-count='32'>
-                    <input type="text" name="linkUrl" class="form-control" placeholder="请填超链接"
+                    <input type="text" name="linkUrl" class="form-control" autocomplete="off" placeholder="请填超链接"
                            data-ng-model="link.url"
-                           ng-maxlength="32" required>
-                    <span class="mess-zx martop-5">0</span>/32字符
+                           data-nsw-max-length="32" required>
                 </div>
-                <button type="button" class=" btn btn-hover " data-ng-disabled="formOnlineServiceName.$invalid"
+                <button type="button" class=" btn addbtn" data-ng-disabled="formOnlineServiceName.$invalid"
                         data-ng-click="addLink()">
                     <span class="addattr"></span>添加
                 </button>
                 <!-- <span data-ng-show="formOnlineServiceName.name.$error.maxlength" class="err" >客服名称0~32字符</span>-->
             </div>
         </div>
-        <div class="col-sm-4 text-right mapview">
-            <label>预览:</label><a href="#">HTML地图</a><span>|</span><a href="#">XML地图</a><span>|</span><a
-                href="#">百度地图</a>
+        <div class="col-sm-3 text-right mapview">
+            <label>预览:</label><a target=_blank href="/pccms/siteMap/viewHtmlMap">HTML地图</a><span>|</span><a target=_blank=""  href="/pccms/siteMap/viewXmlMap">XML地图</a><span>|</span><a
+                target=_blank  href="/pccms/siteMap/viewTxtMap">百度地图</a>
         </div>
     </form>
     <div class="row col-sm-12 c-row">
@@ -43,12 +42,12 @@
             <button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="batchDelete()"><span
                     class="trash"></span>批量删除
             </button>
-            <button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="inverse()"> 提交地图</button>
+            <a type="button" target="_blank" class="btn btn-default no-radus-btn btnh26" href="../seo/map.html"> 提交地图</a>
         </div>
         <div class="col-xs-4">
             <div class="input-group">
                 <input type="text" value="" name="search" data-nsw-enter="searchLink()" class="form-control"
-                       maxlength="64" ng-model="queryName" placeholder="请输入关键字查询"/>
+                       maxlength="64" ng-model="queryName" autocomplete="off" placeholder="请输入关键字查询"/>
                  <span class="input-group-btn">
                     <button type="button" class="btn btn-default" style="background:#f5f5f5;padding-bottom:5px;"
                             ng-click="searchLink()"><span class="search"></span></button>
@@ -85,14 +84,14 @@
                 <td>
                     <div data-ng-bind="$index+1"></div>
                 </td>
-                <td style="position:relative;">
+                <td class="c-wrap" style="position:relative;width: 180px;">
                     <div class="map-url-name">
                         <div class="titleTd c-wrap">
                             {{item.name}}
                             <a class="editbtn" title="快速编辑" ng-click="editOnlineSvcModal(item)"><i
                                     class="fa fa-edit"></i></a>
                         </div>
-                        <a class="link" ng-href="item.url" ng-bind="item.url"></a>
+                        <a class="link" target = "_blank" ng-href="{{item.url}}" ng-bind="item.url"></a>
                     </div>
                     
                 </td>
@@ -100,14 +99,11 @@
                 <td data-ng-bind="item.type.name">
 
                 </td>
-               <!-- <td>
-                    {{ item.serverType.name }}
-                </td>-->
                 <td>
                     <span>
-			    		    <i ng-hide="$first" class="fa fa-arrow-up"
+                        <i ng-hide="$first" class="fa fa-arrow-up"
                                ng-click="interchange(item,tabDataList[$index-1])"></i>&nbsp;
-			    		    <i ng-hide="$last" class="fa fa-arrow-down"
+                        <i ng-hide="$last" class="fa fa-arrow-down"
                                ng-click="interchange(item,tabDataList[$index+1])"></i>
                     </span>
                 </td>
@@ -127,6 +123,6 @@
         </table>
     </div>
     <div class="col-xs-3">
-        <div tool-right-nav></div>
+        <div data-platform-catalog-list data-options="catalogListOptions"></div>
     </div>
 </div>

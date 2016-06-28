@@ -14,4 +14,7 @@ nsw.Constant = {
 	'REPLACEOLD': '如果使用将会替换以前已有的数据,确认使用吗？',
 	'CONFIRCANCLE': '确认取消吗？',
 	'PAUSE': '如果继续发布，点击确定；否则取消'
-}
+};
+nsw.Pattern ={
+
+};

@@ -1,25 +1,24 @@
+@import "../../../components/content/css/platform-catalog-list";
 .catalog-config {
-	.configList {
-		border: 1px solid #CCCCCC;
-		margin-top:10px;
-		overflow: hidden;
-		h2{
-			font-size: 14px;
-			margin-top: 0;
-			border:none;
-			border-bottom: 1px solid #ddd;
-			margin-bottom:30px;
-		}
+    .configList {
+        border: 1px solid #CCCCCC;
+        margin-top:10px;
+        overflow: hidden;
+        h2{
+            font-size: 14px;
+            margin-top: 0;
+            border:none;
+            border-bottom: 1px solid #ddd;
+            margin-bottom:30px;
+        }
 
-		.form-group{
-			min-height: 32px;;
-		}
-	}
+        .form-group{
+            min-height: 32px;;
+        }
+    }
 }
-
-
 /*意向订单留言管理*/
-.more-search{
-	border:1px solid #CCCCCC;
+.more-search {
+	border: 1px solid #CCCCCC;
 	margin-top: 10px;
 }

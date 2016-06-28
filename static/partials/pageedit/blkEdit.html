@@ -3,6 +3,7 @@
         max-width: 77px;
         max-height: 120px;
         margin: 20px 0 10px 0;
+        width:100%;
     }
     .form-group{
         line-height: 26px;
@@ -83,7 +84,7 @@
 <div class="c-mask"></div>
 <div class="c-popup nsw">
     <div class="modal-header">
-        <h3 class="modal-title" style="margin:0px;">板块编辑</h3>
+        <h3 class="modal-title" style="margin:0px;">版块编辑</h3>
         <a class="diaremove" ng-click="cancel()"></a>
     </div>
     <div class="modal-body" style="height:320px;overflow-y:scroll">
@@ -92,11 +93,11 @@
                 <div class="row c-tpl-list">
                     <p class="col-sm-2" ng-repeat="(key,item) in pubBlkTpls">
                     	
-                        <img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)" ng-repeat = "attr in item.confData" ng-if="attr.name=='blkIcon'" ng-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}" >
+                        <img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)" ng-repeat = "attr in item.confData" ng-if="attr.name=='blkIcon'" nsw-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}" >
                         
                         {{item.name}}
                         <img class="c-tpl-selected-img {{key == projBlkTpl._id ? 'selected' : ''}}"
-                             ng-src="{{sysBasePath}}/img/tpl/selected.png">
+                             nsw-src="{{sysBasePath}}/img/tpl/selected.png">
                              
                     </p>
                 </div>
@@ -104,27 +105,38 @@
                      <h5 align="left" class="linetitle ng-scope"><span>我的模板</span></h5>
                     <p class="col-sm-2" ng-repeat="(key,item) in projBlkTplList">
                       
-                      <img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)" ng-repeat = "attr in item.confData" ng-if="attr.name=='blkIcon'" ng-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}" >
+                      <img class="c-tpl-item c-allthumbImage" ng-click="tplSelected(item)" ng-repeat = "attr in item.confData" ng-if="attr.name=='blkIcon'" nsw-src="{{attr.value == null||attr.value == '' ? sysBasePath+'/img/nsw.png':attr.value}}" >
                              {{item.name}}
                         <img class="c-tpl-selected-img {{key == projBlkTpl._id ? 'selected' : ''}}"
-                             ng-src="{{sysBasePath}}/img/tpl/selected.png">
+                             nsw-src="{{sysBasePath}}/img/tpl/selected.png">
                     </p>
                 </div>
                 <!-- <div ng-show="noData"><h3 style="color:red;">没有相应的数据!</h3></div> -->
             </tab>
-            <tab heading="数据源">
-                <div class="row form-group c-tpl-ds"  >             
-                    <label class="control-label" >选择分类</label>
-                    <select class="col-xs-3 sourceselect" ng-change="moduleChanged()"
-                                ng-model="projBlkTpl.moduleId"
-                                ng-options="item._id as item.name for item in extendModules"></select>
-               </div>   
+
+
+
+
+
+
+
+
+            
+            <tab heading="数据源" ng-show="'PROD_CONTENT'!==projBlkTpl.type && 'INFO_CONTENT'!==projBlkTpl.type && 'SITEMAP'!==projBlkTpl.type && 'CTG_LIST'!==projBlkTpl.type && 'CLIENT'!==projBlkTpl.type && 'SHARE'!==projBlkTpl.type && 'HEADER'!==projBlkTpl.type && 'FOOTER'!==projBlkTpl.type && 'PROD_SHOWCASE'!==projBlkTpl.type">
                <div class="row form-group c-tpl-ds"  >
-                    <label class="control-label">选择频道</label>    
-                   <nested-combo-box class="col-xs-3"  control-disabled="false"
-                                          collection="moduleCtgs" change-event="itemChanged()"
-                                          ng-model="projBlkTpl.ctgId"></nested-combo-box>               
+                    <label class="control-label" ng-show="isShowModuleSelecter  && isShowCtgSelecter">选择频道</label>    
+                    <label class="control-label" ng-show="isShowModuleSelecter && !isShowCtgSelecter">选择分类</label>
+                   <select class="col-xs-3 sourceselect" ng-change="moduleChanged()"
+                                ng-model="projBlkTpl.moduleId"
+                                ng-options="item._id as item.name for item in extendModules" ng-show="isShowModuleSelecter"></select>
+                                
                 </div>
+                <div class="row form-group c-tpl-ds"  ng-show="isShowCtgSelecter">             
+                    <label class="control-label" >选择分类</label>
+                    <nested-combo-box class="col-xs-3"  control-disabled="false"
+                                          collection="moduleCtgs" change-event="itemChanged()"
+                                          ng-model="projBlkTpl.ctgId"></nested-combo-box>  
+               </div>   
                 <div class="row form-group c-tpl-ds" ng-repeat="dsData in projBlkTpl.tplDs">
                     <label class="control-label">{{dsData.label}}</label>
 

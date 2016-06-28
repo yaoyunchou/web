@@ -1,0 +1,177 @@
+<style>
+	.advertising .addbtn {
+		border-color: #f08300;
+		background-color: #FFFFFF;
+		color: #f08300;
+	}
+
+	.advertising .addbtn .addattr {
+		background-position: -365px -283px;
+	}
+
+	.more-search {
+		border: 1px solid #ddd;
+		width: 949px;
+		margin-top: 4px;
+	}
+	.ad-img{
+		display:inline-block;
+		margin: 0 auto;
+		vertical-align: middle;
+		height: 100%;
+		line-height: 105px;
+	}
+	.ad-blank{
+	 	display: inline-block;
+	 	vertical-align: middle;
+	 	width:0;
+	 	height:100%;
+	}
+	.advImg{
+		vertical-align: middle;
+		max-height: 130px;
+		max-width: 170px;
+		border: 1px solid #dcdcdc;
+		padding:1px;
+		display:inline-block;
+	}
+
+	.btn-group button:hover .fa-edt {
+		color: #f08300;
+	}
+	.hide-if-no-paging{
+		background:#f6f6f6;
+	}
+	.adv-text{
+		word-wrap:break-word; 
+		word-break:break-all;
+	}
+	.advance{
+		position:relative;
+		left:3px;
+		top:1px;
+	}
+</style>
+<div class="row">
+	<div class="col-md-12">
+		<div platform-bread-nav="breadNavs"/>
+	</div>
+</div>
+
+<div class="row" beyond max-count = "64">
+    <div class="col-xs-4">
+        <form name="formAdvName">
+            <div class="input-group">
+                <input type="text" data-nsw-enter="searchInfoAdv()" class="form-control" ng-model="name" autocomplete="off" placeholder="请输入广告名称" maxlength="64">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default padbottom5"
+                            ng-click="searchInfoAdv()"><span
+		                    class="search"></span></button>
+					<button type="button" class="btn btn-default advance" ng-click="advancedBtn()">高级</button>
+                </span>
+			</div>
+		</form>
+	</div>
+	<div class="col-xs-5 col-xs-push-1" style="padding-left:48px;">
+		<a href="javascript:void(0);" class="btn btn-default borderorange no-radus-btn btnh26"
+		   data-ng-click="newAddAdv();"><span class="newadd"></span> 新建</a>
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><span
+				class="trash"></span>删除
+		</button>
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="checkAll()"> 全选</button>
+		<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="inverse()"> 反选</button>
+	</div>
+</div>
+
+<div class="panel-body more-search" ng-show="advSearch">
+	<form class="form-inline">
+		<div class="form-group">
+			<label class="lighter-weight" style="font-weight:normal;">广告名称：</label>
+			<input type="text" class="form-control" autocomplete="off" ng-model="advFitlerOptions.name" maxlength="64">
+		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="form-group">
+			<label class="lighter-weight" style="font-weight:normal;">广告类型：</label>
+			<label class="radio-inline">
+				<input type="radio" name="type" value="imgs" ng-model="advFitlerOptions.type">图片广告</label>
+			<label class="radio-inline">
+				<input type="radio" name="type" value="js" ng-model="advFitlerOptions.type">JS(流量联盟广告)</label>
+			<label class="radio-inline">
+				<input type="radio" name="type" value="" ng-model="advFitlerOptions.type">不限</label>
+		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<div class="form-group">
+			<label class="radio-inline">
+				<input type="radio" name="isshow" ng-value="2" ng-model="advFitlerOptions.intIsDisplay">显示</label>
+			<label class="radio-inline">
+				<input type="radio" name="isshow" ng-value="1" ng-model="advFitlerOptions.intIsDisplay">隐藏</label>
+			<label class="radio-inline">
+				<input type="radio" name="isshow" ng-value="0" ng-model="advFitlerOptions.intIsDisplay">不限</label>
+		</div>
+		<button type="submit" class="btn btn-warning fr" ng-click="advancedSearchAdv(advFitlerOptions)">搜索</button>
+
+	</form>
+</div>
+
+<div class="row c-row">
+	<div class="col-xs-9">
+		<table class="table table-hover">
+			<thead>
+			<tr>
+				<th><input type="checkbox" ng-model="isCheckAll" ng-click="checkAll()"/></th>
+				<th>广告信息</th>
+				<th>显示</th>
+				<th>发布时间</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="item in advDataList | orderBy:'orderBy'">
+				<td><input type="checkbox" ng-model="item.isChecked" ng-click="checkItem(item)"/></td>
+				<td style="position:relative;">
+					<div class="ad-img">
+						<img class="advImg" nsw-src="{{item.imgs[0].urlPc || item.imgs[0].urlPhone}}"
+						     ng-show="item.imgs[0].urlPc || item.imgs[0].urlPhone"/>
+						<span class="ad-blank"></span>
+					</div>
+					<div style="float:right;width:150px;">
+						<span style="display:block;"><label>广告名称：</label> <span ng-bind="item.name" class="adv-text"></span></span>
+						<span style="display:block;"><label>分类名称：</label> <span ng-bind="item.ctgName" class="adv-text"></span></span>
+						<span style="display:block;"><label>广告描述：</label> <sapn ng-bind="item.desc" class="adv-text"></sapn></span>
+					</div>
+				</td>
+				<td><i class="fa fa-circle-o" style="cursor:pointer;"
+				       ng-class="{true: 'fa-circle text-success', false: 'fa-circle-o'}[item.isDisplay]"
+				       ng-click="display(item)"></i>
+				</td>
+				<td>{{item.publishTime}}</td>
+				<td>
+					<div class="btn-group">
+						<button type="button" class="btn btn-default btn-sm" ng-click="saveAdv(item)">
+							<span class="fa-edt"></span><span class="fa-edt-text">修改</span>
+						</button>
+						<button type="button" class="btn btn-default btn-sm" ng-click="delAdv(item._id)">
+							<span class="fa-delete"></span><span class="fa-delete-text">删除</span>
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+			<!--分页条-->
+			<tfoot class="hide-if-no-paging">
+			<tr class="c-channel-tfoot">
+				<td colspan="10" class="text-center" style="width:100%;">
+					<uib-pagination total-items="totalItems" ng-model="currentPage" items-Per-Page="pageSize"
+					                max-size="maxSize" class="pagination-sm m-t-none m-b" boundary-links="true"
+					                rotate="false" ng-change="pageChanged()" previous-text="上一页" next-text="下一页"
+					                first-text="首页" last-text="末页"></uib-pagination>
+				</td>
+			</tr>
+			</tfoot>
+			<!--分页条end-->
+		</table>
+	</div>
+	<div class="col-xs-3">
+		<div data-platform-catalog-list data-options="catalogListOptions"></div>
+	</div>
+</div>

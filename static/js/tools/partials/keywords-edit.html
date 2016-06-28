@@ -1,0 +1,42 @@
+
+	<div class="modal-header">
+		<h4 class="modal-title">关键词快速编辑</h4>
+		<a class="diaremove" ng-click="$close()"></a>
+	</div>
+
+	<div class="modal-body">
+		<form class="form-horizontal form-validation keywords-edit-form" name="keywordsInfo" novalidate>
+			<div class="form-group keywords-edit-group" beyond max-count='64'>
+				<label  class="col-sm-2 control-label lighter-weight">
+					<span class="err">*</span>
+					关键词名称：</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" autocomplete="off" ng-model="keywords.name" name="keywords" data-nsw-max-length="64" required>
+					<div ng-show="keywordsInfo.keywords.$dirty && keywordsInfo.keywords.$invalid">
+						<span class="err" ng-show="keywordsInfo.keywords.$error.required">请填写网页关键词</span>
+						<span class="err" ng-show="keywordsInfo.keywords.$error.nswmaxlength">关键词长度不能大于64</span>
+					</div>
+				</div>
+				<span class="mess-zx">0</span>/64字符
+			</div>
+			<div class="form-group keywords-edit-group"  beyond max-count='200'>
+				<label  class="col-sm-2 control-label lighter-weight">
+					<span class="err">*</span>
+					超链接地址：</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" autocomplete="off" ng-model="keywords.url" name="link" ng-pattern=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?/ data-nsw-max-length="200" required>
+					<div ng-show="keywordsInfo.link.$dirty && keywordsInfo.link.$invalid">
+						<span class="err" ng-show="keywordsInfo.link.$error.required">请填写超链接地址</span>
+						<span class="err" ng-show="keywordsInfo.link.$error.pattern">请填写正确的超链接地址</span>
+						<span class="err" ng-show="keywordsInfo.link.$error.nswmaxlength">超链接地址长度不能大于200</span>
+					</div>
+				</div>
+				<span class="mess-zx">0</span>/200字符
+			</div>
+		</form>
+	</div>
+
+	<div class="modal-footer text-align-left keywords-footer">
+		<button type="submit" ng-disabled="!(keywordsInfo.$valid&&keywordsInfo.$dirty)" class="btn btn-warning btn-color"  ng-click="editKeyWords()"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+		<button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+	</div>

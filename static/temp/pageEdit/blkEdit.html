@@ -1,13 +1,13 @@
 <div class="c-popup nsw">
     <div class="modal-header">
-        <h3 class="modal-title">板块编辑: 板块id：{{projBlkId}}、区块id：{{tplDate.tplId}}</h3>
+        <h3 class="modal-title">版块编辑: 版块id：{{projBlkId}}、区块id：{{tplDate.tplId}}</h3>
     </div>
     <div class="modal-body">
         <tabset>
             <tab heading="" active>
                 <div class="row c-tpl-list">
                     <div class="col-xs-2" ng-repeat="(key,item) in tplDate.tplList">
-                        <img class="c-tpl-item" ng-click="tplSelected(key)" ng-src="{{item.img}}">
+                        <img class="c-tpl-item" ng-click="tplSelected(key)" nsw-src="{{item.img}}">
                         <img class="c-tpl-selected-img {{key == tplDate.tplId ? 'selected' : ''}}" src="../../img/tpl/selected.png">
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                     <div class="form-group" ng-repeat="conf in tplDate.conf">
                         <label class="col-xs-2 control-label">{{conf.label}}</label>
                         <div class="col-xs-6">
-                            <input type="text" class="form-control" ng-model="conf.value" />
+                            <input type="text" class="form-control" autocomplete="off" ng-model="conf.value" />
                         </div>
                     </div>
 				</div>

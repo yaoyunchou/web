@@ -18,6 +18,8 @@
 			}
 		};
 
+		$('html').css('overflow-y', 'auto');
+
 		$('.tip-box').closest('.modal-content')
 			.css('border', 0)
 			.css('box-shadow', '0 0 0')
@@ -26,11 +28,11 @@
 			.css('box-shadow', '0 0 0')
 			.css('opacity', 0.6);
 
-		$('.modal-backdrop').css('display', 'none');
+		$('.tip-box').closest('.modal-backdrop').css('display', 'none');
 
-		$('.nsw.modal-dialog').css('margin',0);
+		$('.tip-box').closest('.nsw.modal-dialog').css('margin',0);
 
-		$('.nsw.modal').css('width', $('.modal-content').width)
+		$('.tip-box').closest('.nsw.modal').css('width', $('.modal-content').width)
 			.css('height', '59px')
 			.css('overflow', 'hidden')
 			.css('margin-top','150px')

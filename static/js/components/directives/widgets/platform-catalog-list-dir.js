@@ -15,12 +15,12 @@
  11.onSelectedChanged: function, 选中项更新事件
  12.onSpeedEdit: function,       快速编辑事件
  14.data: object{dataList, selectedItem,sortBy,displayField},       数据选项
- 15.formOptions: object{formName,rows, data}        增加表单设置
+ 15.formOptions: object{formName,rows, data,lookups}        增加表单设置
  */
 (function (angular) {
 	"use strict";
-	var toolApp = angular.module("platform");
-	toolApp.directive("platformCatalogList", ['platformModalSvc', function (platformModalSvc) {
+	var module = angular.module("platform");
+	module.directive("platformCatalogList", ['platformModalSvc', function (platformModalSvc) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -37,11 +37,15 @@
 
 				scope.displayList = [];
 				scope.options.setData = function setData(data) {
-					scope.displayList = _.sortBy(data, scope.options.data.sortBy);
-					if (scope.options.data.selectedItem && scope.options.data.selectedItem.id) {
-						scope.updateSelection(_.find(scope.displayList, {id: scope.options.data.selectedItem.id}));
-					} else {
-						scope.updateSelection(scope.displayList[0]);
+					if (data && data.length) {
+						scope.displayList = _.sortBy(data, scope.options.data.sortBy);
+						if (scope.options.data.selectedItem && scope.options.data.selectedItem.id) {
+							scope.updateSelection(_.find(scope.displayList, {id: scope.options.data.selectedItem.id}));
+						} else if (scope.options.data.selectedItem && scope.options.data.selectedItem._id) {
+							scope.updateSelection(_.find(scope.displayList, {_id: scope.options.data.selectedItem._id}));
+						} else {
+							scope.updateSelection(scope.displayList[0]);
+						}
 					}
 				};
 
@@ -53,9 +57,13 @@
 					scope.options.data.selectedItem = item;
 					scope.options.onSelectedChanged.apply(this, arguments);
 				};
-
 				scope.toggleLineEdit = function toggleLineEdit(item) {
-					if(item!==scope.options.data.selectedItem){
+					if(scope.options.enableSpeedEdit){
+						scope.options.onSpeedEdit.call(this ,item);
+						return;
+					}
+
+					if (item !== scope.options.data.selectedItem) {
 						return;
 					}
 					scope.lineEditing = !scope.lineEditing;
@@ -68,13 +76,25 @@
 
 
 				scope.doSaveCreate = function doSaveCreate(item) {
-					scope.options.onCreated(item);
-					scope.options.formOptions.setData({});
+					if ( !scope.options.formOptions.$invalid) {
+						scope.options.onCreated(item);
+						scope.options.formOptions.setData({});
+					}
 				};
 
 				scope.options.setData(scope.options.data.dataList);
 
-				scope.options.formOptions.data = scope.options.formOptions.data||{};
+				var watcher = scope.$watch('options.data.dataList', function (val) {
+					scope.options.setData(val);
+				})
+
+				if (scope.options.formOptions) {
+					scope.options.formOptions.data = scope.options.formOptions.data || {};
+				}
+
+				scope.$on('$destroy', function () {
+					watcher();
+				});
 			}
 		};
 	}]);

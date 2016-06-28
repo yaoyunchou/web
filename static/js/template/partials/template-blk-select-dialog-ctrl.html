@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title" style="margin:0px;">版块选择</h3>
+    <a class="diaremove" ng-click="closeModal(false)"></a>
+</div>
+<div class="modal-body" style="height:450px;overflow-y:scroll">
+        <ul style="margin:0 45px;">
+            <li ng-repeat="item in blkDataList" style="float:left;list-style:none;margin:10px;">
+                <span ng-click="blkSelected(item)"><img style="width:100px;height:100px;" title="{{item.name}}" class="c-tpl-item c-allthumbImage"  nsw-src="{{item.imgUrl == null||item.imgUrl == '' ?'~/img/nsw.png':item.imgUrl}}" ></span>
+                <span style="position:relative;" ng-show="selected === item"><img style="width:50px;height:50px; position:absolute;left:28px;top:-72px;"  nsw-src="~/img/tpl/selected.png"></span>
+                <span style="display:block;text-align:center;" data-ng-bind="item.name"></span>
+            </li>
+        </ul>
+</div>
+
+

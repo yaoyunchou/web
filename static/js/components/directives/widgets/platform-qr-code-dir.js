@@ -6,17 +6,16 @@
 
 		return {
 			restrict: 'A',
-			scope: {
-				content:'=platformQrCode'
-			},
-			link: function (scope, element) {
-				var watcher = scope.$watch('platformQrCode', function () {
-					element.qrcode({text:scope.content,width:100,height:100});
-				});
-				
-				scope.$on('$destory',function(){
-					watcher();
-				});
+			require: 'ngModel',
+			link: function (scope, element, attrs, ctrl) {
+				ctrl.$render = function render() {
+					if (ctrl.$viewValue) {
+						var width = parseInt(attrs.width) || 150;
+						var height = parseInt(attrs.height) || 150;
+						element.children().remove();
+						element.qrcode({text: ctrl.$viewValue, width: width, height: height});
+					}
+				};
 			}
 		};
 

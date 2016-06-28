@@ -18,8 +18,8 @@
 		</a>
     	{{node.name}}
         <a class="btn btn-xs" data-nodrag title="点击查看{{node.name}}网站效果图" ng-click="singlePage(node.pubPageTplId)" ng-if="node.type == 'PAGETPL'">
-			<span><img class="c-thumbImage" ng-src="{{node.imgSm}}"  ng-mouseover="mdShowed(node.name)" ng-mouseout="mdHided(node.name)"/>&nbsp;</span>
-            <div style="position:relative;"><img class="c-mdImage" ng-src="{{node.imgMd}}" style="cursor:default;position:absolute;z-index:9999;left:200%;top:-96px;border:1px solid green;" ng-show="node.name == nodeName"/></div>
+			<span><img class="c-thumbImage" nsw-src="{{node.imgSm}}"  ng-mouseover="mdShowed(node.name)" ng-mouseout="mdHided(node.name)"/>&nbsp;</span>
+            <div style="position:relative;"><img class="c-mdImage" nsw-src="{{node.imgMd}}" style="cursor:default;position:absolute;z-index:9999;left:200%;top:-96px;border:1px solid green;" ng-show="node.name == nodeName"/></div>
 		</a>
   	</div>
   	<ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">

@@ -11,7 +11,7 @@
                                                                          分类名称
              </label>
              <div class="col-sm-6">
-                 <input class="form-control" ng-model="cTitle" name="cTitle"  ng-maxlength="64" required>
+                 <input class="form-control" ng-model="cTitle" name="cTitle" autocomplete="off" data-nsw-max-length="64" required>
                  <div ng-show="formAddCategory.cTitle.$dirty && formAddCategory.cTitle.$invalid">
                      <span class="err" ng-show="formAddCategory.cTitle.$error.required">请填写分类名称</span>
                      <span class="err" ng-show="!formAddCategory.cTitle.$error.required && formAddCategory.cTitle.$error">分类名称长度为0~64字符</span>

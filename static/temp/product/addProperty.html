@@ -1,74 +1,82 @@
-<div class="modal-header">
-	<h4 class="modal-title">添加内容模块 </h4>
-	<a class="diaremove" ng-click="$close()"></a>
-</div>
-
-<div class="modal-body">
-    <form class="form-horizontal" name = "addothertype" novalidate>
-	    <div class="form-group" tongbu  max-count='20'  style="height:29px;margin-bottom:32px;">
+<form class="form-horizontal" name = "addothertype">
+	<div class="modal-header">
+		<h4 class="modal-title">添加内容模块 </h4>
+		<a class="diaremove" ng-click="$close()"></a>
+	</div>
+	<div class="modal-body">
+		<div class="form-group" tongbu  max-count='20' beyond max-count='20' style="height:29px;margin-bottom:32px;">
 			<label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">字段名称</label>
 			<div class="col-sm-8">
-				<input type="text" name = "zdname" class="form-control " ng-model="adddata.name" ng-maxlength="20" required  > 
-				<div ng-show="addothertype.zdname.$dirty && addothertype.zdname.$invalid||titlelostflag">
-		               <span class="err" ng-show="addothertype.zdname.$error.required||titlelostflag" >请填写字段长度</span>
-		               <span class="err" ng-show="!addothertype.zdname.$error.required && addothertype.zdname.$error">字段长度为0~20字符</span>
-		           </div>
+				<input type="text" name = "zdname" class="form-control " autocomplete="off" ng-model="adddata.title" data-nsw-max-length="20" required  >
+				 <div ng-show="addothertype.zdname.$dirty && addothertype.zdname.$invalid||titlelostflag">
+                       <span class="err" ng-show="addothertype.zdname.$error.required||titlelostflag" >请填写字段</span>
+                       <span class="err" ng-show="!addothertype.zdname.$error.required && addothertype.zdname.$error">字段长度为0~20字符</span>
+                 </div>
 			</div> 
-			<span style="line-height:30px;"><span class="mess-zx">0</span>/20字符</span>
-	   </div>
-	   <div class="form-group zdlx" style="height:29px;margin-bottom:32px;">
-           <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">字段类型</label>
-           <div class="col-sm-10">
-	           <label class="radio-inline">
-			       <input type="radio" ng-click="checkway('text')" value="text"  name="zdtype" checked="checked">文本框
-			   </label>
-			   <label class="radio-inline">
-				   <input type="radio" ng-click="checkway('radio')" value="radio" name="zdtype" >单选框
-			   </label>
-			   <label class="radio-inline">
-				   <input type="radio" ng-click="checkway('checkbox')" value="checkbox" name="zdtype" >多选框
-			   </label>
-			   <label class="radio-inline">
-				   <input type="radio" ng-click="checkway('select')" value="select" name="zdtype" >下拉框
-			   </label>
-			   <button class="btn fr txmore" type="button" ng-click = "moretoggle()">
-			       <span class="glyphicon glyphicon-plus" ></span> 更多文本框设置 
-			   </button>
-           </div>
-       </div>
-	
-	   <div class="form-group" style="height:29px;margin-bottom:32px;">
-		   <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">字段长度</label>
-		   <div class="col-sm-8">
-			   <div class = "textbox">
-			       <input type="text" class="form-control textx" name = "zdcd" ng-model="zdcd"  >
-			   </div> 
-			   <div class="dtbox" style="display:none">
-			       <input ng-repeat="input in inputlist" type="text" class="form-control xxtext" placeholder="属性{{input.num}}"  ng-model="input.sx"    >
-			  	   <input type="button" class='btn btn-default navbar-btn add' value="添加" ng-click="addtext()">
+			<span class="tip-row-height"><span class="mess-zx">0</span>/20字符</span>
+			
+		</div>
+		<div class="form-group zdlx" style="height:29px;margin-bottom:32px;">
+            <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">字段类型</label>
+            <div class="col-sm-10">
+	            <label class="radio-inline" data-ng-if = "UI.text">
+		            <input type="radio" name="zdtype" data-ng-value="'text'"
+		                   ng-model="adddata.formType">文本框</label>
+	            <label class="radio-inline" data-ng-if = "UI.radio">
+		            <input type="radio" name="zdtype" data-ng-value="'radio'"
+		                   ng-model="adddata.formType">单选框</label>
+	            <label class="radio-inline" data-ng-if = "UI.checkbox">
+		            <input type="radio" name="zdtype" data-ng-value="'checkbox'"
+		                   ng-model="adddata.formType">多选框</label>
+	            <label class="radio-inline" data-ng-if = "UI.select">
+		            <input type="radio" name="zdtype" data-ng-value="'select'"
+		                   ng-model="adddata.formType">下拉框</label>
+				<button class="btn frbtn txmore" type="button" ng-click = "moretoggle()">
+				  <span class="glyphicon glyphicon-plus" ></span> 更多文本框设置 
+				</button>
+            </div>
+        </div>
+		
+		<div class="form-group" style="height:29px;margin-bottom:32px;"  data-ng-if="adddata.formType == 'text'">
+			<label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">字段长度</label>
+			<div class="col-sm-8">
+			   <div class = "textbox" >
+			     <input type="number" class="form-control textx" name = "zdcd" ng-model="adddata.length"  >
+				   <div>
+					   <span class="err" ng-show=" addothertype.zdcd.$invalid">字段长度为数字</span>
+				   </div>
 			   </div>
-		   </div>
-		   <span class = "tishi" style="line-height:30px;">例：[0,3]</span>
-	   </div>
-	   
-	   <div class="form-group  smwd "  tongbu  max-count='50' style="display:none;height:29px;margin-bottom:32px;">
-           <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">录入框旁边说明文本</label>
-           <div class="col-sm-8">
+			</div>
+		</div>
+
+		<div class="form-group  smwd "  tongbu  max-count='50' beyond style="display:none;height:29px;margin-bottom:32px;">
+            <label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">录入框旁边说明文本</label>
+            <div class="col-sm-8">
                <div class = "textbox">
-                   <textarea class="form-control areat"  rows='6' ng-model="zdcdbg" name = 'smwb' ng-maxlength="50" required ></textarea>
-                   <div ng-show="addothertype.smwb.$dirty && addothertype.smwb.$invalid||titlelostflag">
+                 <textarea class="form-control areat"  rows='6' ng-model="zdcdbg" name = 'smwb' data-nsw-max-length="50" required ></textarea>
+                  <div ng-show="addothertype.smwb.$dirty && addothertype.smwb.$invalid||titlelostflag">
                        <span class="err" ng-show="addothertype.smwb.$error.required||titlelostflag" >请填写录入框旁边说明文本</span>
                        <span class="err" ng-show="!addothertype.smwb.$error.required && addothertype.smwb.$error">录入框旁边说明文本为0~50字符</span>
-                   </div>
-               </div>            
+                 </div>
+               </div> 
+               
+                
             </div>
-            <span><span class="mess-zx">0</span>/50字符</span>
+            <span class="tip-row-height"><span class="mess-zx">0</span>/50字符</span>
         </div>
-    </form>
-</div>
-	
+		<div class="form-group" style="height:29px;margin-bottom:32px;" data-ng-if="adddata.formType != 'text'">
+			<label class="col-sm-2 control-label"  style="font-weight:normal;padding-left:34px;">选择值</label>
+			<div class="col-sm-8">
+				<div class="dtbox" data-ng-if="adddata.formType != 'text'">
+					<input ng-repeat="input in inputlist"  type="text" class="form-control xxtext" placeholder="属性{{input.num}}"  autocomplete="off" ng-model="input.sx"    >
+					<input type="button" class='btn btn-default navbar-btn add' value="添加" ng-click="addtext()">
+				</div>
+			</div>
+		</div>
+	</div>
 
-<div class="modal-footer" style="text-align:left;clear:both;padding-left:138px;padding-bottom:30px;padding-top:50px;">
-	<button class="btn btn-primary btn-color" type="button" ng-click="adddatafun()" ng-disabled="addothertype.zdname.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
-	<button class="btn btn-default btn-color btn-cancel" type="button" ng-click="cancel()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
-</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary btn-color" type="button" ng-click="adddatafun()" ng-disabled="addothertype.zdname.$invalid"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+		<button class="btn btn-default btn-color btn-cancel" type="button" ng-click="$close()"><label class="checkcancel"></label><span class="btntext black">取&nbsp;消</span></button>
+	</div>
+</form>

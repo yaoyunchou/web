@@ -3,7 +3,7 @@
 	"use strict";
 
 	angular.module('platform').factory('platformNavigationSvc', ['$state', '$http', '$q', 'platformMessenger', '$localStorage',
-		function ($state, $http, $q, PlatformMessenger, $localStorage) {
+			function ($state, $http, $q, PlatformMessenger, $localStorage) {
 
 			var service = {}, currentMenu, currnetGroup, menus, currentRoute,
 				menuUpdated = new PlatformMessenger(),
@@ -11,7 +11,7 @@
 
 			service.routes = [];
 			service.setRoutes = function setRoutes(currentGroup, currentRoute, routes) {
-				var home = {name: '首页', href: '/temp/index.html'};
+				var home = {name: '首页', href: '/js/personal/index.html#/personalInfo'};
 				home.menu = home;
 				home.group = currentGroup;
 				service.routes = [home];
@@ -52,7 +52,7 @@
 			};
 
 			service.updateRouteStatus = function updateRouteStatus() {
-				if (!$state.current.key) {
+				if (!$state.current.key || !menus) {
 					return;
 				}
 				var moduleId = $state.params.moduleId;

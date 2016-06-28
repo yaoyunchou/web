@@ -12,8 +12,8 @@ demoApp.controller('pageCtrl', ['$scope', function ($scope){
 	  $log.log('Page changed to: ' + $scope.currentPage);
 	};
 
-	$scope.maxSize = 5;
-	$scope.bigTotalItems = 120;
+	$scope.maxSize = 16;
+	$scope.bigTotalItems = 160;
 	$scope.bigCurrentPage = 1;
 	
 	//进度条
@@ -25,6 +25,6 @@ demoApp.controller('pageCtrl', ['$scope', function ($scope){
     		return;
     	}
     	$scope.w += 10;
-    	$scope.style = {width: $scope.w+'%'};   	
+    	$scope.style = {width: $scope.w+'%'};
     } 
 }]);

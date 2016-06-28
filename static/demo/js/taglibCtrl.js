@@ -1,7 +1,14 @@
-demoApp.controller('taglibCtrl', ['$scope', '$modal', 'utils', '$http', '$animate',
-	function($scope, $modal, utils, $http, $animate) {	
-
-		
+demoApp.controller('taglibCtrl', ['$scope', '$modal', 'utils', '$http', '$animate','platformModalSvc',
+	function($scope, $modal, utils, $http, $animate,platformModalSvc) {
+		/*$scope.extractAdvLib = function extractAdvLib(){
+			platformModalSvc.showModal({
+				backdrop: 'static',
+				templateUrl: globals.basAppRoot + 'js/tools/partials/advertising-lib.html',
+				controller: 'advLibCtrl',
+				size: 'lg',
+				userTemplate:true
+			});
+		}*/
 	}
 ]);
 

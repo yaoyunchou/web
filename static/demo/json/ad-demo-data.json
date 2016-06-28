@@ -1,0 +1,28 @@
+{
+  "data": {
+	"ads": [
+	  {
+		"blkTitle": "版块A",
+		"blkWidth": 900,
+		"blkHeight": 600,
+		"type": "imgs",
+		"js": ""
+	  },
+	  {
+		"blkTitle": "版块B",
+		"blkWidth": 500,
+		"blkHeight": 300,
+		"type": "imgs",
+		"js": ""
+	  },
+	  {
+		"blkTitle": "版块C",
+		"blkWidth": 500,
+		"blkHeight": 300,
+		"type": "imgs",
+		"js": ""
+	  }
+	]
+  },
+  "isSuccess": true
+}

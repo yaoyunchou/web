@@ -9,7 +9,7 @@
                 <span class="err mleft-10">*</span> 客服名称
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.name" name="name" ng-maxlength="32" required>
+                <input type="text" autocomplete="off" class="form-control" ng-model="editBean.name" name="name" data-nsw-max-length="32" required>
                 <div ng-show="formOnlineService.name.$dirty && formOnlineService.name.$invalid">
                     <span class="err" ng-show="formOnlineService.name.$error.required"></span>
                     <span class="err"
@@ -42,26 +42,32 @@
             <div class="col-sm-8 padleft26">
                 <div class="col-sm-8">
                     <label class="radio-inline">
-                        <input type="radio" name="radioChecked" value="QQ" ng-model="editBean.serverType.name" >QQ</label>
+                        <input type="radio" name="radioChecked" data-ng-value = "'QQ'" ng-model="editBean.serverType.name" >QQ</label>
                     <label class="radio-inline">
-                        <input type="radio" name="radioChecked" value="MSN" ng-model="editBean.serverType.name" >MSN</label>
+                        <input type="radio" name="radioChecked" data-ng-value = "'MSN'" ng-model="editBean.serverType.name" >MSN</label>
                     <label class="radio-inline">
-                        <input type="radio" name="radioChecked" value="诚信通" ng-model="editBean.serverType.name" >诚信通</label>
+                        <input type="radio" name="radioChecked" data-ng-value = "'诚信通'" ng-model="editBean.serverType.name" >诚信通</label>
                     <label class="radio-inline">
-                        <input type="radio" name="radioChecked" value="其他" ng-model="editBean.serverType.name">其他</label>
+                        <input type="radio" name="radioChecked" data-ng-value = "'其他'" ng-model="editBean.serverType.name">其他</label>
                 </div>
-                <input type="text" class="form-control" ng-model="editBean.serverType.content" name="name" ng-maxlength="32" required>
+                <input type="text" class="form-control" autocomplete="off" ng-model="editBean.serverType.content" name="serverTypecontent" nsw-min-length="4" nsw-max-length="30" required>
+                <div >
+                    <span class="err" ng-show="formOnlineService.serverTypecontent.$error.nswminlength||formOnlineService.serverTypecontent.$error.nswmaxlength">联系方式长度为4~30字符</span>
+                </div>
             </div>
-            <span class="mess-zx martop-5">0</span>/100字符
+            <span class="mess-zx martop-5">4</span>/30字符
         </div>
-        <div class="form-group marbottom32">
+        <div class="form-group marbottom32" beyond max-count='200'>
             <label class="col-sm-2 control-label lighter-weight pt0 mtop6 padleft35">
-                <span class="err mleft-10">*</span>
                 客服介绍
             </label>
             <div class="col-sm-8 padleft26" beyond max-count='32'>
-                <textarea class="form-control" rows="3" ng-model="editBean.desc" name="desc" ng-maxlength="32" required></textarea>
+                <textarea class="form-control" rows="3" ng-model="editBean.desc" name="desc"   data-nsw-max-length="200"></textarea>
+                <div >
+                    <span class="err" ng-show="formOnlineService.desc.$dirty&&formOnlineService.desc.$error.nswmaxlength">客服介绍长度为0~200字符</span>
+                </div>
             </div>
+            <span class="mess-zx martop-5">0</span>/200字符
 
         </div>
 
@@ -70,11 +76,11 @@
                 员工姓名
             </label>
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.staffName" name="staffName" ng-maxlength="32">
+                <input type="text" class="form-control" autocomplete="off" ng-model="editBean.staffName" name="staffName" data-nsw-max-length="32">
 
                 <div ng-show="formOnlineService.staffName.$dirty && formOnlineService.staffName.$invalid">
                     <span class="err"
-                          ng-show="!formOnlineService.staffName.$error.required && formOnlineService.staffName.$error">分类名称长度为0~32字符</span>
+                          ng-show="!formOnlineService.staffName.$error.required && formOnlineService.staffName.$error">员工姓名长度为0~32字符</span>
                 </div>
             </div>
             <span class="mess-zx mtop6">0</span>/32字符
@@ -83,14 +89,13 @@
             <label class="col-sm-2 control-label lighter-weight pt0 padleft35">
                 员工电话
             </label>
-
             <div class="col-sm-8 padleft26">
-                <input type="text" class="form-control" ng-model="editBean.staffPhone" name="staffPhone" ng-maxlength="11" >
+                <input type="phone" class="form-control" ng-model="editBean.staffPhone" name="staffPhone" ng-pattern="/^1[3|4|5|7|8]\d{9}$/" >
 
                 <div ng-show="formOnlineService.staffPhone.$dirty && formOnlineService.staffPhone.$invalid">
                     <span class="err" ng-show="formOnlineService.staffPhone.$error.required"></span>
                     <span class="err"
-                          ng-show="!formOnlineService.staffPhone.$error.required && formOnlineService.staffPhone.$error">员工电话长度为0~11数组</span>
+                          ng-show="!formOnlineService.staffPhone.$error.required && formOnlineService.staffPhone.$error">手机号码为11位数字！请正确填写！</span>
                 </div>
             </div>
             <span class="mess-zx mtop6">0</span>/11字符
@@ -101,7 +106,7 @@
             </label>
 
             <div class="col-sm-8 padleft26" >
-                <input type="email" class="form-control" ng-model="editBean.staffMail" name="staffMail" ng-maxlength="32" >
+                <input type="email" class="form-control" ng-model="editBean.staffMail" name="staffMail" data-nsw-max-length="32" >
                 <div ng-show="formOnlineService.staffMail.$dirty && formOnlineService.staffMail.$invalid">
                     <span class="err" >请填写正确的邮箱!</span>
                 </div>
@@ -113,7 +118,7 @@
     <button type="submit" class="btn btn-warning btn-color"
             ng-disabled="formOnlineService.$invalid" ng-click="ok()"><label
             class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
-    <button class="btn btn-default btn-color btn-cancel" ng-click="cancel()"><label class="checkcancel"></label><span
+    <button class="btn btn-default btn-color btn-cancel" ng-click="$close()"><label class="checkcancel"></label><span
             class="btntext black">取&nbsp;消</span></button>
 </div>
 

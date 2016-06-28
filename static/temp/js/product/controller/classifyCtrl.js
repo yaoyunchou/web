@@ -1,7 +1,8 @@
 //产品分类列表
-productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams', '$modal','platformModalSvc','mobilePreviewSvc',
-	function ($scope, $http, $state, utils, $stateParams, $modal,platformModalSvc,mobilePreviewSvc) {
+productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$stateParams', '$modal','platformModalSvc','platformTemplatePreviewSvc',
+	function ($scope, $http, $state, utils, $stateParams, $modal,platformModalSvc,platformTemplatePreviewSvc) {
 
+		$scope.state = {};
 		$scope.name = $stateParams.name;
 		$scope.moduleId = $stateParams.moduleId;
 
@@ -23,6 +24,18 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 				{href: '.', name: '分类列表'}
 			];
 
+		$http.get(globals.basAppRoot + 'module/extend/projPorductModuleId')
+			.success(function(data) {
+				if (data.isSuccess) {
+					$scope.state.moduleId = data.data;
+				} else {
+					console.log('moduleId获取失败。' + data.data);
+				}
+			})
+			.error(function() {
+				console.log('系统异常或网络不给力！');
+			});
+
 		//产品分类快速录入
 		$scope.quickAdd = function () {
 			
@@ -35,9 +48,6 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 			});
 		};
 		$scope.itemTreeChanged = function () {
-
-			console.log($scope.editree.activeItem);
-
 			if ($scope.editree.activeItem.path == null) {
 				path = ',' + $scope.editree.activeItem._id + ',';
 			} else {
@@ -47,7 +57,7 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
 		//产品分类快速编辑
 		$scope.editInfo = function (_data) {
-			$modal.open({
+			platformModalSvc.showModal({
 				backdrop: 'static',
 				templateUrl: '/pccms/temp/product/product-ctg-speed-edit.html',
 				controller: 'productCtgSpeedEditCtrl',
@@ -63,7 +73,6 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 
 		//修改。
 		$scope.goEdit = function (item) {
-			//if ($stateParams.moduleId) {
 			if (item._id != undefined) {
 				$state.go('productclass-Edit', {
 					'id': item._id,
@@ -72,7 +81,7 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 					'name': $stateParams.name,
 					'page': 'ctg'
 				});
-				console.log($stateParams.page);
+
 			} else {
 				$state.go('addproductclass', {
 					'id': item._id,
@@ -118,7 +127,7 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 					$http.get('/pccms/productCtg/pageTplType/' + id + '?pageTplType=LIST')
 						.success(function (data, status, headers, config) {
 							if (data.isSuccess) {
-								window.open('/pccms/productCtg/preview/' + id);
+								platformTemplatePreviewSvc.previewDetail('productCtg/preview/{id}', id);
 							} else {
 								platformModalSvc.showWarmingMessage(data.data,'提示');
 							}
@@ -131,16 +140,7 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 				}
 			}
 		};
-		//手机预览
-		$scope.mobilePreview = function(linkUrl){
-			if(linkUrl){
-				mobilePreviewSvc.mobilePreview(linkUrl);
-			}else{
-				platformModalSvc.showWarmingMessage('没有预览的链接地址！', '提示');
-				return;
-			}
 
-		};
 		//删除前验证文章分类下的数量
 		$scope.delInfoCtg = function (id) {
 			$http({
@@ -448,12 +448,13 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 				params: params
 			}).success(function (data, status, headers, config) {
 				if (data.isSuccess) {
+					$scope.isCheckAll = false;
 					if (data.data) {
 						$scope.dataList = data.data;
 						for (var k in $scope.dataList) {
 							$scope.dataList[k].isChecked = false;
 							if($scope.dataList[k].hasChildren){
-								$scope.dataList[k].hasChildren = true;	
+								$scope.dataList[k].hasChildren = true;
 							}
 						}
 					}
@@ -531,6 +532,10 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 							_id: data.data.parentCtg.id,
 							name: data.data.parentCtg.name
 						};
+						$scope.editree = {};
+						$scope.editree.activeItem = {
+							name: data.data.parentCtg.name
+						};
 						$http.get('/pccms/productCtg/tree/all?moduleId=' + $stateParams.moduleId)
 							.success(function (data, status, headers, config) {
 								if (data.isSuccess) {
@@ -561,7 +566,19 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 			$scope.itemTreeChanged = function () {
 				flagSpeedTree = true;
 			};
+			$scope.$watch('editBean.cmsTags', function (newVal) {
+				function toString(array) {
+					var _arr = [];
+					if (array instanceof Array) {
+						for (var k in array) {
+							_arr.push(array[k].name);
+						}
+					}
+					return _arr.join(',');
+				}
 
+				$scope.tig = toString(newVal);
+			}, true);
 			$scope.ok = function () {
 				if (flagSpeedTree) {
 					$scope.editree.activeItem.path ?
@@ -617,10 +634,41 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 				});
 			};
 
-		}]).controller('productRapidEntryCtrl', ['$scope','platformModalSvc', '$modalInstance', '$http', 'utils', '$animate', '$state', '$stateParams',
-		    function ($scope,platformModalSvc, $modalInstance, $http, utils, $animate, $state, $stateParams){
+		}]).controller('productRapidEntryCtrl', ['$scope','platformModalSvc', '$modalInstance', '$http', '$q', '$animate', '$state', '$stateParams',
+		function ($scope,platformModalSvc, $modalInstance, $http, $q, $animate, $state, $stateParams){
 			$scope.enter = {};
 			$scope.enter.activeItem = {};
+
+			var setNetAddress = function () {
+				var defer = $q.defer();
+				$scope.beanEnter.seo = $scope.beanEnter.seo ||{};
+				if ($scope.beanEnter.name && !$scope.beanEnter.id) {
+					$http({
+						method: 'GET',
+						url: '/pccms/productCtg/validateStaticPageName',
+						params: {
+							'id': '',
+							'staticPageName': codefans_net_CC2PY($scope.beanEnter.name)
+						}
+					}).success(function (data, status, headers, config) {
+						if (data.isSuccess) {
+							$scope.beanEnter.seo.staticPageName = data.data;
+						} else {
+							platformModalSvc.showWarmingMessage(data.data, '提示');
+						}
+						defer.resolve(true);
+					}).error(function (data, status, headers, config) {
+						platformModalSvc.showWarmingMessage('系统异常或网络不给力！', '提示');
+						defer.resolve(true);
+					});
+				} else if (!$scope.beanEnter.name && !$scope.beanEnter.id) {
+					$scope.beanEnter.seo.staticPageName = '';
+					defer.resolve(true);
+				}
+
+				return defer.promise;
+			};
+
 			$http.get('/pccms/productCtg/tree/all')
 				.success(function (data, status, headers, config) {
 					if (data.isSuccess) {
@@ -649,27 +697,28 @@ productApp.controller('classifyCtrl', ['$scope', '$http', '$state', 'utils', '$s
 					$scope.beanEnter.moduleId = $stateParams.moduleId;
 				}
 
-				$http.post('/pccms/productCtg', $scope.beanEnter)
-					.success(function (data, status, headers, config) {
-						if (data.isSuccess) {
-							$state.go('productClassList', {
-								'moduleId': $stateParams.moduleId,
-								'name': $stateParams.name,
-								'page': $stateParams.page
-							}, {reload: true});
-							$scope.closeModal(false);
-		  					platformModalSvc.showSuccessTip('录入成功！');
-						} else {
-							platformModalSvc.showWarmingMessage(data.data,'提示');
-						}
-					}).error(function (data, status, headers, config) {
-						//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
-					});
-
+				setNetAddress().then(function () {
+					$http.post('/pccms/productCtg', $scope.beanEnter)
+						.success(function (data, status, headers, config) {
+							if (data.isSuccess) {
+								$state.go('productClassList', {
+									'moduleId': $stateParams.moduleId,
+									'name': $stateParams.name,
+									'page': $stateParams.page
+								}, {reload: true});
+								$scope.closeModal(false);
+								platformModalSvc.showSuccessTip('录入成功！');
+							} else {
+								platformModalSvc.showWarmingMessage(data.data, '提示');
+							}
+						}).error(function (data, status, headers, config) {
+							//platformModalSvc.showWarmingMessage('系统异常或网络不给力！','提示');
+						});
+				});
 			};
 			
-			$scope.closeForm = function(){		
-	  			$scope.closeModal(false);
-	  		};
+			$scope.closeForm = function(){
+				$scope.closeModal(false);
+			};
 			
 		}]);

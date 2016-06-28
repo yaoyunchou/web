@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="content/css/seo.css"/>
 <div class="row">
     <div class="col-md-12">
         <div platform-bread-nav="breadNavs"/>
@@ -5,22 +6,29 @@
 </div>
 <div>
     <div class="robot">
-        以下是您的网站Robot.txt文件内容,请按照实际要求进行优化,如果不清楚修改,请留空.
+        <span>以下是您的网站Robot.txt文件内容,请按照实际要求进行优化,如果不清楚修改,请留空.</span>
+        <span style="float:right;">
+            <a href="javascript:void(0);" data-ng-click="robotHelp()">帮助</a>
+            <span data-ng-show="isShowPreview">|</span>
+            <a href="javascript:void(0);"  data-ng-show="isShowPreview"  ng-click="robotPreview();" target="_blank">预览</a>
+        </span>
     </div>
-    <form class="form-horizontal form-validation" name="formInfo" novalidate>
-        <div>
+    <form class="form-horizontal form-validation" style="clear:both;" name="formInfo" novalidate>
+        <div beyond="">
             <div style="width:100%;">
-                <textarea class="robot-text-area" ng-model="robot"
-                          name="robot" ng-maxlength="1000" />
+                <textarea class="robot-text-area form-control" ng-model="robot"
+                          name="robot" data-nsw-max-length="1000" style="height:200px;"/>
                 <div ng-show="formInfo.robot.$dirty && formInfo.robot.$invalid">
-                    <span class="nsw-from-valid-err" ng-show="!formInfo.robot.$error">长度为0~1000字符</span>
+                    <span class="nsw-from-valid-err" ng-show="!formInfo.robot.$error.nswmaxlength">长度为0~1000字符</span>
                 </div>
             </div>
-            <span>0</span>/1000字符
+            <div style="text-align:right;">
+                <span class="mess-zx">0</span>/1000字符
+            </div>
         </div>
         <div class="modal-footer">
             <div>
-                <button type="submit" class="btn btn-warning btn-color" ng-click="saveRobot(robot);"><label
+                <button type="submit" ng-disabled="!(formInfo.$valid&&formInfo.$dirty)" class="btn btn-warning btn-color" ng-click="saveRobot(robot);"><label
                         class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
             </div>
         </div>

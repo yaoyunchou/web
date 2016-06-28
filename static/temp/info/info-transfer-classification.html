@@ -1,17 +1,25 @@
 <style>
 .custom-select .list{top:-35px;}
+.info-transfer-table{
+	border:0;
+	margin:0;
+	padding:0;
+}
+.info-transfer-table tr:last-child td{
+	border-bottom:0;
+}
 </style>
 <div class="modal-header">
-	<h4 class="modal-title">资讯转移分类</h4>
+	<h4 class="modal-title">转移分类</h4>
 	<a class="diaremove" ng-click="$close()"></a>
 </div>
 
 <div class="modal-body">
     <form class="form-horizontal form-validation" name="formSpeed" novalidate>
 		<div class="col-xs-12">
-			<label style="line-height: 30px;">已经选择的资讯清单如下，请确认：</label>
+			<label style="line-height: 30px;">已选择的资讯如下，请确认：</label>
 			<div style="max-height:200px;overflow:auto;overflow-x:hidden;border:1px solid #dcdcdc;">
-				<table class="table table-hover">
+				<table class="table table-hover info-transfer-table">
 					<tr ng-repeat="row in newDataList">
 						<td style="width:5%"><input type="checkbox" ng-model="row.isChecked"/></td>
 						<td>{{row.title}}</td>
@@ -20,7 +28,7 @@
 			</div>
 		</div>
 		<div class="col-xs-12" style="margin-top:32px;">
-			<div style="float:left;"><label style="line-height: 30px;">把资讯转移至：</label></div>
+			<div style="float:left;"><label style="line-height: 30px;">转移至：</label></div>
 			<div class="col-xs-9">
 				<nested-combo-box control-disabled="false" collection="collectionTransfer"
 				                  ng-model="activeItemTransfer">

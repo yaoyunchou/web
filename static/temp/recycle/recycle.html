@@ -1,17 +1,12 @@
 <div class="row">
   	<div class="col-xs-12">
 	    <div platform-bread-nav="breadNavs"/>
-	   	<!--<ol class="breadcrumb">
-		    <li><a href="../index.html">首页</a></li>
-		    <li><a href="index.html">资讯管理</a></li>
-		    <li class="active">回收站</li>
-		</ol>-->
   	</div>
 </div>
 <div class="row">
     <div class="col-xs-5">
 	    <div class="input-group">
-	        <input type="text" class="form-control"  data-nsw-enter="searchRecycle()" ng-model="queryParams.title" placeholder="请输入关键字查询">
+	        <input type="text" class="form-control"  data-nsw-enter="searchRecycle()" autocomplete="off" ng-model="queryParams.title" placeholder="请输入关键字查询" maxlength="64">
 	        <span class="input-group-btn">
 	            <button type="button" class="btn btn-default padbottom5" ng-click="searchRecycle()">
 	                <span class="search"></span>
@@ -19,14 +14,13 @@
 	        </span>
 	    </div>
     </div>
-    <div class="col-xs-7 text-right">
-    	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="replayBatch()"><i class="fa fa-reply-all"></i> 批量还原</button>
-    	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><i class="fa fa-trash-o"></i> 批量彻底删除</button>
-    	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="reloadRecycle()"><i class="fa fa-refresh"></i> 刷新</button>
+    <div class="col-xs-7 text-right" >
+    	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="replayBatch()"><i class="fa fa-reply-all"></i> 还原</button>
+    	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="deleteBatch()"><i class="fa fa-trash-o"></i> 彻底删除</button>
     	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="clearRecycle()"><i class="fa fa-trash-o"></i> 全部清空</button>
     	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="check(dataList)"> 全选</button>
     	<button type="button" class="btn btn-default no-radus-btn btnh26" ng-click="fanCheck(dataList)"> 反选</button>
-    </div>
+	</div>
 </div>
 <div class="row c-row">
     <div class="col-xs-12">
@@ -45,7 +39,7 @@
 		    <tbody>
 		    	<tr ng-repeat="item in dataList">
 		        	<td><input type="checkbox" ng-model="item.isChecked" ng-click="checkItem(item)"/></td>
-		    		<td><img ng-if = "item.imgSm" ng-src="{{item.imgSm}}" height="40px" width="40px"/></td>
+		    		<td><img ng-if = "item.imgSm" nsw-src="{{item.imgSm}}" height="40px" width="40px"/></td>
 		    		<td>{{item.name}}</td>
 		    		<td>{{item.typeName}}</td>
 		    		<td>{{item.lastUpdTime}}</td>

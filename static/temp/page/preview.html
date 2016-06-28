@@ -32,8 +32,6 @@
 	        <li ng-click="clickDesSketch()"  ng-class="{true: 'actived', false: 'inactived'}[desket]">效果图</li>
 	        <li ng-click="clickFrmChart()"   ng-class="{true: 'actived', false: 'inactived'}[frmchat]">框架图</li>
 	        <li ng-if="filterType != 'pack'" ng-click="clickConfirUse(dat._id)" ng-class="{true: 'actived', false: 'inactived'}[used]">确认使用</li>
-	        <!-- <li ng-if="filterType != 'pack'" ng-click="blkDesign(tplId)" ng-class="{true: 'actived', false: 'inactived'}[design]">版块设计</li> -->
-	        <!-- <li ng-if="filterType != 'pack'" ng-click="editSource(tplId)" ng-class="{true: 'actived', false: 'inactived'}[source]">编辑源码</li> -->
 	        <li ng-if="filterType != 'pack'" ng-click="tplDesign(tplId)" ng-class="{true: 'actived', false: 'inactived'}[tpldes]">版块设计</li>
 	        <li ng-click="clickRet()">返回</li>
 	    </ul>
@@ -65,7 +63,7 @@
 	                        <span class="err">*</span>模板名称
 	                    </label>
 	                    <div class="col-sm-5">
-	                        <input type="text" class="form-control" ng-model="name" name="tplTitle" ng-maxlength="64" required>
+	                        <input type="text" class="form-control" autocomplete="off" ng-model="name" name="tplTitle" data-nsw-max-length="64" required>
 	                        <div ng-show="formInfo.tplTitle.$dirty && formInfo.tplTitle.$invalid">
 	                            <span class="err" ng-show="formInfo.tplTitle.$error.required">请填写模板名称</span>
 	                            <span class="err" ng-show="!formInfo.tplTitle.$error.required && formInfo.tplTitle.$error">模板名称长度为0~64字符</span>
@@ -84,25 +82,25 @@
                         <hr style="width:81%;margin-left:10%;">
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res[0].url }}" ng-show="res[0].url != undefined">  
+                            <img class="c-allthumbImage" nsw-src="{{res[0].url }}" ng-show="res[0].url != undefined">
                             <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>  
                             <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">  
+                            <img class="c-allthumbImage" nsw-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">
                             <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>  
                             <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4>   
-                            <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">  
+                            <img class="c-allthumbImage" nsw-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">
                             <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>  
                             <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>
                         <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3">
                             <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4>  
-                            <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">  
+                            <img class="c-allthumbImage" nsw-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">
                             <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>  
                             <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                         </div>

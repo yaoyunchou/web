@@ -19,6 +19,8 @@
 	exportObj.globals = {
 		basAppRoot: appRoot,
 		basAppRoute: appRoot + 'js/',
+		basImagePath:'http://192.168.4.160:8080/nswcms/',
+		defaultImg:appRoot+ 'img/nsw.png',
 		debug: true,
 		spaMode: false
 	};

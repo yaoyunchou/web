@@ -10,7 +10,7 @@
                     <span class="err">*</span>&nbsp;模板名称
                 </label>
                 <div class="col-sm-5">
-                    <input type="text" value="" class="form-control" ng-model="name" name="tplTitle" ng-maxlength="64" required style="margin-top:4px;">
+                    <input type="text" value="" class="form-control" autocomplete="off" ng-model="name" name="tplTitle" data-nsw-max-length="64" required style="margin-top:4px;">
                     <div ng-show="formInfo.tplTitle.$dirty && formInfo.tplTitle.$invalid">
                         <span class="err" ng-show="formInfo.tplTitle.$error.required">请填写模板名称</span>
                         <span class="err" ng-show="!formInfo.tplTitle.$error.required && formInfo.tplTitle.$error">模板名称长度为0~64字符</span>
@@ -22,7 +22,7 @@
                         <span class="err">*</span>&nbsp;编辑器
                     </label>
                     <div class="col-sm-8">
-                        <div data-ace-editor
+                        <div data-platform-ace-editor
 				             data-ng-model="content"
 				             data-editor-width="100%"
 				             data-editor-height="200px"
@@ -42,25 +42,25 @@
                 <div class="row">
                     <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res"  data-img-count="1">
                         <h4 style="margin:5px 0px 5px 12px;font-weight:900;">缩略图：</h4>  
-                        <img class="c-allthumbImage" ng-src="{{res[0].url}}" ng-show="res[0].url != undefined">
+                        <img class="c-allthumbImage" nsw-src="{{res[0].url}}" ng-show="res[0].url != undefined">
                         <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res[0].url == undefined"></i>
                         <h6 ng-show="res[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                     </div>
                     <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res1"  data-img-count="1">
                         <h4 style="margin:5px 0px 5px 12px;font-weight:900;">预览图：</h4> 
-                        <img class="c-allthumbImage" ng-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">
+                        <img class="c-allthumbImage" nsw-src="{{res1[0].url}}" ng-show="res1[0].url != undefined">
                         <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res1[0].url == undefined"></i>
                         <h6 ng-show="res1[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                     </div>
                     <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res2"  data-img-count="1">
                         <h4 style="margin:5px 0px 5px 12px;font-weight:900;">效果图：</h4>  
-                        <img class="c-allthumbImage" ng-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">
+                        <img class="c-allthumbImage" nsw-src="{{res2[0].url}}" ng-show="res2[0].url != undefined">
                         <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res2[0].url == undefined"></i>
                         <h6 ng-show="res2[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                     </div>
                     <div class="border-slt text-center col-sm-3" style="cursor:pointer;float:left;" img-lib ng-model="res3"  data-img-count="1">
                         <h4 style="margin:5px 0px 5px 12px;font-weight:900;">框架图：</h4>   
-                        <img class="c-allthumbImage" ng-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">
+                        <img class="c-allthumbImage" nsw-src="{{res3[0].url}}" ng-show="res3[0].url != undefined">
                         <i class="fa fa-cloud-upload fa-3x" style="margin-top: 20px;" ng-show="res3[0].url == undefined"></i>
                         <h6 ng-show="res3[0].url == undefined" style="margin-bottom: 20px;">点击上传</h6>
                     </div>

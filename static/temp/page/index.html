@@ -1,42 +1,123 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
-    <title>我要建站</title>
-    <link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap-exp.min.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui.css" />
-    <link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui-timepicker-addon.css" />
-    <link rel="stylesheet" href="../../plugin/angular-ui-tree/angular-ui-tree.css" />
-    <link rel="stylesheet" href="../../plugin/angular-combobox/ng-nested-combobox.css" />
-    <link rel="stylesheet" href="../../css/init.css" />
-    <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/menu.css"/>
-    <style>
-        .newBtn{float:right;margin-top:-2%;margin-right:1.5%;}
-        .tree-node-content{margin:0px;}
-        .selectImg{margin:0;padding:0;list-style:none;border:1px solid #dcdcdc;width:100px;}
-        .selectImg li{border-bottom:1px solid #dcdcdc;cursor:pointer;background:rgb(253,253,253);height:30px;line-height:30px;}
-        .selectImg li:last-child{border-bottom:0;}
-        .selectImg li:hover{background:#dcdcdc;}
-        .selectImg li.actived{background:orange;color:#fff;font-family:"Times New Roman",Georgia,Serif;font-weight:900;}
-        .modal-header h3{font-size:15px;}
-        .modal-body p{text-align:center;font-size:14px;}
-        .form-validation .form-control.ng-dirty.ng-invalid{border-color: #f44336;}
-        .err{color: #f44336;}
-        .form-validation .form-control.ng-dirty.ng-valid,
-        .form-validation .form-control.ng-dirty.ng-valid:focus {border-color: #4caf50;} 
-	    .mask{position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 1050;overflow: hidden;-webkit-overflow-scrolling: touch;outline: 0;background: #000;opacity: 0.5;}
-	    .dialog{position: fixed;z-index: 1050;top: 115px;left: 22%;background-color: #fff;padding: 0;}
-         .exps{ padding:0 !important; border:none !important; color:#f08300 !important;}
-        .exps:hover{ background:none !important;}
-    </style>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9"/>
+	<title>建站平台</title>
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/bootstrap-exp.min.css"/>
+	<link rel="stylesheet" href="../../plugin/bootstrap/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui.css"/>
+	<link rel="stylesheet" href="../../plugin/jquery/css/jquery-ui-timepicker-addon.css"/>
+	<link rel="stylesheet" href="../../plugin/angular-ui-tree/angular-ui-tree.css"/>
+	<link rel="stylesheet" href="../../plugin/angular-combobox/ng-nested-combobox.css"/>
+	<link rel="stylesheet" href="../../css/init.css"/>
+	<link rel="stylesheet" href="../../css/common.css"/>
+	<link rel="stylesheet" href="../../css/menu.css"/>
+	<link rel="stylesheet" href="../../js/components/content/css/platform.css"/>
+	<!-- 文件上传组件 -->
+	<link rel="stylesheet" href="../../plugin/ueditor/third-party/webuploader/webuploader.css" />
+	<style>
+		.newBtn {
+			float: right;
+			margin-top: -2%;
+			margin-right: 1.5%;
+		}
+
+		.tree-node-content {
+			margin: 0px;
+		}
+
+		.selectImg {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			border: 1px solid #dcdcdc;
+			width: 100px;
+		}
+
+		.selectImg li {
+			border-bottom: 1px solid #dcdcdc;
+			cursor: pointer;
+			background: rgb(253, 253, 253);
+			height: 30px;
+			line-height: 30px;
+		}
+
+		.selectImg li:last-child {
+			border-bottom: 0;
+		}
+
+		.selectImg li:hover {
+			background: #dcdcdc;
+		}
+
+		.selectImg li.actived {
+			background: orange;
+			color: #fff;
+			font-family: "Times New Roman", Georgia, Serif;
+			font-weight: 900;
+		}
+
+		.modal-header h3 {
+			font-size: 15px;
+		}
+
+		.modal-body p {
+			text-align: center;
+			font-size: 14px;
+		}
+
+		.form-validation .form-control.ng-dirty.ng-invalid {
+			border-color: #f44336;
+		}
+
+		.err {
+			color: #f44336;
+		}
+
+		.form-validation .form-control.ng-dirty.ng-valid,
+		.form-validation .form-control.ng-dirty.ng-valid:focus {
+			border-color: #4caf50;
+		}
+
+		.mask {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 1050;
+			overflow: hidden;
+			-webkit-overflow-scrolling: touch;
+			outline: 0;
+			background: #000;
+			opacity: 0.5;
+		}
+
+		.dialog {
+			position: fixed;
+			z-index: 1050;
+			top: 115px;
+			left: 22%;
+			background-color: #fff;
+			padding: 0;
+		}
+
+		.exps {
+			padding: 0 !important;
+			border: none !important;
+			color: #f08300 !important;
+		}
+
+		.exps:hover {
+			background: none !important;
+		}
+	</style>
 </head>
 
-<body  ng-app="pageApp">
+<body ng-app="pageApp">
+
 <div ng-controller="desktopMainCtrl">
     <div class="container-fluid c-header" >
         <div class="container">
@@ -48,8 +129,8 @@
                         <a>帮助中心</a>
                     </div>
                     <div>
-                        <a class="c-user-name"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;<span data-ng-bind="user.name"></span>&nbsp;&nbsp;欢迎你！</a>｜
-                        <a href="#" data-ng-click="exit()">退出</a>
+                        <a class="c-user-name" href="../../js/personal/index.html#/personalInfo"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;<span data-ng-bind="user.name"></span>&nbsp;&nbsp;欢迎你！</a>｜
+                        <span role="button" data-ng-click="exit()">退出</span>
                     </div>
                 </div>
             </div>
@@ -75,86 +156,25 @@
         </div>
     </div>
 </div>
-    <!--[if lte IE 9]>
-        <script src="../../js/respond.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.min.js"></script>
-    <![endif]-->
+<!--[if lte IE 9]>
+<script src="../../js/respond.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.min.js"></script>
+<![endif]-->
 
-    <script type="text/javascript" src="../../plugin/lodash/lodash.js"></script>
-    <script type="text/javascript" src="../../plugin/jquery/jquery-1.11.3.js"></script>
-    <script type="text/javascript" src="../../plugin/jquery/jquery-ui.js"></script>
-    <script type="text/javascript" src="../../plugin/jquery/jquery-ui-timepicker-addon.js"></script>
-    <script type="text/javascript" src="../../plugin/angular/angular.js"></script>
-    <script type="text/javascript" src="../../plugin/angular/angular-locale_zh-cn.js"></script>
-    <script type="text/javascript" src="../../plugin/angular/angular-sanitize.js"></script>
-    <script type="text/javascript" src="../../plugin/angular/angular-ui-router.js"></script>
-    <script type="text/javascript" src="../../plugin/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
-    <script type="text/javascript" src="../../plugin/bootstrap/pagination.js"></script>
-    <script type="text/javascript" src="../../plugin/angular-ui-tree/angular-ui-tree.js"></script>
-    <script type="text/javascript" src="../../plugin/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="../../plugin/ueditor/ueditor.all.min.js"> </script>
-    <script type="text/javascript" src="../../plugin/ueditor/lang/zh-cn/zh-cn.js"></script>  
-    <script type="text/javascript" src="../../plugin/ueditor/angular-ueditor.js"></script>
-    <script src="../js/getFirstLetter.js"></script>
+<!--Concated plugins  -->
+<script type="text/javascript" src="../../target/plugin.all.js"></script>
 
-    <script type="text/javascript" src="../../plugin/ngStorage/ngStorage.js"></script>
-    <script type="text/javascript" src="../../plugin/jquery/qrcode.js"></script>
-    <script type="text/javascript" src="../../plugin/jquery/jquery.qrcode.js"></script>
-    <!-- 树型下拉列表 -->   
-    <script type="text/javascript" src="../../plugin/angular-combobox/ng-nested-combobox.js"></script>
+<!--Concated components  -->
+<script type="text/javascript" src="../../target/conponent.all.js"></script>
 
-    <!--platform -->
-    <script src="../../js/components/globals.js"></script>
-    <script src="../../js/components/platform-app.js"></script>
-    <script src="../../js/components/services/platform-messenger-svc.js"></script>
-    <script src="../../js/components/services/platform-navigation-svc.js"></script>
 
-    <!-- widgets -->
-    <script type="text/javascript" src="../../js/components/directives/widgets/nsw-enter-dir.js"></script>
-    <script type="text/javascript" src="../../js/components/directives/widgets/platform-qr-code-dir.js"></script>
-    <!-- navigation -->
+<script src="../js/page.js"></script>
+<script src="../js/info/info.js"></script>
 
-    <script src="../../js/components/directives/menu/platform-menu-dir.js"></script>
-    <script src="../../js/components/directives/menu/platform-meun-group-dir.js"></script>
+<script src="../js/info/controller/editCtrl.js"></script>
+<script src="../js/info/controller/listCtrl.js"></script>
+<script src="../js/info/controller/classifyCtrl.js"></script>
+<script src="../js/info/controller/addClassifyCtrl.js"></script>
 
-    <!--面包削导航-->
-    <script src="../../js/components/directives/widgets/platform-bread-nav-dir.js"></script>
-
-    <!--validators-->
-    <script type="text/javascript" src="../../js/components/directives/validators/max-word-validator-dir.js"></script>
-
-    <!-- 弹窗服务 -->
-    <script type="text/javascript" src="../../js/components/services/platform-modal-svc.js"></script>
-    <script type="text/javascript" src="../../js/components/directives/widgets/platform-modal-dir.js"></script>
-    <script type="text/javascript" src="../../js/components/controllers/platform-modal-tip-ctrl.js"></script>
-    <script type="text/javascript" src="../../js/components/controllers/platform-modal-message-ctrl.js"></script>
-
-    <!--desktop-->
-    <script src="../../js/desktop/services/desktop-main-svc.js"></script>
-    <script src="../../js/desktop/controllers/desktop-main-ctrl.js"></script>
-
-    <script type="text/javascript" src="../../js/common-jquery.js"></script>
-    <script type="text/javascript" src="../../js/common.js"></script>
-    <script type="text/javascript" src="../../plugin/ueditor/third-party/webuploader/webuploader.js"></script>
-    <script type="text/javascript" src="../../js/angular-webuploader.js"></script>
-    <script type="text/javascript" src="../../js/constant.js"></script>  	
-    
-    <script src="../js/page.js"></script>
-     <script src="../js/info/info.js"></script>
-   
-    <script src="../js/info/controller/editCtrl.js"></script>
-    <script src="../js/info/controller/listCtrl.js"></script>
-    <script src="../js/info/controller/classifyCtrl.js"></script>
-    <script src="../js/info/controller/addClassifyCtrl.js"></script>
-
-    <!-- 源码编辑器 -->
-    <script src="../../plugin/ace/ace.js" type="text/javascript"></script>
-    <script src="../../plugin/ace/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../../plugin/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../../plugin/ace/mode-html.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../../js/directives/ace-editor-directive.js" type="text/javascript" ></script>
-    
-    <!-- 模板市场 手机预览 -->
-    <script src="../../js/components/services/platform-mobile-preview-svc.js"></script>
 </body>
 </html>

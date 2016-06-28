@@ -1,63 +1,194 @@
 <div class="row">
-    <div class="col-xs-12">
-        <div platform-bread-nav="breadNavs"/>
-    </div>
+	<div class="col-xs-12">
+		<div platform-bread-nav="breadNavs"/>
+	</div>
 </div>
 <div class="row">
-    <div class="col-xs-12">
-        <table class="table company-table">
-            <thead>
-            <tr>
-                <th colspan="3">欢迎登陆<span class="company">深圳市牛商网络股份有限公司</span>网站后台</th>
-                <th class="text-right" style="cursor:pointer;">[ 修改 ]</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span class="company-td">姓名：</span><span class="company-td" ng-show="companyInfo">李剑飞</span><span class="company-td"><input class="input-control" type="text" ng-show="!companyInfo"/></span></td>
-                <td><span>部门：</span><span>产品研发部</span><span class="company-td" ng-show="companyInfo"><input class="input-control" type="text" ng-show="!companyInfo"/></span></td>
-                <td colspan="2"><span>管理员角色：</span><span>超级管理员</span></td>
-            </tr>
-            <tr>
-                <td><span>手机号：</span><span ng-show="companyInfo">13678969632</span><span class="company-td"><input class="input-control" type="text" ng-show="!companyInfo"/></span></td>
-                <td><span>E-mail：</span><span ng-show="companyInfo">894654665@qq.com</span><span class="company-td"><input class="input-control" type="text" ng-show="!companyInfo"/></span></td>
+	<div class="col-xs-12">
+		<form name="personalInfo">
+			<table class="table personal-info-table">
+				<thead>
+				<tr>
+					<th colspan="3">欢迎登陆<span class="company" data-ng-bind="personnalInfo.fullCustomerName"></span>网站后台</th>
+					<th class="text-right"><span style="cursor:pointer;"
+					                             data-ng-click="personalInfoEdit();">[ {{editState?'修改':'返回'}} ]</span></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td width="36%" class="personnalInfo-td" beyond>
+						<span>姓名：</span>
+						<span ng-show="editState" data-ng-bind="personnalInfo.name"></span>
+						<span style="display:inline-block;margin-left:10px;">
+                       		<input class="form-control input-control" ng-pattern="/^[\u4e00-\u9fa5_a-zA-Z0-9]+$/"
+                               data-nsw-min-length="4" data-nsw-max-length="20" name="username" type="text" ng-show="!editState"
+                               ng-model="personnalInfo.name" autocomplete="off"/>
+                    	</span>
+                    	<span ng-show="!editState" class="personnalInfo-tip-l mess-zx" style="left:230px;">0</span><span
+							ng-show="!editState" class="personnalInfo-tip-r" style="left:243px;">/20</span>
+						<span ng-show="!editState && personalInfo.username.$dirty && personalInfo.username.$invalid"
+                          class="personalInfo-dept-tip-message">
+	                        <span class="valid-err-tip" ng-show="personalInfo.username.$error.pattern">请输入中英文、数字</span>
+	                        <span class="valid-err-tip" ng-show="personalInfo.username.$error.nswminlength">姓名长度不能小于4位</span>
+	                        <span class="valid-err-tip" ng-show="personalInfo.username.$error.nswmaxlength">姓名长度不能大于20位</span>
+                    	</span>
+					</td>
+					<td width="35%" class="personnalInfo-td" beyond>
+						<span>部门：</span>
+						<span ng-show="editState" data-ng-bind="personnalInfo.deptName"></span>
+                    <span style="display:inline-block;margin-left:10px;">
+                        <input class="form-control input-control" ng-pattern="/^[\u4e00-\u9fa5_a-zA-Z]+$/"
+                               data-nsw-min-length="4" data-nsw-max-length="20" name="dept" type="text" ng-show="!editState"
+                               ng-model="personnalInfo.deptName" autocomplete="off"/>
+                    </span>
+						<span ng-show="!editState" class="personnalInfo-tip-l mess-zx" style="left:230px;">0</span><span
+							ng-show="!editState" class="personnalInfo-tip-r" style="left:243px;">/20</span>
+                    <span ng-show="!editState && personalInfo.dept.$dirty && personalInfo.dept.$invalid"
+                          class="personalInfo-dept-tip-message">
+                        <span class="valid-err-tip" ng-show="personalInfo.dept.$error.pattern">请输入中英文</span>
+                        <span class="valid-err-tip" ng-show="personalInfo.dept.$error.nswminlength">部门长度不能小于4位</span>
+                        <span class="valid-err-tip" ng-show="personalInfo.dept.$error.nswmaxlength">部门长度不能大于20位</span>
+                    </span>
+					</td>
+					<td colspan="2">
+						<span>管理员角色：</span>
+						<span data-ng-bind="personnalInfo.roleName"></span>
+					</td>
+				</tr>
+				<tr>
+					<td class="personnalInfo-td" beyond>
+						<span>电话：</span>
+						<span ng-show="editState" data-ng-bind="personnalInfo.mobile"></span>
+	                    <span>
+	                        <input class="form-control input-control"
+	                               ng-pattern="/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/"
+	                               data-nsw-min-length="4" data-nsw-max-length="20" name="phone" type="text" ng-show="!editState"
+	                               ng-model="personnalInfo.mobile" autocomplete="off"/>
+	                    </span>
+						<span ng-show="!editState" class="personnalInfo-tip-l mess-zx">0</span><span
+							ng-show="!editState" class="personnalInfo-tip-r">/20</span>
+                    	<span ng-show="!editState && personalInfo.phone.$dirty && personalInfo.phone.$invalid"
+                          class="personnalInfo-tip-message">
+	                        <span class="valid-err-tip" ng-show="personalInfo.phone.$error.pattern">电话格式不正确</span>
+	                        <span class="valid-err-tip" ng-show="personalInfo.phone.$error.nswminlength">电话长度不能小于4位</span>
+	                        <span class="valid-err-tip" ng-show="personalInfo.phone.$error.nswmaxlength">电话长度不能大于20位</span>
+                    	</span>
+					</td>
+					<td class="personnalInfo-td" beyond>
+						<span>E-mail：</span>
+						<span ng-show="editState" data-ng-bind="personnalInfo.email"></span>
+                    <span>
+                        <input class="form-control input-control" name="email" type="text" ng-show="!editState"
+                               ng-model="personnalInfo.email"  autocomplete="off" ng-pattern="/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.(?:com|cn)$/"  data-nsw-min-length="4" data-nsw-max-length="50"/>
+                    </span>
+						<span ng-show="!editState" class="personnalInfo-tip-l mess-zx" style="left:230px;">0</span><span
+							ng-show="!editState" class="personnalInfo-tip-r" style="left:243px;">/50</span>
+                    <span ng-show="!editState && personalInfo.email.$dirty && personalInfo.email.$invalid"
+                          class="personalInfo-dept-tip-message">
+                        <span class="valid-err-tip" ng-show="personalInfo.email.$error.pattern">邮箱格式不正确</span>
+                        <span class="valid-err-tip" ng-show="personalInfo.email.$error.nswminlength">邮箱长度不能小于4位</span>
+                        <span class="valid-err-tip" ng-show="personalInfo.email.$error.nswmaxlength">邮箱长度不能大于50位</span>
+                    </span>
+					</td>
 
-            </tr>
-            <tr><td colspan="4"><hr/></td></tr>
-            <tr>
-                <td><span>登陆次数：</span><span>145</span>次</td>
-                <td><span>登陆IP：</span><span>239.34.135.33</span></td>
-            </tr>
-            <tr>
-                <td><span>上次登陆时间：</span><span>2016-01-11  17:55:55</span></td>
-                <td><span>上次登陆IP：</span><span>239.34.135.30</span></td>
-                <td colspan="2"><button type="submit" class="btn btn-warning btn-color" ng-disabled="!((formproduct.$valid&amp;&amp;formproduct.$dirty))" ng-click="" disabled="disabled"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-xs-12">
-        <table class="table company-table">
-            <thead>
-            <tr>
-                <th colspan="3"><span class="company">密码</span></th>
-                <th class="text-right" style="cursor:pointer;">[ 修改 ]</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="4"><span class="company-td">密码：</span><span class="company-td" style="vertical-align: middle;padding-top: 4px; display: inline-block;">******</span></td>
-            </tr>
-            <tr ng-show="!password">
-                <td colspan="4"><span>新密码：</span><span><input class="input-control" type="text"/></span></td>
-            </tr>
+				</tr>
+				<tr ng-show="!editState">
+					<td colspan="4">
+						<hr/>
+					</td>
+				</tr>
+				<tr>
+					<td><span>登陆次数：</span><span data-ng-bind="personnalInfo.loginTimes"></span>次</td>
+					<td><span>登陆IP：</span><span data-ng-bind="personnalInfo.loginIp"></span></td>
+				</tr>
+				<tr>
+					<td><span>上次登陆时间：</span><span data-ng-bind="personnalInfo.lastLoginTime"></span></td>
+					<td><span>上次登陆IP：</span><span data-ng-bind="personnalInfo.lastLoginIp"></span></td>
+					<td class="text-right" colspan="2">
+						<button ng-disabled="!((personalInfo.$valid&&personalInfo.$dirty))" ng-show="!editState"
+						        type="submit" class="btn btn-warning btn-color"
+						        data-ng-click="personalInfoSave(personnalInfo);">
+							<label class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	<div class="col-xs-12">
+		<form name="passwordInfo">
+			<table class="table personal-info-table">
+				<thead>
+				<tr>
+					<th colspan="3"><span class="company">密码</span></th>
+					<th class="text-right"><span style="cursor:pointer;"
+					                             data-ng-click="personalPwdEdit();">[ {{!password?'修改':'返回'}} ]</span></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td colspan="4" class="personnalInfo-td" beyond>
+						<span>旧密码：</span>
+						<span class="password-hiden" ng-show="!password">******</span>
+						<span class="personnalInfo-password">
+							<input class="form-control input-control" ng-pattern="/^[0-9A-Za-z]+$/"
+						                                            data-nsw-min-length="6" data-nsw-max-length="30" type="password"
+						                                            name="password" ng-show="password"
+						                                            ng-model="passwordInfo.oldPassword"/></span>
+						<span ng-show="password" class="passwordInfo-tip-l mess-zx">0</span><span ng-show="password"
+						                                                                          class="passwordInfo-tip-r">/30</span>
+                    <span ng-show="password && passwordInfo.password.$dirty && passwordInfo.password.$invalid"
+                          class="passwordInfo-password-tip-message">
+                        <span class="valid-err-tip" ng-show="passwordInfo.password.$error.nswminlength">密码长度不能小于6位</span>
+                        <span class="valid-err-tip" ng-show="passwordInfo.password.$error.nswmaxlength">密码长度不能大于30位</span>
+                        <span class="valid-err-tip"
+                              ng-show="passwordInfo.password.$error.pattern">请输入数字、英文的密码格式</span>
+                    </span>
+					</td>
+				</tr>
+				<tr ng-show="password">
+					<td colspan="4" class="personnalInfo-td" beyond>
+						<span>新密码：</span>
+						<span class="personnalInfo-password">
+							<input class="form-control input-control" type="password" name="newpwd"
+							       ng-pattern="/^[0-9A-Za-z]+$/" ng-model="passwordInfo.newPassword" data-nsw-min-length="6" data-nsw-max-length="30"/>
+						</span>
+						<span ng-show="password" class="passwordInfo-tip-l mess-zx">0</span><span ng-show="password"
+						                                                                          class="passwordInfo-tip-r">/30</span>
+                    <span ng-show="password && passwordInfo.newpwd.$dirty && passwordInfo.newpwd.$invalid"
+                          class="passwordInfo-password-tip-message">
+                        <span class="valid-err-tip" ng-show="passwordInfo.newpwd.$error.nswminlength">密码长度不能小于6位</span>
+                        <span class="valid-err-tip" ng-show="passwordInfo.newpwd.$error.nswmaxlength">密码长度不能大于30位</span>
+                        <span class="valid-err-tip" ng-show="passwordInfo.newpwd.$error.pattern">请输入数字、英文的密码格式</span>
+                    </span>
+					</td>
+				</tr>
 
-            <tr ng-show="!password">
-                <td><span>再次输入新密码：</span><span><input class="input-control" type="text"/></span></td>
-                <td colspan="3"><button type="submit" class="btn btn-warning btn-color" ng-disabled="!((formproduct.$valid&amp;&amp;formproduct.$dirty))" ng-click="" disabled="disabled"><label class="checkright"></label><span class="btntext">保&nbsp;存</span></button></td>
-            </tr>
+				<tr ng-show="password">
+					<td class="personnalInfo-td" beyond>
+						<span>再次输入新密码：</span>
+                    <span class="personnalInfo-password">
+                        <input class="form-control input-control" data-ng-model="passwordCompare"
+                               ng-pattern="/^[0-9A-Za-z]+$/" type="password" name="renewpwd" data-nsw-min-length="6" data-nsw-max-length="30"
+                               data-model-compare="passwordInfo.newPassword"/>
+                    </span>
+						<span ng-show="password" class="passwordInfo-tip-l mess-zx">0</span>
+						<span ng-show="password" class="passwordInfo-tip-r">/30</span>
+                    <span ng-show="password && passwordInfo.renewpwd.$dirty && passwordInfo.renewpwd.$invalid"
+                          class="passwordInfo-password-tip-message">
+                        <span class="valid-err-tip" ng-show="passwordInfo.renewpwd.$error.nswmaxlength">密码长度不能大于30位</span>             
+	                    <span class="valid-err-tip" ng-show="passwordInfo.renewpwd.$error.modelcompare">两次输入密码不一致</span>
+                    </span>
+					</td>
+					<td class="text-right" colspan="3">
+						<button type="submit" ng-disabled="!(passwordInfo.$valid&&passwordInfo.$dirty)"
+						        class="btn btn-warning btn-color" ng-click="passWordSave(passwordInfo);"><label
+								class="checkright"></label><span class="btntext">保&nbsp;存</span></button>
+					</td>
+				</tr>
 
-            </tbody>
-        </table>
-    </div>
+				</tbody>
+			</table>
+		</form>
+	</div>
 </div>

@@ -14,7 +14,7 @@ ul,li{padding:0;margin:0;}
 .c-edit-toolbar .effect i.fa{font-size:16px;color:red;cursor:pointer;margin-left:3px;}
 
 
-.c-edit-page{position:relative;top:60px;}
+.c-edit-page{position:relative;}
 
 .c-list-blk > li a{display:block;text-align:center;}
 .c-list-blk > li .img{width:100%;}
@@ -46,7 +46,7 @@ ul,li{padding:0;margin:0;}
 
 .c-tpl-list{margin: 20px 0px;text-align:center;}
 .c-tpl-list .tpl-item{cursor:pointer;}
-.c-tpl-list .c-tpl-selected-img{display:none;position:absolute;top:50%;left:50%;width:60px;margin-top:-30px;margin-left:-30px;}
+.c-tpl-list .c-tpl-selected-img{display:none;position:absolute;top:40%;left:50%;width:60px;margin-top:-30px;margin-left:-30px;}
 .c-tpl-list .c-tpl-selected-img.selected{display:block;}
 
 .c-tpl-ds{margin:20px 0px;}
@@ -146,6 +146,34 @@ ul,li{padding:0;margin:0;}
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.nsw .form-sm-group{
+    overflow:hidden;
+}
+.nsw .form-sm-group dl{
+    clear: both;
+}
+.nsw .form-sm-group dt,.nsw .form-sm-group dd{
+    line-height: 34px;
+    float: left;
+    padding-left: 20px;
+}
+.nsw .control-label{
+    float: left;
+}
+
+.nsw .form-sm-group dt{
+    padding-right: 10px;
+    width: 70px;
+}
+.nsw .custom input,.nsw .custom label{
+    float: left;
+}
+.nsw .custom input[type='text']{
+    width:80px;
+}
+.nsw .custom label{
+    padding: 0 10px;
 }
 .nsw .glyphicon-pencil:before {
   content: "\e041";
@@ -251,7 +279,7 @@ ul,li{padding:0;margin:0;}
     min-height: 1px;
     padding-left: 15px;
     padding-right: 15px;
-    position: relative;
+    /*position: relative;与姚运筹确认暂时修复数据源选择分类组件top-border被截断的问题*/
 }
 .nsw .col-sm-2 {
     width: 16.6667%;
@@ -297,6 +325,11 @@ ul,li{padding:0;margin:0;}
     width: 70%;
     float: left;
 }
+.nsw .form-control:focus {
+    border-color: #f08300;
+    outline: 0;
+    box-shadow: inset 0 0px 4px rgba(240, 131, 0, .075), 0 0 4px rgba(240, 131, 0, .6);
+}
 .nsw .modal-footer {
     border-top: 0 none;
     text-align: center;
@@ -308,7 +341,10 @@ ul,li{padding:0;margin:0;}
     
 }
 .checkright,.checkcancel{
-	padding: 3px 6px 7px 30px;
+    width: 25px;
+    padding: 0;
+    margin-left: 5px;
+    float: left;
 }
 .nsw .text-center{
 	  text-align: center;

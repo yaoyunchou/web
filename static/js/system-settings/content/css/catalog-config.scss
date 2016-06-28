@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@import "../../../components/content/css/platform-catalog-list";
+
+.catalog-config {
+	.configList {
+		border: 1px solid #CCCCCC;
+		overflow: hidden;
+		h2 {
+			font-size: 14px;
+			margin-top: 0;
+			border: none;
+			border-bottom: 1px solid #ddd;
+			margin-bottom: 30px;
+		}
+
+		.form-group {
+			min-height: 32px;;
+		}
+	}
+}
+
+/*意向订单留言管理*/
+.more-search {
+	border: 1px solid #CCCCCC;
+	margin-top: 10px;
+}
+
+.form-control[type=number] {
+	line-height: normal;
+}
+
+.modal-body {
+	max-height: 480px;
+	overflow-y: auto;
+	margin-bottom: 20px;
+}
+
+.explainText {
+	width: 120px;
+}
+
+.selectitem {
+	height: 32px;
+	line-height: 32px;
+}
+
+/*对添加field的样式定制*/
+.inline {
+	padding: 0 15px;
+	margin-bottom: 20px;
+	.form-control{
+		width:60%;
+		width:60%;
+	}
+}
+//对联系方式设置
+.contact {
+	margin: 0 15px;
+	border: 1px solid #DDDDDD;
+	h4 {
+		margin: 0;
+		height: 58px;
+		line-height: 58px;
+		padding: 0 8px;
+		margin-bottom: 20px;
+		background:#f6f6f6;
+		border-bottom: 1px solid #DDDDDD;
+		span{
+			color: $promise-color;
+		}
+	}
+	.submit-but{
+		margin-left: 45%;
+		float: left;
+	}
+	.err{
+		margin-left:-10px;
+		margin-right: 5px;
+	}
+}
+.formField{
+	.text-more{
+		float: right;
+		margin: 5px 0 0 10px;
+	}
+}
